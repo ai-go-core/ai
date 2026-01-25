@@ -2,33 +2,53 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>AI輔助系統連結中...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 核心系統對接中</title>
     <style>
-        body { background: #0a0e17; color: #00f2ff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .loader { border: 4px solid #1e293b; border-top: 4px solid #00f2ff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        body { 
+            background: #0a0e17; 
+            color: #00f2ff; 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            overflow: hidden;
+        }
+        .container { text-align: center; }
+        .loader { 
+            border: 3px solid rgba(0, 242, 255, 0.1); 
+            border-top: 3px solid #00f2ff; 
+            border-radius: 50%; 
+            width: 60px; 
+            height: 60px; 
+            animation: spin 1s linear infinite; 
+            display: inline-block;
+            margin-bottom: 25px;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+        }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        h1 { font-size: 1.2rem; letter-spacing: 3px; font-weight: 300; margin: 10px 0; text-transform: uppercase; }
+        p { color: #64748b; font-size: 0.8rem; letter-spacing: 1px; }
     </style>
 </head>
 <body>
-    <div style="text-align: center;">
+    <div class="container">
         <div class="loader"></div>
-        <p>🧬 正在對接 AI 核心系統...</p>
+        <h1>AI 系統核心對接中</h1>
+        <p>🧬 正在執行安全協議驗證，請稍候...</p>
     </div>
 
     <script>
-        // 1. 設定您的 GAS 原始網址 (確保後方沒有多餘空白)
+        // 您的 GAS 原始網址
         const gasUrl = "https://script.google.com/macros/s/AKfycbx5S-r49P9WLhMMK3k0EFA9ldBbgLSXz2_KnkQd4aN1Wi5gS4tMK8yWaaYPDB1NZKHTqA/exec";
-
-        // 2. 取得目前網頁的所有參數 (例如 ?ref=張家宜)
         const currentParams = window.location.search;
 
-        // 3. 瞬間跳轉到 GAS，並完整帶入參數
-        if (currentParams) {
-            window.location.href = gasUrl + currentParams;
-        } else {
-            window.location.href = gasUrl;
-        }
+        // 模擬系統處理感，延遲 800 毫秒後進入核心
+        setTimeout(() => {
+            window.location.href = currentParams ? gasUrl + currentParams : gasUrl;
+        }, 800);
     </script>
 </body>
-
 </html>
