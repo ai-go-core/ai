@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 領袖屬性面板</title>
+    <style>
+        body {
+            background-color: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            overflow: hidden;
+        }
+
+        /* 🌟 流光外框容器 */
+        .glow-box {
+            position: relative;
+            width: 90%;
+            max-width: 380px;
+            height: 550px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,1);
+        }
+
+        /* 旋轉流光層 - 營造高貴感 */
+        .glow-box::before {
+            content: "";
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: conic-gradient(
+                transparent, 
+                rgba(212, 175, 55, 0.1), 
+                #D4AF37, 
+                rgba(212, 175, 55, 0.1), 
+                transparent
+            );
+            animation: rotate 4s linear infinite;
+        }
+
+        /* 內部黑色遮罩 (形成邊框感) */
+        .inner-content {
+            position: absolute;
+            inset: 3px; /* 邊框粗細 */
+            background: linear-gradient(145deg, #151515, #0a0a0a);
+            border-radius: 18px;
+            z-index: 2;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 介面細節樣式 */
+        .header { text-align: center; border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px; }
+        .rank-tag { color: #D4AF37; font-size: 0.75rem; letter-spacing: 3px; font-weight: bold; }
+        .user-name { font-size: 1.8rem; margin: 10px 0; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        
+        .stat-group { flex-grow: 1; }
+        .stat-item { display: flex; justify-content: space-between; margin: 18px 0; font-size: 0.95rem; }
+        .label { color: #888; }
+        .value { color: #FFD700; font-weight: 500; font-family: 'Courier New', Courier, monospace; }
+
+        /* 進度條樣式 */
+        .progress-section { margin-top: 20px; }
+        .progress-info { display: flex; justify-content: space-between; font-size: 0.75rem; color: #D4AF37; margin-bottom: 8px; }
+        .bar-bg { width: 100%; height: 6px; background: #222; border-radius: 10px; }
+        .bar-fill { 
+            width: 40%; /* 初始值 */
+            height: 100%; 
+            background: linear-gradient(90deg, #b8860b, #ffd700); 
+            border-radius: 10px; 
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+            transition: width 2s ease-out;
+        }
+        
+        .back-btn {
+            background: transparent;
+            border: 1px solid #D4AF37;
+            color: #D4AF37;
+            padding: 15px;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .back-btn:hover { background: #D4AF37; color: #000; }
+
+        .footer { font-size: 0.6rem; color: #444; text-align: center; margin-top: 20px; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <div class="glow-box">
+        <div class="inner-content">
+            <div class="header">
+                <div class="rank-tag">🎖️ 榮耀領袖 · 封測先鋒</div>
+                <div id="display-name" class="user-name">載入中...</div>
+            </div>
+            
+            <div class="stat-group">
+                <div class="stat-item">
+                    <span class="label">🛡️ 戰隊代號</span>
+                    <span id="display-team" class="value">AI 核心戰隊</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">💰 購物金</span>
+                    <span class="value">50 元 (全額抵)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">🧧 推薦獎金</span>
+                    <span class="value">99 元 / 人</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">✈️ 旅遊機會</span>
+                    <span class="value">免費出國 (解鎖中)</span>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <div class="progress-info">
+                    <span>🥚 人物蛋孵化進度</span>
+                    <span id="progress-percent">40%</span>
+                </div>
+                <div class="bar-bg"><div id="bar-fill" class="bar-fill" style="width: 40%;"></div></div>
+            </div>
+
+            <a href="https://line.me/R/ti/p/@您的LINEID" class="back-btn">返回 AI 指令大廳</a>
+            <div class="footer">AI 生活小秘書 · 最終解釋權歸系統核心所有</div>
+        </div>
+    </div>
+
+    <script>
+        // 🚀 自動抓取網址參數邏輯
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('id');
+            
+            if (userId) {
+                // 將顯示名稱改為對應的 ID (未來可對接 API 顯示真實姓名)
+                document.getElementById('display-name').innerText = "領袖 " + userId;
+                
+                // 這裡可以根據 ID 做更多動態變化
+                console.log("當前登入領袖 ID:", userId);
+            } else {
+                document.getElementById('display-name').innerText = "訪客領袖";
+            }
+        };
+    </script>
+</body>
+</html>
