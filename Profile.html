@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 領袖屬性面板</title>
     <style>
-        /* 保持領袖最愛的黑金視覺與高對比光影 */
         body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-y: auto; padding-bottom: 50px; }
         .glow-box { position: relative; width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; z-index: 1; border: 1px solid #333; }
         .inner-content { background: linear-gradient(160deg, #151515 0%, #050505 100%); border-radius: 23px; padding: 25px; display: flex; flex-direction: column; min-height: 750px; }
@@ -81,35 +80,34 @@
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const userId = urlParams.get('id'); 
-            
             if (userId) {
-                document.getElementById('btn-back').href = "Lobby.html?id=" + userId;
+                document.getElementById('btn-back').href = "Lobby.html?id=" + encodeURIComponent(userId);
                 fetchData(userId);
             }
             updateEggVisuals();
         };
 
         async function fetchData(id) {
-    try {
-        const response = await fetch(`${API_URL}?action=get_leader_data&id=${encodeURIComponent(id)}`);
-        const res = await response.json();
-        
-        if (res.success) {
-            document.getElementById('real-name').innerText = res.name;
-            document.getElementById('team-code-display').innerText = res.teamCode;
-            document.getElementById('sys-total').innerText = res.sysTotal;
-            document.getElementById('est-income').innerText = "NT$ " + res.income;
-            updateHatch(4);
-        } else {
-            // 🔍 這裡非常重要：直接把診斷訊息秀在名字位置
-            document.getElementById('real-name').innerText = "比對偏差";
-            document.getElementById('team-code-display').innerText = res.message; 
-            console.log("診斷訊息:", res.message);
+            try {
+                const safeId = encodeURIComponent(id); 
+                const response = await fetch(`${API_URL}?action=get_leader_data&id=${safeId}`);
+                const res = await response.json();
+                
+                if (res.success) {
+                    document.getElementById('real-name').innerText = res.name;
+                    document.getElementById('team-code-display').innerText = res.teamCode;
+                    document.getElementById('sys-total').innerText = res.sysTotal;
+                    document.getElementById('est-income').innerText = "NT$ " + res.income;
+                    updateHatch(4); 
+                } else {
+                    document.getElementById('real-name').innerText = "領袖識別中";
+                    document.getElementById('team-code-display').innerText = res.message; 
+                }
+            } catch (error) {
+                document.getElementById('real-name').innerText = "連線異常";
+                document.getElementById('team-code-display').innerText = "請檢查 API 配置";
+            }
         }
-    } catch (error) {
-        document.getElementById('real-name').innerText = "網路異常";
-    }
-}
 
         function updateHatch(progress) {
             document.getElementById('hatch-fill').style.width = progress + "%";
