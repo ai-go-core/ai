@@ -118,7 +118,7 @@
         };
 
         // ==========================================
-        // 1. 大腦模組：數據傳輸 (fetchData)
+        // 核心數據對接模組 (整合後端 res 變數)
         // ==========================================
         async function fetchData(id) {
             try {
@@ -127,12 +127,14 @@
                 const res = await response.json();
 
                 if (res.success) {
-                    // 基本資訊填入
-                    document.getElementById('real-name').innerText = res.name;
-                    document.getElementById('userTitle').innerText = res.title;
-                    document.getElementById('scValue').innerText = res.sc + " SC";
-                    document.getElementById('est-income').innerText = "NT$ " + Math.floor(res.income);
-                    document.getElementById('referral-bonus').innerText = "NT$ " + (res.detail.referral || 0);
+                    // 1. 基本資訊與封號身價對接
+                    document.getElementById('real-name').innerText = res.name; 
+                    document.getElementById('userTitle').innerText = res.title; // 🛡️ 創世神豪
+                    document.getElementById('scValue').innerText = res.sc + " SC"; // 1:60 身價
+
+                    // 2. 獎金數據對接
+                    document.getElementById('est-income').innerText = "NT$ " + Math.round(res.income).toLocaleString();
+                    document.getElementById('referral-bonus').innerText = "NT$ " + res.detail.referral.toLocaleString();
                     document.getElementById('group-total').innerText = res.groupTotal;
                     document.getElementById('pv-total').innerText = res.detail.pvTotal + " PV";
 
@@ -146,15 +148,14 @@
                     }
                 } else {
                     document.getElementById('real-name').innerText = "查無此身分";
+                    document.getElementById('userTitle').innerText = "數據失聯";
                 }
             } catch (error) {
                 console.error("系統對接異常", error);
+                document.getElementById('real-name').innerText = "連線失敗";
             }
         }
 
-        // ==========================================
-        // 2. 特效模組：處理覺醒 (handleAwaken)
-        // ==========================================
         function handleAwaken(res, id) {
             const egg = document.getElementById('dynamic-egg');
             const rankTitle = document.getElementById('userTitle');
@@ -171,20 +172,17 @@
                 document.getElementById('report-pv').innerText = res.detail.pvTotal;
                 document.getElementById('modal-title-display').innerText = "🔥 覺醒 · " + res.title;
                 
-                // QR Code 生成
                 const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(id)}`; 
                 document.getElementById('share-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shareUrl)}`;
             }
         }
 
-        // ==========================================
-        // 3. 視覺模組：輔助功能
-        // ==========================================
         function updateHatch(progress) {
             const rounded = Math.round(progress);
             document.getElementById('hatch-fill').style.width = rounded + "%";
             document.getElementById('hatch-percent').innerText = rounded + "%";
-            document.getElementById('egg-cracks').style.opacity = (rounded / 100).toString();
+            const cracks = document.getElementById('egg-cracks');
+            if (cracks) cracks.style.opacity = (rounded / 100).toString();
         }
 
         function updateEggVisuals() {
