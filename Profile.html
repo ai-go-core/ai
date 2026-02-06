@@ -126,20 +126,39 @@
                 const response = await fetch(`${API_URL}?action=get_leader_data&id=${safeId}`);
                 const res = await response.json();
 
-                if (res.success) {
-                    // 1. 基本資訊與封號身價對接
-                    document.getElementById('real-name').innerText = res.name; 
-                    document.getElementById('userTitle').innerText = res.title; // 🛡️ 創世神豪
-                    document.getElementById('scValue').innerText = res.sc + " SC"; // 1:60 身價
+                // 領袖，這行能在瀏覽器 F12 幫助我們偵錯
+                console.log("後端回傳原始數據:", res);
 
-                    // 2. 獎金數據對接
-                    document.getElementById('est-income').innerText = "NT$ " + Math.round(res.income).toLocaleString();
-                    document.getElementById('referral-bonus').innerText = "NT$ " + res.detail.referral.toLocaleString();
-                    document.getElementById('group-total').innerText = res.groupTotal;
-                    document.getElementById('pv-total').innerText = res.detail.pvTotal + " PV";
+                if (res && res.success) {
+                    // 1. 姓名對接 (對應 HTML ID: real-name)
+                    if(document.getElementById('real-name')) 
+                        document.getElementById('real-name').innerText = res.name || "領袖資料更新中";
+
+                    // 2. 封號對接 (對應 HTML ID: userTitle)
+                    if(document.getElementById('userTitle')) 
+                        document.getElementById('userTitle').innerText = res.title || "數位公民";
+
+                    // 3. 身價對接 (對應 HTML ID: scValue)
+                    if(document.getElementById('scValue')) 
+                        document.getElementById('scValue').innerText = (res.sc || "0") + " SC";
+
+                    // 4. 獎金數據對接 (加入防錯判斷)
+                    if(res.detail) {
+                        if(document.getElementById('est-income'))
+                            document.getElementById('est-income').innerText = "NT$ " + Math.round(res.income || 0).toLocaleString();
+                        
+                        if(document.getElementById('referral-bonus'))
+                            document.getElementById('referral-bonus').innerText = "NT$ " + (res.detail.referral || 0).toLocaleString();
+                        
+                        if(document.getElementById('pv-total'))
+                            document.getElementById('pv-total').innerText = (res.detail.pvTotal || 0) + " PV";
+                    }
+
+                    if(document.getElementById('group-total'))
+                        document.getElementById('group-total').innerText = res.groupTotal || 0;
 
                     // 🐣 破蛋進度 (基礎 4% + 每增加 1 人跳 9.6%)
-                    let hatchProgress = Math.min(100, 4 + (res.groupTotal * 9.6));
+                    let hatchProgress = Math.min(100, 4 + ((res.groupTotal || 0) * 9.6));
                     updateHatch(hatchProgress);
                     
                     // 🚀 觸發覺醒 (1-7代總人數達 10 人)
@@ -147,12 +166,12 @@
                         handleAwaken(res, id);
                     }
                 } else {
-                    document.getElementById('real-name').innerText = "查無此身分";
-                    document.getElementById('userTitle').innerText = "數據失聯";
+                    document.getElementById('real-name').innerText = "系統掃描中...";
+                    document.getElementById('userTitle').innerText = "查無此編號";
                 }
             } catch (error) {
-                console.error("系統對接異常", error);
-                document.getElementById('real-name').innerText = "連線失敗";
+                console.error("系統對接異常:", error);
+                document.getElementById('real-name').innerText = "訊號微弱，請刷新";
             }
         }
 
