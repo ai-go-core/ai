@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 領袖屬性面板</title>
     <style>
+        /* 基礎版面樣式 */
         body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-y: auto; padding-bottom: 50px; }
         .glow-box { position: relative; width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; z-index: 1; border: 1px solid #333; }
         .inner-content { background: linear-gradient(160deg, #151515 0%, #050505 100%); border-radius: 23px; padding: 25px; display: flex; flex-direction: column; min-height: 750px; }
@@ -13,10 +14,12 @@
         .egg-base { width: 100px; height: 135px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; position: relative; transition: all 1s ease; overflow: hidden; }
         .cracks { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/cracked-paper.png'); opacity: 0; mix-blend-mode: multiply; pointer-events: none; }
         .name-info { margin-left: 15px; }
-        .rank-title { color: #FFD700; font-size: 0.9rem; letter-spacing: 2px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.6); }
+        
+        /* 🏆 封號樣式：預設為金光閃爍 */
+        .rank-title { color: #FFD700; font-size: 0.95rem; letter-spacing: 1px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.6); margin-bottom: 4px; }
         .display-name { font-size: 1.8rem; margin: 5px 0; color: #FFFFFF; font-weight: 900; }
-        .display-team-code { color: #D4AF37; font-size: 1.1rem; font-weight: 500; margin-bottom: 5px; }
-        .team-affiliation { color: #00E5FF; font-size: 0.85rem; font-weight: bold; }
+        .display-sc { color: #00E5FF; font-size: 1.1rem; font-weight: 900; margin-top: 5px; text-shadow: 0 0 5px rgba(0, 229, 255, 0.5); }
+        
         .stat-label { color: #BBB; font-size: 0.85rem; }
         .stat-value { color: #FFD700; font-weight: bold; font-size: 1.1rem; }
         .data-row { margin-bottom: 15px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; border-left: 3px solid #D4AF37; }
@@ -28,6 +31,17 @@
         .hatch-bar-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FFFACD); box-shadow: 0 0 10px #FFD700; transition: width 2s ease; }
         .back-btn { background: linear-gradient(180deg, #D4AF37, #B8860B); color: #000; padding: 18px; text-align: center; text-decoration: none; margin-top: 20px; border-radius: 10px; font-weight: bold; display: block; }
         .footer { font-size: 0.7rem; color: #555; text-align: center; padding: 30px 0; }
+
+        @keyframes awaken-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); filter: brightness(1.8) drop-shadow(0 0 30px #FFD700); }
+            100% { transform: scale(1); }
+        }
+        @keyframes title-glow {
+            from { text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700; }
+            to { text-shadow: 0 0 20px #FFD700, 0 0 40px #FFD700; transform: scale(1.05); }
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -38,10 +52,9 @@
                     <div id="dynamic-egg" class="egg-base"><div id="egg-cracks" class="cracks"></div></div>
                 </div>
                 <div class="name-info">
-                    <div class="rank-title">🎖️ 封測先鋒領袖</div>
+                    <div id="userTitle" class="rank-title">數位公民</div>
                     <div id="real-name" class="display-name">讀取中...</div>
-                    <div id="team-code-display" class="display-team-code">載入中...</div>
-                    <div class="team-affiliation">隸屬：AI 數位軍團</div>
+                    <div id="scValue" class="display-sc">0 SC</div>
                 </div>
             </div>
 
@@ -53,24 +66,41 @@
             <div class="data-row">
                 <div style="display: flex; justify-content: space-between;">
                     <span class="stat-label">📈 本月預估收入</span>
-                    <span id="est-income" class="stat-value">NT$ 50</span>
+                    <span id="est-income" class="stat-value">NT$ 0</span>
                 </div>
             </div>
 
             <div class="stat-grid">
-                <div class="stat-card"><span class="stat-label">🧧 推薦獎金 (已領)</span><span id="bonus-paid" class="stat-value">NT$ 0</span></div>
-                <div class="stat-card"><span class="stat-label">⌛ 推薦獎金 (未啟動)</span><span id="bonus-pending" class="stat-value" style="color: #666;">NT$ 0</span></div>
+                <div class="stat-card"><span class="stat-label">🧧 推薦獎金 (限直推)</span><span id="referral-bonus" class="stat-value">NT$ 0</span></div>
+                <div class="stat-card"><span class="stat-label">👥 7代小組總數</span><span id="group-total" class="stat-value">0</span></div>
             </div>
 
-            <div class="stat-grid">
-                <div class="stat-card"><span class="stat-label">🌍 系統註冊總數</span><span id="sys-total" class="stat-value">0</span></div>
-                <div class="stat-card"><span class="stat-label">👥 個人小組總數</span><span id="group-total" class="stat-value">0</span></div>
+            <div class="stat-card" style="margin-top:10px; border-left: 3px solid #00E5FF;">
+                <span class="stat-label">🛡️ 個人戰功 PV 累積</span>
+                <span id="pv-total" class="stat-value">0 PV</span>
             </div>
-
-            <div class="stat-card" style="margin-top:10px; border-left: 3px solid #00E5FF;"><span class="stat-label">✈️ 雙人免費出國點數</span><span id="travel-points" class="stat-value">0 / 300</span></div>
 
             <a id="btn-back" href="Lobby.html" class="back-btn">返回 AI 指令大廳</a>
             <div class="footer">AI 生活小秘書 · 最終解釋權歸系統核心所有</div>
+        </div>
+
+        <div id="awaken-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; justify-content:center; align-items:center; flex-direction:column; padding:20px; box-sizing:border-box; animation: fadeIn 1s ease;">
+            <div id="capture-area" style="width:100%; max-width:380px; background:linear-gradient(135deg, #1a1a1a 0%, #000 100%); border:3px solid #FFD700; border-radius:30px; padding:30px; text-align:center; position:relative; box-shadow: 0 0 50px rgba(255, 214, 0, 0.5);">
+                <div style="position:absolute; top:-40px; left:50%; transform:translateX(-50%); font-size:50px;">👑</div>
+                <h2 style="color:#FFD700; margin-bottom:5px; letter-spacing:3px;">全服公告</h2>
+                <div style="color:#00E5FF; font-weight:bold; margin-bottom:20px;">AI 數位軍團 · 領袖覺醒</div>
+                <div id="modal-title-display" style="background:#FFD700; color:#000; display:inline-block; padding:5px 15px; border-radius:20px; font-weight:900; font-size:18px; margin-bottom:20px;">🔥 覺醒 · 戰隊宗師</div>
+                <div style="font-size:24px; font-weight:900; color:#fff; margin-bottom:10px;" id="report-name">領袖姓名</div>
+                <div style="border-top:1px solid #444; padding-top:20px;">
+                    <div style="font-size:12px; color:#aaa;">軍團戰力 PV 已達標</div>
+                    <div style="font-size:24px; color:#FFD700; font-weight:bold;"><span id="report-pv">0</span> PV</div>
+                </div>
+                <div style="margin-top:25px; background:#fff; padding:10px; display:inline-block; border-radius:10px;">
+                    <img id="share-qr" src="" style="width:120px; height:120px;" alt="QR">
+                </div>
+                <div style="color:#fff; font-size:12px; margin-top:10px; opacity:0.7;">掃描二維碼 · 領取 50 元購物金</div>
+            </div>
+            <button onclick="document.getElementById('awaken-modal').style.display='none'" style="margin-top:30px; background:transparent; border:1px solid #fff; color:#fff; padding:10px 30px; border-radius:20px; cursor:pointer;">返回面板</button>
         </div>
     </div>
 
@@ -87,40 +117,69 @@
             updateEggVisuals();
         };
 
+        // ==========================================
+        // 1. 大腦模組：數據傳輸 (fetchData)
+        // ==========================================
         async function fetchData(id) {
             try {
                 const safeId = encodeURIComponent(id);
                 const response = await fetch(`${API_URL}?action=get_leader_data&id=${safeId}`);
                 const res = await response.json();
-                
-                if (res.success) {
-                    // ✅ 數據填入
-                    document.getElementById('real-name').innerText = res.name;
-                    document.getElementById('team-code-display').innerText = res.teamCode;
-                    document.getElementById('sys-total').innerText = res.sysTotal;
-                    document.getElementById('group-total').innerText = res.groupTotal;
-                    document.getElementById('est-income').innerText = "NT$ " + res.income;
 
-                    // 🐣 破蛋進度：基礎 4% + 每增加 1 人跳 9.6%
+                if (res.success) {
+                    // 基本資訊填入
+                    document.getElementById('real-name').innerText = res.name;
+                    document.getElementById('userTitle').innerText = res.title;
+                    document.getElementById('scValue').innerText = res.sc + " SC";
+                    document.getElementById('est-income').innerText = "NT$ " + Math.floor(res.income);
+                    document.getElementById('referral-bonus').innerText = "NT$ " + (res.detail.referral || 0);
+                    document.getElementById('group-total').innerText = res.groupTotal;
+                    document.getElementById('pv-total').innerText = res.detail.pvTotal + " PV";
+
+                    // 🐣 破蛋進度 (基礎 4% + 每增加 1 人跳 9.6%)
                     let hatchProgress = Math.min(100, 4 + (res.groupTotal * 9.6));
                     updateHatch(hatchProgress);
                     
+                    // 🚀 觸發覺醒 (1-7代總人數達 10 人)
                     if(res.groupTotal >= 10) {
-                        document.querySelector('.rank-title').innerText = "🔥 覺醒·戰隊宗師";
-                        document.querySelector('.rank-title').style.color = "#00E5FF";
+                        handleAwaken(res, id);
                     }
                 } else {
-                    document.getElementById('real-name').innerText = "領袖識別中";
-                    document.getElementById('team-code-display').innerText = res.message;
-                    updateHatch(4);
+                    document.getElementById('real-name').innerText = "查無此身分";
                 }
             } catch (error) {
-                document.getElementById('real-name').innerText = "系統連線中";
-                document.getElementById('team-code-display').innerText = "正在接入核心...";
-                console.error("API Error:", error);
+                console.error("系統對接異常", error);
             }
         }
 
+        // ==========================================
+        // 2. 特效模組：處理覺醒 (handleAwaken)
+        // ==========================================
+        function handleAwaken(res, id) {
+            const egg = document.getElementById('dynamic-egg');
+            const rankTitle = document.getElementById('userTitle');
+            
+            if (egg) egg.style.animation = "awaken-pulse 1.5s infinite";
+            if (rankTitle) {
+                rankTitle.style.animation = "title-glow 1s ease-in-out infinite alternate";
+            }
+            
+            const modal = document.getElementById('awaken-modal');
+            if (modal && modal.style.display !== 'flex') {
+                modal.style.display = 'flex';
+                document.getElementById('report-name').innerText = res.name;
+                document.getElementById('report-pv').innerText = res.detail.pvTotal;
+                document.getElementById('modal-title-display').innerText = "🔥 覺醒 · " + res.title;
+                
+                // QR Code 生成
+                const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(id)}`; 
+                document.getElementById('share-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shareUrl)}`;
+            }
+        }
+
+        // ==========================================
+        // 3. 視覺模組：輔助功能
+        // ==========================================
         function updateHatch(progress) {
             const rounded = Math.round(progress);
             document.getElementById('hatch-fill').style.width = rounded + "%";
@@ -133,10 +192,8 @@
             const egg = document.getElementById('dynamic-egg');
             if (hour >= 6 && hour < 18) {
                 egg.style.background = "radial-gradient(circle at 20% 20%, #ffffff 0%, #fff0b3 20%, #d4af37 60%, #8b6508 100%)";
-                egg.style.boxShadow = "inset -15px -15px 40px rgba(0,0,0,0.8), 0 10px 30px rgba(212, 175, 55, 0.4)";
             } else {
                 egg.style.background = "radial-gradient(circle at 80% 20%, #e0e0e0 0%, #707070 30%, #202020 80%, #000000 100%)";
-                egg.style.boxShadow = "inset 15px -15px 40px rgba(0,0,0,0.9), 0 5px 25px rgba(0, 229, 255, 0.2)";
             }
         }
     </script>
