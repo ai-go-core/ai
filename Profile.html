@@ -5,99 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 領袖屬性面板</title>
     <style>
-        /* 基礎設定：優化滾動感 */
         body { 
-            background-color: #050505; 
-            color: #fff; 
-            font-family: 'PingFang TC', sans-serif; 
-            margin: 0; 
-            display: flex; 
-            justify-content: center; 
-            min-height: 100vh; 
-            overflow-y: auto; /* 確保可以下拉 */
-            padding-bottom: 50px;
+            background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; 
+            margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-y: auto; padding-bottom: 50px;
         }
 
-        /* 2. 標題文字亮度提升 */
-        .glow-box { 
-            position: relative; 
-            width: 92%; 
-            max-width: 420px; 
-            background: #000; 
-            border-radius: 25px; 
-            margin: 20px 0; 
-            z-index: 1;
-        }
+        .glow-box { position: relative; width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; z-index: 1; border: 1px solid #333; }
+        .inner-content { background: linear-gradient(160deg, #151515 0%, #050505 100%); border-radius: 23px; padding: 25px; display: flex; flex-direction: column; min-height: 750px; }
 
-        .inner-content { 
-            background: linear-gradient(145deg, #1a1a1a, #0a0a0a); 
-            border-radius: 23px; 
-            padding: 25px; 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 700px; /* 撐開高度確保不會截斷 */
-        }
-
-        /* 1. 領袖姓名區域優化 */
+        /* 🥚 左蛋右名佈局優化 */
         .hero-section { display: flex; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #444; padding-bottom: 20px; }
-        .egg-container { 
-            position: relative; 
-            width: 130px; 
-            height: 150px; 
-            flex-shrink: 0; 
-        }
+        .egg-container { position: relative; width: 140px; height: 160px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; }
 
-        /* 4. 蛋的 3D 光影與日夜特效 */
+        /* 4. 加強版 3D 擬真蛋：強化對比度 */
         .egg-base {
-            width: 100px;
-            height: 130px;
-            background: radial-gradient(ellipse at 30% 30%, #ffffff 0%, #f0f0f0 40%, #dcdcdc 100%);
+            width: 100px; height: 135px;
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             position: relative;
-            box-shadow: inset -10px -10px 30px rgba(0,0,0,0.5), 0 10px 30px rgba(212, 175, 55, 0.3);
             transition: all 1s ease;
+            overflow: hidden; /* 為了裂痕裁切 */
         }
 
-        /* 日夜光影變化邏輯 (CSS 變數由 JS 控制) */
-        .egg-glow {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: inherit;
+        /* 🍳 裂痕特效層 */
+        .cracks {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/cracked-paper.png'); /* 模擬裂痕紋理 */
+            opacity: 0; /* 初始無裂痕 */
+            mix-blend-mode: multiply;
             pointer-events: none;
-            mix-blend-mode: soft-light;
-            background: var(--time-glow); /* JS 動態賦值 */
-            filter: blur(5px);
         }
 
         .name-info { margin-left: 15px; }
-        .rank-title { color: #FFD700; font-size: 0.9rem; letter-spacing: 2px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-        .real-name { font-size: 1.5rem; margin: 5px 0; color: #FFFFFF; font-weight: 800; }
-        .nickname { color: #D4AF37; font-size: 1rem; font-weight: 500; }
+        .rank-title { color: #FFD700; font-size: 0.9rem; letter-spacing: 2px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.6); }
+        .display-name { font-size: 1.8rem; margin: 5px 0; color: #FFFFFF; font-weight: 900; letter-spacing: 1px; }
+        .display-nickname { color: #D4AF37; font-size: 1.1rem; font-weight: 500; margin-bottom: 5px; }
+        .team-name { color: #00E5FF; font-size: 0.85rem; font-weight: bold; text-shadow: 0 0 5px rgba(0, 229, 255, 0.3); }
 
-        /* 2. 標題與標籤亮度調整 */
-        .stat-label { color: #BBB; font-size: 0.85rem; margin-bottom: 5px; display: block; } /* 變亮 */
-        .stat-value { color: #FFD700; font-weight: bold; font-size: 1.1rem; text-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
-
+        /* 📈 數據區域 */
+        .stat-label { color: #BBB; font-size: 0.85rem; }
+        .stat-value { color: #FFD700; font-weight: bold; font-size: 1.1rem; }
         .data-row { margin-bottom: 15px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; border-left: 3px solid #D4AF37; }
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         .stat-card { background: rgba(255, 255, 255, 0.03); border: 1px solid #333; padding: 12px; border-radius: 12px; }
 
-        /* 3. 解決下拉幅度問題 */
+        /* 🚀 破蛋進度條 */
+        .hatch-section { margin-bottom: 25px; }
+        .hatch-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: #FFD700; margin-bottom: 8px; font-weight: bold; }
+        .hatch-bar-bg { width: 100%; height: 10px; background: #222; border-radius: 10px; border: 1px solid #444; overflow: hidden; }
+        .hatch-bar-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FFFACD); box-shadow: 0 0 10px #FFD700; transition: width 2s ease; }
+
         .back-btn { 
-            background: linear-gradient(180deg, #D4AF37, #B8860B); 
-            color: #000; 
-            padding: 18px; 
-            text-align: center; 
-            text-decoration: none; 
-            margin-top: 30px; 
-            border-radius: 10px; 
-            font-weight: bold; 
-            font-size: 1.1rem; 
-            display: block;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            background: linear-gradient(180deg, #D4AF37, #B8860B); color: #000; padding: 18px; 
+            text-align: center; text-decoration: none; margin-top: 20px; border-radius: 10px; 
+            font-weight: bold; font-size: 1.1rem; display: block;
         }
 
-        .footer { font-size: 0.7rem; color: #666; text-align: center; padding: 30px 0; }
+        .footer { font-size: 0.7rem; color: #555; text-align: center; padding: 30px 0; }
     </style>
 </head>
 <body>
@@ -106,15 +69,23 @@
             <div class="hero-section">
                 <div class="egg-container">
                     <div id="dynamic-egg" class="egg-base">
-                        <div id="egg-light" class="egg-glow"></div>
+                        <div id="egg-cracks" class="cracks"></div>
                     </div>
                 </div>
                 <div class="name-info">
                     <div class="rank-title">🎖️ 封測先鋒領袖</div>
-                    <div id="display-name" class="real-name">載入中...</div>
-                    <div id="display-nickname" class="nickname">AI 小秘書</div>
-                    <div id="display-team" style="font-size: 0.75rem; color: #888; margin-top:5px;">隸屬：jack197775 團隊</div>
+                    <div id="name-output" class="display-name">載入中...</div>
+                    <div id="nickname-output" class="display-nickname">讀取中</div>
+                    <div class="team-name">隸屬：AI 數位軍團</div>
                 </div>
+            </div>
+
+            <div class="hatch-section">
+                <div class="hatch-label">
+                    <span>🐣 破蛋孵化進度</span>
+                    <span id="hatch-percent">0%</span>
+                </div>
+                <div class="hatch-bar-bg"><div id="hatch-fill" class="hatch-bar-fill" style="width: 0%;"></div></div>
             </div>
 
             <div class="data-row">
@@ -146,17 +117,12 @@
                 </div>
             </div>
 
-            <div class="stat-card">
-                <span class="stat-label">📊 小組佔比 (貢獻度)</span>
-                <span class="stat-value">12.5%</span>
-            </div>
-
-            <div class="stat-card" style="margin-top:15px; border-left: 3px solid #00E5FF;">
+            <div class="stat-card" style="margin-top:10px; border-left: 3px solid #00E5FF;">
                 <span class="stat-label">✈️ 雙人免費出國點數</span>
                 <span class="stat-value">125 / 300</span>
             </div>
 
-            <a href="https://line.me/R/ti/p/@您的LINE官方ID" class="back-btn">返回 AI 指令大廳</a>
+            <a id="btn-back" href="Lobby.html" class="back-btn">返回 AI 指令大廳</a>
 
             <div class="footer">AI 生活小秘書 · 最終解釋權歸系統核心所有</div>
         </div>
@@ -167,28 +133,47 @@
             const urlParams = new URLSearchParams(window.location.search);
             const userId = urlParams.get('id');
             
-            // 1. 設定本名與外號
+            // 1. 姓名與外號優化 (直接顯示，不含標籤字眼)
             if (userId) {
-                document.getElementById('display-name').innerText = "本名：李小明"; // 未來對接 API
-                document.getElementById('display-nickname').innerText = "外號：" + userId;
+                document.getElementById('name-output').innerText = "李小明"; // 這是本名
+                document.getElementById('nickname-output').innerText = userId; // 這是外號
+                document.getElementById('btn-back').href = "Lobby.html?id=" + userId;
             }
 
-            // 4. 偵測時間決定蛋的光影角度與顏色
+            // 4. 加強版日夜光影邏輯 (提高對比)
             const hour = new Date().getHours();
             const egg = document.getElementById('dynamic-egg');
-            const light = document.getElementById('egg-light');
-
             if (hour >= 6 && hour < 18) {
-                // 白天：陽光從左上方投射 (金黃偏白)
-                egg.style.background = "radial-gradient(ellipse at 30% 30%, #ffffff 0%, #fff4cc 40%, #d4af37 100%)";
-                light.style.background = "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), transparent)";
+                // 白天：強烈陽光 (高對比金白)
+                egg.style.background = "radial-gradient(circle at 20% 20%, #ffffff 0%, #fff0b3 20%, #d4af37 60%, #8b6508 100%)";
+                egg.style.boxShadow = "inset -15px -15px 40px rgba(0,0,0,0.8), 0 10px 30px rgba(212, 175, 55, 0.4)";
             } else {
-                // 夜晚：月光從右上方投射 (冷白偏藍)
-                egg.style.background = "radial-gradient(ellipse at 70% 30%, #e0e0e0 0%, #a0a0a0 40%, #202020 100%)";
-                light.style.background = "radial-gradient(circle at 70% 30%, rgba(200,220,255,0.5), transparent)";
-                document.getElementById('display-name').style.textShadow = "0 0 15px rgba(0,229,255,0.5)";
+                // 夜晚：冷峻月光 (深邃藍銀)
+                egg.style.background = "radial-gradient(circle at 80% 20%, #e0e0e0 0%, #707070 30%, #202020 80%, #000000 100%)";
+                egg.style.boxShadow = "inset 15px -15px 40px rgba(0,0,0,0.9), 0 5px 25px rgba(0, 229, 255, 0.2)";
             }
+
+            // 🐣 裂痕進度條邏輯
+            const progress = 65; // 假設目前進度為 65% (未來可對接數據)
+            document.getElementById('hatch-fill').style.width = progress + "%";
+            document.getElementById('hatch-percent').innerText = progress + "%";
+            
+            // 根據進度顯示裂痕程度
+            const cracks = document.getElementById('egg-cracks');
+            if (progress > 20) cracks.style.opacity = (progress / 100).toString();
+            if (progress > 80) egg.style.animation = "shake 0.5s infinite"; // 進度高會震動
         };
     </script>
+    
+    <style>
+        /* 蛋震動特效 */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            50% { transform: translate(-1px, 2px) rotate(1deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+    </style>
 </body>
 </html>
