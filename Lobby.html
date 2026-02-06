@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI 系統核心大廳</title>
+    <style>
+        body { 
+            background-color: #050505; 
+            color: #fff; 
+            font-family: 'PingFang TC', sans-serif; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh; 
+            overflow-y: auto;
+        }
+
+        .glow-box { 
+            position: relative; 
+            width: 92%; 
+            max-width: 420px; 
+            background: #000; 
+            border-radius: 25px; 
+            margin: 20px 0; 
+        }
+
+        .inner-content { 
+            background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); 
+            border-radius: 23px; 
+            padding: 25px; 
+            display: flex; 
+            flex-direction: column; 
+            border: 1px solid #333;
+        }
+
+        /* 標題與公告區 */
+        .header { text-align: center; margin-bottom: 25px; }
+        .system-title { color: #FFD700; font-size: 1.5rem; font-weight: 800; letter-spacing: 3px; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+        
+        .marquee {
+            background: rgba(212, 175, 55, 0.1);
+            color: #D4AF37;
+            padding: 8px;
+            font-size: 0.8rem;
+            border-radius: 5px;
+            margin-top: 15px;
+            overflow: hidden;
+            white-space: nowrap;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* 核心按鈕矩陣 */
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+        
+        .nav-item {
+            background: linear-gradient(145deg, #222, #111);
+            border: 1px solid #444;
+            border-radius: 15px;
+            padding: 20px 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .nav-item:active { transform: scale(0.95); border-color: #D4AF37; }
+        .nav-icon { font-size: 2rem; margin-bottom: 10px; }
+        .nav-text { font-size: 0.95rem; font-weight: bold; color: #BBB; }
+        .nav-desc { font-size: 0.7rem; color: #666; margin-top: 5px; }
+
+        /* 特色亮點區域 */
+        .feature-banner {
+            margin-top: 25px;
+            background: linear-gradient(90deg, rgba(212,175,55,0.2), transparent);
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #D4AF37;
+        }
+        .feature-title { color: #FFD700; font-size: 0.9rem; font-weight: bold; }
+        .feature-list { font-size: 0.75rem; color: #888; margin-top: 5px; line-height: 1.6; }
+
+        .footer { font-size: 0.7rem; color: #444; text-align: center; padding: 30px 0; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <div class="glow-box">
+        <div class="inner-content">
+            <div class="header">
+                <div class="system-title">SYSTEM CORE</div>
+                <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">AI 生活小秘書 · 指令大廳</div>
+                
+                <div class="marquee">
+                    <marquee scrollamount="5">🔥 封測限定：註冊即領人物蛋 + 50元購物金 | 推薦獎金 99 元無限發放 | 免年費、免配貨 🚀</marquee>
+                </div>
+            </div>
+
+            <div class="nav-grid">
+                <a id="link-profile" href="#" class="nav-item" style="border-color: #D4AF37;">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text" style="color: #FFD700;">個人資產</span>
+                    <span class="nav-desc">人物蛋與收益</span>
+                </a>
+                <a id="link-writer" href="#" class="nav-item">
+                    <span class="nav-icon">🔥</span>
+                    <span class="nav-text">產文神器</span>
+                    <span class="nav-desc">爆款文案生成</span>
+                </a>
+                <a href="https://line.me/R/ti/p/@您的LINE官方ID" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">戰隊數據</span>
+                    <span class="nav-desc">七代組織查詢</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">AI 工具箱</span>
+                    <span class="nav-desc">封測功能解鎖</span>
+                </a>
+            </div>
+
+            <div class="feature-banner">
+                <div class="feature-title">🛡️ 領袖特權公告</div>
+                <div class="feature-list">
+                    • 系統核心給予角色蛋，具備無限成長價值。<br>
+                    • 消費全額抵扣，收益達 100 即可申請提領。<br>
+                    • 達成 300 點數即可解鎖雙人免費國外旅遊。
+                </div>
+            </div>
+
+            <div class="footer">
+                系統核心 v3.0 | 最終解釋權歸系統核心所有
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('id');
+            const refParam = userId ? "?id=" + userId : "";
+
+            // 動態修正所有按鈕的連結，確保 ID 參數不丟失
+            document.getElementById('link-profile').href = "Profile.html" + refParam;
+            document.getElementById('link-writer').href = "Writer.html" + refParam;
+        };
+    </script>
+</body>
+</html>
