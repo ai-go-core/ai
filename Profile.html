@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 領袖屬性面板</title>
     <style>
-        /* 樣式保持您喜愛的黑金流光與高對比光影 */
+        /* 保持領袖最愛的黑金視覺與高對比光影 */
         body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-y: auto; padding-bottom: 50px; }
         .glow-box { position: relative; width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; z-index: 1; border: 1px solid #333; }
         .inner-content { background: linear-gradient(160deg, #151515 0%, #050505 100%); border-radius: 23px; padding: 25px; display: flex; flex-direction: column; min-height: 750px; }
@@ -41,7 +41,7 @@
                 <div class="name-info">
                     <div class="rank-title">🎖️ 封測先鋒領袖</div>
                     <div id="real-name" class="display-name">讀取中...</div>
-                    <div id="team-code-display" class="display-team-code">載入代號...</div>
+                    <div id="team-code-display" class="display-team-code">載入中...</div>
                     <div class="team-affiliation">隸屬：AI 數位軍團</div>
                 </div>
             </div>
@@ -76,35 +76,57 @@
     </div>
 
     <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbyZBh3TzIOpmP9qzZ8YZPeZbVbs2J_gVbjsWw0ZJzWlD9eB_LSJ7-wePJj8oYTyT9Do/exec";
+
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const userId = urlParams.get('id'); 
             
-            // 修正顯示邏輯：確保 ID 有傳進去
             if (userId) {
-                document.getElementById('team-code-display').innerText = userId;
                 document.getElementById('btn-back').href = "Lobby.html?id=" + userId;
-                
-                // --- 即將進行的 API 對接點 ---
-                fetchDataFromGAS(userId);
+                fetchData(userId);
             }
+            updateEggVisuals();
+        };
 
-            // 強化日夜光影
+        async function fetchData(id) {
+            try {
+                const response = await fetch(`${API_URL}?action=get_leader_data&id=${id}`);
+                const res = await response.json();
+                
+                if (res.success) {
+                    document.getElementById('real-name').innerText = res.name;
+                    document.getElementById('team-code-display').innerText = res.teamCode;
+                    document.getElementById('sys-total').innerText = res.sysTotal;
+                    document.getElementById('est-income').innerText = "NT$ " + res.income;
+                    // 進度條設定 (例如 4% 起跳)
+                    updateHatch(4);
+                } else {
+                    document.getElementById('real-name').innerText = "查無此人";
+                    document.getElementById('team-code-display').innerText = id;
+                }
+            } catch (error) {
+                console.error("API 連結失敗:", error);
+                document.getElementById('real-name').innerText = "連線失敗";
+            }
+        }
+
+        function updateHatch(progress) {
+            document.getElementById('hatch-fill').style.width = progress + "%";
+            document.getElementById('hatch-percent').innerText = progress + "%";
+            document.getElementById('egg-cracks').style.opacity = (progress / 100).toString();
+        }
+
+        function updateEggVisuals() {
             const hour = new Date().getHours();
             const egg = document.getElementById('dynamic-egg');
             if (hour >= 6 && hour < 18) {
                 egg.style.background = "radial-gradient(circle at 20% 20%, #ffffff 0%, #fff0b3 20%, #d4af37 60%, #8b6508 100%)";
+                egg.style.boxShadow = "inset -15px -15px 40px rgba(0,0,0,0.8), 0 10px 30px rgba(212, 175, 55, 0.4)";
             } else {
                 egg.style.background = "radial-gradient(circle at 80% 20%, #e0e0e0 0%, #707070 30%, #202020 80%, #000000 100%)";
+                egg.style.boxShadow = "inset 15px -15px 40px rgba(0,0,0,0.9), 0 5px 25px rgba(0, 229, 255, 0.2)";
             }
-        };
-
-        // 核心 API 對接函數
-        async function fetchDataFromGAS(id) {
-            // 這部分將在第二步填入您的 Web App URL
-            console.log("正在從資料庫查詢領袖資料: " + id);
-            // 模擬成功對接後的動作
-            // document.getElementById('real-name').innerText = "真實姓名"; 
         }
     </script>
 </body>
