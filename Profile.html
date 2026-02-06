@@ -89,27 +89,38 @@
 
         async function fetchData(id) {
             try {
-                // 🚀 關鍵修正：將中文字代號進行網址編碼，確保 API 能讀懂
+                // 🚀 關鍵編碼：確保中文代號在傳輸過程中不變形
                 const safeId = encodeURIComponent(id);
                 const response = await fetch(`${API_URL}?action=get_leader_data&id=${safeId}`);
                 const res = await response.json();
                 
                 if (res.success) {
-                    // ✅ 成功對接：顯示真實姓名與數據
-                    document.getElementById('real-name').innerText = res.name;
-                    document.getElementById('team-code-display').innerText = res.teamCode;
-                    document.getElementById('sys-total').innerText = res.sysTotal;
-                    document.getElementById('est-income').innerText = "NT$ " + res.income;
-                    updateHatch(4); // 設定初始孵化進度
+                    // ✅ 成功對接：顯示真實數據
+                    document.getElementById('real-name').innerText = res.name || "領袖資料缺失";
+                    document.getElementById('team-code-display').innerText = res.teamCode || id;
+                    document.getElementById('sys-total').innerText = res.sysTotal || 0;
+                    document.getElementById('est-income').innerText = "NT$ " + (res.income || 50);
+                    
+                    // 👥 計算個人小組總數（若 API 有回傳的話）
+                    const groupTotal = res.groupTotal || 0;
+                    document.getElementById('group-total').innerText = groupTotal;
+
+                    // 🐣 動態孵化邏輯：
+                    // 設定封測期間基礎 4%，每增加一位組員成長 1%，最高 100%
+                    let hatchProgress = Math.min(100, 4 + groupTotal);
+                    updateHatch(hatchProgress);
+
                 } else {
-                    // ❌ 比對失敗：秀出診斷訊息
+                    // ❌ 識別失敗：顯示診斷原因
                     document.getElementById('real-name').innerText = "領袖識別中";
                     document.getElementById('team-code-display').innerText = res.message;
+                    updateHatch(4); // 失敗則維持初始狀態
                 }
             } catch (error) {
-                // ⚠️ 連線異常
-                document.getElementById('real-name').innerText = "連線異常";
-                document.getElementById('team-code-display').innerText = "請檢查網路環境";
+                // ⚠️ 斷路診斷
+                document.getElementById('real-name').innerText = "系統連線中";
+                document.getElementById('team-code-display').innerText = "正在接入 AI 核心核心...";
+                console.error("API Error:", error);
             }
         }
 
