@@ -90,26 +90,26 @@
         };
 
         async function fetchData(id) {
-            try {
-                const response = await fetch(`${API_URL}?action=get_leader_data&id=${id}`);
-                const res = await response.json();
-                
-                if (res.success) {
-                    document.getElementById('real-name').innerText = res.name;
-                    document.getElementById('team-code-display').innerText = res.teamCode;
-                    document.getElementById('sys-total').innerText = res.sysTotal;
-                    document.getElementById('est-income').innerText = "NT$ " + res.income;
-                    // 進度條設定 (例如 4% 起跳)
-                    updateHatch(4);
-                } else {
-                    document.getElementById('real-name').innerText = "查無此人";
-                    document.getElementById('team-code-display').innerText = id;
-                }
-            } catch (error) {
-                console.error("API 連結失敗:", error);
-                document.getElementById('real-name').innerText = "連線失敗";
-            }
+    try {
+        const response = await fetch(`${API_URL}?action=get_leader_data&id=${encodeURIComponent(id)}`);
+        const res = await response.json();
+        
+        if (res.success) {
+            document.getElementById('real-name').innerText = res.name;
+            document.getElementById('team-code-display').innerText = res.teamCode;
+            document.getElementById('sys-total').innerText = res.sysTotal;
+            document.getElementById('est-income').innerText = "NT$ " + res.income;
+            updateHatch(4);
+        } else {
+            // 🔍 這裡非常重要：直接把診斷訊息秀在名字位置
+            document.getElementById('real-name').innerText = "比對偏差";
+            document.getElementById('team-code-display').innerText = res.message; 
+            console.log("診斷訊息:", res.message);
         }
+    } catch (error) {
+        document.getElementById('real-name').innerText = "網路異常";
+    }
+}
 
         function updateHatch(progress) {
             document.getElementById('hatch-fill').style.width = progress + "%";
