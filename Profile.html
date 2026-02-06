@@ -5,161 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 領袖屬性面板</title>
     <style>
-        body {
-            background-color: #050505;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-            overflow: hidden;
-        }
+        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
+        .glow-box { position: relative; width: 95%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; overflow: hidden; box-shadow: 0 0 40px rgba(0,0,0,1); }
+        .glow-box::before { content: ""; position: absolute; width: 200%; height: 200%; background: conic-gradient(transparent, #D4AF37, transparent); animation: rotate 6s linear infinite; top: -50%; left: -50%; }
+        .inner-content { position: absolute; inset: 2px; background: linear-gradient(145deg, #121212, #050505); border-radius: 23px; z-index: 2; padding: 25px; display: flex; flex-direction: column; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* 🌟 流光外框容器 */
-        .glow-box {
-            position: relative;
-            width: 90%;
-            max-width: 380px;
-            height: 550px;
-            background: rgba(0, 0, 0, 0.9);
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(0,0,0,1);
-        }
+        /* 🥚 左蛋右名佈局 */
+        .hero-section { display: flex; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #333; padding-bottom: 20px; }
+        .egg-container { position: relative; width: 120px; height: 120px; flex-shrink: 0; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5)); }
+        .egg-img { width: 100%; height: 100%; object-fit: contain; }
+        .name-info { margin-left: 20px; }
+        .rank-title { color: #D4AF37; font-size: 0.8rem; letter-spacing: 2px; font-weight: bold; }
+        .real-name { font-size: 1.6rem; margin: 5px 0; color: #fff; font-weight: 800; }
+        .team-owner { color: #888; font-size: 0.85rem; }
 
-        /* 旋轉流光層 - 營造高貴感 */
-        .glow-box::before {
-            content: "";
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            background: conic-gradient(
-                transparent, 
-                rgba(212, 175, 55, 0.1), 
-                #D4AF37, 
-                rgba(212, 175, 55, 0.1), 
-                transparent
-            );
-            animation: rotate 4s linear infinite;
-        }
+        /* 📊 數據格線 */
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid #222; padding: 12px; border-radius: 12px; }
+        .stat-label { color: #666; font-size: 0.75rem; margin-bottom: 5px; display: block; }
+        .stat-value { color: #FFD700; font-weight: bold; font-size: 1rem; }
 
-        /* 內部黑色遮罩 (形成邊框感) */
-        .inner-content {
-            position: absolute;
-            inset: 3px; /* 邊框粗細 */
-            background: linear-gradient(145deg, #151515, #0a0a0a);
-            border-radius: 18px;
-            z-index: 2;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            color: #fff;
-        }
+        /* 📍 特殊數據列 */
+        .data-row { margin-bottom: 15px; background: rgba(212,175,55,0.05); padding: 15px; border-radius: 12px; border-left: 3px solid #D4AF37; }
+        .row-flex { display: flex; justify-content: space-between; align-items: center; }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        /* ✈️ 旅遊進度 */
+        .travel-box { margin-top: 10px; }
+        .progress-bar { width: 100%; height: 8px; background: #222; border-radius: 10px; margin-top: 8px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #b8860b, #ffd700); transition: width 1.5s ease; }
 
-        /* 介面細節樣式 */
-        .header { text-align: center; border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px; }
-        .rank-tag { color: #D4AF37; font-size: 0.75rem; letter-spacing: 3px; font-weight: bold; }
-        .user-name { font-size: 1.8rem; margin: 10px 0; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
-        
-        .stat-group { flex-grow: 1; }
-        .stat-item { display: flex; justify-content: space-between; margin: 18px 0; font-size: 0.95rem; }
-        .label { color: #888; }
-        .value { color: #FFD700; font-weight: 500; font-family: 'Courier New', Courier, monospace; }
-
-        /* 進度條樣式 */
-        .progress-section { margin-top: 20px; }
-        .progress-info { display: flex; justify-content: space-between; font-size: 0.75rem; color: #D4AF37; margin-bottom: 8px; }
-        .bar-bg { width: 100%; height: 6px; background: #222; border-radius: 10px; }
-        .bar-fill { 
-            width: 40%; /* 初始值 */
-            height: 100%; 
-            background: linear-gradient(90deg, #b8860b, #ffd700); 
-            border-radius: 10px; 
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
-            transition: width 2s ease-out;
-        }
-        
-        .back-btn {
-            background: transparent;
-            border: 1px solid #D4AF37;
-            color: #D4AF37;
-            padding: 15px;
-            text-align: center;
-            text-decoration: none;
-            margin-top: 25px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
+        /* 🔗 返回按鈕 */
+        .back-btn { background: transparent; border: 1px solid #D4AF37; color: #D4AF37; padding: 15px; text-align: center; text-decoration: none; margin-top: 15px; border-radius: 8px; font-weight: bold; font-size: 1rem; transition: 0.3s; }
         .back-btn:hover { background: #D4AF37; color: #000; }
-
-        .footer { font-size: 0.6rem; color: #444; text-align: center; margin-top: 20px; letter-spacing: 1px; }
+        
+        .footer { font-size: 0.65rem; color: #444; text-align: center; margin-top: auto; padding-top: 20px; }
     </style>
 </head>
 <body>
     <div class="glow-box">
         <div class="inner-content">
-            <div class="header">
-                <div class="rank-tag">🎖️ 榮耀領袖 · 封測先鋒</div>
-                <div id="display-name" class="user-name">載入中...</div>
-            </div>
-            
-            <div class="stat-group">
-                <div class="stat-item">
-                    <span class="label">🛡️ 戰隊代號</span>
-                    <span id="display-team" class="value">AI 核心戰隊</span>
+            <div class="hero-section">
+                <div class="egg-container">
+                    <img src="https://img.icons8.com/plasticine/200/egg.png" alt="人物蛋" class="egg-img">
                 </div>
-                <div class="stat-item">
-                    <span class="label">💰 購物金</span>
-                    <span class="value">50 元 (全額抵)</span>
-                </div>
-                <div class="stat-item">
-                    <span class="label">🧧 推薦獎金</span>
-                    <span class="value">99 元 / 人</span>
-                </div>
-                <div class="stat-item">
-                    <span class="label">✈️ 旅遊機會</span>
-                    <span class="value">免費出國 (解鎖中)</span>
+                <div class="name-info">
+                    <div class="rank-title">🎖️ 封測先鋒領袖</div>
+                    <div id="display-name" class="real-name">載入中...</div>
+                    <div id="display-team" class="team-owner">隸屬戰隊：讀取中</div>
                 </div>
             </div>
 
-            <div class="progress-section">
-                <div class="progress-info">
-                    <span>🥚 人物蛋孵化進度</span>
-                    <span id="progress-percent">40%</span>
+            <div class="data-row">
+                <div class="row-flex">
+                    <span class="stat-label">📈 本月預估收入</span>
+                    <span class="stat-value" style="font-size: 1.2rem;">NT$ 8,888</span>
                 </div>
-                <div class="bar-bg"><div id="bar-fill" class="bar-fill" style="width: 40%;"></div></div>
             </div>
 
-            <a href="https://line.me/R/ti/p/@您的LINEID" class="back-btn">返回 AI 指令大廳</a>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <span class="stat-label">🧧 推薦獎金 (已領)</span>
+                    <span class="stat-value">NT$ 1,200</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">⌛ 推薦獎金 (未啟動)</span>
+                    <span class="stat-value" style="color: #666;">NT$ 450</span>
+                </div>
+            </div>
+
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <span class="stat-label">🌍 系統註冊總人數</span>
+                    <span class="stat-value" id="sys-total">1,240</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">👥 個人小組總人數</span>
+                    <span class="stat-value" id="group-total">155</span>
+                </div>
+            </div>
+            <div class="stat-card" style="margin-bottom: 20px;">
+                <span class="stat-label">📊 小組佔比 (貢獻度)</span>
+                <span class="stat-value" id="ratio-value">12.5%</span>
+            </div>
+
+            <div class="travel-box">
+                <div class="row-flex">
+                    <span class="stat-label">✈️ 雙人免費出國進度</span>
+                    <span class="stat-value">125 / 300</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 41.6%;"></div></div>
+                <div style="font-size: 0.7rem; color: #888; margin-top: 5px; text-align: right;">未達雙人免費標準</div>
+            </div>
+
+            <a href="https://line.me/R/ti/p/@您的LINE官方ID" class="back-btn">返回 AI 指令大廳</a>
+
             <div class="footer">AI 生活小秘書 · 最終解釋權歸系統核心所有</div>
         </div>
     </div>
 
     <script>
-        // 🚀 自動抓取網址參數邏輯
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const userId = urlParams.get('id');
             
             if (userId) {
-                // 將顯示名稱改為對應的 ID (未來可對接 API 顯示真實姓名)
-                document.getElementById('display-name').innerText = "領袖 " + userId;
-                
-                // 這裡可以根據 ID 做更多動態變化
-                console.log("當前登入領袖 ID:", userId);
-            } else {
-                document.getElementById('display-name').innerText = "訪客領袖";
+                // 這裡未來對接您的 Google Sheet API 讀取真實姓名與戰隊
+                document.getElementById('display-name').innerText = userId; // 暫時以 ID 代替，未來顯示本名
+                document.getElementById('display-team').innerText = "隸屬戰隊：jack197775 團隊";
             }
         };
     </script>
