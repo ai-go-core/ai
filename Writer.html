@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 爆款產文神器</title>
+    <style>
+        /* 沿用黑金流光風格，保持視覺一致性 */
+        body { background: #050505; color: #fff; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .container { width: 100%; max-width: 400px; background: #111; border: 1px solid #D4AF37; border-radius: 15px; padding: 20px; box-shadow: 0 0 20px rgba(212,175,55,0.2); }
+        h2 { color: #D4AF37; text-align: center; }
+        .input-group { margin-bottom: 20px; }
+        select, button { width: 100%; padding: 12px; border-radius: 5px; margin-top: 10px; border: none; }
+        select { background: #222; color: #fff; border: 1px solid #444; }
+        button { background: linear-gradient(90deg, #b8860b, #ffd700); color: #000; font-weight: bold; cursor: pointer; }
+        #output { background: #000; border: 1px dashed #D4AF37; padding: 15px; min-height: 100px; margin-top: 20px; white-space: pre-wrap; font-size: 0.9rem; color: #ccc; }
+        .copy-btn { background: #333; color: #D4AF37; border: 1px solid #D4AF37; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🔥 爆款產文神器</h2>
+        <div class="input-group">
+            <label>選擇推廣場景：</label>
+            <select id="topic">
+                <option value="wealth">【被動收入篇】躺著也能賺</option>
+                <option value="tool">【AI 工具篇】封測免費使用</option>
+                <option value="travel">【免費旅遊篇】說走就走的旅行</option>
+            </select>
+        </div>
+        <button onclick="generateText()">🚀 一鍵生成爆款文案</button>
+        <div id="output">文案生成區...</div>
+        <button class="copy-btn" onclick="copyText()">📋 點擊複製全文</button>
+    </div>
+
+    <script>
+        function generateText() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refId = urlParams.get('id') || '您的ID';
+            const topic = document.getElementById('topic').value;
+            let text = "";
+
+            const commonTail = `\n\n✅ 免會費、免年費、無須囤貨\n✅ 註冊送人物蛋 + 50元購物金\n✅ 推薦一人再獎 99 元\n🔗 立即搶佔封測名額：\nhttps://ai-go-core.github.io/ai/?ref=${refId}`;
+
+            if(topic === "wealth") {
+                text = "您好！我是您的AI生活小秘書。✨\n\n【誠邀領袖加盟】\n想過日常消費也能變收入嗎？這裡不只是系統，更是您的財富放大器！封測期間系統贈送「角色蛋」，讓您的被動收入像雪球一樣滾動！" + commonTail;
+            } else if(topic === "tool") {
+                text = "您好！我是您的AI生活小秘書。✨\n\n【數位武庫開啟】\n免費使用超級 AI 工具！自動排版、自動行銷、自動管理，系統在封測期間給予角色蛋加持，全方位助您數位轉型！" + commonTail;
+            } else {
+                text = "您好！我是您的AI生活小秘書。✨\n\n【夢幻旅遊計畫】\n除了推薦獎金，我們更提供免費出國旅遊機會！消費即全額扣抵，當提領達到 100 即可隨時領現！" + commonTail;
+            }
+
+            document.getElementById('output').innerText = text;
+        }
+
+        function copyText() {
+            const content = document.getElementById('output').innerText;
+            navigator.clipboard.writeText(content);
+            alert("文案已複製！趕快去分享給夥伴吧！");
+        }
+    </script>
+</body>
+</html>
