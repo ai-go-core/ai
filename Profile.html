@@ -89,23 +89,27 @@
 
         async function fetchData(id) {
             try {
-                const safeId = encodeURIComponent(id); 
+                // 🚀 關鍵修正：將中文字代號進行網址編碼，確保 API 能讀懂
+                const safeId = encodeURIComponent(id);
                 const response = await fetch(`${API_URL}?action=get_leader_data&id=${safeId}`);
                 const res = await response.json();
                 
                 if (res.success) {
+                    // ✅ 成功對接：顯示真實姓名與數據
                     document.getElementById('real-name').innerText = res.name;
                     document.getElementById('team-code-display').innerText = res.teamCode;
                     document.getElementById('sys-total').innerText = res.sysTotal;
                     document.getElementById('est-income').innerText = "NT$ " + res.income;
-                    updateHatch(4); 
+                    updateHatch(4); // 設定初始孵化進度
                 } else {
+                    // ❌ 比對失敗：秀出診斷訊息
                     document.getElementById('real-name').innerText = "領袖識別中";
-                    document.getElementById('team-code-display').innerText = res.message; 
+                    document.getElementById('team-code-display').innerText = res.message;
                 }
             } catch (error) {
+                // ⚠️ 連線異常
                 document.getElementById('real-name').innerText = "連線異常";
-                document.getElementById('team-code-display').innerText = "請檢查 API 配置";
+                document.getElementById('team-code-display').innerText = "請檢查網路環境";
             }
         }
 
