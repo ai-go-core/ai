@@ -76,51 +76,81 @@ body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-
 </div>
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbyZBh3TzIOpmP9qzZ8YZPeZbVbs2J_gVbjsWw0ZJzWlD9eB_LSJ7-wePJj8oYTyT9Do/exec";
+
 window.onload = function() {
-const urlParams = new URLSearchParams(window.location.search);
-const userId = urlParams.get('id'); 
-if (userId) {
-document.getElementById('btn-back').href = "Lobby.html?id=" + encodeURIComponent(userId);
-fetchData(userId);
-}
-updateEggVisuals();
+  const urlParams = new URLSearchParams(window.location.search);
+  const userId = urlParams.get('id'); 
+  if (userId) {
+    document.getElementById('btn-back').href = "Lobby.html?id=" + encodeURIComponent(userId);
+    fetchData(userId);
+  }
+  updateEggVisuals();
 };
+
+/**
+ * 💎 核心格式化函數：實現「數位世界富豪」的視覺快感
+ */
+function formatWealth(value) {
+  if (value === null || value === undefined || isNaN(value)) return "0";
+  let num = parseFloat(value);
+  
+  // 當數值達到億級 (100,000,000)
+  if (num >= 100000000) {
+    return (num / 100000000).toFixed(2) + " 億";
+  } 
+  // 當數值達到萬級 (10,000)
+  else if (num >= 10000) {
+    return (num / 10000).toFixed(0) + " 萬";
+  }
+  
+  // 一般數值則顯示三位一撇
+  return num.toLocaleString();
+}
+
 async function fetchData(id) {
-try {
-const response = await fetch(`${API_URL}?action=get_leader_data&id=${encodeURIComponent(id)}`);
-const res = await response.json();
-if (res.success) {
-document.getElementById('real-name').innerText = res.name;
-document.querySelector('.rank-title').innerText = res.title || "🎖️ 封測先鋒領袖";
-document.getElementById('team-code-display').innerText = res.teamCode;
-document.getElementById('est-income').innerText = "NT$ " + res.income;
-document.getElementById('bonus-paid').innerText = "NT$ " + (res.bonusPaid || 0);
-document.getElementById('sc-value').innerText = res.sc || 0;
-document.getElementById('group-total').innerText = res.groupTotal;
-document.getElementById('sys-total').innerText = res.sysTotal;
-let hatchProgress = Math.min(100, 4 + res.groupTotal);
-updateHatch(hatchProgress);
-} else {
-document.getElementById('real-name').innerText = "未登錄領袖";
-document.getElementById('team-code-display').innerText = res.message;
+  try {
+    const response = await fetch(`${API_URL}?action=get_leader_data&id=${encodeURIComponent(id)}`);
+    const res = await response.json();
+    if (res.success) {
+      document.getElementById('real-name').innerText = res.name;
+      document.querySelector('.rank-title').innerText = res.title || "🎖️ 封測先鋒領袖";
+      document.getElementById('team-code-display').innerText = res.teamCode;
+      
+      // 收入顯示格式化
+      document.getElementById('est-income').innerText = "NT$ " + parseFloat(res.income).toLocaleString();
+      document.getElementById('bonus-paid').innerText = "NT$ " + (parseFloat(res.bonusPaid) || 0).toLocaleString();
+      
+      // --- 🚀 關鍵修正：套用國字格式化身價 ---
+      document.getElementById('sc-value').innerText = formatWealth(res.sc);
+      
+      document.getElementById('group-total').innerText = res.groupTotal;
+      document.getElementById('sys-total').innerText = res.sysTotal;
+      
+      let hatchProgress = Math.min(100, 4 + res.groupTotal);
+      updateHatch(hatchProgress);
+    } else {
+      document.getElementById('real-name').innerText = "未登錄領袖";
+      document.getElementById('team-code-display').innerText = res.message;
+    }
+  } catch (error) { console.error("API Error:", error); }
 }
-} catch (error) { console.error("API Error:", error); }
-}
+
 function updateHatch(progress) {
-document.getElementById('hatch-fill').style.width = progress + "%";
-document.getElementById('hatch-percent').innerText = progress + "%";
-document.getElementById('egg-cracks').style.opacity = (progress / 100).toString();
+  document.getElementById('hatch-fill').style.width = progress + "%";
+  document.getElementById('hatch-percent').innerText = progress + "%";
+  document.getElementById('egg-cracks').style.opacity = (progress / 100).toString();
 }
+
 function updateEggVisuals() {
-const hour = new Date().getHours();
-const egg = document.getElementById('dynamic-egg');
-if (hour >= 6 && hour < 18) {
-egg.style.background = "radial-gradient(circle at 20% 20%, #ffffff 0%, #fff0b3 20%, #d4af37 60%, #8b6508 100%)";
-egg.style.boxShadow = "inset -15px -15px 40px rgba(0,0,0,0.8), 0 10px 30px rgba(212, 175, 55, 0.4)";
-} else {
-egg.style.background = "radial-gradient(circle at 80% 20%, #e0e0e0 0%, #707070 30%, #202020 80%, #000000 100%)";
-egg.style.boxShadow = "inset 15px -15px 40px rgba(0,0,0,0.9), 0 5px 25px rgba(0, 229, 255, 0.2)";
-}
+  const hour = new Date().getHours();
+  const egg = document.getElementById('dynamic-egg');
+  if (hour >= 6 && hour < 18) {
+    egg.style.background = "radial-gradient(circle at 20% 20%, #ffffff 0%, #fff0b3 20%, #d4af37 60%, #8b6508 100%)";
+    egg.style.boxShadow = "inset -15px -15px 40px rgba(0,0,0,0.8), 0 10px 30px rgba(212, 175, 55, 0.4)";
+  } else {
+    egg.style.background = "radial-gradient(circle at 80% 20%, #e0e0e0 0%, #707070 30%, #202020 80%, #000000 100%)";
+    egg.style.boxShadow = "inset 15px -15px 40px rgba(0,0,0,0.9), 0 5px 25px rgba(0, 229, 255, 0.2)";
+  }
 }
 </script>
 </body>
