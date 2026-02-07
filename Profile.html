@@ -42,7 +42,7 @@ body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-
 <div class="rank-title">🎖️ 封測先鋒領袖</div>
 <div id="real-name" class="display-name">領袖識別中</div>
 <div id="team-code-display" class="display-team-code">載入中...</div>
-<div class="team-affiliation">隸屬：AI 數位軍團</div>
+<div class="team-affiliation">SYSTEM CORE · 全方位數位輔助</div>
 </div>
 </div>
 <div class="hatch-section">
@@ -121,7 +121,8 @@ async function fetchData(id) {
       document.getElementById('bonus-paid').innerText = "NT$ " + (parseFloat(res.bonusPaid) || 0).toLocaleString();
       
       // --- 🚀 關鍵修正：套用國字格式化身價 ---
-      document.getElementById('sc-value').innerText = formatWealth(res.sc);
+      // 在 fetchData 內，確保這行存在：
+      document.getElementById('sc-value').innerText = formatWealth(Number(res.sc) || 0);
       
       document.getElementById('group-total').innerText = res.groupTotal;
       document.getElementById('sys-total').innerText = res.sysTotal;
