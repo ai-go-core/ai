@@ -15,7 +15,6 @@
         .cracks { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/cracked-paper.png'); opacity: 0; mix-blend-mode: multiply; pointer-events: none; }
         .name-info { margin-left: 15px; }
         
-        /* 🏆 封號樣式：預設為金光閃爍 */
         .rank-title { color: #FFD700; font-size: 0.95rem; letter-spacing: 1px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.6); margin-bottom: 4px; }
         .display-name { font-size: 1.8rem; margin: 5px 0; color: #FFFFFF; font-weight: 900; }
         .display-sc { color: #00E5FF; font-size: 1.1rem; font-weight: 900; margin-top: 5px; text-shadow: 0 0 5px rgba(0, 229, 255, 0.5); }
@@ -105,8 +104,6 @@
     </div>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbyZBh3TzIOpmP9qzZ8YZPeZbVbs2J_gVbjsWw0ZJzWlD9eB_LSJ7-wePJj8oYTyT9Do/exec";
-
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const userId = urlParams.get('id'); 
@@ -117,82 +114,41 @@
             updateEggVisuals();
         };
 
-        // ==========================================
-        // 核心數據對接模組 (整合後端 res 變數)
-        // ==========================================
-        async function fetchData(id) {
-            try {
-                const safeId = encodeURIComponent(id);
-                const response = await fetch(`${API_URL}?action=get_leader_data&id=${safeId}`);
-                const res = await response.json();
-
-                // 領袖，這行能在瀏覽器 F12 幫助我們偵錯
-                console.log("後端回傳原始數據:", res);
-
-                if (res && res.success) {
-                    // 1. 姓名對接 (對應 HTML ID: real-name)
-                    if(document.getElementById('real-name')) 
+        function fetchData(id) {
+            console.log("🚀 內部專線連結中...");
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    if (res && res.success) {
                         document.getElementById('real-name').innerText = res.name || "領袖資料更新中";
-
-                    // 2. 封號對接 (對應 HTML ID: userTitle)
-                    if(document.getElementById('userTitle')) 
                         document.getElementById('userTitle').innerText = res.title || "數位公民";
-
-                    // 3. 身價對接 (對應 HTML ID: scValue)
-                    if(document.getElementById('scValue')) 
                         document.getElementById('scValue').innerText = (res.sc || "0") + " SC";
-
-                    // 4. 獎金數據對接 (加入防錯判斷)
-                    if(res.detail) {
-                        if(document.getElementById('est-income'))
+                        if(res.detail) {
                             document.getElementById('est-income').innerText = "NT$ " + Math.round(res.income || 0).toLocaleString();
-                        
-                        if(document.getElementById('referral-bonus'))
                             document.getElementById('referral-bonus').innerText = "NT$ " + (res.detail.referral || 0).toLocaleString();
-                        
-                        if(document.getElementById('pv-total'))
                             document.getElementById('pv-total').innerText = (res.detail.pvTotal || 0) + " PV";
-                    }
-
-                    if(document.getElementById('group-total'))
+                        }
                         document.getElementById('group-total').innerText = res.groupTotal || 0;
-
-                    // 🐣 破蛋進度 (基礎 4% + 每增加 1 人跳 9.6%)
-                    let hatchProgress = Math.min(100, 4 + ((res.groupTotal || 0) * 9.6));
-                    updateHatch(hatchProgress);
-                    
-                    // 🚀 觸發覺醒 (1-7代總人數達 10 人)
-                    if(res.groupTotal >= 10) {
-                        handleAwaken(res, id);
+                        let hatchProgress = Math.min(100, 4 + ((res.groupTotal || 0) * 9.6));
+                        updateHatch(hatchProgress);
+                        if(res.groupTotal >= 10) handleAwaken(res, id);
                     }
-                } else {
-                    document.getElementById('real-name').innerText = "系統掃描中...";
-                    document.getElementById('userTitle').innerText = "查無此編號";
-                }
-            } catch (error) {
-                console.error("系統對接異常:", error);
-                document.getElementById('real-name').innerText = "訊號微弱，請刷新";
-            }
+                })
+                .withFailureHandler(function(err) { console.error("❌ 連線異常:", err); })
+                .getLeaderData(id);
         }
 
         function handleAwaken(res, id) {
             const egg = document.getElementById('dynamic-egg');
             const rankTitle = document.getElementById('userTitle');
-            
             if (egg) egg.style.animation = "awaken-pulse 1.5s infinite";
-            if (rankTitle) {
-                rankTitle.style.animation = "title-glow 1s ease-in-out infinite alternate";
-            }
-            
+            if (rankTitle) rankTitle.style.animation = "title-glow 1s ease-in-out infinite alternate";
             const modal = document.getElementById('awaken-modal');
             if (modal && modal.style.display !== 'flex') {
                 modal.style.display = 'flex';
                 document.getElementById('report-name').innerText = res.name;
                 document.getElementById('report-pv').innerText = res.detail.pvTotal;
                 document.getElementById('modal-title-display').innerText = "🔥 覺醒 · " + res.title;
-                
-                const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(id)}`; 
-                document.getElementById('share-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shareUrl)}`;
+                document.getElementById('share-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(window.location.href)}`;
             }
         }
 
