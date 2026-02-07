@@ -5,29 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 生活小秘書 · 全方位數位輔助</title>
     <style>
-        /* 領袖指定：黑金武器庫風格 */
-        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-y: auto; padding-bottom: 50px; }
-        .glow-box { position: relative; width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; border: 1px solid #333; box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
-        .inner-content { background: linear-gradient(160deg, #151515 0%, #050505 100%); border-radius: 23px; padding: 25px; display: flex; flex-direction: column; }
-        
+        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-y: auto; padding-bottom: 50px; }
+        .glow-box { position: relative; width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; z-index: 1; border: 1px solid #333; }
+        .inner-content { background: linear-gradient(160deg, #151515 0%, #050505 100%); border-radius: 23px; padding: 25px; display: flex; flex-direction: column; min-height: 750px; }
         .hero-section { display: flex; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #444; padding-bottom: 20px; }
-        .egg-container { width: 100px; height: 120px; flex-shrink: 0; }
-        .egg-base { width: 100%; height: 100%; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: radial-gradient(circle at 30% 30%, #D4AF37, #8b6508); box-shadow: 0 0 10px #D4AF37; }
-        
-        .name-info { margin-left: 20px; }
-        .rank-title { color: #D4AF37; font-size: 0.9rem; font-weight: bold; }
-        .display-name { font-size: 1.8rem; color: #FFFFFF; font-weight: 900; margin: 5px 0; }
-        .display-sc { color: #00E5FF; font-size: 1.1rem; font-weight: 900; }
-
-        .data-card { background: rgba(255, 255, 255, 0.05); border: 1px solid #333; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #D4AF37; }
-        .stat-label { color: #BBB; font-size: 0.85rem; display: block; margin-bottom: 5px; }
-        .stat-value { color: #D4AF37; font-weight: bold; font-size: 1.2rem; }
-
-        .hatch-bar-bg { width: 100%; height: 10px; background: #222; border-radius: 10px; margin-top: 10px; overflow: hidden; }
-        .hatch-bar-fill { height: 100%; background: linear-gradient(90deg, #D4AF37, #FFFACD); transition: width 1s ease; }
-
-        .back-btn { background: linear-gradient(180deg, #D4AF37, #B8860B); color: #000; padding: 18px; text-align: center; text-decoration: none; border-radius: 12px; font-weight: bold; margin-top: 20px; display: block; }
-        .footer { font-size: 0.75rem; color: #555; text-align: center; margin-top: 30px; letter-spacing: 1px; }
+        .egg-container { position: relative; width: 120px; height: 140px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; }
+        .egg-base { width: 90px; height: 120px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; position: relative; transition: all 1s ease; overflow: hidden; background: radial-gradient(circle at 30% 30%, #D4AF37, #8b6508); box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+        .cracks { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/cracked-paper.png'); opacity: 0; mix-blend-mode: multiply; pointer-events: none; }
+        .name-info { margin-left: 15px; }
+        .rank-title { color: #FFD700; font-size: 0.9rem; letter-spacing: 2px; font-weight: bold; }
+        .display-name { font-size: 1.8rem; margin: 5px 0; color: #FFFFFF; font-weight: 900; }
+        .display-team-code { color: #D4AF37; font-size: 1.1rem; font-weight: 500; }
+        .data-row { margin-bottom: 15px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; border-left: 3px solid #D4AF37; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: rgba(255, 255, 255, 0.03); border: 1px solid #333; padding: 12px; border-radius: 12px; }
+        .hatch-bar-bg { width: 100%; height: 10px; background: #222; border-radius: 10px; overflow: hidden; margin-top: 8px; }
+        .hatch-bar-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FFFACD); box-shadow: 0 0 10px #FFD700; transition: width 2s ease; }
+        .back-btn { background: linear-gradient(180deg, #D4AF37, #B8860B); color: #000; padding: 18px; text-align: center; text-decoration: none; margin-top: 20px; border-radius: 10px; font-weight: bold; display: block; }
+        .footer { font-size: 0.7rem; color: #555; text-align: center; padding: 30px 0; }
     </style>
 </head>
 <body>
@@ -35,76 +30,85 @@
         <div class="inner-content">
             <div class="hero-section">
                 <div class="egg-container">
-                    <div class="egg-base"></div>
+                    <div id="dynamic-egg" class="egg-base"><div id="egg-cracks" class="cracks"></div></div>
                 </div>
                 <div class="name-info">
-                    <div id="userTitle" class="rank-title">數位領袖</div>
+                    <div class="rank-title">🎖️ 封測先鋒領袖</div>
                     <div id="real-name" class="display-name">連線中...</div>
-                    <div id="scValue" class="display-sc">0 SC</div>
+                    <div id="team-code-display" class="display-team-code">識別中...</div>
                 </div>
             </div>
 
-            <div class="data-card">
-                <span class="stat-label">🐣 創建數位分身 · 孵化進度</span>
-                <span id="hatch-percent" style="color: #D4AF37; font-weight: bold;">4%</span>
+            <div class="data-row">
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #FFD700; margin-bottom: 8px;">
+                    <span>🐣 創建數位分身 · 進度</span><span id="hatch-percent">4%</span>
+                </div>
                 <div class="hatch-bar-bg"><div id="hatch-fill" class="hatch-bar-fill" style="width: 4%;"></div></div>
             </div>
 
-            <div class="data-card">
-                <span class="stat-label">📈 本月預計回饋 (第一代 4%)</span>
-                <span id="est-income" class="stat-value">NT$ 0</span>
+            <div class="data-row">
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color:#BBB; font-size:0.85rem;">📈 本月預計收入</span>
+                    <span id="est-income" style="color:#FFD700; font-weight:bold;">NT$ 50</span>
+                </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <div class="data-card"><span class="stat-label">🧧 推薦獎金</span><span id="ref-bonus" class="stat-value">0</span></div>
-                <div class="data-card"><span class="stat-label">👥 團隊人數</span><span id="group-total" class="stat-value">0</span></div>
+            <div class="stat-grid">
+                <div class="stat-card"><span style="color:#BBB; font-size:0.8rem;">🧧 推薦獎金</span><br><span id="bonus-paid" style="color:#FFD700; font-weight:bold;">NT$ 0</span></div>
+                <div class="stat-card"><span style="color:#BBB; font-size:0.8rem;">👥 團隊人數</span><br><span id="group-total" style="color:#FFD700; font-weight:bold;">0</span></div>
             </div>
 
-            <div class="data-card" style="border-left: 4px solid #00E5FF;">
-                <span class="stat-label">🛡️ 累積戰功 PV</span>
-                <span id="pv-total" class="stat-value" style="color: #00E5FF;">0 PV</span>
+            <div class="stat-card" style="border-left: 3px solid #00E5FF;">
+                <span style="color:#BBB; font-size:0.8rem;">🌍 系統總註冊數</span><br>
+                <span id="sys-total" style="color:#00E5FF; font-weight:bold; font-size:1.2rem;">0</span>
             </div>
 
-            <a id="btn-back" href="#" class="back-btn">返回指令大廳</a>
+            <a id="btn-back" href="#" class="back-btn">返回 AI 指令大廳</a>
             <div class="footer">AI 生活小秘書 · 最終解釋權歸系統核心所有</div>
         </div>
     </div>
 
     <script>
-        // 🛠️ 回歸最穩定的「紀錄點」通訊模式
+        // 🚀 使用您剛才提供的穩定 API 網址
+        const API_URL = "https://script.google.com/macros/s/AKfycbyZBh3TzIOpmP9qzZ8YZPeZbVbs2J_gVbjsWw0ZJzWlD9eB_LSJ7-wePJj8oYTyT9Do/exec";
+
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const userId = urlParams.get('id');
+            const userId = urlParams.get('id'); 
             if (userId) {
-                document.getElementById('btn-back').href = "Lobby.html?id=" + userId;
-                
-                // 核心對接點：與 Code.gs 握手
-                google.script.run
-                    .withSuccessHandler(function(res) {
-                        if (res && res.success) {
-                            // 數據填入
-                            document.getElementById('real-name').innerText = res.name;
-                            document.getElementById('userTitle').innerText = res.title || "數位公民";
-                            document.getElementById('scValue').innerText = (res.sc || 0) + " SC";
-                            document.getElementById('est-income').innerText = "NT$ " + (res.income || 0).toLocaleString();
-                            document.getElementById('ref-bonus').innerText = "NT$ " + (res.detail.referral || 0).toLocaleString();
-                            document.getElementById('group-total').innerText = res.groupTotal || 0;
-                            document.getElementById('pv-total').innerText = (res.detail.pvTotal || 0) + " PV";
-                            
-                            // 進度條邏輯
-                            let progress = Math.min(100, 4 + (res.groupTotal * 9.6));
-                            document.getElementById('hatch-fill').style.width = progress + "%";
-                            document.getElementById('hatch-percent').innerText = Math.round(progress) + "%";
-                        } else {
-                            document.getElementById('real-name').innerText = "資料讀取失敗";
-                        }
-                    })
-                    .withFailureHandler(function(err) {
-                        document.getElementById('real-name').innerText = "通訊異常";
-                    })
-                    .getLeaderData(userId); // 確保 Code.gs 中此函式名稱正確
+                document.getElementById('btn-back').href = "Lobby.html?id=" + encodeURIComponent(userId);
+                fetchData(userId);
             }
         };
+
+        async function fetchData(id) {
+            try {
+                const response = await fetch(`${API_URL}?action=get_leader_data&id=${encodeURIComponent(id)}`);
+                const res = await response.json();
+                
+                if (res.success) {
+                    document.getElementById('real-name').innerText = res.name;
+                    document.getElementById('team-code-display').innerText = res.teamCode || id;
+                    document.getElementById('sys-total').innerText = (res.sysTotal || 0).toLocaleString();
+                    document.getElementById('est-income').innerText = "NT$ " + (res.income || 50);
+                    
+                    const groupTotal = res.groupTotal || 0;
+                    document.getElementById('group-total').innerText = groupTotal;
+
+                    // 孵化邏輯
+                    let progress = Math.min(100, 4 + groupTotal);
+                    document.getElementById('hatch-fill').style.width = progress + "%";
+                    document.getElementById('hatch-percent').innerText = progress + "%";
+                    document.getElementById('egg-cracks').style.opacity = (progress / 100);
+                } else {
+                    document.getElementById('real-name').innerText = "識別失敗";
+                    document.getElementById('team-code-display').innerText = "請重新登入";
+                }
+            } catch (error) {
+                console.error("API Error:", error);
+                document.getElementById('real-name').innerText = "連線異常";
+            }
+        }
     </script>
 </body>
 </html>
