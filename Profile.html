@@ -16,14 +16,13 @@ body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-
 .rank-title { color: #FFD700; font-size: 0.9rem; letter-spacing: 2px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.6); }
 .display-name { font-size: 1.8rem; margin: 5px 0; color: #FFFFFF; font-weight: 900; }
 .display-team-code { color: #D4AF37; font-size: 1.1rem; font-weight: 500; margin-bottom: 5px; }
-/* 修正軍團名稱顯示，防止跑版 */
 .team-affiliation { color: #00E5FF; font-size: 0.75rem; font-weight: bold; line-height: 1.3; margin-top: 5px; opacity: 0.9; }
 .stat-label { color: #BBB; font-size: 0.85rem; }
 .stat-value { color: #FFD700; font-weight: bold; font-size: 1.1rem; }
 .data-row { margin-bottom: 15px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; border-left: 3px solid #D4AF37; }
 .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
 .stat-card { background: rgba(255, 255, 255, 0.03); border: 1px solid #333; padding: 12px; border-radius: 12px; }
-.hatch-section { margin-bottom: 25px; }
+.hatch-section { margin-bottom: 15px; }
 .hatch-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: #FFD700; margin-bottom: 8px; }
 .hatch-bar-bg { width: 100%; height: 10px; background: #222; border-radius: 10px; overflow: hidden; }
 .hatch-bar-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FFFACD); box-shadow: 0 0 10px #FFD700; transition: width 2s ease; }
@@ -46,106 +45,127 @@ body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-
 <div class="team-affiliation">SYSTEM CORE<br>全方位數位輔助</div>
 </div>
 </div>
+
 <div class="hatch-section">
-<div class="hatch-label"><span>🐣 破蛋孵化進度</span><span id="hatch-percent">4%</span></div>
-<div class="hatch-bar-bg"><div id="hatch-fill" class="hatch-bar-fill" style="width: 4%;"></div></div>
+  <div class="hatch-label"><span>🐣 破蛋孵化進度</span><span id="hatch-percent">0%</span></div>
+  <div class="hatch-bar-bg"><div id="hatch-fill" class="hatch-bar-fill" style="width: 0%;"></div></div>
 </div>
-<div class="data-row">
+
+<div class="hatch-section" style="margin-top: 15px;">
+  <div class="hatch-label">
+    <span style="color: #00E5FF;">✈️ 1-3 代連動積分 (韓國遊)</span>
+    <span id="travel-percent">0 / 300 點</span>
+  </div>
+  <div class="hatch-bar-bg" style="background: #111; border: 1px solid #00E5FF33;">
+    <div id="travel-fill" class="hatch-bar-fill" style="width: 0%; background: linear-gradient(90deg, #00E5FF, #FFFFFF); box-shadow: 0 0 10px #00E5FF;"></div>
+  </div>
+</div>
+
+<div class="data-row" style="margin-top: 20px;">
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <span class="stat-label">📈 本月預估收入</span>
-<span id="est-income" class="stat-value">NT$ 50</span>
+<span id="est-income" class="stat-value">NT$ 0</span>
 </div>
 </div>
+
 <div class="stat-grid">
 <div class="stat-card">
-  <span class="stat-label">🧧 推薦獎金</span><br>
-  <span id="bonus-paid" class="stat-value">NT$ 0</span>
+  <span class="stat-label">🧧 推薦獎金</span><br>
+  <span id="bonus-paid" class="stat-value">NT$ 0</span>
 </div>
 <div class="stat-card">
-  <span class="stat-label">💎 數位身價</span>
-  <div>
-    <span id="sc-value" class="stat-value" style="color:#00E5FF;">0</span>
-    <span class="sc-badge">SC</span>
-  </div>
+  <span class="stat-label">💎 數位身價</span>
+  <div>
+    <span id="sc-value" class="stat-value" style="color:#00E5FF;">0</span>
+    <span class="sc-badge">SC</span>
+  </div>
 </div>
 </div>
+
 <div class="stat-grid">
 <div class="stat-card">
-  <span class="stat-label">🌍 系統註冊總數</span><br>
-  <span id="sys-total" class="stat-value">0</span>
+  <span class="stat-label">🌍 系統註冊總數</span><br>
+  <span id="sys-total" class="stat-value">0</span>
 </div>
 <div class="stat-card">
-  <span class="stat-label">👥 個人小組總數</span><br>
-  <span id="group-total" class="stat-value">0</span>
+  <span class="stat-label">👥 個人小組總數</span><br>
+  <span id="group-total" class="stat-value">0</span>
 </div>
 </div>
-<div class="stat-card" style="margin-top:10px; border-left: 3px solid #00E5FF;">
-<span class="stat-label">✈️ 雙人免費出國點數</span>
-<span id="travel-points" class="stat-value">0 / 300</span>
-</div>
+
 <a id="btn-back" href="Lobby.html" class="back-btn">返回 AI 指令大廳</a>
 <div class="footer">AI 生活小秘書 · 最終解釋權歸系統核心所有</div>
 </div>
 </div>
+
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbyZBh3TzIOpmP9qzZ8YZPeZbVbs2J_gVbjsWw0ZJzWlD9eB_LSJ7-wePJj8oYTyT9Do/exec";
 
 window.onload = function() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const userId = urlParams.get('id'); 
-  if (userId) {
-    document.getElementById('btn-back').href = "Lobby.html?id=" + encodeURIComponent(userId);
-    fetchData(userId);
-  }
-  updateEggVisuals();
+  const urlParams = new URLSearchParams(window.location.search);
+  const userId = urlParams.get('id'); 
+  if (userId) {
+    document.getElementById('btn-back').href = "Lobby.html?id=" + encodeURIComponent(userId);
+    fetchData(userId);
+  }
+  updateEggVisuals();
 };
 
 function formatWealth(value) {
-  if (value === null || value === undefined || isNaN(value)) return "0";
-  let num = parseFloat(value);
-  if (num >= 100000000) return (num / 100000000).toFixed(2) + " 億";
-  if (num >= 10000) return (num / 10000).toFixed(0) + " 萬";
-  return num.toLocaleString();
+  if (value === null || value === undefined || isNaN(value)) return "0";
+  let num = parseFloat(value);
+  if (num >= 100000000) return (num / 100000000).toFixed(2) + " 億";
+  if (num >= 10000) return (num / 10000).toFixed(0) + " 萬";
+  return num.toLocaleString();
 }
 
 async function fetchData(id) {
-  try {
-    const response = await fetch(`${API_URL}?action=get_leader_data&id=${encodeURIComponent(id)}`);
-    const res = await response.json();
-    if (res.success) {
-      document.getElementById('real-name').innerText = res.name;
-      document.querySelector('.rank-title').innerText = res.title || "🎖️ 封測先鋒領袖";
-      document.getElementById('team-code-display').innerText = res.teamCode;
-      document.getElementById('est-income').innerText = "NT$ " + parseFloat(res.income || 0).toLocaleString();
-      document.getElementById('bonus-paid').innerText = "NT$ " + (parseFloat(res.bonusPaid) || 0).toLocaleString();
-      document.getElementById('sc-value').innerText = formatWealth(Number(res.sc) || 0);
-      document.getElementById('group-total').innerText = res.groupTotal;
-      document.getElementById('sys-total').innerText = res.sysTotal;
-      let hatchProgress = Math.min(100, 4 + (Number(res.groupTotal) || 0));
-      updateHatch(hatchProgress);
-    } else {
-      document.getElementById('real-name').innerText = "未登錄領袖";
-      document.getElementById('team-code-display').innerText = res.message;
-    }
-  } catch (error) { console.error("API Error:", error); }
+  try {
+    const response = await fetch(`${API_URL}?action=get_leader_data&id=${encodeURIComponent(id)}`);
+    const res = await response.json();
+    if (res.success) {
+      document.getElementById('real-name').innerText = res.name;
+      document.querySelector('.rank-title').innerText = res.title || "🎖️ 封測先鋒領袖";
+      document.getElementById('team-code-display').innerText = res.teamCode;
+      document.getElementById('est-income').innerText = "NT$ " + parseFloat(res.income || 0).toLocaleString();
+      document.getElementById('bonus-paid').innerText = "NT$ " + (parseFloat(res.bonusPaid) || 0).toLocaleString();
+      document.getElementById('sc-value').innerText = formatWealth(Number(res.sc) || 0);
+      document.getElementById('group-total').innerText = res.groupTotal;
+      document.getElementById('sys-total').innerText = res.sysTotal;
+      
+      // 🐣 更新孵蛋進度
+      let hatchProgress = Math.min(100, 4 + (Number(res.groupTotal) || 0));
+      updateHatch(hatchProgress);
+
+      // ✈️ 更新旅遊點數與進度條
+      let travelPoints = res.travelPoints || 0;
+      let travelProgress = Math.min(100, (travelPoints / 300) * 100);
+      document.getElementById('travel-percent').innerText = travelPoints + " / 300 點";
+      document.getElementById('travel-fill').style.width = travelProgress + "%";
+
+    } else {
+      document.getElementById('real-name').innerText = "未登錄領袖";
+      document.getElementById('team-code-display').innerText = res.message;
+    }
+  } catch (error) { console.error("API Error:", error); }
 }
 
 function updateHatch(progress) {
-  document.getElementById('hatch-fill').style.width = progress + "%";
-  document.getElementById('hatch-percent').innerText = progress + "%";
-  document.getElementById('egg-cracks').style.opacity = (progress / 100).toString();
+  document.getElementById('hatch-fill').style.width = progress + "%";
+  document.getElementById('hatch-percent').innerText = progress + "%";
+  document.getElementById('egg-cracks').style.opacity = (progress / 100).toString();
 }
 
 function updateEggVisuals() {
-  const hour = new Date().getHours();
-  const egg = document.getElementById('dynamic-egg');
-  if (hour >= 6 && hour < 18) {
-    egg.style.background = "radial-gradient(circle at 20% 20%, #ffffff 0%, #fff0b3 20%, #d4af37 60%, #8b6508 100%)";
-    egg.style.boxShadow = "inset -15px -15px 40px rgba(0,0,0,0.8), 0 10px 30px rgba(212, 175, 55, 0.4)";
-  } else {
-    egg.style.background = "radial-gradient(circle at 80% 20%, #e0e0e0 0%, #707070 30%, #202020 80%, #000000 100%)";
-    egg.style.boxShadow = "inset 15px -15px 40px rgba(0,0,0,0.9), 0 5px 25px rgba(0, 229, 255, 0.2)";
-  }
+  const hour = new Date().getHours();
+  const egg = document.getElementById('dynamic-egg');
+  if (hour >= 6 && hour < 18) {
+    egg.style.background = "radial-gradient(circle at 20% 20%, #ffffff 0%, #fff0b3 20%, #d4af37 60%, #8b6508 100%)";
+    egg.style.boxShadow = "inset -15px -15px 40px rgba(0,0,0,0.8), 0 10px 30px rgba(212, 175, 55, 0.4)";
+  } else {
+    egg.style.background = "radial-gradient(circle at 80% 20%, #e0e0e0 0%, #707070 30%, #202020 80%, #000000 100%)";
+    egg.style.boxShadow = "inset 15px -15px 40px rgba(0,0,0,0.9), 0 5px 25px rgba(0, 229, 255, 0.2)";
+  }
 }
 </script>
 </body>
