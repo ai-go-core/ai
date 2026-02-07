@@ -120,52 +120,47 @@ function formatWealth(value) {
 }
 
 async function fetchData(id) {
-  try {
-    const response = await fetch(`${API_URL}?action=get_leader_data&id=${encodeURIComponent(id)}`);
-    const res = await response.json();
-    if (res.success) {
-      document.getElementById('real-name').innerText = res.name;
-      document.querySelector('.rank-title').innerText = res.title || "🎖️ 封測先鋒領袖";
-      document.getElementById('team-code-display').innerText = res.teamCode;
-      document.getElementById('est-income').innerText = "NT$ " + parseFloat(res.income || 0).toLocaleString();
-      document.getElementById('bonus-paid').innerText = "NT$ " + (parseFloat(res.bonusPaid) || 0).toLocaleString();
-      document.getElementById('sc-value').innerText = formatWealth(Number(res.sc) || 0);
-      document.getElementById('group-total').innerText = res.groupTotal;
-      document.getElementById('sys-total').innerText = res.sysTotal;
-      
-      // 🐣 更新孵蛋進度
-      let hatchProgress = Math.min(100, 4 + (Number(res.groupTotal) || 0));
-      updateHatch(hatchProgress);
+  try {
+    // 🛡️ 確保 API_URL 正確，並帶入 get_leader_data 動作
+    const response = await fetch(`${API_URL}?action=get_leader_data&id=${encodeURIComponent(id)}`);
+    const res = await response.json();
+    
+    if (res.success) {
+      document.getElementById('real-name').innerText = res.name;
+      document.querySelector('.rank-title').innerText = res.title || "🎖️ 封測先鋒領袖";
+      document.getElementById('team-code-display').innerText = res.teamCode;
+      
+      // 🛡️ 校準 1：收入與獎金
+      document.getElementById('est-income').innerText = "NT$ " + (Number(res.income) || 0).toLocaleString();
+      document.getElementById('bonus-paid').innerText = "NT$ " + (Number(res.bonusPaid) || 0).toLocaleString();
+      
+      // 🛡️ 校準 2：SC 算力 (後端 sc 欄位)
+      // 注意：res.sc 可能已經是字串，Number() 會處理掉逗號
+      const scNum = typeof res.sc === 'string' ? Number(res.sc.replace(/,/g, '')) : Number(res.sc);
+      document.getElementById('sc-value').innerText = formatWealth(scNum || 0);
+      
+      // 🛡️ 校準 3：人數統計 (groupTotal 為 775)
+      document.getElementById('group-total').innerText = res.groupTotal;
+      document.getElementById('sys-total').innerText = res.sysTotal;
+      
+      // 🐣 更新孵蛋進度
+      let hatchProgress = Math.min(100, 4 + (Number(res.groupTotal) || 0));
+      updateHatch(hatchProgress);
 
-      // ✈️ 更新旅遊點數與進度條
-      let travelPoints = res.travelPoints || 0;
-      let travelProgress = Math.min(100, (travelPoints / 300) * 100);
-      document.getElementById('travel-percent').innerText = travelPoints + " / 300 點";
-      document.getElementById('travel-fill').style.width = travelProgress + "%";
+      // 🛡️ 校準 4：旅遊點數對接 (GAS 回傳的是 travel)
+      let travelPoints = Number(res.travel) || 0; // 改為 res.travel
+      let travelProgress = Math.min(100, (travelPoints / 300) * 100);
+      document.getElementById('travel-percent').innerText = travelPoints + " / 300 點";
+      document.getElementById('travel-fill').style.width = travelProgress + "%";
 
-    } else {
-      document.getElementById('real-name').innerText = "未登錄領袖";
-      document.getElementById('team-code-display').innerText = res.message;
-    }
-  } catch (error) { console.error("API Error:", error); }
-}
-
-function updateHatch(progress) {
-  document.getElementById('hatch-fill').style.width = progress + "%";
-  document.getElementById('hatch-percent').innerText = progress + "%";
-  document.getElementById('egg-cracks').style.opacity = (progress / 100).toString();
-}
-
-function updateEggVisuals() {
-  const hour = new Date().getHours();
-  const egg = document.getElementById('dynamic-egg');
-  if (hour >= 6 && hour < 18) {
-    egg.style.background = "radial-gradient(circle at 20% 20%, #ffffff 0%, #fff0b3 20%, #d4af37 60%, #8b6508 100%)";
-    egg.style.boxShadow = "inset -15px -15px 40px rgba(0,0,0,0.8), 0 10px 30px rgba(212, 175, 55, 0.4)";
-  } else {
-    egg.style.background = "radial-gradient(circle at 80% 20%, #e0e0e0 0%, #707070 30%, #202020 80%, #000000 100%)";
-    egg.style.boxShadow = "inset 15px -15px 40px rgba(0,0,0,0.9), 0 5px 25px rgba(0, 229, 255, 0.2)";
-  }
+    } else {
+      document.getElementById('real-name').innerText = "未登錄領袖";
+      document.getElementById('team-code-display').innerText = res.message;
+    }
+  } catch (error) { 
+    console.error("API Error:", error); 
+    document.getElementById('team-code-display').innerText = "連線異常，請重新整理";
+  }
 }
 </script>
 </body>
