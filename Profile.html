@@ -3,107 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 領袖屬性面板 - 能量動態版</title>
+    <title>AI 領袖屬性面板 - 視覺修正版</title>
     <style>
-        /* ✨ 核心動畫系統 */
+        /* ✨ 動畫：呼吸感金蛋 */
         @keyframes eggBreath { 
-            0%, 100% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 10px rgba(255, 215, 0, 0.3)); } 
-            50% { transform: scale(1.03); filter: brightness(1.2) drop-shadow(0 0 25px rgba(255, 215, 0, 0.6)); } 
+            0%, 100% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.4)); } 
+            50% { transform: scale(1.04); filter: brightness(1.2) drop-shadow(0 0 30px rgba(255, 215, 0, 0.7)); } 
         }
         @keyframes energyPulse {
-            0% { opacity: 0.3; transform: scale(0.95); }
-            50% { opacity: 0.6; transform: scale(1.05); }
-            100% { opacity: 0.3; transform: scale(0.95); }
+            0% { opacity: 0.2; transform: scale(0.9); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+            100% { opacity: 0.2; transform: scale(0.9); }
         }
-        @keyframes holyShine { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.5) drop-shadow(0 0 15px #FFFACCD); } }
-        @keyframes pulseMining { 0%, 100% { filter: drop-shadow(0 0 3px #00E5FF); } 50% { filter: drop-shadow(0 0 15px #00E5FF); } }
-
-        /* 🐣 暴力裂紋引擎 */
-        .crack-layer {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://www.transparenttextures.com/patterns/cracked-paper.png');
-            background-size: 180%; mix-blend-mode: color-burn; pointer-events: none; opacity: 0;
-            filter: contrast(6) brightness(0.1);
-        }
-        .crack-active { opacity: 1 !important; }
+        @keyframes holyShine { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.5) drop-shadow(0 0 10px #FFD700); } }
+        @keyframes pulseMining { 0%, 100% { filter: drop-shadow(0 0 3px #00E5FF); } 50% { filter: drop-shadow(0 0 12px #00E5FF); } }
 
         body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
         .glow-box { width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; border: 1px solid #333; overflow: hidden; position: relative; padding-bottom: 20px; }
         .inner-content { padding: 20px; display: flex; flex-direction: column; }
 
-        /* 1. 頂部進度條 */
-        .top-hatch-area { margin-bottom: 30px; }
+        /* 進度條 */
+        .top-hatch-area { margin-bottom: 25px; }
         .hatch-bar-bg { width: 100%; height: 12px; background: #222; border-radius: 10px; border: 1px solid #444; overflow: hidden; }
         .hatch-bar-fill { height: 100%; transition: width 1.5s ease; box-shadow: 0 0 15px #FFD700; background: linear-gradient(90deg, #FFD700, #FFFACD); }
 
-        /* 2. 核心區：蛋在中央，資訊在左下，SC 在右下 */
+        /* 核心區：解決文字蓋蛋問題 */
         .hero-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
-            padding-bottom: 30px;
+            padding-bottom: 10px;
+            margin-top: 10px;
         }
 
-        /* 🥚 金蛋動態效果 */
         .egg-wrapper {
             position: relative;
-            width: 140px;
-            height: 185px;
-            margin-bottom: -50px;
+            width: 150px; /* 稍微放大增加威壓感 */
+            height: 200px;
             z-index: 1;
-            animation: eggBreath 3s ease-in-out infinite; /* 呼吸動態 */
+            animation: eggBreath 3s ease-in-out infinite;
         }
         .egg-main { 
             width: 100%; height: 100%; border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%; 
-            background: radial-gradient(circle at 30% 30%, #fff 0%, #ffd700 40%, #8b6508 100%);
-            border: 2px solid rgba(212, 175, 55, 0.8); position: relative; overflow: hidden;
+            background: radial-gradient(circle at 35% 35%, #fff 0%, #ffd700 45%, #8b6508 100%);
+            border: 2px solid rgba(212, 175, 55, 0.8); position: relative;
         }
-        /* 蛋後方的能量光圈 */
         .egg-glow-aura {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 180px; height: 220px; background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, transparent 70%);
+            width: 220px; height: 260px; background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%);
             z-index: -1; animation: energyPulse 4s infinite;
         }
 
+        /* 文字資訊塊：增加上邊距，徹底避開蛋體 */
         .leader-info-block {
             width: 100%;
             display: flex;
-            justify-content: space-between; /* 名字左，SC 右 */
+            justify-content: space-between; 
             align-items: flex-end;
-            padding: 0 10px;
+            padding: 0 5px;
+            margin-top: 20px; /* 關鍵：增加與蛋的距離，防止重疊 */
             z-index: 2;
         }
 
         .info-left { display: flex; flex-direction: column; align-items: flex-start; }
-        .leader-title { color: #FFD700; font-size: 0.75rem; font-weight: bold; }
-        .leader-name { font-size: 1.4rem; font-weight: 900; margin: 2px 0; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
-        .leader-tag { color: #D4AF37; font-size: 0.85rem; margin-bottom: 5px; }
+        .leader-title { color: #FFD700; font-size: 0.75rem; font-weight: bold; margin-bottom: 2px; }
+        .leader-name { font-size: 1.4rem; font-weight: 900; margin: 2px 0; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .leader-tag { color: #D4AF37; font-size: 0.85rem; }
 
-        /* 💰 SC 顯示 - 往右移動對齊 */
+        /* SC 顯示：確保右移且不壓蛋 */
         .sc-display { 
             display: inline-flex; align-items: center; background: rgba(0, 229, 255, 0.1); 
-            border: 1px solid #00E5FF; padding: 6px 15px; border-radius: 20px;
-            margin-bottom: 5px;
+            border: 1px solid #00E5FF; padding: 6px 14px; border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 229, 255, 0.2);
         }
 
-        /* 3. 數據與收益區塊 */
+        /* 數據卡片 */
         .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
         .stat-card { background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 12px; border: 1px solid #333; text-align: center; }
         .card-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border-left: 4px solid #D4AF37; margin-bottom: 12px; cursor: pointer; }
         
-        /* 4. 旅遊進度條 */
+        /* 旅遊進度 */
         .travel-bar-bg { width: 100%; height: 8px; background: #222; border-radius: 10px; margin-top: 10px; overflow: hidden; }
         .travel-bar-fill { height: 100%; background: linear-gradient(90deg, #00E5FF, #fff); box-shadow: 0 0 10px #00E5FF; transition: width 1.5s ease; }
 
-        /* 5. 資產工具列 */
+        /* 工具欄 */
         .asset-bar { display: grid; grid-template-columns: repeat(3, 1fr); background: linear-gradient(145deg, #151515, #000); border: 1px solid #D4AF37; border-radius: 18px; padding: 15px 5px; margin: 15px 0; }
         .asset-btn { text-align: center; }
-        .asset-label { font-size: 0.75rem; font-weight: bold; color: #D4AF37; margin-top: 5px; display: block; }
+        .asset-label { font-size: 0.7rem; font-weight: bold; color: #D4AF37; margin-top: 5px; display: block; }
         .medal-icon { font-size: 2.2rem !important; display: block; animation: holyShine 2s ease-in-out infinite; }
         .mining-glow { animation: pulseMining 2s ease-in-out infinite; }
 
-        .system-footer { font-size: 0.65rem; color: #444; text-align: center; margin-top: 10px; }
+        .system-footer { font-size: 0.6rem; color: #444; text-align: center; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -140,29 +131,28 @@
 
         <div class="stat-row">
             <div class="stat-card">
-                <div style="color:#BBB; font-size:0.7rem;">👥 個人小組</div>
+                <div style="color:#BBB; font-size:0.65rem;">👥 個人小組</div>
                 <div id="u-group" style="color:#FFD700; font-size:1.1rem; font-weight:bold;">0</div>
             </div>
             <div class="stat-card">
-                <div style="color:#BBB; font-size:0.7rem;">🌍 系統註冊</div>
+                <div style="color:#BBB; font-size:0.65rem;">🌍 系統註冊</div>
                 <div id="u-sys" style="color:#00E5FF; font-size:1.1rem; font-weight:bold;">0</div>
             </div>
         </div>
 
         <div class="card-box">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span style="color:#BBB; font-size:0.85rem;">🧧 入籍累積總收益</span>
+                <span style="color:#BBB; font-size:0.8rem;">🧧 入籍累積總收益</span>
                 <span id="u-cum" style="color:#FFF; font-weight:bold; font-size:1.3rem;">NT$ 50</span>
             </div>
         </div>
 
         <div class="card-box" style="border-left-color: #00E5FF;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span style="color:#00E5FF; font-size:0.85rem;">✈️ 韓國雙人遊積分</span>
+                <span style="color:#00E5FF; font-size:0.8rem;">✈️ 韓國雙人遊積分</span>
                 <span id="u-travel" style="color:#fff; font-weight:bold;">0 / 300</span>
             </div>
             <div class="travel-bar-bg"><div id="travel-fill" class="travel-bar-fill" style="width:0%;"></div></div>
-            <div style="font-size:0.7rem; color:#00E5FF; margin-top:8px;">✨ 每一次入籍推薦，都是離世界更近的一步</div>
         </div>
 
         <div class="asset-bar">
@@ -213,23 +203,10 @@
                 document.getElementById('travel-fill').style.width = Math.min(100, (tvl/300)*100) + "%";
 
                 let progress = Math.min(100, (Number(d.groupTotal)/1000)*100);
-                updateCrackEffect(progress);
+                document.getElementById('hatch-fill').style.width = progress + "%";
+                document.getElementById('hatch-pct').innerText = Math.floor(progress) + "%";
             }
         } catch(e) { console.error("ERR"); }
-    }
-
-    function updateCrackEffect(progress) {
-        document.getElementById('hatch-fill').style.width = progress + "%";
-        document.getElementById('hatch-pct').innerText = Math.floor(progress) + "%";
-        const container = document.getElementById('crack-container');
-        container.innerHTML = ''; 
-        let crackCount = Math.floor(progress / 10);
-        for (let i = 1; i <= crackCount; i++) {
-            let crack = document.createElement('div');
-            crack.className = 'crack-layer crack-active';
-            crack.style.transform = `rotate(${i * 41 + (Math.random()*20)}deg) scale(${1 + i*0.1})`;
-            container.appendChild(crack);
-        }
     }
 
     function formatVal(n) {
