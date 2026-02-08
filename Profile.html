@@ -9,7 +9,7 @@
         .glow-box { position: relative; width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; z-index: 1; border: 1px solid #333; overflow: hidden; }
         .inner-content { background: linear-gradient(160deg, #151515 0%, #050505 100%); border-radius: 23px; padding: 25px; display: flex; flex-direction: column; }
         
-        /* 修正 3：人物蛋生命呼吸感與光暈 */
+        /* 人物蛋呼吸感特效 */
         .hero-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #444; padding-bottom: 20px; }
         .egg-container { 
             position: relative; width: 140px; height: 180px; margin: 0 auto 15px;
@@ -31,7 +31,7 @@
             opacity: 0; mix-blend-mode: overlay; pointer-events: none; transition: opacity 1s;
         }
 
-        .name-info { text-align: center; width: 100%; }
+        .name-info { text-align: center; width: 100%; margin-bottom: 10px; }
         .rank-title { color: #FFD700; font-size: 0.9rem; letter-spacing: 2px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.6); }
         .display-name { font-size: 1.8rem; margin: 5px 0; color: #FFFFFF; font-weight: 900; }
         .display-team-code { color: #D4AF37; font-size: 1.1rem; font-weight: 500; }
@@ -44,13 +44,11 @@
         .stat-value { color: #FFD700; font-weight: bold; font-size: 1.1rem; }
         .sc-badge { background: #00E5FF; color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 900; margin-left: 5px; vertical-align: middle; }
 
-        /* 進度條樣式 */
         .hatch-section { margin-bottom: 15px; }
         .hatch-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: #FFD700; margin-bottom: 8px; }
         .hatch-bar-bg { width: 100%; height: 10px; background: #222; border-radius: 10px; overflow: hidden; }
         .hatch-bar-fill { height: 100%; transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
 
-        /* 修正 7：數位資產展示區 */
         .asset-zone { display: flex; justify-content: space-around; background: rgba(20,20,20,0.8); border: 1px solid #D4AF37; border-radius: 15px; padding: 15px; margin: 15px 0; }
         .asset-item { text-align: center; font-size: 0.75rem; color: #D4AF37; }
         .asset-icon { font-size: 1.5rem; margin-bottom: 5px; display: block; }
@@ -64,14 +62,12 @@
     <div class="inner-content">
         <div class="hero-section">
             <div class="egg-container">
-                <div id="dynamic-egg" class="egg-base">
-                    <div id="egg-cracks" class="cracks"></div>
-                </div>
+                <div id="dynamic-egg" class="egg-base"><div id="egg-cracks" class="cracks"></div></div>
             </div>
             <div class="name-info">
-                <div id="rank-title" class="rank-title">🎖️ 封測領袖識別中</div>
-                <div id="real-name" class="display-name">Loading...</div>
-                <div id="team-code-display" class="display-team-code">數位代號同步中</div>
+                <div id="rank-title" class="rank-title">🎖️ 封測先鋒領袖</div>
+                <div id="real-name" class="display-name">載入中...</div>
+                <div id="team-code-display" class="display-team-code">數位分身同步中</div>
             </div>
         </div>
 
@@ -81,20 +77,9 @@
         </div>
 
         <div class="hatch-section">
-            <div class="hatch-label">
-                <span style="color: #00E5FF;">✈️ 韓國雙人遊積分</span>
-                <span id="travel-percent">0 / 300 點</span>
-            </div>
-            <div class="hatch-bar-bg" style="background: #111;">
-                <div id="travel-fill" class="hatch-bar-fill" style="width: 0%; background: linear-gradient(90deg, #00E5FF, #FFFFFF); box-shadow: 0 0 10px #00E5FF;"></div>
-            </div>
+            <div class="hatch-label"><span style="color: #00E5FF;">✈️ 韓國雙人遊積分</span><span id="travel-percent">0 / 300 點</span></div>
+            <div class="hatch-bar-bg" style="background: #111;"><div id="travel-fill" class="hatch-bar-fill" style="width: 0%; background: linear-gradient(90deg, #00E5FF, #FFFFFF); box-shadow: 0 0 10px #00E5FF;"></div></div>
             <div id="travel-msg" style="color: #D4AF37; font-size: 0.75rem; text-align: center; margin-top: 8px; font-style: italic;">✨ 2027 帶另一半免費一起到韓國辦網聚！</div>
-        </div>
-
-        <div class="asset-zone">
-            <div class="asset-item"><span class="asset-icon">🥚</span>黃金角色卵</div>
-            <div class="asset-item"><span class="asset-icon">🏭</span>算力礦場</div>
-            <div class="asset-item"><span class="asset-icon">🏆</span>創世勳章</div>
         </div>
 
         <div class="data-row">
@@ -103,8 +88,8 @@
                 <span id="est-income" class="stat-value">NT$ 0</span>
             </div>
             <div style="display: flex; justify-content: space-between; margin-top: 10px; border-top: 1px solid #333; padding-top: 10px;">
-                <span class="stat-label">💰 入籍累積總收益</span>
-                <span id="cum-income" class="stat-value" style="color:#FFF;">NT$ 0</span>
+                <span class="stat-label" style="color: #00E5FF;">💰 入籍累積資產預估</span>
+                <span id="cum-income" class="stat-value" style="color:#00E5FF;">NT$ 0</span>
             </div>
         </div>
 
@@ -128,6 +113,12 @@
                 <span class="stat-label">🌍 系統註冊總數</span><br>
                 <span id="sys-total" class="stat-value">0</span>
             </div>
+        </div>
+
+        <div class="asset-zone">
+            <div class="asset-item"><span class="asset-icon">🥚</span>黃金角色卵</div>
+            <div class="asset-item"><span class="asset-icon">🏭</span>算力礦場</div>
+            <div class="asset-item"><span class="asset-icon">🏆</span>創世勳章</div>
         </div>
 
         <a id="btn-back" href="Lobby.html" class="back-btn">返回 AI 指令大廳</a>
@@ -154,52 +145,42 @@
             const res = await response.json();
             
             if (res.success) {
-                // 1. 基本資訊與封號修正
+                // 精準對位：姓名與數位分身
                 document.getElementById('real-name').innerText = res.name || "領袖";
-                document.getElementById('team-code-display').innerText = res.teamCode || id;
+                document.getElementById('team-code-display').innerText = res.teamCode || "未設定數位分身";
                 document.getElementById('rank-title').innerText = res.title || "🛡️ 數位公民";
 
-                // 2. 獎金數據
+                // 獎金數據
                 document.getElementById('est-income').innerText = "NT$ " + (res.income || 0).toLocaleString();
                 document.getElementById('cum-income').innerText = "NT$ " + (res.cumulativeIncome || 0).toLocaleString();
                 document.getElementById('bonus-paid').innerText = "NT$ " + (res.bonusPaid || 0).toLocaleString();
                 
-                // 3. 數位身價格式化
+                // 數位身價 SC
                 const scNum = typeof res.sc === 'string' ? Number(res.sc.replace(/,/g, '')) : Number(res.sc);
                 document.getElementById('sc-value').innerText = formatWealth(scNum || 0);
 
-                // 4. 人數修正 (找回 151 人的關鍵)
+                // 人數 (找回 151 人後的正確數值)
                 document.getElementById('group-total').innerText = res.groupTotal || 0;
                 document.getElementById('sys-total').innerText = res.sysTotal || 0;
                 
-                // 5. 破蛋與裂紋邏輯 (修正 3 & 4)
+                // 破蛋邏輯
                 let groupCount = Number(res.groupTotal) || 0;
-                let hatchProgress = Math.min(100, (groupCount / 1000) * 100); // 以 1000 人為破蛋標準
+                let hatchProgress = Math.min(100, (groupCount / 1000) * 100); 
                 updateHatchEffect(hatchProgress);
 
-                // 6. 旅遊積分與激勵文字 (修正 5)
+                // 旅遊積分
                 let travelPoints = Number(res.travel) || 0;
                 document.getElementById('travel-percent').innerText = travelPoints + " / 300 點";
                 document.getElementById('travel-fill').style.width = Math.min(100, (travelPoints/300)*100) + "%";
-                if(res.travelStatus) document.getElementById('travel-msg').innerText = res.travelStatus;
-
-                // 7. 孵化 100% 觸發入籍 (修正 4)
-                if (hatchProgress >= 100) {
-                    alert("領袖！您的黃金卵已孵化！請即刻前往領取您的【入籍種族】身分。");
-                }
             }
-        } catch (error) { console.error("核心連線異常"); }
+        } catch (error) { console.error("連線異常"); }
     }
 
     function updateHatchEffect(progress) {
         document.getElementById('hatch-fill').style.width = progress + "%";
         document.getElementById('hatch-percent').innerText = Math.floor(progress) + "%";
-        // 裂紋隨進度顯示
         const cracks = document.getElementById('egg-cracks');
-        cracks.style.opacity = (progress / 100);
-        if(progress > 80) {
-            document.getElementById('dynamic-egg').style.filter = "contrast(1.2) brightness(1.1)";
-        }
+        if(cracks) cracks.style.opacity = (progress / 100);
     }
 
     function formatWealth(num) {
@@ -211,10 +192,12 @@
     function updateEggTheme() {
         const hour = new Date().getHours();
         const egg = document.getElementById('dynamic-egg');
-        if (hour >= 6 && hour < 18) {
-            egg.style.background = "radial-gradient(circle at 30% 30%, #fff 0%, #ffd700 40%, #8b6508 100%)";
-        } else {
-            egg.style.background = "radial-gradient(circle at 30% 30%, #dcdcdc 0%, #4f4f4f 50%, #000 100%)";
+        if (egg) {
+            if (hour >= 6 && hour < 18) {
+                egg.style.background = "radial-gradient(circle at 30% 30%, #fff 0%, #ffd700 40%, #8b6508 100%)";
+            } else {
+                egg.style.background = "radial-gradient(circle at 30% 30%, #dcdcdc 0%, #4f4f4f 50%, #000 100%)";
+            }
         }
     }
 </script>
