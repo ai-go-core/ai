@@ -3,175 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 領袖屬性面板 - 終極視覺版</title>
+    <title>AI 領袖屬性面板 - 官方正式版</title>
     <style>
-        /* ✨ 核心動畫 */
-        @keyframes glowBreath { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.02); } }
+        /* ✨ 核心動畫系統 */
         @keyframes holyShine { 0%, 100% { filter: brightness(1) drop-shadow(0 0 5px #FFD700); } 50% { filter: brightness(1.6) drop-shadow(0 0 20px #FFFACD); } }
-        @keyframes pulseMining { 0%, 100% { filter: drop-shadow(0 0 2px #00E5FF); opacity: 0.8; } 50% { filter: drop-shadow(0 0 12px #00E5FF); opacity: 1; } }
+        @keyframes pulseMining { 0%, 100% { filter: drop-shadow(0 0 3px #00E5FF); } 50% { filter: drop-shadow(0 0 15px #00E5FF); } }
 
-        /* 🐣 狂暴裂紋 (模擬設計圖中的精細裂紋) */
+        /* 🐣 暴力裂紋引擎 (85% 達成) */
         .crack-layer {
-            position: absolute; top: -10%; left: -10%; width: 120%; height: 120%;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://www.transparenttextures.com/patterns/cracked-paper.png');
-            background-size: 180%; background-position: center;
-            mix-blend-mode: color-burn; transition: all 0.5s ease; pointer-events: none; opacity: 0;
+            background-size: 180%; mix-blend-mode: color-burn; pointer-events: none; opacity: 0;
             filter: contrast(6) brightness(0.1) drop-shadow(0 0 2px #000);
         }
         .crack-active { opacity: 1 !important; }
 
-        body { background-color: #0a0a0a; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
-        .glow-box { width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; border: 1px solid #333; position: relative; box-shadow: 0 10px 50px rgba(0,0,0,1); }
-        .inner-content { padding: 25px 20px; display: flex; flex-direction: column; }
+        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
+        .glow-box { width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; border: 1px solid #333; overflow: hidden; position: relative; padding-bottom: 20px; }
+        .inner-content { padding: 20px; display: flex; flex-direction: column; }
 
-        /* 1. 頂部進度 (間距加寬) */
-        .top-hatch-area { width: 100%; margin-bottom: 30px; cursor: pointer; }
-        .hatch-bar-bg { width: 100%; height: 10px; background: #1a1a1a; border-radius: 10px; border: 1px solid #333; overflow: hidden; }
-        .hatch-bar-fill { height: 100%; transition: width 1.5s ease; box-shadow: 0 0 15px #FFD700; background: linear-gradient(90deg, #D4AF37, #FFFACD); }
+        /* 1. 頂部進度條 - 移除多餘文字 */
+        .top-hatch-area { margin-bottom: 30px; cursor: pointer; }
+        .hatch-bar-bg { width: 100%; height: 12px; background: #222; border-radius: 10px; border: 1px solid #444; overflow: hidden; }
+        .hatch-bar-fill { height: 100%; transition: width 1.5s ease; box-shadow: 0 0 15px #FFD700; background: linear-gradient(90deg, #FFD700, #FFFACD); }
 
-        /* 2. 核心英雄區 (完全不重疊布局) */
-        .hero-section { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            width: 100%; 
-            margin-bottom: 30px;
-        }
-        
-        /* 金蛋居中 */
-        .egg-wrapper { 
+        /* 2. 核心區：蛋在中央，資訊在左下 (修正位置與字體) */
+        .hero-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             position: relative;
-            width: 160px; height: 210px; 
-            margin-bottom: 25px;
-            cursor: pointer;
+            padding-bottom: 25px;
+        }
+
+        .egg-wrapper {
+            position: relative;
+            width: 140px;
+            height: 185px;
+            margin-bottom: -45px; /* 精準上移 */
+            z-index: 1;
         }
         .egg-main { 
             width: 100%; height: 100%; border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%; 
-            background: radial-gradient(circle at 30% 30%, #fff 0%, #ffd700 45%, #8b6508 100%);
-            border: 2px solid rgba(212, 175, 55, 0.7); position: relative; overflow: hidden;
-            box-shadow: 0 0 35px rgba(255, 215, 0, 0.3);
+            background: radial-gradient(circle at 30% 30%, #fff 0%, #ffd700 40%, #8b6508 100%);
+            border: 2px solid rgba(212, 175, 55, 0.6); position: relative; overflow: hidden;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
         }
 
-        /* 姓名與 SC 橫向貼齊布局 (依照設計圖) */
-        .leader-info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end; /* 底部對齊 */
+        .leader-info-block {
             width: 100%;
-            padding: 0 5px;
-        }
-
-        .leader-text-group { text-align: left; }
-        .leader-title { color: #FFD700; font-size: 0.7rem; font-weight: bold; margin-bottom: 2px; }
-        .leader-name { 
-            font-size: 1.4rem; /* 縮小三分之一 */
-            font-weight: 900; letter-spacing: 1px; margin: 2px 0; 
-            color: #ffffff;
-        }
-        .leader-tag { color: #D4AF37; font-size: 0.8rem; margin: 0; }
-
-        /* SC 幣區塊右移貼齊名字 */
-        .sc-display { 
-            display: flex; 
+            display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            cursor: pointer; 
+            align-items: flex-start;
+            padding-left: 10px;
+            z-index: 2;
         }
-        .sc-label { color: #D4AF37; font-size: 0.7rem; font-weight: bold; margin-bottom: 5px; }
-        .sc-pill {
-            background: rgba(0, 229, 255, 0.1); 
-            border: 1px solid #00E5FF; 
-            padding: 5px 15px; 
-            border-radius: 20px;
-            color: #00E5FF;
-            font-weight: bold;
-            font-size: 0.95rem;
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+        .leader-title { color: #FFD700; font-size: 0.75rem; font-weight: bold; }
+        .leader-name { 
+            font-size: 1.4rem; /* 名字縮小 1/3 */
+            font-weight: 900; margin: 2px 0; 
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+        .leader-tag { color: #D4AF37; font-size: 0.85rem; margin-bottom: 10px; }
+
+        /* SC 顯示 - 移除上方奇怪文字 */
+        .sc-display { 
+            display: inline-flex; align-items: center; background: rgba(0, 229, 255, 0.1); 
+            border: 1px solid #00E5FF; padding: 6px 15px; border-radius: 20px;
         }
 
-        /* 3. 數據與資產區 */
-        .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-bottom: 15px; }
-        .stat-card { background: rgba(255, 255, 255, 0.04); padding: 15px; border-radius: 15px; border: 1px solid #222; text-align: center; cursor: pointer; }
-        .card-box { width: 100%; box-sizing: border-box; background: rgba(255, 255, 255, 0.05); padding: 18px; border-radius: 18px; border-left: 4px solid #D4AF37; margin-bottom: 15px; cursor: pointer; }
+        /* 3. 數據與收益區塊 */
+        .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+        .stat-card { background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 12px; border: 1px solid #333; text-align: center; cursor: pointer; }
+        .card-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border-left: 4px solid #D4AF37; margin-bottom: 12px; cursor: pointer; }
+        
+        /* 4. 旅遊進度條 (已復原) */
+        .travel-bar-bg { width: 100%; height: 8px; background: #222; border-radius: 10px; margin-top: 10px; overflow: hidden; }
+        .travel-bar-fill { height: 100%; background: linear-gradient(90deg, #00E5FF, #fff); box-shadow: 0 0 10px #00E5FF; transition: width 1.5s ease; }
 
-        .asset-bar { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; box-sizing: border-box; background: #0c0c0c; border: 1px solid #D4AF37; border-radius: 20px; padding: 15px 5px; margin-top: 10px; }
+        /* 5. 資產工具列 */
+        .asset-bar { display: grid; grid-template-columns: repeat(3, 1fr); background: linear-gradient(145deg, #151515, #000); border: 1px solid #D4AF37; border-radius: 18px; padding: 15px 5px; margin: 15px 0; }
         .asset-btn { text-align: center; cursor: pointer; }
+        .asset-label { font-size: 0.75rem; font-weight: bold; color: #D4AF37; margin-top: 5px; display: block; }
         .medal-icon { font-size: 2.2rem !important; display: block; animation: holyShine 2s ease-in-out infinite; }
         .mining-glow { animation: pulseMining 2s ease-in-out infinite; }
 
-        /* 彈窗 */
-        .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); z-index: 9999; justify-content: center; align-items: center; }
-        .modal-win { width: 85%; max-width: 320px; background: #111; border: 1px solid #D4AF37; border-radius: 25px; padding: 30px; text-align: center; }
+        /* 最終宣言 */
+        .system-footer { font-size: 0.65rem; color: #444; text-align: center; margin-top: 10px; }
+
+        /* 彈窗系統 */
+        .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); backdrop-filter: blur(10px); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-win { width: 85%; max-width: 320px; background: #111; border: 1px solid #D4AF37; border-radius: 20px; padding: 25px; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="glow-box">
     <div class="inner-content">
-        <div class="top-hatch-area" onclick="showTip('🐣 孵化進度', '當個人小組達成 1000 人時，金蛋將完全破殼。')">
-            <div style="display:flex; justify-content:space-between; color:#FFD700; font-size:0.8rem; font-weight:bold; margin-bottom:8px;">
-                <span>HATCH 孵化指示</span><span id="hatch-pct">0%</span>
+        <div class="top-hatch-area" onclick="showTip('🐣 孵化進度', '當個人小組達成 1000 人時，金蛋將破殼解鎖領袖權限。')">
+            <div style="display:flex; justify-content:space-between; color:#FFD700; font-size:0.85rem; font-weight:bold; margin-bottom:8px;">
+                <span>🐣 破蛋孵化進度</span><span id="hatch-pct">0%</span>
             </div>
             <div class="hatch-bar-bg"><div id="hatch-fill" class="hatch-bar-fill" style="width: 0%;"></div></div>
         </div>
 
-        <div class="hero-section">
-            <div class="egg-wrapper" onclick="showTip('🎖️ 領袖生命體', '能量核心，正在孕育數位領袖權限。')">
+        <div class="hero-container">
+            <div class="egg-wrapper">
                 <div id="dynamic-egg" class="egg-main">
                     <div id="crack-container" style="position:absolute; width:100%; height:100%;"></div>
                 </div>
             </div>
             
-            <div class="leader-info-row">
-                <div class="leader-text-group">
-                    <div class="leader-title">🎖️ 封測先鋒領袖</div>
-                    <div id="u-name" class="leader-name">載入中...</div>
-                    <div id="u-team" class="leader-tag">數位分身</div>
-                </div>
-                
-                <div class="sc-display" onclick="showTip('💎 算力幣 (SC)', 'PV:SC=1:1，系統核心資產。')">
-                    <div class="sc-label">量明黃算力</div>
-                    <div class="sc-pill">
-                        <span id="u-sc">0</span> <span style="font-size:0.7rem; margin-left:3px;">SC</span>
-                    </div>
+            <div class="leader-info-block">
+                <div class="leader-title">🎖️ 封測先鋒領袖</div>
+                <div id="u-name" class="leader-name">載入中...</div>
+                <div id="u-team" class="leader-tag">數位分身同步中</div>
+                <div class="sc-display">
+                    <span id="u-sc" style="color:#00E5FF; font-weight:bold; font-size:1.1rem;">0</span>
+                    <span style="color:#00E5FF; font-size:0.8rem; margin-left:5px; font-weight:900;">SC</span>
                 </div>
             </div>
         </div>
 
         <div class="stat-row">
-            <div class="stat-card" onclick="showTip('👥 個人小組', '統計您推薦人員及其向下延伸至第 7 代戰隊總人數。')">
-                <div style="color:#888; font-size:0.75rem; margin-bottom:5px;">個人小組</div>
-                <div id="u-group" style="color:#FFD700; font-size:1.3rem; font-weight:bold;">0</div>
+            <div class="stat-card" onclick="showTip('👥 個人小組', '統計您推薦人員及其向下延伸至第 7 代戰隊的入籍總人數。')">
+                <div style="color:#BBB; font-size:0.7rem;">👥 個人小組</div>
+                <div id="u-group" style="color:#FFD700; font-size:1.1rem; font-weight:bold;">0</div>
             </div>
-            <div class="stat-card" onclick="showTip('🌍 系統註冊', '當前全台封測期間累積總註冊人數。')">
-                <div style="color:#888; font-size:0.75rem; margin-bottom:5px;">系統註冊</div>
-                <div id="u-sys" style="color:#00E5FF; font-size:1.3rem; font-weight:bold;">0</div>
+            <div class="stat-card" onclick="showTip('🌍 系統註冊', '當前全台 AI 生活小秘書封測期間累積的總註冊人數。')">
+                <div style="color:#BBB; font-size:0.7rem;">🌍 系統註冊</div>
+                <div id="u-sys" style="color:#00E5FF; font-size:1.1rem; font-weight:bold;">0</div>
             </div>
         </div>
 
-        <div class="card-box" onclick="showTip('🧧 累積總收益', '滿 100 即可申請提領。')">
+        <div class="card-box" onclick="showTip('🧧 收益累積系統', '收益從成功註冊起同步累積！滿 100 即可申請提領。')">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span style="color:#888; font-size:0.9rem;">🧧 入籍累積總收益</span>
-                <span id="u-cum" style="color:#FFF; font-weight:bold; font-size:1.4rem;">NT$ 50</span>
+                <span style="color:#BBB; font-size:0.85rem;">🧧 入籍累積總收益</span>
+                <span id="u-cum" style="color:#FFF; font-weight:bold; font-size:1.3rem;">NT$ 50</span>
             </div>
+        </div>
+
+        <div class="card-box" style="border-left-color: #00E5FF;" onclick="showTip('✈️ 韓國雙人遊', '積分達 300 即可兌換 2027 韓國雙人遊。')">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="color:#00E5FF; font-size:0.85rem;">✈️ 韓國雙人遊積分</span>
+                <span id="u-travel" style="color:#fff; font-weight:bold;">0 / 300</span>
+            </div>
+            <div class="travel-bar-bg"><div id="travel-fill" class="travel-bar-fill" style="width:0%;"></div></div>
+            <div style="font-size:0.7rem; color:#00E5FF; margin-top:8px;">✨ 每一名入籍，都是離世界更近的一步</div>
         </div>
 
         <div class="asset-bar">
-            <div class="asset-btn" onclick="showTip('🥚 角色卵', '您的數位生命載體。')">
+            <div class="asset-btn" onclick="showTip('🥚 角色卵', '您的數位生命載體。破殼後解鎖自動化功能。')">
                 <span style="font-size:1.8rem; display:block;">🥚</span>
-                <span style="font-size:0.7rem; color:#D4AF37; font-weight:bold;">黃金角色卵</span>
+                <span class="asset-label">角色卵</span>
             </div>
-            <div class="asset-btn mining-glow" onclick="showTip('🏭 算力礦場', '團隊消費轉化為您的 SC 資產。')">
+            <div class="asset-btn mining-glow" onclick="showTip('🏭 算力礦場', '系統配置運算中心，團隊行為轉化為您的 SC 資產。')">
                 <span style="font-size:1.8rem; display:block;">🏭</span>
-                <span style="font-size:0.7rem; color:#D4AF37; font-weight:bold;">算力礦場</span>
+                <span class="asset-label">算力礦場</span>
             </div>
-            <div class="asset-btn" onclick="showTip('🏆 創世勳章', '封測領袖專屬權益。')">
+            <div class="asset-btn" onclick="showTip('🏆 創世勳章', '封測領袖專屬。享有工具永久優先免費權。')">
                 <span class="medal-icon">🏆</span>
-                <span style="font-size:0.7rem; color:#D4AF37; font-weight:bold;">創世勳章</span>
+                <span class="asset-label">創世勳章</span>
             </div>
         </div>
 
-        <a id="back-home" href="Lobby.html" class="card-box" style="text-align:center; color:#000; background:linear-gradient(180deg, #D4AF37, #B8860B); font-weight:bold; text-decoration:none; display:block; margin-top:20px; border:none;">返回 AI 指令大廳</a>
+        <a id="back-home" href="Lobby.html" class="card-box" style="text-align:center; color:#000; background:linear-gradient(180deg, #D4AF37, #B8860B); font-weight:bold; text-decoration:none; display:block;">返回 AI 指令大廳</a>
+        <div class="system-footer">最終解釋權歸系統核心所有</div>
     </div>
 </div>
 
@@ -200,11 +197,16 @@
             const d = await r.json();
             if (d.success) {
                 document.getElementById('u-name').innerText = d.name || "領袖";
-                document.getElementById('u-team').innerText = d.teamCode || "數位分身";
+                document.getElementById('u-team').innerText = d.teamCode || "數位分身同步中";
                 document.getElementById('u-sc').innerText = formatVal(d.sc);
                 document.getElementById('u-cum').innerText = "NT$ " + (50 + (Number(d.bonusPaid)||0)).toLocaleString();
                 document.getElementById('u-group').innerText = d.groupTotal || 0;
                 document.getElementById('u-sys').innerText = d.sysTotal || 0;
+                
+                let tvl = Number(d.travel) || 0;
+                document.getElementById('u-travel').innerText = tvl + " / 300";
+                document.getElementById('travel-fill').style.width = Math.min(100, (tvl/300)*100) + "%";
+
                 let progress = Math.min(100, (Number(d.groupTotal)/1000)*100);
                 updateCrackEffect(progress);
             }
@@ -221,8 +223,6 @@
             let crack = document.createElement('div');
             crack.className = 'crack-layer crack-active';
             crack.style.transform = `rotate(${i * 41 + (Math.random()*20)}deg) scale(${1 + i*0.1})`;
-            let intensity = 0.1 + (i * 0.05);
-            crack.style.filter = `contrast(6) brightness(${0.4 - intensity}) drop-shadow(0 0 2px #000)`;
             container.appendChild(crack);
         }
     }
