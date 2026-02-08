@@ -3,425 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 領袖屬性面板 - 流光進階版</title>
+    <title>AI 領袖屬性面板 - 穩定流光版</title>
     <style>
-        /* ✨ 全局流光核心動畫 */
+        /* ✨ 全局流光動畫 (優化版) */
         @keyframes glowSweep {
             0% { transform: translateX(-150%) skewX(-25deg); }
             50% { transform: translateX(150%) skewX(-25deg); }
             100% { transform: translateX(150%) skewX(-25deg); }
         }
-
         .glow-effect { position: relative; overflow: hidden; }
         .glow-effect::after {
             content: ""; position: absolute; top: 0; left: 0; width: 60%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.3), transparent);
-            animation: glowSweep 3s infinite; pointer-events: none;
+            background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.4), transparent);
+            animation: glowSweep 3.5s infinite; pointer-events: none;
         }
 
-        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-y: auto; padding-bottom: 50px; }
-        .glow-box { position: relative; width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; border: 1px solid #333; overflow: hidden; }
-        .inner-content { background: linear-gradient(160deg, #151515 0%, #050505 100%); border-radius: 23px; padding: 25px; display: flex; flex-direction: column; }
+        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
+        .glow-box { width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; border: 1px solid #333; overflow: hidden; position: relative; }
+        .inner-content { padding: 20px; display: flex; flex-direction: column; }
 
-        /* 1 & 6. 進度條移動至最上方 */
-        .top-hatch-section { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #333; }
+        /* 1 & 6. 頂部孵化進度條 */
+        .top-hatch-area { margin-bottom: 25px; }
         .hatch-label { display: flex; justify-content: space-between; font-size: 0.85rem; color: #FFD700; margin-bottom: 8px; font-weight: bold; }
-        .hatch-bar-bg { width: 100%; height: 12px; background: #222; border-radius: 10px; overflow: hidden; border: 1px solid #444; }
+        .hatch-bar-bg { width: 100%; height: 12px; background: #222; border-radius: 10px; border: 1px solid #444; overflow: hidden; }
         .hatch-bar-fill { height: 100%; transition: width 1.5s ease; box-shadow: 0 0 15px #FFD700; }
 
-        /* 2 & 5. 英雄佈局：蛋與資訊 */
-        .hero-layout { display: flex; align-items: flex-end; margin-bottom: 30px; position: relative; }
-        
-        /* 蛋殼流光與呼吸效果 */
-        .egg-zone { position: relative; width: 150px; height: 190px; flex-shrink: 0; z-index: 1; }
-        .egg-base { 
-            width: 120px; height: 165px; border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%; 
-            position: relative; overflow: hidden; margin: 0 auto;
-            border: 2px solid rgba(212, 175, 55, 0.5);
+        /* 核心佈局：蛋 + 姓名資訊 (修正重疊問題) */
+        .hero-container { 
+            display: grid; 
+            grid-template-columns: 140px 1fr; /* 蛋固定寬度，資訊佔據剩餘空間 */
+            align-items: end; 
+            gap: 10px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        /* 蛋殼與流光 */
+        .egg-wrapper { position: relative; width: 130px; height: 170px; }
+        .egg-main { 
+            width: 100%; height: 100%; border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%; 
+            background: radial-gradient(circle at 30% 30%, #fff 0%, #ffd700 40%, #8b6508 100%);
+            border: 2px solid rgba(212, 175, 55, 0.6);
+            position: relative; overflow: hidden;
             animation: breathe 3s ease-in-out infinite;
         }
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4)); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.7)); }
+        .crack-layer { 
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            background-image: url('https://www.transparenttextures.com/patterns/cracked-paper.png');
+            opacity: 0; transition: opacity 1s; mix-blend-mode: multiply;
+        }
+        @keyframes breathe { 0%,100% {transform:scale(1);} 50% {transform:scale(1.03);} }
+
+        /* 2 & 5. 姓名資訊 (移至左下) */
+        .info-panel { text-align: left; padding-bottom: 10px; z-index: 5; }
+        .rank-label { color: #FFD700; font-size: 0.8rem; font-weight: bold; margin-bottom: 2px; }
+        .user-name { font-size: 1.6rem; font-weight: 900; color: #fff; line-height: 1.2; margin-bottom: 4px; }
+        .team-id { color: #D4AF37; font-size: 0.9rem; margin-bottom: 8px; }
+        .sc-display { 
+            display: inline-flex; align-items: center; background: rgba(0, 229, 255, 0.15); 
+            border: 1px solid #00E5FF; padding: 4px 10px; border-radius: 15px;
         }
 
-        /* 姓名與身價資訊 (蛋左下方) */
-        .info-zone { margin-left: -25px; z-index: 2; text-align: left; padding-bottom: 10px; }
-        .display-name { font-size: 1.8rem; font-weight: 900; color: #FFFFFF; margin: 0; text-shadow: 2px 2px 10px #000; }
-        .display-team-code { color: #D4AF37; font-size: 1rem; margin-bottom: 8px; }
-        .digital-wealth-tag { 
-            background: rgba(0, 229, 255, 0.1); border: 1px solid #00E5FF; 
-            padding: 4px 12px; border-radius: 20px; display: inline-flex; align-items: center;
-        }
-        .sc-val { color: #00E5FF; font-weight: bold; font-size: 1.1rem; }
-
-        /* 數據卡片流光 */
-        .data-card { 
+        /* 數據卡片與流光 */
+        .card-box { 
             background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; 
-            margin-bottom: 15px; border-left: 4px solid #D4AF37; position: relative; overflow: hidden;
-        }
-        .data-card::after {
-            content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
-            animation: glowSweep 5s infinite;
+            margin-bottom: 15px; border-left: 4px solid #D4AF37; 
         }
 
         /* 說明視窗 Modal */
-        .modal-overlay {
+        .modal-bg {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
-            z-index: 1000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(8px); z-index: 9999;
+            justify-content: center; align-items: center;
         }
-        .modal-content {
-            width: 80%; max-width: 320px; background: linear-gradient(145deg, #1a1a1a, #000);
-            border: 1px solid #D4AF37; border-radius: 20px; padding: 25px; text-align: center;
-            position: relative; overflow: hidden; box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
-        }
-        .modal-content::after {
-            content: ""; position: absolute; top: -50%; left: -150%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent 45%, rgba(212, 175, 55, 0.3) 50%, transparent 55%);
-            animation: glowSweep 4s infinite;
+        .modal-win {
+            width: 85%; max-width: 320px; background: #111; border: 1px solid #D4AF37;
+            border-radius: 20px; padding: 25px; text-align: center;
         }
 
-        .asset-zone { display: flex; justify-content: space-around; background: rgba(20,20,20,0.8); border: 1px solid #D4AF37; border-radius: 15px; padding: 15px; margin: 15px 0; }
-        .asset-item { text-align: center; font-size: 0.75rem; color: #D4AF37; cursor: pointer; }
-        .asset-icon { font-size: 1.5rem; margin-bottom: 5px; display: block; }
-        .back-btn { background: linear-gradient(180deg, #D4AF37, #B8860B); color: #000; padding: 15px; text-align: center; text-decoration: none; border-radius: 10px; font-weight: bold; display: block; margin-top: 10px; }
-        .footer { font-size: 0.7rem; color: #555; text-align: center; padding: 20px 0; }
+        .asset-bar { display: grid; grid-template-columns: repeat(3, 1fr); background: rgba(20,20,20,0.9); border: 1px solid #D4AF37; border-radius: 15px; padding: 12px; margin: 15px 0; }
+        .asset-btn { text-align: center; color: #D4AF37; font-size: 0.75rem; cursor: pointer; }
+        .asset-btn span { display: block; font-size: 1.4rem; margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
 <div class="glow-box">
     <div class="inner-content">
-        <div class="top-hatch-section">
-            <div class="hatch-label"><span>🐣 破蛋孵化進度</span><span id="hatch-percent">0%</span></div>
-            <div class="hatch-bar-bg">
-                <div id="hatch-fill" class="hatch-bar-fill" style="width: 0%; background: linear-gradient(90deg, #FFD700, #FFFACD);"></div>
+        <div class="top-hatch-area">
+            <div class="hatch-label"><span>🐣 破蛋孵化進度</span><span id="hatch-pct">0%</span></div>
+            <div class="hatch-bar-bg"><div id="hatch-fill" class="hatch-bar-fill" style="width: 0%; background: linear-gradient(90deg, #FFD700, #FFFACD);"></div></div>
+        </div>
+
+        <div class="hero-container">
+            <div class="egg-wrapper">
+                <div class="egg-main glow-effect">
+                    <div id="egg-cracks" class="crack-layer"></div>
+                </div>
+            </div>
+            <div class="info-panel">
+                <div class="rank-label">🎖️ 封測先鋒領袖</div>
+                <div id="u-name" class="user-name">載入中...</div>
+                <div id="u-team" class="team-id">數位分身</div>
+                <div class="sc-display glow-effect">
+                    <span id="u-sc" style="color:#00E5FF; font-weight:bold;">0</span>
+                    <span style="color:#00E5FF; font-size:0.7rem; margin-left:4px; font-weight:900;">SC</span>
+                </div>
             </div>
         </div>
 
-        <div class="hero-layout">
-            <div class="egg-zone">
-                <div id="dynamic-egg" class="egg-base glow-effect">
-                    <div id="egg-cracks" style="position:absolute; width:100%; height:100%; background-image: url('https://www.transparenttextures.com/patterns/cracked-paper.png'); opacity:0; transition: opacity 1s;"></div>
-                </div>
-            </div>
-            <div class="info-zone">
-                <div class="rank-title">🎖️ 封測先鋒領袖</div>
-                <div id="real-name" class="display-name">載入中...</div>
-                <div id="team-code-display" class="display-team-code">數位分身</div>
-                <div class="digital-wealth-tag glow-effect">
-                    <span id="sc-value" class="sc-val">0</span><span style="color:#00E5FF; font-size:0.7rem; margin-left:4px; font-weight:900;">SC</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="data-card">
+        <div class="card-box glow-effect">
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span style="color:#BBB; font-size:0.85rem;">🧧 入籍累積總收益</span>
-                <span id="cum-income" style="color:#FFF; font-weight:bold; font-size:1.3rem;">NT$ 50</span>
+                <span id="u-cum" style="color:#FFF; font-weight:bold; font-size:1.3rem;">NT$ 50</span>
             </div>
             <div style="display:flex; justify-content:space-between; margin-top:10px; border-top:1px solid #333; padding-top:10px;">
                 <span style="color:#BBB; font-size:0.8rem;">📈 本月預估收入</span>
-                <span id="est-income" style="color:#FFD700; font-weight:bold;">NT$ 0</span>
+                <span id="u-est" style="color:#FFD700; font-weight:bold;">NT$ 0</span>
             </div>
         </div>
 
-        <div class="data-card" style="border-left-color: #00E5FF;">
+        <div class="card-box glow-effect" style="border-left-color: #00E5FF;">
             <div style="display:flex; justify-content:space-between;">
                 <span style="color:#00E5FF; font-size:0.85rem;">✈️ 韓國雙人遊積分</span>
-                <span id="travel-percent" style="color:#00E5FF; font-weight:bold;">0 / 300</span>
+                <span id="u-travel" style="color:#00E5FF; font-weight:bold;">0 / 300</span>
             </div>
-            <div id="travel-msg" style="color:#D4AF37; font-size:0.75rem; margin-top:8px; font-style:italic;">✨ 2027 帶另一半免費去韓國！</div>
+            <div style="color:#D4AF37; font-size:0.75rem; margin-top:8px; font-style:italic; text-align:center;">✨ 2027 帶另一半免費去韓國！</div>
         </div>
 
-        <div class="asset-zone glow-effect">
-            <div class="asset-item"><span class="asset-icon">🥚</span>黃金角色卵</div>
-            <div class="asset-item" onclick="showMiningInfo()">
-                <span class="asset-icon">🏭</span>算力礦場
-            </div>
-            <div class="asset-item"><span class="asset-icon">🏆</span>創世勳章</div>
+        <div class="asset-bar glow-effect">
+            <div class="asset-btn"><span>🥚</span>角色卵</div>
+            <div class="asset-btn" onclick="openMining()"><span>🏭</span>算力礦場</div>
+            <div class="asset-btn"><span>🏆</span>創世勳章</div>
         </div>
 
-        <a id="btn-back" href="Lobby.html" class="back-btn glow-effect">返回 AI 指令大廳</a>
-        <div class="footer">AI 生活小秘書 · 最終解釋權歸系統核心所有</div>
+        <a id="back-home" href="Lobby.html" class="card-box glow-effect" style="text-align:center; color:#000; background:linear-gradient(180deg, #D4AF37, #B8860B); font-weight:bold; text-decoration:none; display:block;">返回 AI 指令大廳</a>
+        <div style="font-size:0.7rem; color:#555; text-align:center; margin-top:15px;">AI 生活小秘書 · 最終解釋權歸系統核心所有</div>
     </div>
 </div>
 
-<div id="miningModal" class="modal-overlay" onclick="closeMiningInfo()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <div style="color:#D4AF37; font-size:1.2rem; font-weight:bold; margin-bottom:15px;">🏭 算力礦場核心定義</div>
-        <div style="color:#ddd; font-size:0.95rem; line-height:1.6; text-align:justify;">
-            算力礦場是指系統核心為您配置的虛擬運算中心。在「創建數位分身」後，您的 7 代團隊所產生的每一筆消費與行為，都會轉換為<span style="color:#00E5FF;font-weight:bold;">「算力幣 (SC)」</span>。算力幣 (SC) 決定了您成為億萬富豪的速率。
-        </div>
-        <button onclick="closeMiningInfo()" style="margin-top:20px; background:#D4AF37; color:#000; border:none; padding:8px 25px; border-radius:10px; font-weight:bold; cursor:pointer;">確認接收</button>
+<div id="m-win" class="modal-bg" onclick="closeMining()">
+    <div class="modal-win glow-effect" onclick="event.stopPropagation()">
+        <h3 style="color:#D4AF37;">🏭 算力礦場核心定義</h3>
+        <p style="color:#ddd; font-size:0.9rem; line-height:1.6; text-align:left;">算力礦場是指系統核心為您配置的虛擬運算中心。在「創建數位分身」後，您的 7 代團隊所產生的每一筆消費與行為，都會轉換為<span style="color:#00E5FF;font-weight:bold;">「算力幣 (SC)」</span>。算力幣 (SC) 決定了您成為億萬富豪的速率。</p>
+        <button onclick="closeMining()" style="background:#D4AF37; border:none; padding:10px 30px; border-radius:10px; font-weight:bold; cursor:pointer;">確認接收</button>
     </div>
 </div>
 
 <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyZBh3TzIOpmP9qzZ8YZPeZbVbs2J_gVbjsWw0ZJzWlD9eB_LSJ7-wePJj8oYTyT9Do/exec";
+    const API = "https://script.google.com/macros/s/AKfycbyZBh3TzIOpmP9qzZ8YZPeZbVbs2J_gVbjsWw0ZJzWlD9eB_LSJ7-wePJj8oYTyT9Do/exec";
 
     window.onload = function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get('id'); 
-        updateEggTheme();
-        if (userId) {
-            document.getElementById('btn-back').href = "Lobby.html?id=" + encodeURIComponent(userId);
-            fetchData(userId);
+        const id = new URLSearchParams(window.location.search).get('id');
+        if (id) {
+            document.getElementById('back-home').href = "Lobby.html?id=" + id;
+            loadData(id);
         }
     };
 
-    async function fetchData(id) {
+    async function loadData(id) {
         try {
-            const response = await fetch(`${API_URL}?action=get_leader_data&id=${encodeURIComponent(id)}`);
-            const res = await response.json();
-            if (res.success) {
-                document.getElementById('real-name').innerText = res.name || "領袖";
-                document.getElementById('team-code-display').innerText = res.teamCode || "未設定";
+            const r = await fetch(`${API}?action=get_leader_data&id=${id}`);
+            const d = await r.json();
+            if (d.success) {
+                document.getElementById('u-name').innerText = d.name || "領袖";
+                document.getElementById('u-team').innerText = d.teamCode || "數位分身";
+                document.getElementById('u-sc').innerText = formatVal(d.sc);
+                document.getElementById('u-cum').innerText = "NT$ " + (50 + (Number(d.bonusPaid)||0)).toLocaleString();
+                document.getElementById('u-est').innerText = "NT$ " + (Number(d.income)||0).toLocaleString();
+                document.getElementById('u-travel').innerText = (d.travel||0) + " / 300";
                 
-                // 4. 累積總收益 = 50 + 獎金 (SC不計入)
-                const bonus = Number(res.bonusPaid) || 0;
-                document.getElementById('cum-income').innerText = "NT$ " + (50 + bonus).toLocaleString();
-                document.getElementById('est-income').innerText = "NT$ " + (res.income || 0).toLocaleString();
-
-                // 5. 數位身價
-                const scNum = typeof res.sc === 'string' ? Number(res.sc.replace(/,/g, '')) : Number(res.sc);
-                document.getElementById('sc-value').innerText = formatWealth(scNum || 0);
-
-                // 進度與裂紋
-                let groupCount = Number(res.groupTotal) || 0;
-                let hatchProgress = Math.min(100, (groupCount / 1000) * 100); 
-                document.getElementById('hatch-fill').style.width = hatchProgress + "%";
-                document.getElementById('hatch-percent').innerText = Math.floor(hatchProgress) + "%";
-                const cracks = document.getElementById('egg-cracks');
-                if(cracks) cracks.style.opacity = (hatchProgress / 100);
-
-                let travelPoints = Number(res.travel) || 0;
-                document.getElementById('travel-percent').innerText = travelPoints + " / 300";
+                let progress = Math.min(100, (Number(d.groupTotal)/1000)*100);
+                document.getElementById('hatch-fill').style.width = progress + "%";
+                document.getElementById('hatch-pct').innerText = Math.floor(progress) + "%";
+                document.getElementById('egg-cracks').style.opacity = progress / 100;
             }
-        } catch (error) { console.error("核心連線異常"); }
+        } catch(e) { console.error("ERR"); }
     }
 
-    function showMiningInfo() { document.getElementById('miningModal').style.display = 'flex'; }
-    function closeMiningInfo() { document.getElementById('miningModal').style.display = 'none'; }
-    function formatWealth(num) {
-        if (num >= 100000000) return (num / 100000000).toFixed(2) + " 億";
-        if (num >= 10000) return (num / 10000).toFixed(1) + " 萬";
-        return num.toLocaleString();
-    }
-    function updateEggTheme() {
-        const hour = new Date().getHours();
-        const egg = document.getElementById('dynamic-egg');
-        if (egg) {
-            egg.style.background = (hour >= 6 && hour < 18) ? 
-                "radial-gradient(circle at 30% 30%, #fff 0%, #ffd700 40%, #8b6508 100%)" : 
-                "radial-gradient(circle at 30% 30%, #dcdcdc 0%, #4f4f4f 50%, #000 100%)";
-        }
-    }
-</script>
-</body>
-</html><!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 領袖屬性面板</title>
-    <style>
-        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-y: auto; padding-bottom: 50px; }
-        .glow-box { position: relative; width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; z-index: 1; border: 1px solid #333; overflow: hidden; }
-        .inner-content { background: linear-gradient(160deg, #151515 0%, #050505 100%); border-radius: 23px; padding: 25px; display: flex; flex-direction: column; }
-        
-        /* 人物蛋呼吸感特效 */
-        .hero-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #444; padding-bottom: 20px; }
-        .egg-container { 
-            position: relative; width: 140px; height: 180px; margin: 0 auto 15px;
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
-            animation: breathe 3s ease-in-out infinite;
-        }
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4)); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.7)); }
-        }
-        .egg-base { 
-            width: 110px; height: 150px; border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%; 
-            position: relative; transition: all 0.5s ease; overflow: hidden; margin: 0 auto;
-            border: 2px solid rgba(212, 175, 55, 0.3);
-        }
-        .cracks { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background-image: url('https://www.transparenttextures.com/patterns/cracked-paper.png'); 
-            opacity: 0; mix-blend-mode: overlay; pointer-events: none; transition: opacity 1s;
-        }
-
-        .name-info { text-align: center; width: 100%; margin-bottom: 10px; }
-        .rank-title { color: #FFD700; font-size: 0.9rem; letter-spacing: 2px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.6); }
-        .display-name { font-size: 1.8rem; margin: 5px 0; color: #FFFFFF; font-weight: 900; }
-        .display-team-code { color: #D4AF37; font-size: 1.1rem; font-weight: 500; }
-
-        /* 數據列樣式 */
-        .data-row { margin-bottom: 15px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; border-left: 3px solid #D4AF37; }
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        .stat-card { background: rgba(255, 255, 255, 0.03); border: 1px solid #333; padding: 12px; border-radius: 12px; }
-        .stat-label { color: #BBB; font-size: 0.8rem; }
-        .stat-value { color: #FFD700; font-weight: bold; font-size: 1.1rem; }
-        .sc-badge { background: #00E5FF; color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 900; margin-left: 5px; vertical-align: middle; }
-
-        .hatch-section { margin-bottom: 15px; }
-        .hatch-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: #FFD700; margin-bottom: 8px; }
-        .hatch-bar-bg { width: 100%; height: 10px; background: #222; border-radius: 10px; overflow: hidden; }
-        .hatch-bar-fill { height: 100%; transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        .asset-zone { display: flex; justify-content: space-around; background: rgba(20,20,20,0.8); border: 1px solid #D4AF37; border-radius: 15px; padding: 15px; margin: 15px 0; }
-        .asset-item { text-align: center; font-size: 0.75rem; color: #D4AF37; }
-        .asset-icon { font-size: 1.5rem; margin-bottom: 5px; display: block; }
-
-        .back-btn { background: linear-gradient(180deg, #D4AF37, #B8860B); color: #000; padding: 15px; text-align: center; text-decoration: none; border-radius: 10px; font-weight: bold; display: block; margin-top: 10px; }
-        .footer { font-size: 0.7rem; color: #555; text-align: center; padding: 20px 0; }
-    </style>
-</head>
-<body>
-<div class="glow-box">
-    <div class="inner-content">
-        <div class="hero-section">
-            <div class="egg-container">
-                <div id="dynamic-egg" class="egg-base"><div id="egg-cracks" class="cracks"></div></div>
-            </div>
-            <div class="name-info">
-                <div id="rank-title" class="rank-title">🎖️ 封測先鋒領袖</div>
-                <div id="real-name" class="display-name">載入中...</div>
-                <div id="team-code-display" class="display-team-code">數位分身同步中</div>
-            </div>
-        </div>
-
-        <div class="hatch-section">
-            <div class="hatch-label"><span>🐣 破蛋孵化進度</span><span id="hatch-percent">0%</span></div>
-            <div class="hatch-bar-bg"><div id="hatch-fill" class="hatch-bar-fill" style="width: 0%; background: linear-gradient(90deg, #FFD700, #FFFACD); box-shadow: 0 0 10px #FFD700;"></div></div>
-        </div>
-
-        <div class="hatch-section">
-            <div class="hatch-label"><span style="color: #00E5FF;">✈️ 韓國雙人遊積分</span><span id="travel-percent">0 / 300 點</span></div>
-            <div class="hatch-bar-bg" style="background: #111;"><div id="travel-fill" class="hatch-bar-fill" style="width: 0%; background: linear-gradient(90deg, #00E5FF, #FFFFFF); box-shadow: 0 0 10px #00E5FF;"></div></div>
-            <div id="travel-msg" style="color: #D4AF37; font-size: 0.75rem; text-align: center; margin-top: 8px; font-style: italic;">✨ 2027 帶另一半免費一起到韓國辦網聚！</div>
-        </div>
-
-        <div class="data-row">
-            <div style="display: flex; justify-content: space-between;">
-                <span class="stat-label">📈 本月預估收入</span>
-                <span id="est-income" class="stat-value">NT$ 0</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-top: 10px; border-top: 1px solid #333; padding-top: 10px;">
-                <span class="stat-label" style="color: #00E5FF;">💰 入籍累積資產預估</span>
-                <span id="cum-income" class="stat-value" style="color:#00E5FF;">NT$ 0</span>
-            </div>
-        </div>
-
-        <div class="stat-grid">
-            <div class="stat-card">
-                <span class="stat-label">🧧 推薦獎金</span><br>
-                <span id="bonus-paid" class="stat-value">NT$ 0</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">💎 數位身價</span><br>
-                <span id="sc-value" class="stat-value" style="color:#00E5FF;">0</span><span class="sc-badge">SC</span>
-            </div>
-        </div>
-
-        <div class="stat-grid">
-            <div class="stat-card">
-                <span class="stat-label">👥 個人小組總數</span><br>
-                <span id="group-total" class="stat-value">0</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">🌍 系統註冊總數</span><br>
-                <span id="sys-total" class="stat-value">0</span>
-            </div>
-        </div>
-
-        <div class="asset-zone">
-            <div class="asset-item"><span class="asset-icon">🥚</span>黃金角色卵</div>
-            <div class="asset-item"><span class="asset-icon">🏭</span>算力礦場</div>
-            <div class="asset-item"><span class="asset-icon">🏆</span>創世勳章</div>
-        </div>
-
-        <a id="btn-back" href="Lobby.html" class="back-btn">返回 AI 指令大廳</a>
-        <div class="footer">AI 生活小秘書 · 最終解釋權歸系統核心所有</div>
-    </div>
-</div>
-
-<script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyZBh3TzIOpmP9qzZ8YZPeZbVbs2J_gVbjsWw0ZJzWlD9eB_LSJ7-wePJj8oYTyT9Do/exec";
-
-    window.onload = function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get('id'); 
-        updateEggTheme();
-        if (userId) {
-            document.getElementById('btn-back').href = "Lobby.html?id=" + encodeURIComponent(userId);
-            fetchData(userId);
-        }
-    };
-
-    async function fetchData(id) {
-        try {
-            const response = await fetch(`${API_URL}?action=get_leader_data&id=${encodeURIComponent(id)}`);
-            const res = await response.json();
-            
-            if (res.success) {
-                // 精準對位：姓名與數位分身
-                document.getElementById('real-name').innerText = res.name || "領袖";
-                document.getElementById('team-code-display').innerText = res.teamCode || "未設定數位分身";
-                document.getElementById('rank-title').innerText = res.title || "🛡️ 數位公民";
-
-                // 獎金數據
-                document.getElementById('est-income').innerText = "NT$ " + (res.income || 0).toLocaleString();
-                document.getElementById('cum-income').innerText = "NT$ " + (res.cumulativeIncome || 0).toLocaleString();
-                document.getElementById('bonus-paid').innerText = "NT$ " + (res.bonusPaid || 0).toLocaleString();
-                
-                // 數位身價 SC
-                const scNum = typeof res.sc === 'string' ? Number(res.sc.replace(/,/g, '')) : Number(res.sc);
-                document.getElementById('sc-value').innerText = formatWealth(scNum || 0);
-
-                // 人數 (找回 151 人後的正確數值)
-                document.getElementById('group-total').innerText = res.groupTotal || 0;
-                document.getElementById('sys-total').innerText = res.sysTotal || 0;
-                
-                // 破蛋邏輯
-                let groupCount = Number(res.groupTotal) || 0;
-                let hatchProgress = Math.min(100, (groupCount / 1000) * 100); 
-                updateHatchEffect(hatchProgress);
-
-                // 旅遊積分
-                let travelPoints = Number(res.travel) || 0;
-                document.getElementById('travel-percent').innerText = travelPoints + " / 300 點";
-                document.getElementById('travel-fill').style.width = Math.min(100, (travelPoints/300)*100) + "%";
-            }
-        } catch (error) { console.error("連線異常"); }
-    }
-
-    function updateHatchEffect(progress) {
-        document.getElementById('hatch-fill').style.width = progress + "%";
-        document.getElementById('hatch-percent').innerText = Math.floor(progress) + "%";
-        const cracks = document.getElementById('egg-cracks');
-        if(cracks) cracks.style.opacity = (progress / 100);
-    }
-
-    function formatWealth(num) {
-        if (num >= 100000000) return (num / 100000000).toFixed(2) + " 億";
-        if (num >= 10000) return (num / 10000).toFixed(1) + " 萬";
-        return num.toLocaleString();
-    }
-
-    function updateEggTheme() {
-        const hour = new Date().getHours();
-        const egg = document.getElementById('dynamic-egg');
-        if (egg) {
-            if (hour >= 6 && hour < 18) {
-                egg.style.background = "radial-gradient(circle at 30% 30%, #fff 0%, #ffd700 40%, #8b6508 100%)";
-            } else {
-                egg.style.background = "radial-gradient(circle at 30% 30%, #dcdcdc 0%, #4f4f4f 50%, #000 100%)";
-            }
-        }
+    function openMining() { document.getElementById('m-win').style.display = 'flex'; }
+    function closeMining() { document.getElementById('m-win').style.display = 'none'; }
+    function formatVal(n) {
+        let v = typeof n === 'string' ? Number(n.replace(/,/g,'')) : Number(n);
+        if (v >= 100000000) return (v/100000000).toFixed(2) + " 億";
+        if (v >= 10000) return (v/10000).toFixed(1) + " 萬";
+        return v.toLocaleString();
     }
 </script>
 </body>
