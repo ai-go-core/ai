@@ -6,29 +6,57 @@
     <title>AI 領袖屬性面板</title>
     <style>
         body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-y: auto; padding-bottom: 50px; }
-        .glow-box { position: relative; width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; z-index: 1; border: 1px solid #333; }
-        .inner-content { background: linear-gradient(160deg, #151515 0%, #050505 100%); border-radius: 23px; padding: 25px; display: flex; flex-direction: column; min-height: 750px; }
-        .hero-section { display: flex; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #444; padding-bottom: 20px; }
-        .egg-container { position: relative; width: 140px; height: 160px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; }
-        .egg-base { width: 100px; height: 135px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; position: relative; transition: all 1s ease; overflow: hidden; }
-        .cracks { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/cracked-paper.png'); opacity: 0; mix-blend-mode: multiply; pointer-events: none; }
-        .name-info { margin-left: 15px; flex-grow: 1; }
+        .glow-box { position: relative; width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; z-index: 1; border: 1px solid #333; overflow: hidden; }
+        .inner-content { background: linear-gradient(160deg, #151515 0%, #050505 100%); border-radius: 23px; padding: 25px; display: flex; flex-direction: column; }
+        
+        /* 修正 3：人物蛋生命呼吸感與光暈 */
+        .hero-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #444; padding-bottom: 20px; }
+        .egg-container { 
+            position: relative; width: 140px; height: 180px; margin: 0 auto 15px;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+            animation: breathe 3s ease-in-out infinite;
+        }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.7)); }
+        }
+        .egg-base { 
+            width: 110px; height: 150px; border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%; 
+            position: relative; transition: all 0.5s ease; overflow: hidden; margin: 0 auto;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+        .cracks { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background-image: url('https://www.transparenttextures.com/patterns/cracked-paper.png'); 
+            opacity: 0; mix-blend-mode: overlay; pointer-events: none; transition: opacity 1s;
+        }
+
+        .name-info { text-align: center; width: 100%; }
         .rank-title { color: #FFD700; font-size: 0.9rem; letter-spacing: 2px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.6); }
         .display-name { font-size: 1.8rem; margin: 5px 0; color: #FFFFFF; font-weight: 900; }
-        .display-team-code { color: #D4AF37; font-size: 1.1rem; font-weight: 500; margin-bottom: 5px; }
-        .team-affiliation { color: #00E5FF; font-size: 0.75rem; font-weight: bold; line-height: 1.3; margin-top: 5px; opacity: 0.9; }
-        .stat-label { color: #BBB; font-size: 0.85rem; }
-        .stat-value { color: #FFD700; font-weight: bold; font-size: 1.1rem; }
+        .display-team-code { color: #D4AF37; font-size: 1.1rem; font-weight: 500; }
+
+        /* 數據列樣式 */
         .data-row { margin-bottom: 15px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; border-left: 3px solid #D4AF37; }
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         .stat-card { background: rgba(255, 255, 255, 0.03); border: 1px solid #333; padding: 12px; border-radius: 12px; }
+        .stat-label { color: #BBB; font-size: 0.8rem; }
+        .stat-value { color: #FFD700; font-weight: bold; font-size: 1.1rem; }
+        .sc-badge { background: #00E5FF; color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 900; margin-left: 5px; vertical-align: middle; }
+
+        /* 進度條樣式 */
         .hatch-section { margin-bottom: 15px; }
         .hatch-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: #FFD700; margin-bottom: 8px; }
         .hatch-bar-bg { width: 100%; height: 10px; background: #222; border-radius: 10px; overflow: hidden; }
-        .hatch-bar-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FFFACD); box-shadow: 0 0 10px #FFD700; transition: width 2s ease; }
-        .back-btn { background: linear-gradient(180deg, #D4AF37, #B8860B); color: #000; padding: 18px; text-align: center; text-decoration: none; margin-top: 20px; border-radius: 10px; font-weight: bold; display: block; }
-        .footer { font-size: 0.7rem; color: #555; text-align: center; padding: 30px 0; }
-        .sc-badge { background: #00E5FF; color: #000; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 900; margin-left: 5px; }
+        .hatch-bar-fill { height: 100%; transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* 修正 7：數位資產展示區 */
+        .asset-zone { display: flex; justify-content: space-around; background: rgba(20,20,20,0.8); border: 1px solid #D4AF37; border-radius: 15px; padding: 15px; margin: 15px 0; }
+        .asset-item { text-align: center; font-size: 0.75rem; color: #D4AF37; }
+        .asset-icon { font-size: 1.5rem; margin-bottom: 5px; display: block; }
+
+        .back-btn { background: linear-gradient(180deg, #D4AF37, #B8860B); color: #000; padding: 15px; text-align: center; text-decoration: none; border-radius: 10px; font-weight: bold; display: block; margin-top: 10px; }
+        .footer { font-size: 0.7rem; color: #555; text-align: center; padding: 20px 0; }
     </style>
 </head>
 <body>
@@ -36,35 +64,47 @@
     <div class="inner-content">
         <div class="hero-section">
             <div class="egg-container">
-                <div id="dynamic-egg" class="egg-base"><div id="egg-cracks" class="cracks"></div></div>
+                <div id="dynamic-egg" class="egg-base">
+                    <div id="egg-cracks" class="cracks"></div>
+                </div>
             </div>
             <div class="name-info">
-                <div class="rank-title">🎖️ 封測先鋒領袖</div>
-                <div id="real-name" class="display-name">領袖識別中</div>
-                <div id="team-code-display" class="display-team-code">載入中...</div>
-                <div class="team-affiliation">SYSTEM CORE<br>全方位數位輔助</div>
+                <div id="rank-title" class="rank-title">🎖️ 封測領袖識別中</div>
+                <div id="real-name" class="display-name">Loading...</div>
+                <div id="team-code-display" class="display-team-code">數位代號同步中</div>
             </div>
         </div>
 
         <div class="hatch-section">
             <div class="hatch-label"><span>🐣 破蛋孵化進度</span><span id="hatch-percent">0%</span></div>
-            <div class="hatch-bar-bg"><div id="hatch-fill" class="hatch-bar-fill" style="width: 0%;"></div></div>
+            <div class="hatch-bar-bg"><div id="hatch-fill" class="hatch-bar-fill" style="width: 0%; background: linear-gradient(90deg, #FFD700, #FFFACD); box-shadow: 0 0 10px #FFD700;"></div></div>
         </div>
 
-        <div class="hatch-section" style="margin-top: 15px;">
+        <div class="hatch-section">
             <div class="hatch-label">
-                <span style="color: #00E5FF;">✈️ 1-7 代連動積分 (韓國遊)</span>
+                <span style="color: #00E5FF;">✈️ 韓國雙人遊積分</span>
                 <span id="travel-percent">0 / 300 點</span>
             </div>
-            <div class="hatch-bar-bg" style="background: #111; border: 1px solid #00E5FF33;">
+            <div class="hatch-bar-bg" style="background: #111;">
                 <div id="travel-fill" class="hatch-bar-fill" style="width: 0%; background: linear-gradient(90deg, #00E5FF, #FFFFFF); box-shadow: 0 0 10px #00E5FF;"></div>
             </div>
+            <div id="travel-msg" style="color: #D4AF37; font-size: 0.75rem; text-align: center; margin-top: 8px; font-style: italic;">✨ 2027 帶另一半免費一起到韓國辦網聚！</div>
         </div>
 
-        <div class="data-row" style="margin-top: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="asset-zone">
+            <div class="asset-item"><span class="asset-icon">🥚</span>黃金角色卵</div>
+            <div class="asset-item"><span class="asset-icon">🏭</span>算力礦場</div>
+            <div class="asset-item"><span class="asset-icon">🏆</span>創世勳章</div>
+        </div>
+
+        <div class="data-row">
+            <div style="display: flex; justify-content: space-between;">
                 <span class="stat-label">📈 本月預估收入</span>
                 <span id="est-income" class="stat-value">NT$ 0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; border-top: 1px solid #333; padding-top: 10px;">
+                <span class="stat-label">💰 入籍累積總收益</span>
+                <span id="cum-income" class="stat-value" style="color:#FFF;">NT$ 0</span>
             </div>
         </div>
 
@@ -74,22 +114,19 @@
                 <span id="bonus-paid" class="stat-value">NT$ 0</span>
             </div>
             <div class="stat-card">
-                <span class="stat-label">💎 數位身價</span>
-                <div>
-                    <span id="sc-value" class="stat-value" style="color:#00E5FF;">0</span>
-                    <span class="sc-badge">SC</span>
-                </div>
+                <span class="stat-label">💎 數位身價</span><br>
+                <span id="sc-value" class="stat-value" style="color:#00E5FF;">0</span><span class="sc-badge">SC</span>
             </div>
         </div>
 
         <div class="stat-grid">
             <div class="stat-card">
-                <span class="stat-label">🌍 系統註冊總數</span><br>
-                <span id="sys-total" class="stat-value">0</span>
-            </div>
-            <div class="stat-card">
                 <span class="stat-label">👥 個人小組總數</span><br>
                 <span id="group-total" class="stat-value">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">🌍 系統註冊總數</span><br>
+                <span id="sys-total" class="stat-value">0</span>
             </div>
         </div>
 
@@ -104,24 +141,12 @@
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('id'); 
-        
-        updateEggVisuals(); // 💡 確保第一秒就畫出蛋
-        
+        updateEggTheme();
         if (userId) {
             document.getElementById('btn-back').href = "Lobby.html?id=" + encodeURIComponent(userId);
             fetchData(userId);
-        } else {
-            document.getElementById('real-name').innerText = "未提供 ID";
         }
     };
-
-    function formatWealth(value) {
-        if (value === null || value === undefined || isNaN(value)) return "0";
-        let num = parseFloat(value);
-        if (num >= 100000000) return (num / 100000000).toFixed(2) + " 億";
-        if (num >= 10000) return (num / 10000).toFixed(0) + " 萬";
-        return num.toLocaleString();
-    }
 
     async function fetchData(id) {
         try {
@@ -129,49 +154,67 @@
             const res = await response.json();
             
             if (res.success) {
+                // 1. 基本資訊與封號修正
                 document.getElementById('real-name').innerText = res.name || "領袖";
                 document.getElementById('team-code-display').innerText = res.teamCode || id;
-                document.getElementById('est-income').innerText = "NT$ " + (Number(res.income) || 0).toLocaleString();
-                document.getElementById('bonus-paid').innerText = "NT$ " + (Number(res.bonusPaid) || 0).toLocaleString();
+                document.getElementById('rank-title').innerText = res.title || "🛡️ 數位公民";
+
+                // 2. 獎金數據
+                document.getElementById('est-income').innerText = "NT$ " + (res.income || 0).toLocaleString();
+                document.getElementById('cum-income').innerText = "NT$ " + (res.cumulativeIncome || 0).toLocaleString();
+                document.getElementById('bonus-paid').innerText = "NT$ " + (res.bonusPaid || 0).toLocaleString();
                 
+                // 3. 數位身價格式化
                 const scNum = typeof res.sc === 'string' ? Number(res.sc.replace(/,/g, '')) : Number(res.sc);
                 document.getElementById('sc-value').innerText = formatWealth(scNum || 0);
+
+                // 4. 人數修正 (找回 151 人的關鍵)
                 document.getElementById('group-total').innerText = res.groupTotal || 0;
                 document.getElementById('sys-total').innerText = res.sysTotal || 0;
                 
-                let hatchProgress = Math.min(100, 4 + (Number(res.groupTotal) || 0));
-                updateHatch(hatchProgress);
+                // 5. 破蛋與裂紋邏輯 (修正 3 & 4)
+                let groupCount = Number(res.groupTotal) || 0;
+                let hatchProgress = Math.min(100, (groupCount / 1000) * 100); // 以 1000 人為破蛋標準
+                updateHatchEffect(hatchProgress);
 
+                // 6. 旅遊積分與激勵文字 (修正 5)
                 let travelPoints = Number(res.travel) || 0;
-                let travelProgress = Math.min(100, (travelPoints / 300) * 100);
                 document.getElementById('travel-percent').innerText = travelPoints + " / 300 點";
-                document.getElementById('travel-fill').style.width = travelProgress + "%";
+                document.getElementById('travel-fill').style.width = Math.min(100, (travelPoints/300)*100) + "%";
+                if(res.travelStatus) document.getElementById('travel-msg').innerText = res.travelStatus;
+
+                // 7. 孵化 100% 觸發入籍 (修正 4)
+                if (hatchProgress >= 100) {
+                    alert("領袖！您的黃金卵已孵化！請即刻前往領取您的【入籍種族】身分。");
+                }
             }
-        } catch (error) { 
-            console.error("API Error:", error);
-            updateHatch(4); 
+        } catch (error) { console.error("核心連線異常"); }
+    }
+
+    function updateHatchEffect(progress) {
+        document.getElementById('hatch-fill').style.width = progress + "%";
+        document.getElementById('hatch-percent').innerText = Math.floor(progress) + "%";
+        // 裂紋隨進度顯示
+        const cracks = document.getElementById('egg-cracks');
+        cracks.style.opacity = (progress / 100);
+        if(progress > 80) {
+            document.getElementById('dynamic-egg').style.filter = "contrast(1.2) brightness(1.1)";
         }
     }
 
-    function updateHatch(progress) {
-        const fill = document.getElementById('hatch-fill');
-        const percent = document.getElementById('hatch-percent');
-        const cracks = document.getElementById('egg-cracks');
-        if (fill) fill.style.width = progress + "%";
-        if (percent) percent.innerText = Math.floor(progress) + "%";
-        if (cracks) cracks.style.opacity = (progress / 100).toString();
+    function formatWealth(num) {
+        if (num >= 100000000) return (num / 100000000).toFixed(2) + " 億";
+        if (num >= 10000) return (num / 10000).toFixed(1) + " 萬";
+        return num.toLocaleString();
     }
 
-    function updateEggVisuals() {
+    function updateEggTheme() {
         const hour = new Date().getHours();
         const egg = document.getElementById('dynamic-egg');
-        if (!egg) return;
         if (hour >= 6 && hour < 18) {
-            egg.style.background = "radial-gradient(circle at 20% 20%, #ffffff 0%, #fff0b3 20%, #d4af37 60%, #8b6508 100%)";
-            egg.style.boxShadow = "inset -15px -15px 40px rgba(0,0,0,0.8), 0 10px 30px rgba(212, 175, 55, 0.4)";
+            egg.style.background = "radial-gradient(circle at 30% 30%, #fff 0%, #ffd700 40%, #8b6508 100%)";
         } else {
-            egg.style.background = "radial-gradient(circle at 80% 20%, #e0e0e0 0%, #707070 30%, #202020 80%, #000000 100%)";
-            egg.style.boxShadow = "inset 15px -15px 40px rgba(0,0,0,0.9), 0 5px 25px rgba(0, 229, 255, 0.2)";
+            egg.style.background = "radial-gradient(circle at 30% 30%, #dcdcdc 0%, #4f4f4f 50%, #000 100%)";
         }
     }
 </script>
