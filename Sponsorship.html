@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>贊助機制 - AI 生活小秘書</title>
+    <style>
+        body { 
+            background-color: #050505; 
+            color: #fff; 
+            font-family: 'PingFang TC', sans-serif; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh; 
+        }
+        .glow-box { 
+            width: 92%; 
+            max-width: 420px; 
+            background: #000; 
+            border-radius: 25px; 
+            margin: 20px 0; 
+            border: 1px solid #333;
+        }
+        .inner-content { 
+            background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); 
+            border-radius: 23px; 
+            padding: 25px; 
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15); 
+        }
+        .header { text-align: center; margin-bottom: 20px; }
+        .title { color: #FFD700; font-size: 1.2rem; font-weight: 800; letter-spacing: 1px; }
+        
+        /* 贊助回饋卡片 */
+        .reward-card { 
+            background: rgba(212, 175, 55, 0.1); 
+            border: 1px solid #D4AF37; 
+            border-radius: 15px; 
+            padding: 20px; 
+            margin: 15px 0; 
+            text-align: center; 
+        }
+        .reward-label { font-size: 0.8rem; color: #D4AF37; margin-bottom: 5px; }
+        .reward-val { font-size: 2.2rem; font-weight: 900; color: #FFD700; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
+
+        /* 七代列表 */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.85rem; }
+        th { color: #D4AF37; border-bottom: 1px solid #333; padding: 12px 5px; text-align: left; }
+        td { padding: 12px 5px; border-bottom: 1px solid #1a1a1a; color: #ccc; }
+        .highlight { color: #FFD700; font-weight: bold; }
+
+        /* 返回按鈕 */
+        .btn-back { 
+            width: 100%; padding: 15px; background: #111; border: 1px solid #444; 
+            border-radius: 12px; color: #fff; font-weight: bold; cursor: pointer; 
+            margin-top: 25px; transition: 0.3s;
+        }
+        .btn-back:active { transform: scale(0.98); border-color: #D4AF37; }
+
+        .footer { font-size: 0.65rem; color: #444; text-align: center; margin-top: 25px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="glow-box">
+        <div class="inner-content">
+            <div class="header">
+                <div class="title">贊助回饋機制</div>
+                <div style="font-size: 0.75rem; color: #888; margin-top: 5px;">AI 生活小秘書 / 全方位數位輔助</div>
+            </div>
+
+            <div class="reward-card">
+                <div class="reward-label">直推回饋 (第一代)</div>
+                <div class="reward-val">4.0%</div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr><th>發放層級</th><th>分配比例</th><th>狀態</th></tr>
+                </thead>
+                <tbody id="reward-table">
+                    <tr class="highlight"><td>第 1 代 (直推)</td><td>4.0%</td><td>核心鎖定</td></tr>
+                    <tr><td>第 2 代</td><td>待同步</td><td>自動計算</td></tr>
+                    <tr><td>第 3 代</td><td>待同步</td><td>自動計算</td></tr>
+                    <tr><td>第 4 代</td><td>待同步</td><td>自動計算</td></tr>
+                    <tr><td>第 5 代</td><td>待同步</td><td>自動計算</td></tr>
+                    <tr><td>第 6 代</td><td>待同步</td><td>自動計算</td></tr>
+                    <tr><td>第 7 代</td><td>待同步</td><td>自動計算</td></tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top: 25px; font-size: 0.75rem; color: #888; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px;">
+                <div style="color: #D4AF37; font-weight: bold; margin-bottom: 5px;">🛡️ 核心鐵則</div>
+                • 算力幣不得私下轉移。 [cite: 2026-02-06]<br>
+                • 累積滿 100 元即可提領。 [cite: 2026-02-06]<br>
+                • 消費全額抵扣，絕不跳線。 [cite: 2026-01-30, 2026-02-06]
+            </div>
+
+            <button class="btn-back" id="btn-back">返回指令大廳</button>
+            
+            <div class="footer">
+                系統核心 v3.0<br>
+                最終解釋權歸系統核心所有 [cite: 2026-01-09]
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 自動抓取代號並修正返回連結
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('id');
+        
+        document.getElementById('btn-back').onclick = function() {
+            if (userId) {
+                window.location.href = "Lobby.html?id=" + userId;
+            } else {
+                window.history.back();
+            }
+        };
+    </script>
+</body>
+</html>
