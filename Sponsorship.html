@@ -112,8 +112,6 @@
 </div>
 
 <script>
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQOha9XNTKD9St6O-oyNiAkifpEsITLtA1vys1X3Uq4dFHbIKf7jAuCzLbp5GikaxuFQ/exec';
-
     function showBank() {
         const pv = document.getElementById('pv-value').value;
         if (!pv || pv < 1500) { alert('未達維權門檻！'); return; }
@@ -130,21 +128,22 @@
 
         if (!bankAccount || !bankUser) { alert('資訊不全！'); return; }
 
-        fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            cache: 'no-cache',
-            body: JSON.stringify({
+        // 領袖，這裡改用 google.script.run 以確保 100% 入庫
+        google.script.run
+            .withSuccessHandler(function() {
+                alert('✅ 入庫成功！5、6 號晉級邏輯已同步。');
+                document.getElementById('bank-registration-area').style.display = 'none';
+                document.getElementById('arsenal-link').style.display = 'block';
+            })
+            .withFailureHandler(function(err) {
+                alert('🚨 入庫失敗，請確認網路連線或後端權限。');
+            })
+            .doPostDirect({ // 請確保後端 .gs 檔案中有對應的 doPostDirect 函數
                 pv: pv,
                 bankName: bankName,
                 bankUser: bankUser,
                 bankAccount: bankAccount
-            })
-        }).then(() => {
-            alert('✅ 入庫成功！5、6 號晉級邏輯已同步。');
-            document.getElementById('bank-registration-area').style.display = 'none';
-            document.getElementById('arsenal-link').style.display = 'block';
-        }).catch(err => { alert('連線異常。'); });
+            });
     }
 </script>
 </body>
