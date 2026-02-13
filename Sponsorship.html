@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>贊助機制 - AI 生活小秘書</title>
+    <title>2-2-2 贊助機制 - AI 生活小秘書</title>
     <style>
         body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
         .glow-box { width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; border: 1px solid #333; }
-        .inner-content { background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); border-radius: 23px; padding: 25px; box-shadow: 0 0 30px rgba(212, 175, 55, 0.15); }
+        .inner-content { background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); border-radius: 23px; padding: 25px; box-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
         
         /* 🏆 數位資產戰報樣式 */
         .black-gold-card { 
@@ -18,8 +18,8 @@
             margin: 15px 0; 
             text-align: center;
         }
-        .header-tag { background: #d4af37; color: #000; font-size: 0.7em; padding: 2px 10px; border-radius: 20px; display: inline-block; margin-bottom: 5px; font-weight: bold; text-transform: uppercase; }
-        .black-gold-card h3 { color: #FFD700; margin: 10px 0; font-size: 1.2rem; }
+        .header-tag { background: #d4af37; color: #000; font-size: 0.7em; padding: 2px 10px; border-radius: 20px; display: inline-block; margin-bottom: 5px; font-weight: bold; }
+        .black-gold-card h3 { color: #FFD700; margin: 10px 0; font-size: 1.2rem; letter-spacing: 1px; }
         .daily-box { margin: 15px 0; padding: 10px; background: rgba(212, 175, 55, 0.05); border-radius: 10px; }
         .daily-amount { font-size: 1.8rem; font-weight: 900; color: #FFD700; margin-top: 5px; }
         .stat-grid { display: flex; justify-content: space-around; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px; }
@@ -27,30 +27,34 @@
         .stat-item small { color: #888; font-size: 0.75rem; display: block; margin-bottom: 5px; }
         .gold-text { color: #FFD700; font-weight: bold; font-size: 1.1rem; }
         .silver-text { color: #C0C0C0; font-weight: bold; font-size: 1.1rem; }
-        .declaration { font-size: 0.7rem; color: #d4af37; margin-top: 15px; font-weight: bold; }
 
-        .btn-back { width: 100%; padding: 15px; background: #111; border: 1px solid #444; border-radius: 12px; color: #fff; font-weight: bold; cursor: pointer; margin-top: 20px; }
-        .footer { font-size: 0.65rem; color: #444; text-align: center; margin-top: 20px; }
+        /* 🛡️ 2-2-2 機制說明區 */
+        .mech-section { margin-top: 25px; text-align: left; }
+        .mech-title { color: #D4AF37; font-weight: bold; margin-bottom: 15px; font-size: 1rem; border-left: 3px solid #D4AF37; padding-left: 10px; }
+        .step-item { background: rgba(255,255,255,0.03); border: 1px solid #222; border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+        .step-num { color: #FFD700; font-weight: 900; margin-right: 5px; }
+        .step-text { font-size: 0.85rem; color: #ccc; }
+
+        .btn-back { width: 100%; padding: 15px; background: #111; border: 1px solid #444; border-radius: 12px; color: #fff; font-weight: bold; cursor: pointer; margin-top: 25px; }
+        .footer { font-size: 0.65rem; color: #444; text-align: center; margin-top: 25px; line-height: 1.6; }
     </style>
 </head>
 <body>
     <div class="glow-box">
         <div class="inner-content">
             <div style="text-align: center; margin-bottom: 10px;">
-                <div style="color: #FFD700; font-size: 1.2rem; font-weight: 800;">贊助機制核心運算</div>
-                <div style="font-size: 0.75rem; color: #888;">AI 生活小秘書 / 全方位數位輔助</div> [cite: 2026-02-13]
+                <div style="color: #FFD700; font-size: 1.2rem; font-weight: 800;">AI 生活小秘書</div>
+                <div style="font-size: 0.75rem; color: #888;">全方位數位輔助系統核心</div> [cite: 2026-02-13]
             </div>
 
             <div class="black-gold-card">
                 <div class="header-tag">系統核心啟動中</div>
                 <h3>🏆 數位資產戰報</h3>
-                
                 <div class="daily-box">
                     <p style="color: #888; font-size: 0.9em;">自進入 A 區起算第 <span id="daysActive">1</span> 天</p>
                     <p>⚡ 平均日收贊助金 ⚡</p>
                     <div class="daily-amount">$ <span id="avgDaily">0</span> 元</div>
                 </div>
-
                 <div class="stat-grid">
                     <div class="stat-item">
                         <small>已領取贊助金</small>
@@ -61,28 +65,34 @@
                         <div class="silver-text">$ <span id="pendingAmount">0</span></div>
                     </div>
                 </div>
-                
-                <p class="declaration">🛡️ 系統完全免收手續費，保證到帳 100%</p>
             </div>
 
-            <div style="margin-top: 20px; font-size: 0.75rem; color: #666; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 10px;">
-                <div style="color: #D4AF37; font-weight: bold; margin-bottom: 5px;">🛡️ 核心鐵則</div>
-                • 算力幣不得私下轉移。 [cite: 2026-02-06]<br>
-                • 推薦獎金 99/人，累積 100 即可提領。 [cite: 2026-02-06]<br>
-                • 1-7 代複利分配，絕不跳線。 [cite: 2026-01-30, 2026-02-05]
+            <div class="mech-section">
+                <div class="mech-title">🚀 2-2-2 贊助倍增機制</div>
+                <div class="step-item">
+                    <span class="step-num">01</span>
+                    <span class="step-text">**建立核心**：啟動 2 組基礎數位分身。</span> [cite: 2026-02-06]
+                </div>
+                <div class="step-item">
+                    <span class="step-num">02</span>
+                    <span class="step-text">**複製動能**：輔助 2 名公民同步完成部署。</span> [cite: 2026-02-13]
+                </div>
+                <div class="step-item">
+                    <span class="step-num">03</span>
+                    <span class="step-text">**達成循環**：兩週內完成 2 層複利疊加。</span> [cite: 2026-02-05]
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; font-size: 0.7rem; color: #666; background: rgba(212,175,55,0.05); padding: 15px; border-radius: 10px; border: 1px solid rgba(212,175,55,0.1);">
+                <div style="color: #D4AF37; font-weight: bold; margin-bottom: 5px;">📜 贊助公約</div>
+                • 推薦獎金 99 元 / 人，推薦鎖定絕不跳線。 [cite: 2026-01-30, 2026-02-06]
+                <br>• 算力幣僅限核心運算，不得私下轉移。 [cite: 2026-02-06]
+                <br>• 滿 100 即可申請，消費享有全額抵扣特權。 [cite: 2026-02-06]
             </div>
 
             <button class="btn-back" onclick="history.back()">返回指令大廳</button>
             <div class="footer">最終解釋權歸系統核心所有</div> [cite: 2026-01-09]
         </div>
     </div>
-
-    <script>
-        // 領袖，這裡可以根據 GAS 傳回來的數據動態填入
-        // 目前先預設為 0
-        document.getElementById('avgDaily').innerText = "0";
-        document.getElementById('receivedAmount').innerText = "0";
-        document.getElementById('pendingAmount').innerText = "0";
-    </script>
 </body>
 </html>
