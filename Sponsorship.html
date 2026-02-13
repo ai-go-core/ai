@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <title>AI 生活小秘書 | 全方位數位輔助</title>
+    <title>AI 生活小秘書 | 數位分身入庫系統</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --gold-primary: #D4AF37; --gold-light: #FFD700; --dark-bg: #050505; --neon-green: #00ff88; --neon-purple: #bc13fe; --neon-blue: #00e5ff; --neon-red: #ff4444; }
@@ -16,93 +16,98 @@
         .zone-box { margin-bottom: 15px; padding: 15px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid #222; }
         .step-row { display: flex; gap: 10px; margin-bottom: 8px; font-size: 0.82em; line-height: 1.4; }
         .step-num { color: var(--gold-light); font-weight: bold; flex-shrink: 0; width: 65px; }
-        .step-desc { color: #ccc; }
-        .reward-tag { display: inline-block; background: rgba(0, 255, 136, 0.1); color: var(--neon-green); padding: 4px 10px; border-radius: 5px; font-weight: bold; margin: 5px 0; font-size: 0.9em; width: 100%; box-sizing: border-box; text-align: center; }
+        .reward-tag { display: block; background: rgba(0, 255, 136, 0.1); color: var(--neon-green); padding: 5px; border-radius: 5px; font-weight: bold; margin: 8px 0; text-align: center; font-size: 0.85em; }
 
-        .benefit-list { background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 12px; padding: 15px; margin: 10px 0; list-style: none; }
-        .benefit-item { font-size: 0.82em; margin-bottom: 8px; color: #ddd; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
-        .btn-lerich { background: #fff; color: #000; width: 100%; padding: 14px; border-radius: 12px; font-weight: 800; text-decoration: none; display: block; text-align: center; margin: 15px 0; }
+        .btn-main { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 1em; text-decoration: none; display: inline-block; text-align: center; box-sizing: border-box; }
+        .btn-match { background: linear-gradient(45deg, #D4AF37, #FFD700); color: #000; }
+        .btn-arsenal { background: #000; color: var(--gold-primary); border: 1px solid var(--gold-primary); margin-top: 20px; display: none; }
         
         input { width: 100%; background: #111; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; }
         #bank-registration-area { display: none; margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
-        .btn-main { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 15px; }
-        .btn-match { background: linear-gradient(45deg, #D4AF37, #FFD700); color: #000; }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="brand-header">
-        <h2 style="margin:0; font-size: 1.25em;"><span style="color:var(--gold-primary)">AI 生活小秘書 | 全方位數位輔助</span></h2>
+        <h2 style="margin:0;"><span style="color:var(--gold-primary)">AI 生活小秘書</span></h2>
         <div style="font-size: 0.8em; color: var(--gold-light);">全方位數位輔助系統核心</div>
     </div>
 
-    <div class="section-title">⚙️ 2-2-2 循環收益與晉級解析</div>
+    <div class="section-title">⚙️ 2-2-2 循環收益解析</div>
     <div class="report-card">
         <div class="zone-box" style="border-left: 4px solid var(--neon-green);">
-            <div style="color: var(--neon-green); font-weight: bold; margin-bottom: 8px;">【A 區：基礎重生模型】</div>
-            <div class="step-row"><span class="step-num">1, 2 號</span><span class="step-desc">直接收款：預計獲得 6,000 元。</span></div>
-            <div class="step-row"><span class="step-num">3, 4 號</span><span class="step-desc">分身重生：生成 V1, V2 分身。</span></div>
-            <div class="step-row" style="background: rgba(255, 68, 68, 0.1); padding: 5px; border-radius: 5px;">
-                <span class="step-num" style="color:var(--neon-red);">5, 6 號</span>
-                <span class="step-desc"><strong>晉級鎖定：</strong>必須出現 5, 6 號方可晉級 B 區。</span>
-            </div>
-            <div class="reward-tag">💰 A 區完成：預計 6,000 元贊助金</div>
+            <div style="color:var(--neon-green); font-weight:bold; margin-bottom:5px;">【A 區：基礎重生模型】</div>
+            <div class="step-row"><span class="step-num">1, 2 號</span><span>收款贊助金 6,000 元</span></div>
+            <div class="step-row"><span class="step-num">3, 4 號</span><span>分身重生回歸排隊</span></div>
+            <div class="step-row"><span class="step-num">5, 6 號</span><span style="color:var(--neon-red);">晉級鎖定：晉級 B 區</span></div>
+            <div class="reward-tag">💰 A 區完成：6,000 元</div>
         </div>
-        <div class="zone-box" style="border-left: 4px solid var(--neon-purple);">
-            <div style="color: var(--neon-purple); font-weight: bold; margin-bottom: 8px;">【B 區：倍增反哺模型】</div>
-            <div class="step-row"><span class="step-num">1, 2 號</span><span class="step-desc">直接收款：預計獲得 12,000 元。</span></div>
-            <div class="step-row"><span class="step-num">3, 4 號</span><span class="step-desc">分身重生：分身晉級並釋放能量。</span></div>
-            <div class="step-row" style="background: rgba(188, 19, 254, 0.1); padding: 5px; border-radius: 5px;">
-                <span class="step-num" style="color:var(--neon-purple);">5, 6 號</span>
-                <span class="step-desc"><strong>晉級鎖定：</strong>必須出現 5, 6 號方可晉級 C 區。</span>
-            </div>
-            <div class="reward-tag" style="color:var(--neon-purple); background:rgba(188, 19, 254, 0.1);">💰 B 區完成：預計 12,000 元贊助金</div>
-        </div>
-        <div class="zone-box" style="border-left: 4px solid var(--neon-blue);">
-            <div style="color: var(--neon-blue); font-weight: bold; margin-bottom: 8px;">【C 區：終極裂變模型】</div>
-            <div class="step-row"><span class="step-num">1, 2 號</span><span class="step-desc">直接收款：預計獲得 24,000 元。</span></div>
-            <div class="step-row"><span class="step-num">3, 4 號</span><span class="step-desc">終極重生：裂變多組分身持續循環。</span></div>
-            <div class="step-row" style="background: rgba(0, 229, 255, 0.1); padding: 5px; border-radius: 5px;">
-                <span class="step-num" style="color:var(--neon-blue);">5, 6 號</span>
-                <span class="step-desc"><strong>晉級鎖定：</strong>必須出現 5, 6 號方可晉級 D 區。</span>
-            </div>
-            <div class="reward-tag" style="color:var(--neon-blue); background:rgba(0, 229, 255, 0.1);">💰 C 區完成：預計 24,000 元贊助金</div>
-        </div>
+        <div style="font-size: 0.75em; color: #777; text-align: center; margin: 10px 0;">( B 區目標 12,000 元 | C 區目標 24,000 元 )</div>
     </div>
 
-    <div class="section-title">🚀 購買 1500 PV 之公民福利</div>
+    <div class="section-title">🚀 創建數位分身 · 資料入庫</div>
     <div class="report-card">
-        <ul class="benefit-list">
-            <li class="benefit-item"><i class="fas fa-check-circle" style="color:var(--gold-light);"></i> <span>1. 旅遊點數累積與 AI 數位工具使用權。</span></li>
-            <li class="benefit-item"><i class="fas fa-check-circle" style="color:var(--gold-light);"></i> <span>2. 100% 無損到帳，民間義務對接免收費。</span></li>
-        </ul>
-        <a href="https://www.lerich.com.tw" target="_blank" class="btn-lerich">前往樂瑞取得 1500 PV</a>
-        <p style="font-size: 0.8em; color: var(--gold-light); margin-top:15px;">Step 2. 輸入證明並報名</p>
-        <input type="number" id="pv-value" placeholder="請輸入 PV 值">
-        <button id="enroll-btn" class="btn-main btn-match" onclick="checkAndEnroll()">立即報名贊助</button>
+        <p style="font-size: 0.8em; color: var(--gold-light);">Step 1. 驗證 1500 PV 證明值</p>
+        <input type="number" id="pv-value" placeholder="請輸入數值 (例如: 1500)">
+        <button id="enroll-btn" class="btn-main btn-match" onclick="showBank()">立即報名贊助</button>
 
         <div id="bank-registration-area">
-            <div class="report-card" style="border-style: dashed;">
-                <input type="text" id="bank-name" placeholder="銀行代碼與名稱">
-                <input type="text" id="bank-user" placeholder="收款人戶名">
-                <input type="text" id="bank-account" placeholder="銀行帳號">
-                <button class="btn-main" style="background: var(--neon-green); color: #000;" onclick="submitFinal()">完成登記</button>
-            </div>
+            <p style="font-size: 0.8em; color: var(--neon-green);">Step 2. 填寫收款帳戶 (資料將存入諾亞核心)</p>
+            <input type="text" id="bank-name" placeholder="銀行代碼與名稱">
+            <input type="text" id="bank-user" placeholder="收款人戶名">
+            <input type="text" id="bank-account" placeholder="銀行帳號數字">
+            <button class="btn-main" style="background: var(--neon-green); color: #000;" onclick="submitToDatabase()">
+                完成登記並正式入庫
+            </button>
         </div>
+
+        <a id="arsenal-link" href="#" class="btn-main btn-arsenal">
+            <i class="fas fa-box-open"></i> 開啟個人武器庫 (W1-W7)
+        </a>
+    </div>
+
+    <div style="text-align: center; margin-top: 25px;">
+        <div style="font-size: 0.6em; color: #555;">最終解釋權歸系統核心所有</div>
     </div>
 </div>
 
 <script>
-    function checkAndEnroll() {
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQOha9XNTKD9St6O-oyNiAkifpEsITLtA1vys1X3Uq4dFHbIKf7jAuCzLbp5GikaxuFQ/exec';
+
+    function showBank() {
         const pv = document.getElementById('pv-value').value;
         if (!pv || pv < 1500) { alert('請輸入至少 1500 PV！'); return; }
         document.getElementById('bank-registration-area').style.display = 'block';
         document.getElementById('enroll-btn').style.display = 'none';
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
-    function submitFinal() {
-        if (!document.getElementById('bank-account').value) { alert('請填寫帳號！'); return; }
-        alert('報名成功！AI 正調控 5、6 號晉級邏輯。');
+
+    function submitToDatabase() {
+        const pv = document.getElementById('pv-value').value;
+        const bankName = document.getElementById('bank-name').value;
+        const bankUser = document.getElementById('bank-user').value;
+        const bankAccount = document.getElementById('bank-account').value;
+
+        if (!bankAccount || !bankUser) { alert('請填寫完整資訊！'); return; }
+
+        alert('正在執行入庫指令，請勿關閉視窗...');
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            cache: 'no-cache',
+            body: JSON.stringify({
+                pv: pv,
+                bankName: bankName,
+                bankUser: bankUser,
+                bankAccount: bankAccount
+            })
+        }).then(() => {
+            alert('✅ 成功！資料已寫入諾亞系統。3、4 號與 5、6 號邏輯已啟動！');
+            document.getElementById('bank-registration-area').style.display = 'none';
+            document.getElementById('arsenal-link').style.display = 'block';
+        }).catch(err => {
+            alert('連線核心失敗，請檢查網路。');
+        });
     }
 </script>
 </body>
