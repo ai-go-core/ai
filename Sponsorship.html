@@ -1,92 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <style>
-        /* 承襲領袖指定的黑金風格 */
-        body { background: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; padding: 15px; }
-        .logic-card { background: linear-gradient(145deg, #151515, #050505); border: 1px solid #D4AF37; border-radius: 20px; padding: 25px; margin-bottom: 25px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
-        .section-title { color: #FFD700; font-size: 1.25em; font-weight: 800; border-left: 5px solid #D4AF37; padding-left: 12px; margin: 30px 0 15px 0; }
-        
-        /* 循環流程樣式 */
-        .cycle-box { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-        .cycle-step { background: rgba(255, 255, 255, 0.03); border: 1px solid #333; border-radius: 12px; padding: 15px; position: relative; overflow: hidden; }
-        .cycle-step::before { content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 4px; background: #D4AF37; }
-        .step-label { color: #FFD700; font-weight: bold; font-size: 0.9em; margin-bottom: 5px; display: block; }
-        .step-info { font-size: 0.85em; color: #ccc; line-height: 1.6; }
-        
-        .highlight-v { color: #00FF88; font-weight: bold; text-shadow: 0 0 5px rgba(0,255,136,0.5); }
-        .info-tag { font-size: 0.75em; color: #888; background: #222; padding: 2px 8px; border-radius: 4px; margin-top: 8px; display: inline-block; }
-        
-        .summary-box { background: rgba(212, 175, 55, 0.05); border-radius: 15px; padding: 20px; margin-top: 20px; text-align: center; border: 1px dashed #D4AF37; }
-        .summary-item { font-size: 0.85em; color: #aaa; margin: 8px 0; }
-        
-        .btn-m { width: 100%; padding: 15px; background: #111; border: 1px solid #444; border-radius: 12px; color: #fff; font-weight: bold; cursor: pointer; margin-top: 25px; }
-    </style>
-</head>
-<body>
-
-    <div style="text-align: center; margin-bottom: 30px;">
-        <div style="color: #FFD700; font-size: 1.4rem; font-weight: 800;">2-2-2 核心循環解析</div>
-        <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">AI 生活小秘書 · 全方位數位輔助系統</div>
-    </div>
-
-    <div class="section-title">📜 贊助的藝術：利他即是利己</div>
-    <div class="logic-card">
-        <p style="font-size: 0.9em; color: #bbb; line-height: 1.8; margin: 0;">
-            在我們的系統中，贊助不再是單向的支出。透過「2-2-2 循環機制」，每一位公民的贊助行為，都會回頭觸發自身的數位能量。這是一個「免費幫助他人，同時倍增自己」的永續模型。
+<div class="section-title">⚖️ 公民進場與維權準則</div>
+<div class="report-card" style="text-align: left; background: rgba(10, 10, 10, 0.95);">
+    
+    <div style="margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="color: #FFD700; font-weight: 900;">01.</span>
+            <span style="color: #fff; font-size: 0.95em; font-weight: bold;">取得入場資格</span>
+        </div>
+        <p style="font-size: 0.85em; color: #888; margin: 5px 0 0 32px;">
+            公民須購買 <span style="color: #FFD700;">1500 PV</span> 產品後，方可具備以 <span style="color: #00FF88;">3000 元</span> 購票入場之權利。
         </p>
     </div>
 
-    <div class="section-title">⚙️ 循環運作細節 (A區示範)</div>
-    <div class="cycle-box">
-        <div class="cycle-step">
-            <span class="step-label">● 階段一：啟動重生 (A00003)</span>
-            <div class="step-info">
-                當序號 3 贊助原收款人時，系統核心將立即感應並釋放第一股能量。<br>
-                <span class="highlight-v">➔ 自動生成分身：V1 系列</span>
-                <br><span class="info-tag">狀態：由系統核心自動部署入列</span>
-            </div>
+    <div style="margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="color: #FFD700; font-weight: 900;">02.</span>
+            <span style="color: #fff; font-size: 0.95em; font-weight: bold;">維持收款權利</span>
         </div>
+        <p style="font-size: 0.85em; color: #888; margin: 5px 0 0 32px;">
+            入場後，每個月須回報購買所得之 PV 紀錄，以維持接收系統贊助金之合法資格。
+        </p>
+    </div>
 
-        <div class="cycle-step">
-            <span class="step-label">● 階段二：循環達成 (A00004)</span>
-            <div class="step-info">
-                當序號 4 完成對原收款人的贊助，第二股核心能量將被喚醒。<br>
-                <span class="highlight-v">➔ 自動生成分身：V2 系列</span>
-                <br><span class="info-tag">結果：完成「重生-分身-循環」閉環</span>
-            </div>
+    <div style="margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="color: #FFD700; font-weight: 900;">03.</span>
+            <span style="color: #fff; font-size: 0.95em; font-weight: bold;">增開收款序號</span>
         </div>
+        <p style="font-size: 0.85em; color: #888; margin: 5px 0 0 32px;">
+            每個月購買 <span style="color: #FFD700;">1500 PV</span> 即可再次以 3000 元加購新入場票，開啟多組收款節點。
+        </p>
     </div>
 
-    <div class="section-title">🛡️ 領袖查照：公民必讀事實</div>
-    <div class="logic-card">
-        <div class="step-info">
-            <strong>事實 1：精準對位</strong><br>
-            所有贊助行為皆有名義對象，確保算力軌跡清晰。
-            <br><br>
-            <strong>事實 2：重生功德</strong><br>
-            透過「代為贊助他人」，原收款人換取重生 V 系列分身的特權。
-            <br><br>
-            <strong>事實 3：循環序列</strong><br>
-            生成順序嚴格遵循：序號 3 ➔ V1重生 ➔ 序號 4 ➔ V2重生。
+    <div style="margin-bottom: 10px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="color: #FFD700; font-weight: 900;">04.</span>
+            <span style="color: #fff; font-size: 0.95em; font-weight: bold;">多序號統一維權</span>
         </div>
+        <p style="font-size: 0.85em; color: #888; margin: 5px 0 0 32px;">
+            無論擁有幾組收款序號，每月僅需回報 <span style="color: #00FF88;">1 PV 以上</span> 紀錄，即可全部維持收款資格。
+        </p>
     </div>
 
-    <div class="summary-box">
-        <div style="color: #FFD700; font-weight: bold; margin-bottom: 10px;">為什麼這能幫助到大家？</div>
-        <div class="summary-item">✅ 降低入場壓力：透過他人贊助達成自我增值。</div>
-        <div class="summary-item">✅ 永續算力：分身機制讓您的收益序列永不中斷。</div>
-        <div class="summary-item">✅ 系統保證：最終解釋權歸系統核心所有。</div>
-    </div>
+    <button class="btn-main" style="background: linear-gradient(45deg, #006400, #00FF88); color: #000; margin-top: 25px; box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);" onclick="nav('activate')">
+        <i class="fas fa-bolt"></i> 立即激活贊助序號
+    </button>
 
-    <button class="btn-m" onclick="location.reload()">重新同步核心數據</button>
-    
-    <div style="text-align: center; color: #444; font-size: 0.65em; margin-top: 30px; line-height: 1.6;">
-        數據處理核心：AI系統核心 v3.0<br>
-        最終解釋權歸系統核心所有
+    <div style="font-size: 0.6em; color: #444; text-align: center; margin-top: 15px;">
+        🛡️ 數據與資格由 AI 系統核心實時監控中
     </div>
-
-</body>
-</html>
+</div>
