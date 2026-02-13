@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 系統核心大廳</title>
+    <title>AI 生活小秘書 / 全方位數位輔助</title>
     <style>
         body { 
             background-color: #050505; 
@@ -32,11 +32,13 @@
             display: flex; 
             flex-direction: column; 
             border: 1px solid #333;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
         }
 
-        /* 標題與公告區 */
+        /* 🛡️ 定性名稱標題區 */
         .header { text-align: center; margin-bottom: 25px; }
-        .system-title { color: #FFD700; font-size: 1.5rem; font-weight: 800; letter-spacing: 3px; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+        .system-title { color: #FFD700; font-size: 1.3rem; font-weight: 800; letter-spacing: 1px; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+        .system-subtitle { font-size: 0.8rem; color: #D4AF37; margin-top: 5px; font-weight: bold; letter-spacing: 2px; }
         
         .marquee {
             background: rgba(212, 175, 55, 0.1);
@@ -69,9 +71,9 @@
         }
 
         .nav-item:active { transform: scale(0.95); border-color: #D4AF37; }
-        .nav-icon { font-size: 2rem; margin-bottom: 10px; }
+        .nav-icon { font-size: 1.8rem; margin-bottom: 10px; }
         .nav-text { font-size: 0.95rem; font-weight: bold; color: #BBB; }
-        .nav-desc { font-size: 0.7rem; color: #666; margin-top: 5px; }
+        .nav-desc { font-size: 0.65rem; color: #666; margin-top: 5px; }
 
         /* 特色亮點區域 */
         .feature-banner {
@@ -82,40 +84,43 @@
             border-left: 4px solid #D4AF37;
         }
         .feature-title { color: #FFD700; font-size: 0.9rem; font-weight: bold; }
-        .feature-list { font-size: 0.75rem; color: #888; margin-top: 5px; line-height: 1.6; }
+        .feature-list { font-size: 0.7rem; color: #888; margin-top: 5px; line-height: 1.6; }
 
-        .footer { font-size: 0.7rem; color: #444; text-align: center; padding: 30px 0; letter-spacing: 1px; }
+        .footer { font-size: 0.65rem; color: #444; text-align: center; padding: 30px 0; letter-spacing: 1px; }
     </style>
 </head>
 <body>
     <div class="glow-box">
         <div class="inner-content">
             <div class="header">
-                <div class="system-title">SYSTEM CORE</div>
-                <div style="font-size: 0.8rem; color: #888; margin-top: 5px;">AI 生活小秘書 · 指令大廳</div>
+                <div class="system-title">AI 生活小秘書</div>
+                <div class="system-subtitle">/ 全方位數位輔助</div>
                 
                 <div class="marquee">
-                    <marquee scrollamount="5">🔥 封測限定：註冊即領人物蛋 + 50元購物金 | 推薦獎金 99 元無限發放 | 免年費、免配貨 🚀</marquee>
+                    <marquee scrollamount="5">🔥 封測限定：註冊即領人物蛋 + 50元購物金 | 推薦獎金 99 元無限發放 | 免會費、免配貨、消費全額抵扣 🚀</marquee>
                 </div>
             </div>
 
             <div class="nav-grid">
-                <a id="link-profile" href="#" class="nav-item" style="border-color: #D4AF37;">
+                <a id="link-sponsorship" href="#" class="nav-item" style="border-color: #D4AF37;">
+                    <span class="nav-icon">💰</span>
+                    <span class="nav-text" style="color: #FFD700;">贊助回饋</span>
+                    <span class="nav-desc">7代複利制度</span>
+                </a>
+
+                <a id="link-profile" href="#" class="nav-item">
                     <span class="nav-icon">👤</span>
-                    <span class="nav-text" style="color: #FFD700;">個人資產</span>
-                    <span class="nav-desc">人物蛋與收益</span>
+                    <span class="nav-text">個人資產</span>
+                    <span class="nav-desc">角色蛋與收益</span>
                 </a>
+
+                <a id="link-contact" href="#" class="nav-item">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">聯繫領袖</span>
+                    <span id="contact-desc" class="nav-desc">啟動數位分身</span>
+                </a>
+
                 <a id="link-writer" href="#" class="nav-item">
-                    <span class="nav-icon">🔥</span>
-                    <span class="nav-text">產文神器</span>
-                    <span class="nav-desc">爆款文案生成</span>
-                </a>
-                <a href="https://line.me/R/ti/p/@您的LINE官方ID" class="nav-item">
-                    <span class="nav-icon">📊</span>
-                    <span class="nav-text">戰隊數據</span>
-                    <span class="nav-desc">七代組織查詢</span>
-                </a>
-                <a href="#" class="nav-item">
                     <span class="nav-icon">⚙️</span>
                     <span class="nav-text">AI 工具箱</span>
                     <span class="nav-desc">封測功能解鎖</span>
@@ -125,14 +130,14 @@
             <div class="feature-banner">
                 <div class="feature-title">🛡️ 領袖特權公告</div>
                 <div class="feature-list">
-                    • 系統核心給予角色蛋，具備無限成長價值。<br>
+                    • 系統核心贈送角色彩蛋，具備成長與收益價值。<br>
                     • 消費全額抵扣，收益達 100 即可申請提領。<br>
-                    • 達成 300 點數即可解鎖雙人免費國外旅遊。
+                    • 推薦獎金 99 元，達成目標享雙人免費國外旅遊。
                 </div>
             </div>
 
             <div class="footer">
-                系統核心 v3.0 | 最終解釋權歸系統核心所有
+                AI系統核心 v3.0 | 最終解釋權歸系統核心所有
             </div>
         </div>
     </div>
@@ -140,12 +145,29 @@
     <script>
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const userId = urlParams.get('id');
+            const userId = urlParams.get('id'); // 動態獲取如 vvvip.tw
             const refParam = userId ? "?id=" + userId : "";
 
-            // 動態修正所有按鈕的連結，確保 ID 參數不丟失
-            document.getElementById('link-profile').href = "Profile.html" + refParam;
-            document.getElementById('link-writer').href = "Writer.html" + refParam;
+            // 🛡️ 公版動態連結邏輯
+            if (userId) {
+                document.getElementById('link-sponsorship').href = "Sponsorship.html" + refParam;
+                document.getElementById('link-profile').href = "Profile.html" + refParam;
+                document.getElementById('link-writer').href = "Writer.html" + refParam;
+                
+                // 動態設定 LINE 聯繫連結
+                document.getElementById('link-contact').href = "https://line.me/ti/p/~" + userId;
+                document.getElementById('contact-desc').innerText = "ID: " + userId;
+            } else {
+                // 無 ID 時的保護措施
+                const protectFunc = function(e) { 
+                    e.preventDefault(); 
+                    alert('系統提示：請透過推薦連結進入指令大廳'); 
+                };
+                document.getElementById('link-sponsorship').onclick = protectFunc;
+                document.getElementById('link-profile').onclick = protectFunc;
+                document.getElementById('link-contact').onclick = protectFunc;
+                document.getElementById('link-writer').onclick = protectFunc;
+            }
         };
     </script>
 </body>
