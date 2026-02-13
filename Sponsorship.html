@@ -12,22 +12,20 @@
         .brand-header { margin-bottom: 25px; border-bottom: 2px solid var(--gold-primary); padding-bottom: 15px; text-align: center; }
         .section-title { font-size: 0.9em; color: var(--gold-primary); text-align: left; margin: 25px 0 10px 5px; border-left: 3px solid var(--gold-primary); padding-left: 8px; font-weight: 800; }
         .report-card { background: #0a0a0a; border-radius: 20px; padding: 18px; margin-top: 15px; border: 1px solid var(--gold-primary); position: relative; }
-        .process-box { margin-bottom: 15px; padding: 15px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid #222; }
-        .step-row { display: flex; gap: 10px; margin-bottom: 8px; font-size: 0.82em; line-height: 1.4; }
-        .step-num { color: var(--gold-light); font-weight: bold; flex-shrink: 0; width: 60px; }
-        .step-desc { color: #ccc; }
-        .tag-a { color: var(--neon-green); font-weight: bold; }
-        .tag-b { color: var(--neon-purple); font-weight: bold; }
-        .tag-c { color: var(--neon-blue); font-weight: bold; }
-        .warning-box { background: rgba(255, 68, 68, 0.05); border: 1px solid var(--neon-red); border-radius: 12px; padding: 12px; margin: 10px 0; }
-        .rule-item { margin-bottom: 10px; font-size: 0.85em; color: #ccc; }
         
-        /* 新增流程樣式 */
+        .benefit-list { background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 12px; padding: 15px; margin: 10px 0; list-style: none; }
+        .benefit-item { font-size: 0.82em; margin-bottom: 8px; color: #ddd; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+        .benefit-item i { color: var(--gold-light); margin-top: 3px; }
+
         .voluntary-statement { background: rgba(255, 255, 255, 0.05); border: 1px dashed #555; padding: 12px; font-size: 0.75em; color: #aaa; text-align: justify; margin: 15px 0; border-radius: 10px; line-height: 1.5; }
-        .btn-lerich { background: #fff; color: #000; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; text-decoration: none; display: block; text-align: center; margin: 10px 0; font-size: 0.9em; box-sizing: border-box; }
-        .input-pv { width: 100%; background: #111; border: 1px solid var(--gold-primary); color: #fff; padding: 12px; border-radius: 8px; box-sizing: border-box; margin-top: 5px; }
-        .btn-main { width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 15px; }
-        .btn-activate { background: linear-gradient(45deg, #006400, #00FF88); color: #000; box-shadow: 0 0 15px rgba(0, 255, 136, 0.4); }
+        .btn-lerich { background: #fff; color: #000; width: 100%; padding: 14px; border-radius: 12px; font-weight: 800; text-decoration: none; display: block; text-align: center; margin: 15px 0; box-shadow: 0 4px 15px rgba(255,255,255,0.2); }
+        
+        input { width: 100%; background: #111; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; box-sizing: border-box; margin-top: 5px; margin-bottom: 10px; }
+        input:focus { border-color: var(--gold-primary); outline: none; }
+        
+        #bank-registration-area { display: none; margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
+        
+        .btn-main { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 15px; }
         .btn-match { background: linear-gradient(45deg, #D4AF37, #FFD700); color: #000; }
         .btn-confirm { background: #333; color: #fff; font-size: 0.75em; border: 1px solid #555; flex: 1; padding: 10px; border-radius: 8px; cursor: pointer; }
     </style>
@@ -41,74 +39,94 @@
 
     <div class="section-title">⚙️ 2-2-2 循環生命週期解析</div>
     <div class="report-card">
-        <div class="process-box" style="border-left: 4px solid var(--neon-green);">
-            <div class="tag-a" style="margin-bottom:8px;">【A 區：基礎重生模型】</div>
-            <div class="step-row"><span class="step-num">序號 1, 2</span><span class="step-desc">啟動收款狀態，接收首波贊助金。</span></div>
-            <div class="step-row"><span class="step-num">序號 3</span><span class="step-desc">贊助 1 號：觸發重生，生成 V1 分身。</span></div>
-            <div class="step-row"><span class="step-num">序號 4</span><span class="step-desc">贊助 1 號：完成循環，生成 V2 分身。</span></div>
-        </div>
-        <div class="process-box" style="border-left: 4px solid var(--neon-purple);">
-            <div class="tag-b" style="margin-bottom:8px;">【B 區：倍增反哺模型】</div>
-            <div class="step-row"><span class="step-num">序號 1, 2</span><span class="step-desc">接收高階資產贊助。</span></div>
-            <div class="step-row"><span class="step-num">序號 3</span><span class="step-desc">贊助 1 號：生成 V1 重生分身。</span></div>
-            <div class="step-row"><span class="step-num">序號 4</span><span class="step-desc">贊助 1 號：噴發釋放 V2 + V3 分身。</span></div>
-        </div>
-        <div class="process-box" style="border-left: 4px solid var(--neon-blue);">
-            <div class="tag-c" style="margin-bottom:8px;">【C 區：終極裂變模型】</div>
-            <div class="step-row"><span class="step-num">序號 1, 2</span><span class="step-desc">進入終極算力金接收區。</span></div>
-            <div class="step-row"><span class="step-num">序號 3</span><span class="step-desc">贊助 1 號：重生雙倍 V1 + V2。</span></div>
-            <div class="step-row"><span class="step-num">序號 4</span><span class="step-desc">贊助 1 號：裂變三倍 V3 + V4 + V5。</span></div>
-        </div>
-        <div style="font-size: 0.65em; color: #555; text-align: center;">🛡️ 3、4 號贊助原 1 號收款人，換取重生。</div>
+        <p style="font-size: 0.75em; color: #ccc; line-height: 1.5; margin: 0;">所有贊助收益必須建立在「持續維權」的基礎上。原序號領完 1、2 號後即出局，後續完全靠 3、4 號觸發的分身在系統中排隊循環。<strong>每月若未回報 1 PV 紀錄，將自動暫停收款。</strong></p>
     </div>
 
-    <div class="section-title">⚖️ 公民進場與維權準則</div>
-    <div class="report-card" style="text-align: left;">
-        <div class="rule-item"><span style="color:var(--gold-primary); font-weight: bold;">01. 購票資格：</span> 購滿 1500 PV 後，可以 3000 元入場。</div>
-        <div class="rule-item"><span style="color:var(--gold-primary); font-weight: bold;">02. 維權權利：</span> 每月須回報購買紀錄，方可維持收款權。</div>
-        <div class="rule-item"><span style="color:var(--gold-primary); font-weight: bold;">03. 增開序號：</span> 每月達 1500 PV 可再購票加開收款節點。</div>
-        <div class="rule-item"><span style="color:var(--gold-primary); font-weight: bold;">04. 統一維權：</span> 擁有多序號者，每月僅需回報 1 PV 以上紀錄。</div>
-    </div>
-
-    <div class="section-title">🚀 贊助激活流程</div>
-    
+    <div class="section-title">🚀 贊助計畫與公民福利</div>
     <div class="voluntary-statement">
-        <strong>⚖️ 法律自願聲明：</strong> 本系統一切參加贊助之行為均屬公民個人自願行為，絕對無人鼓吹、誤導或強迫。公民已充分了解機制並同意自主管理數位資產。
+        <strong>⚖️ 法律自願聲明：</strong> 一切參加贊助之行為均屬公民個人自願，絕對無人鼓吹、誤導或強迫。公民可自行選擇是否參加。
     </div>
 
     <div class="report-card">
-        <p style="font-size: 0.8em; color: var(--gold-light); margin-bottom: 10px;">Step 1. 前往樂瑞官網採購產品</p>
+        <p style="font-size: 0.85em; color: var(--gold-light); font-weight: bold;">Step 1. 採購 1500 PV 產品</p>
+        <ul class="benefit-list">
+            <li class="benefit-item"><i class="fas fa-plane"></i> <span><strong>旅遊點數：</strong> 1500 PV 換 1 點（累積 300 點免費韓國雙人遊）。</span></li>
+            <li class="benefit-item"><i class="fas fa-shield-alt"></i> <span><strong>機制參加權：</strong> 取得贊助機制參加權（全程免收費）。</span></li>
+            <li class="benefit-item"><i class="fas fa-robot"></i> <span><strong>AI 工具：</strong> 免費使用小秘書多種 AI 數位工具。</span></li>
+        </ul>
         <a href="https://www.lerich.com.tw" target="_blank" class="btn-lerich">
             <i class="fas fa-shopping-cart"></i> 前往樂瑞購物取得 PV
         </a>
 
-        <p style="font-size: 0.8em; color: var(--gold-light); margin: 15px 0 5px 0;">Step 2. 輸入本次購買之 PV 證明</p>
-        <input type="number" class="input-pv" placeholder="請輸入數值 (例如: 1500)">
-        <p style="font-size: 0.65em; color: #666; margin-top: 5px;">* 請同步上傳截圖至 LINE@ 由 AI 判讀錄入</p>
+        <p style="font-size: 0.8em; color: var(--gold-light); margin: 15px 0 5px 0;">Step 2. 輸入本次 PV 證明值</p>
+        <input type="number" id="pv-value" placeholder="請輸入數值 (例如: 1500)">
 
-        <p style="font-size: 0.8em; color: var(--gold-light); margin: 15px 0 5px 0;">Step 3. 系統收單媒合</p>
-        <div style="background: #151515; padding: 12px; border-radius: 8px; border: 1px solid #333; font-size: 0.8em;">
-            媒合對象銀行資訊：<br>
-            <span style="color: #666;">[點擊下方收單按鍵後顯示]</span>
-        </div>
-        <button class="btn-main btn-match" onclick="alert('收單成功！請依顯示帳號轉帳 3000 元並保留收據。')">
-            <i class="fas fa-file-import"></i> 立即點擊收單報名
+        <button id="enroll-btn" class="btn-main btn-match" onclick="checkAndEnroll()">
+            <i class="fas fa-user-plus"></i> 立即報名贊助
         </button>
 
-        <p style="font-size: 0.8em; color: var(--gold-light); margin: 15px 0 5px 0;">Step 4. 雙向轉帳確認</p>
-        <div style="display: flex; gap: 8px;">
-            <button class="btn-confirm" onclick="alert('已發送轉帳完成通知給收款公民')">我已完成轉帳</button>
-            <button class="btn-confirm" style="background: #004d00;" onclick="alert('確認到帳！您已獲得新序號並排入隊伍')">收款人確認到帳</button>
+        <div id="bank-registration-area">
+            <div style="background: linear-gradient(135deg, rgba(0,255,136,0.1), rgba(0,229,255,0.1)); border: 1px solid var(--neon-green); border-radius: 12px; padding: 15px; margin-bottom: 15px;">
+                <div style="color: var(--neon-green); font-weight: bold; font-size: 0.9em; margin-bottom: 8px;">
+                    <i class="fas fa-shield-heart"></i> 核心三不保證
+                </div>
+                <div style="font-size: 0.82em; color: #fff; line-height: 1.6;">
+                    ✅ <strong>全程免收費：</strong> 參加計畫不收取系統規費。<br>
+                    ✅ <strong>100% 無損到帳：</strong> 贊助金點對點直接到帳。<br>
+                    ✅ <strong>AI 義務媒合：</strong> 小秘書義務幫忙並調控規則。
+                </div>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid #333; border-radius: 12px; padding: 12px; margin-bottom: 15px;">
+                <div style="color: var(--gold-light); font-weight: bold; font-size: 0.85em; margin-bottom: 5px;">為何要設定帳號？</div>
+                <div style="font-size: 0.75em; color: #aaa;">當您晉升為收款人時，AI 需要帳號以便指引他人匯入。<strong>帳號僅供接收，無法從中扣款。</strong></div>
+            </div>
+
+            <div class="report-card" style="border-style: dashed;">
+                <input type="text" id="bank-name" placeholder="銀行代碼與名稱 (例: 822 中國信託)">
+                <input type="text" id="bank-user" placeholder="收款人戶名">
+                <input type="text" id="bank-account" placeholder="銀行帳號數字">
+                <button class="btn-main" style="background: var(--neon-green); color: #000;" onclick="submitAll()">
+                    完成登記並啟動收單
+                </button>
+            </div>
+        </div>
+
+        <div id="match-confirm-area" style="display:none; margin-top: 20px;">
+            <p style="font-size: 0.8em; color: var(--gold-light);">Step 3. 系統媒合完成</p>
+            <div style="background: #151515; padding: 15px; border-radius: 8px; border: 1px solid var(--gold-primary); font-size: 0.8em; line-height: 1.6;">
+                請將贊助金轉入以下媒合帳戶：<br>
+                <span style="color: var(--neon-blue); font-weight: bold;">[系統自動媒合之帳號資訊]</span>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 15px;">
+                <button class="btn-confirm" onclick="alert('已發送通知')">我已完成轉帳</button>
+                <button class="btn-confirm" style="background: #004d00;" onclick="alert('恭喜加入！')">收款人確認到帳</button>
+            </div>
         </div>
     </div>
 
     <div style="text-align: center; margin-top: 25px;">
         <div style="font-size: 0.6em; color: #555; line-height: 1.6;">
-            🛡️ 一切參加贊助行為均屬於自願無人鼓吹及強迫<br>
-            AI 生活小秘書 | 全方位數位輔助系統核心<br>
+            🛡️ 參加贊助計畫全程免收取費用，保證 100% 無損到帳<br>
+            🛡️ AI 小秘書義務幫忙媒合對象以及調控規則<br>
             最終解釋權歸系統核心所有
         </div>
     </div>
 </div>
+
+<script>
+    function checkAndEnroll() {
+        const pv = document.getElementById('pv-value').value;
+        if (!pv || pv < 1500) { alert('請先輸入至少 1500 PV 的證明值！'); return; }
+        document.getElementById('bank-registration-area').style.display = 'block';
+        document.getElementById('enroll-btn').style.display = 'none';
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+    function submitAll() {
+        if (!document.getElementById('bank-account').value) { alert('請完整填寫收款帳號！'); return; }
+        document.getElementById('bank-registration-area').style.display = 'none';
+        document.getElementById('match-confirm-area').style.display = 'block';
+    }
+</script>
 </body>
 </html>
