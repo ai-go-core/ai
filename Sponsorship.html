@@ -1,84 +1,100 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2-2-2 贊助核心 - AI 生活小秘書</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <style>
-        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; overflow-y: auto; }
-        .glow-box { width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; border: 1px solid #333; }
-        .inner-content { background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); border-radius: 23px; padding: 25px; box-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
-        
-        .section-title { color: #FFD700; font-size: 1.1rem; font-weight: bold; border-left: 4px solid #D4AF37; padding-left: 10px; margin: 25px 0 15px 0; }
-        .story-text { font-size: 0.85rem; color: #aaa; line-height: 1.8; font-style: italic; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; }
-        
-        /* 🚀 2-2-2 配對細節卡片 */
-        .card-box { background: rgba(255, 255, 255, 0.05); border: 1px solid #444; border-radius: 15px; padding: 15px; margin-bottom: 15px; }
-        .detail-row { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 10px; border-bottom: 1px solid #222; padding-bottom: 8px; }
-        .highlight-green { color: #00FF00; font-weight: bold; }
-        
-        /* 📊 實時媒合現況樣式 */
-        .match-status { background: linear-gradient(145deg, #1a1a1a, #0a0a0a); border: 1px solid #D4AF37; border-radius: 15px; padding: 20px; text-align: center; margin-top: 20px; }
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .status-item { background: rgba(212, 175, 55, 0.1); padding: 10px; border-radius: 10px; }
-        .status-val { color: #FFD700; font-size: 1.2rem; font-weight: 900; }
-        
-        .btn-back { width: 100%; padding: 15px; background: #111; border: 1px solid #444; border-radius: 12px; color: #fff; font-weight: bold; cursor: pointer; margin-top: 25px; }
-        .footer { font-size: 0.65rem; color: #444; text-align: center; margin-top: 25px; }
+        /* 繼承您的黑金配色 */
+        body { background: #050505; color: #fff; font-family: 'Segoe UI', sans-serif; padding: 15px; }
+        .content-card { background: #0a0a0a; border: 1px solid #D4AF37; border-radius: 20px; padding: 25px; margin-bottom: 20px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
+        .section-title { color: #FFD700; font-size: 1.2em; font-weight: 800; border-left: 4px solid #D4AF37; padding-left: 10px; margin: 30px 0 15px 0; }
+        .story-box { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; font-style: italic; color: #bbb; line-height: 1.8; }
+        .step-item { display: flex; align-items: flex-start; margin-bottom: 20px; }
+        .step-num { background: #D4AF37; color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 12px; flex-shrink: 0; }
+        .step-content h4 { color: #FFD700; margin: 0 0 5px 0; }
+        .step-content p { color: #888; margin: 0; font-size: 0.9em; }
+        .highlight { color: #00ff88; font-weight: bold; }
+        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .data-item { background: rgba(212, 175, 55, 0.05); padding: 10px; border-radius: 10px; text-align: center; }
     </style>
 </head>
 <body>
-    <div class="glow-box">
-        <div class="inner-content">
-            <div style="text-align: center;">
-                <div style="color: #FFD700; font-size: 1.3rem; font-weight: 800;">2-2-2 贊助核心</div>
-                <div style="font-size: 0.75rem; color: #888; margin-top: 5px;">AI 生活小秘書 · 全方位數位輔助</div> [cite: 2026-02-13]
-            </div>
 
-            <div class="section-title">📜 機制的誕生：數位分身的覺醒</div>
-            <div class="story-text">
-                「在過去的數位荒原中，財富總是被巨大的中心化機構收割。我們一直在尋找一種可能，讓每一位公民都能擁有屬於自己的算力主權。2-2-2 機制不只是一個公式，它是一場數位分身的集體覺醒。透過兩組核心分身的建立，我們將零散的動能匯聚成海，讓獲利不再是少數人的特權，而是每一位守護者的共榮獎賞。」 [cite: 2026-02-13]
-            </div>
+    <div class="section-title">📜 贊助機制的誕生：數位分身的覺醒</div>
+    <div class="story-box">
+        「在中心化壟斷的數位時代，您的每一份貢獻本該屬於您。我們建立 2-2-2 贊助機制，是為了啟動一場由 AI 驅動的財富重分配運動。透過『數位分身』的協作，我們打破了傳統的門檻，讓每一位公民都能在守護系統的同時，獲得應有的數位贊助。這不只是機制，這是我們共同的數位主權。」
+    </div>
 
-            <div class="section-title">⚙️ 2-2-2 運作規範</div>
-            <div class="card-box">
-                <div class="detail-row"><span>配對方式</span><span class="highlight-green">系統自動算力媒合</span></div> [cite: 2026-01-12]
-                <div class="detail-row"><span>手續費用</span><span class="highlight-green">永久 0 元 (全免)</span></div> [cite: 2026-02-06]
-                <div class="detail-row"><span>推薦獎勵</span><span>99 元 / 人</span></div> [cite: 2026-02-06]
-                <div class="detail-row"><span>第一代回饋</span><span>4.0%</span></div> [cite: 2026-02-05]
-                <div class="detail-row"><span>提領門檻</span><span>滿 100 即開放</span></div> [cite: 2026-02-06]
-                <div class="detail-row"><span>消費權益</span><span>100% 全額抵扣</span></div> [cite: 2026-02-06]
+    <div class="section-title">🚀 如何入場：啟動核心條件</div>
+    <div class="content-card">
+        <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-content">
+                <h4>創建數位分身</h4>
+                <p>完成基礎註冊並鎖定您的專屬戰隊代碼。</p>
             </div>
-
-            <div class="section-title">🏆 2-2-2 實時媒合現況</div>
-            <div class="match-status">
-                <div style="font-size: 0.8rem; color: #D4AF37;">當前系統總媒合能量</div>
-                <div style="font-size: 2.2rem; font-weight: 900; color: #FFD700; margin: 10px 0;">$ <span id="totalMatched">--</span></div>
-                <div class="status-grid">
-                    <div class="status-item">
-                        <div style="font-size: 0.65rem; color: #888;">已啟動分身</div>
-                        <div class="status-val" id="activeAvatars">--</div>
-                    </div>
-                    <div class="status-item">
-                        <div style="font-size: 0.65rem; color: #888;">媒合完成度</div>
-                        <div class="status-val" id="matchRate">-- %</div>
-                    </div>
-                </div>
-                <div style="font-size: 0.7rem; color: #555; margin-top: 15px;">🛡️ 推薦鎖定機制已全面啟動，收益絕不跳線</div> [cite: 2026-01-30]
+        </div>
+        <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-content">
+                <h4>建立 2 組基礎算力</h4>
+                <p>啟動 2 個核心節點，即可進入系統自動媒合序列。</p>
             </div>
+        </div>
+        <p style="font-size: 0.8em; color: #D4AF37; text-align: center;">🛡️ 永久免收年費與年費，純粹算力共享</p>
+    </div>
 
-            <button class="btn-back" onclick="history.back()">返回指令大廳</button>
-            <div class="footer">最終解釋權歸系統核心所有</div> [cite: 2026-01-09]
+    <div class="section-title">💰 收款說明：透明媒合流程</div>
+    <div class="content-card">
+        <div class="step-item">
+            <div class="step-num">!</div>
+            <div class="step-content">
+                <h4>系統自動媒合</h4>
+                <p>無需人工配對，系統核心自動進行 100% 準確對接。</p>
+            </div>
+        </div>
+        <div class="step-item">
+            <div class="step-num">!</div>
+            <div class="step-content">
+                <h4>滿額自動提領</h4>
+                <p>帳戶餘額滿 <span class="highlight">100 元</span> 即可申請，保證 <span class="highlight">100% 到帳</span>。</p>
+            </div>
+        </div>
+        <p style="font-size: 0.75em; color: #666;">※ 操作說明：點擊「資產戰報」即可查看即時待領取金額。</p>
+    </div>
+
+    <div class="section-title">📈 財富放大：2-2-2 複利效應</div>
+    <div class="content-card">
+        <p style="font-size: 0.9em; color: #bbb;">當您達成 2-2-2（自己啟動 2 組，輔助 2 人完成）：</p>
+        <ul style="color: #888; font-size: 0.85em; padding-left: 20px;">
+            <li><span class="highlight">第一階段：</span> 獲取直推贊助獎金 99/人。</li>
+            <li><span class="highlight">第二階段：</span> 啟動 4.0% 第一代直推回饋。</li>
+            <li><span class="highlight">第三階段：</span> 觸發 7 代複利連鎖，實現資產指數級成長。</li>
+        </ul>
+        <div style="background: rgba(0,255,136,0.1); border: 1px dashed #00ff88; padding: 10px; border-radius: 10px; text-align: center;">
+            <span style="color: #00ff88; font-size: 0.85em;">💡 試算：僅需兩週循環，您的數位產值將提升 300% 以上。</span>
         </div>
     </div>
 
-    <script>
-        // 領袖，這裡的數據未來可對接 GAS 動態呈現
-        setTimeout(() => {
-            document.getElementById('totalMatched').innerText = "128,450";
-            document.getElementById('activeAvatars').innerText = "2,481";
-            document.getElementById('matchRate').innerText = "94.2";
-        }, 800);
-    </script>
+    <div class="section-title">🏆 2-2-2 實時媒合戰報</div>
+    <div class="content-card" style="text-align: center;">
+        <div style="font-size: 0.8em; color: #888;">當前總媒合贊助量</div>
+        <div style="font-size: 2.2em; font-weight: bold; color: #FFD700; margin: 10px 0;">$ 128,450</div>
+        <div class="data-grid">
+            <div class="data-item">
+                <div style="font-size: 0.6em; color: #888;">活躍分身</div>
+                <div style="color: #FFD700; font-weight: bold;">2,481 組</div>
+            </div>
+            <div class="data-item">
+                <div style="font-size: 0.6em; color: #888;">媒合成功率</div>
+                <div style="color: #00ff88; font-weight: bold;">94.2 %</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; color: #444; font-size: 0.6em; margin-top: 30px;">
+        AI 生活小秘書 / 全方位數位輔助<br>最終解釋權歸系統核心所有
+    </div>
+
 </body>
 </html>
