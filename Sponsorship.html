@@ -12,12 +12,13 @@
         .brand-header { margin-bottom: 25px; border-bottom: 2px solid var(--gold-primary); padding-bottom: 15px; text-align: center; }
         .section-title { font-size: 0.9em; color: var(--gold-primary); text-align: left; margin: 25px 0 10px 5px; border-left: 3px solid var(--gold-primary); padding-left: 8px; font-weight: 800; }
         .report-card { background: #0a0a0a; border-radius: 20px; padding: 18px; margin-top: 15px; border: 1px solid var(--gold-primary); position: relative; }
-        .process-box { margin-bottom: 15px; padding: 15px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid #222; }
-        .step-row { display: flex; gap: 10px; margin-bottom: 8px; font-size: 0.82em; line-height: 1.4; }
-        .step-num { color: var(--gold-light); font-weight: bold; flex-shrink: 0; width: 60px; }
-        .step-desc { color: #ccc; }
-        .tag-a { color: var(--neon-green); font-weight: bold; }
         
+        .zone-box { margin-bottom: 15px; padding: 15px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid #222; }
+        .step-row { display: flex; gap: 10px; margin-bottom: 8px; font-size: 0.82em; line-height: 1.4; }
+        .step-num { color: var(--gold-light); font-weight: bold; flex-shrink: 0; width: 65px; }
+        .step-desc { color: #ccc; }
+        .reward-tag { display: inline-block; background: rgba(0, 255, 136, 0.1); color: var(--neon-green); padding: 2px 8px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 0.9em; }
+
         .benefit-list { background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 12px; padding: 15px; margin: 10px 0; list-style: none; }
         .benefit-item { font-size: 0.82em; margin-bottom: 8px; color: #ddd; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
         .benefit-item i { color: var(--gold-light); margin-top: 3px; }
@@ -38,56 +39,61 @@
         <div style="font-size: 0.8em; color: var(--gold-light);">全方位數位輔助系統核心</div>
     </div>
 
-    <div class="section-title">⚙️ 2-2-2 循環生命週期解析</div>
+    <div class="section-title">⚙️ 2-2-2 循環收益與晉級解析</div>
     <div class="report-card">
-        <div class="process-box" style="border-left: 4px solid var(--neon-green);">
-            <div class="tag-a" style="margin-bottom:8px;">【A 區：基礎重生模型】</div>
-            <div class="step-row"><span class="step-num">序號 1, 2</span><span class="step-desc">啟動收款狀態，接收首波贊助金。 [cite: 2026-02-14]</span></div>
-            <div class="step-row"><span class="step-num">序號 3, 4</span><span class="step-desc">觸發重生權，生成 V1、V2 分身進入隊伍。 [cite: 2026-02-14]</span></div>
-            <div class="step-row" style="background: rgba(255, 68, 68, 0.1); padding: 5px; border-radius: 5px;">
+        <div class="zone-box" style="border-left: 4px solid var(--neon-green);">
+            <div style="color: var(--neon-green); font-weight: bold; margin-bottom: 8px;">【A 區：基礎重生模型】</div>
+            <div class="step-row"><span class="step-num">序號 1, 2</span><span class="step-desc">啟動收款狀態，接收首波贊助金。</span></div>
+            <div class="reward-tag">💰 A 區完成：預計獲得 6,000 元贊助金</div>
+            <div class="step-row" style="margin-top:10px; background: rgba(255, 68, 68, 0.1); padding: 5px; border-radius: 5px;">
                 <span class="step-num" style="color:var(--neon-red);">序號 5, 6</span>
-                <span class="step-desc" style="color:#fff;"><strong>晉級關鍵：</strong>累積能量，若無此二號出現，則無法晉級下一區(B,C,D,E,F)。 [cite: 2026-02-14]</span>
+                <span class="step-desc"><strong>晉級條件：</strong>必須出現 5, 6 號，方可結算並晉級 B 區。</span>
             </div>
         </div>
-        <p style="font-size: 0.72em; color: #aaa; text-align: center; margin: 0;">🛡️ 3、4、5、6 號贊助原 1 號收款人，換取重生與晉級權。 [cite: 2026-02-14]</p>
+        <div class="zone-box" style="border-left: 4px solid var(--neon-purple);">
+            <div style="color: var(--neon-purple); font-weight: bold; margin-bottom: 8px;">【B 區：倍增反哺模型】</div>
+            <div class="step-row"><span class="step-num">序號 1, 2</span><span class="step-desc">接收高階公民贊助金。</span></div>
+            <div class="reward-tag" style="color:var(--neon-purple); background:rgba(188, 19, 254, 0.1);">💰 B 區完成：預計獲得 12,000 元贊助金</div>
+        </div>
+        <div class="zone-box" style="border-left: 4px solid var(--neon-blue);">
+            <div style="color: var(--neon-blue); font-weight: bold; margin-bottom: 8px;">【C 區：終極裂變模型】</div>
+            <div class="step-row"><span class="step-num">序號 1, 2</span><span class="step-desc">接收終極算力金贊助。</span></div>
+            <div class="reward-tag" style="color:var(--neon-blue); background:rgba(0, 229, 255, 0.1);">💰 C 區完成：預計獲得 24,000 元贊助金</div>
+        </div>
     </div>
 
-    <div class="section-title">🚀 購買 1500 PV 之公民好處</div>
+    <div class="section-title">🚀 購買 1500 PV 之公民福利</div>
     <div class="voluntary-statement">
-        <strong>⚖️ 法律自願聲明：</strong> 一切參加贊助之行為均屬公民個人自願。 [cite: 2026-02-14]
+        <strong>⚖️ 法律自願聲明：</strong> 一切參加贊助之行為均屬公民個人自願，絕無人誤導或強迫。
     </div>
 
     <div class="report-card">
         <ul class="benefit-list">
-            <li class="benefit-item"><i class="fas fa-plane"></i> <span><strong>1. 獲得 1 點旅遊點數。</strong> [cite: 2026-02-14]</span></li>
-            <li class="benefit-item"><i class="fas fa-toggle-on"></i> <span><strong>2. 取得贊助機制參加權。</strong> [cite: 2026-02-14]</span></li>
-            <li class="benefit-item"><i class="fas fa-robot"></i> <span><strong>3. 免費使用 AI 數位工具。</strong> [cite: 2026-02-14]</span></li>
-            <li class="benefit-item"><i class="fas fa-check-double"></i> <span><strong>4. 100% 無損到帳。</strong> [cite: 2026-02-14]</span></li>
-            <li class="benefit-item"><i class="fas fa-hand-holding-heart"></i> <span><strong>5. 全程免收取費用。</strong> [cite: 2026-02-14]</span></li>
-            <li class="benefit-item"><i class="fas fa-microchip"></i> <span><strong>6. AI 義務媒合調控。</strong> [cite: 2026-02-14]</span></li>
+            <li class="benefit-item"><i class="fas fa-check-circle"></i> <span>1. 旅遊點數累積（韓國雙人遊）。</span></li>
+            <li class="benefit-item"><i class="fas fa-check-circle"></i> <span>2. 贊助機制參加資格（全程免收費）。</span></li>
+            <li class="benefit-item"><i class="fas fa-check-circle"></i> <span>3. 100% 無損到帳，直接點對點匯款。</span></li>
+            <li class="benefit-item"><i class="fas fa-check-circle"></i> <span>4. AI 義務媒合對象及調控規則。</span></li>
         </ul>
         
         <a href="https://www.lerich.com.tw" target="_blank" class="btn-lerich">
-            <i class="fas fa-shopping-cart"></i> 前往樂瑞購買取得 PV [cite: 2026-02-14]
+            <i class="fas fa-shopping-cart"></i> 立即前往樂瑞購買取得 PV
         </a>
 
         <p style="font-size: 0.8em; color: var(--gold-light); margin: 15px 0 5px 0;">Step 2. 輸入 PV 證明值並報名</p>
-        <input type="number" id="pv-value" placeholder="請輸入 PV 值">
+        <input type="number" id="pv-value" placeholder="請輸入數值 (例如: 1500)">
+
         <button id="enroll-btn" class="btn-main btn-match" onclick="checkAndEnroll()">
             <i class="fas fa-user-plus"></i> 立即報名贊助
         </button>
 
         <div id="bank-registration-area">
-            <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid #333; border-radius: 12px; padding: 12px; margin-bottom: 15px;">
-                <div style="color: var(--gold-light); font-weight: bold; font-size: 0.85em;">為何需要設定帳號？ [cite: 2026-02-14]</div>
-                <div style="font-size: 0.75em; color: #aaa;">當您晉升為收款人時，AI 需要帳號以便指引他人匯入。 [cite: 2026-02-14]</div>
-            </div>
             <div class="report-card" style="border-style: dashed;">
+                <p style="font-size: 0.75em; color: var(--neon-green); margin-bottom: 10px;">✅ PV 檢測合格！請設定收款帳戶以利媒合：</p>
                 <input type="text" id="bank-name" placeholder="銀行代碼與名稱">
                 <input type="text" id="bank-user" placeholder="收款人戶名">
                 <input type="text" id="bank-account" placeholder="銀行帳號數字">
-                <button class="btn-main" style="background: var(--neon-green); color: #000;" onclick="submitAll()">
-                    完成登記並啟動收單 [cite: 2026-02-14]
+                <button class="btn-main" style="background: var(--neon-green); color: #000;" onclick="submitFinal()">
+                    完成登記並啟動收單
                 </button>
             </div>
         </div>
@@ -95,9 +101,9 @@
 
     <div style="text-align: center; margin-top: 25px;">
         <div style="font-size: 0.6em; color: #555; line-height: 1.6;">
-            🛡️ 參加贊助計畫全程免收取費用，保證 100% 無損到帳 [cite: 2026-02-14]<br>
-            🛡️ AI 小秘書義務幫忙媒合對象以及調控規則 [cite: 2026-02-14]<br>
-            最終解釋權歸系統核心所有 [cite: 2026-01-09]
+            🛡️ 參加贊助計畫全程免收取費用，保證 100% 無損到帳<br>
+            🛡️ AI 小秘書義務幫忙媒合對象以及調控規則<br>
+            最終解釋權歸系統核心所有
         </div>
     </div>
 </div>
@@ -105,14 +111,22 @@
 <script>
     function checkAndEnroll() {
         const pv = document.getElementById('pv-value').value;
-        if (!pv || pv < 1500) { alert('請先輸入至少 1500 PV 的證明值！'); return; }
+        if (!pv || pv < 1500) {
+            alert('請先輸入至少 1500 PV 的證明值！');
+            return;
+        }
         document.getElementById('bank-registration-area').style.display = 'block';
         document.getElementById('enroll-btn').style.display = 'none';
-        window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
-    function submitAll() {
-        if (!document.getElementById('bank-account').value) { alert('請填寫收款帳號！'); return; }
-        alert('報名成功！AI 正調控 5、6 號邏輯以助您晉級下一區。'); [cite: 2026-02-14]
+
+    function submitFinal() {
+        const acc = document.getElementById('bank-account').value;
+        if (!acc) {
+            alert('請填寫收款帳號，確保您能收到贊助金！');
+            return;
+        }
+        alert('報名成功！AI 正調控 5、6 號邏輯以助您晉級 B 區。');
     }
 </script>
 </body>
