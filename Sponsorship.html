@@ -38,15 +38,38 @@
     <div class="greeting-box">
         <p id="cloud_greeting" style="margin:0 0 10px 0; font-weight:bold; color:var(--gold-light);">✨ 您好！正在加載雲端最新資訊...</p>
         <div>
-            <span class="keyword-tag">免費使用AI工具</span><span class="keyword-tag">50元購物金</span>
-            <span class="keyword-tag">封測贈送角色蛋</span><span class="keyword-tag">99元推薦獎金</span>
-            <span class="keyword-tag">消費全額抵扣</span><span class="keyword-tag">滿百提領</span>
+            <span class="keyword-tag">免費會員</span><span class="keyword-tag">超級AI工具</span><span class="keyword-tag">角色彩蛋</span>
+            <span class="keyword-tag">50元購物金</span><span class="keyword-tag">99元推薦獎金</span><span class="keyword-tag">免費出國旅遊</span>
+            <span class="keyword-tag">免年費</span><span class="keyword-tag">滿百提領</span>
         </div>
     </div>
 
     <div class="condition-box">
         <div class="cond-item"><i class="fas fa-id-card"></i> <strong>加入條件：</strong> 註冊樂瑞完成並取得 1500 PV。</div>
         <div class="cond-item"><i class="fas fa-coins"></i> <strong>贊助金額：</strong> 每筆贊助金額固定為 3,000 元。</div>
+    </div>
+
+    <div class="section-title">⚙️ 2-2-2 循環生命週期：2給-2幫-2升</div>
+    <div class="report-card">
+        <div class="zone-box" style="border-left: 4px solid var(--neon-green);">
+            <div style="color:var(--neon-green); font-weight:bold; margin-bottom:8px;">【A 區：基座重生模型】</div>
+            <div class="step-row"><span class="step-num" style="color:var(--neon-green);">2給 ➡ 2幫</span><span>應贊助 1 號之資金改為「2給」能量，同時幫助 A 區 2 位待贊助者順利前進。</span></div>
+            <div class="step-row"><span class="step-num">加速滾動</span><span>此模式確保 A 區序號爆量增長，滾動速度大幅提升。</span></div>
+            <div class="reward-tag">💰 A 區：基座穩固，全體前進</div>
+        </div>
+
+        <div class="zone-box" style="border-left: 4px solid var(--neon-purple);">
+            <div style="color:var(--neon-purple); font-weight:bold; margin-bottom:8px;">【B 區：倍增反哺模型】</div>
+            <div class="step-row"><span class="step-num" style="color:var(--neon-purple);">反哺回補</span><span>晉級者「1幫2」回補 A 區，並為自己產生 2 組全新待贊助序號。</span></div>
+            <div class="step-row"><span class="step-num">區內推升</span><span>同時幫本區下一位成員，並產生 1 組重生序號，達成「2升」循環。</span></div>
+            <div class="reward-tag" style="color:var(--neon-purple); border-color:var(--neon-purple); background:rgba(188, 19, 254, 0.1);">💰 B 區：能量倍增，循環反哺</div>
+        </div>
+
+        <div class="zone-box" style="border-left: 4px solid var(--neon-blue);">
+            <div style="color:var(--neon-blue); font-weight:bold; margin-bottom:8px;">【C 區：終極裂變模型】</div>
+            <div class="step-row"><span class="step-num">裂變重生</span><span>持續「2給-2幫」邏輯，無死角推動基座，讓序號越來越多、滾動越來越快。</span></div>
+            <div class="reward-tag" style="color:var(--neon-blue); border-color:var(--neon-blue); background:rgba(0, 229, 255, 0.1);">💰 C 區：全體順利晉級，無限循環</div>
+        </div>
     </div>
 
     <div class="legal-warning">
@@ -101,7 +124,7 @@
                 bankName: document.getElementById('bank-name').value,
                 bankUser: document.getElementById('bank-user').value,
                 bankAccount: document.getElementById('bank-account').value,
-                name: document.getElementById('bank-user').value // 預設戶名為系統名稱
+                name: document.getElementById('bank-user').value
             };
 
             if (!data.bankAccount || !data.bankUser || !data.bankName) { 
@@ -113,7 +136,6 @@
             btn.innerText = "⏳ 正在同步至 AI 核心主庫...";
             btn.disabled = true;
 
-            // 呼叫 GAS 的寫入函式
             google.script.run
                 .withSuccessHandler(function(msg) {
                     alert('✅ 系統反饋：' + msg); 
