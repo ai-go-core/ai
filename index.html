@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <title>AI 核心系統對接中</title>
     <style>
+        /* 強制覆蓋所有預設屬性 */
         body { 
-            background: #050505; /* 深邃黑 */
-            color: #D4AF37;     /* 核心金 */
+            background-color: #000000 !important; /* 純黑背景 */
+            color: #D4AF37 !important;           /* 核心金 */
             font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
             display: flex; 
             justify-content: center; 
@@ -18,34 +19,36 @@
         }
         .container { text-align: center; }
         
-        /* 🚀 轉圈加載器：已更換為黑金發光質感 */
+        /* 🚀 加載器改為 100% 黃金質感 */
         .loader { 
-            border: 3px solid rgba(212, 175, 55, 0.1); 
-            border-top: 3px solid #FFD700; /* 金光亮點 */
+            border: 4px solid #333333 !important;      /* 暗色底圈 */
+            border-top: 4px solid #D4AF37 !important;  /* 黃金頂圈 */
             border-radius: 50%; 
             width: 60px; 
             height: 60px; 
             animation: spin 1s linear infinite; 
             display: inline-block;
             margin-bottom: 25px;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4) !important; /* 金色光暈 */
         }
         
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
         h1 { 
             font-size: 1.2rem; 
-            letter-spacing: 4px; 
-            font-weight: 400; 
-            margin: 10px 0; 
+            letter-spacing: 5px; 
+            font-weight: bold !important; 
+            color: #D4AF37 !important;
             text-transform: uppercase; 
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            margin: 10px 0;
+            text-shadow: 1px 1px 2px #000;
         }
         
         p { 
-            color: rgba(212, 175, 55, 0.6); /* 暗金文字 */
+            color: #FFD700 !important; /* 亮金色文字 */
             font-size: 0.8rem; 
-            letter-spacing: 1px; 
+            letter-spacing: 1px;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -57,14 +60,13 @@
     </div>
 
     <script>
-        // 核心調度網址
         const gasUrl = "https://script.google.com/macros/s/AKfycbx5S-r49P9WLhMMK3k0EFA9ldBbgLSXz2_KnkQd4aN1Wi5gS4tMK8yWaaYPDB1NZKHTqA/exec";
         const currentParams = window.location.search;
 
-        // 模擬系統處理感，維持 800 毫秒的高端延遲
+        // 領袖，這裡設定延遲 1 秒，確保黑金視覺有時間展示
         setTimeout(() => {
             window.location.href = currentParams ? gasUrl + currentParams : gasUrl;
-        }, 800);
+        }, 1000);
     </script>
 </body>
 </html>
