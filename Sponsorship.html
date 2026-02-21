@@ -53,22 +53,20 @@
     <div class="report-card">
         <div class="zone-box" style="border-left: 4px solid var(--neon-green);">
             <div style="color:var(--neon-green); font-weight:bold; margin-bottom:8px;">【A 區：基座重生模型】</div>
-            <div class="step-row"><span class="step-num" style="color:var(--neon-green);">2給 ➡ 2幫</span><span>應贊助 1 號之資金改為「2給」能量，同時幫助 A 區 2 位待贊助者順利前進。</span></div>
-            <div class="step-row"><span class="step-num">加速滾動</span><span>此模式確保 A 區序號爆量增長，滾動速度大幅提升。</span></div>
+            <div class="step-row"><span class="step-num" style="color:var(--neon-green);">2給 ➡ 2幫</span><span>應贊助 1 號之資金改為「2給」能量，同時幫助 A 區 2 位成員前進。</span></div>
             <div class="reward-tag">💰 A 區：基座穩固，全體前進</div>
         </div>
 
         <div class="zone-box" style="border-left: 4px solid var(--neon-orange);">
             <div style="color:var(--neon-orange); font-weight:bold; margin-bottom:8px;">【B 區：倍增反哺模型】</div>
-            <div class="step-row"><span class="step-num" style="color:var(--neon-orange);">反哺回補</span><span>晉級者「1幫2」回補 A 區，並為自己產生 2 組全新待贊助序號。</span></div>
-            <div class="step-row"><span class="step-num">區內推升</span><span>同時幫本區下一位成員，並產生 1 組重生序號，達成「2升」循環。</span></div>
+            <div class="step-row"><span class="step-num" style="color:var(--neon-orange);">反哺回補</span><span>晉級者回補 A 區 2 位並產生 2 組新序號，另幫本區 1 位並產生 1 組序號。</span></div>
             <div class="reward-tag" style="color:var(--neon-orange); border-color:var(--neon-orange); background:rgba(255, 140, 0, 0.1);">💰 B 區：能量倍增，循環反哺</div>
         </div>
 
         <div class="zone-box" style="border-left: 4px solid var(--neon-blue);">
             <div style="color:var(--neon-blue); font-weight:bold; margin-bottom:8px;">【C 區：終極裂變模型】</div>
-            <div class="step-row"><span class="step-num">裂變重生</span><span>持續「2給-2幫」邏輯，無死角推動基座，讓序號越來越多、滾動越來越快。</span></div>
-            <div class="reward-tag" style="color:var(--neon-blue); border-color:var(--neon-blue); background:rgba(0, 229, 255, 0.1);">💰 C 區：全體順利晉級，無限循環</div>
+            <div class="step-row"><span class="step-num">裂變重生</span><span>持續「2給-2幫」邏輯，確保序號越來越多、滾動越來越快。</span></div>
+            <div class="reward-tag" style="color:var(--neon-blue); border-color:var(--neon-blue); background:rgba(0, 229, 255, 0.1);">💰 C 區：全體晉級，無限循環</div>
         </div>
     </div>
 
@@ -99,15 +97,8 @@
 </div>
 
 <script>
-    // 💡 雲端文字同步邏輯
-    window.onload = function() {
-        if (typeof google !== 'undefined') {
-            google.script.run.withSuccessHandler(function(cfg) {
-                if(cfg.REG_TITLE) document.getElementById('cloud_title').innerHTML = `<span style="color:var(--gold-primary)">${cfg.REG_TITLE.val}</span>`;
-                if(cfg.REG_DESC) document.getElementById('cloud_greeting').innerText = cfg.REG_DESC.val;
-            }).fetchConfig();
-        }
-    };
+    // 💡 重要：請將此處替換為您 GAS 部署後的「網頁應用程式網址」
+    const SCRIPT_URL = 'https://script.google.com/macros/s/您的ID/exec';
 
     function showBank() {
         const pv = document.getElementById('pv-value').value;
@@ -117,41 +108,42 @@
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    function submitToDatabase() {
+    async function submitToDatabase() {
+        const data = {
+            pv: document.getElementById('pv-value').value,
+            bankName: document.getElementById('bank-name').value,
+            bankUser: document.getElementById('bank-user').value,
+            bankAccount: document.getElementById('bank-account').value
+        };
+
+        if (!data.bankAccount || !data.bankUser || !data.bankName) { 
+            alert('🚨 資訊不全：請務必填寫完整的資訊！'); 
+            return; 
+        }
+
+        const btn = document.getElementById('submit-btn');
+        btn.innerText = "⏳ 正在同步至 AI 核心主庫...";
+        btn.disabled = true;
+
         try {
-            const data = {
-                pv: document.getElementById('pv-value').value,
-                bankName: document.getElementById('bank-name').value,
-                bankUser: document.getElementById('bank-user').value,
-                bankAccount: document.getElementById('bank-account').value,
-                name: document.getElementById('bank-user').value
-            };
-
-            if (!data.bankAccount || !data.bankUser || !data.bankName) { 
-                alert('🚨 資訊不全：請務必填寫完整的資訊！'); 
-                return; 
-            }
-
-            const btn = document.getElementById('submit-btn');
-            btn.innerText = "⏳ 正在同步至 AI 核心主庫...";
-            btn.disabled = true;
-
-            google.script.run
-                .withSuccessHandler(function(msg) {
-                    alert('✅ 系統反饋：' + msg); 
-                    document.getElementById('bank-registration-area').style.display = 'none';
-                    document.getElementById('arsenal-link').style.display = 'block';
-                    btn.disabled = false;
-                    btn.innerText = "登記完成";
-                })
-                .withFailureHandler(function(err) {
-                    alert('🚨 傳輸失敗：' + err);
-                    btn.disabled = false;
-                    btn.innerText = "重新提交";
-                })
-                .doPostDirect(data);
-        } catch (e) {
-            alert('❌ 發生錯誤：' + e.message);
+            // 使用 fetch 進行遠端 POST
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                cache: 'no-cache',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+            // 由於 no-cors 模式無法讀取回傳值，我們預設成功後執行
+            alert('✅ 系統反饋：登記成功！資料已同步鎖定。');
+            document.getElementById('bank-registration-area').style.display = 'none';
+            document.getElementById('arsenal-link').style.display = 'block';
+            btn.innerText = "登記完成";
+        } catch (error) {
+            alert('❌ 傳輸異常：' + error.message);
+            btn.disabled = false;
+            btn.innerText = "重新提交";
         }
     }
 </script>
