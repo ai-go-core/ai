@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <title>AI 核心系統對接中</title>
     <style>
         body { 
-            background: #0a0e17; 
-            color: #00f2ff; 
-            font-family: 'Segoe UI', sans-serif; 
+            background: #050505; /* 深邃黑 */
+            color: #D4AF37;     /* 核心金 */
+            font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -17,35 +17,51 @@
             overflow: hidden;
         }
         .container { text-align: center; }
+        
+        /* 🚀 轉圈加載器：已更換為黑金發光質感 */
         .loader { 
-            border: 3px solid rgba(0, 242, 255, 0.1); 
-            border-top: 3px solid #00f2ff; 
+            border: 3px solid rgba(212, 175, 55, 0.1); 
+            border-top: 3px solid #FFD700; /* 金光亮點 */
             border-radius: 50%; 
             width: 60px; 
             height: 60px; 
             animation: spin 1s linear infinite; 
             display: inline-block;
             margin-bottom: 25px;
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
         }
+        
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        h1 { font-size: 1.2rem; letter-spacing: 3px; font-weight: 300; margin: 10px 0; text-transform: uppercase; }
-        p { color: #64748b; font-size: 0.8rem; letter-spacing: 1px; }
+        
+        h1 { 
+            font-size: 1.2rem; 
+            letter-spacing: 4px; 
+            font-weight: 400; 
+            margin: 10px 0; 
+            text-transform: uppercase; 
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        
+        p { 
+            color: rgba(212, 175, 55, 0.6); /* 暗金文字 */
+            font-size: 0.8rem; 
+            letter-spacing: 1px; 
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="loader"></div>
         <h1>AI 系統核心對接中</h1>
-        <p>🧬 正在執行安全協議驗證，請稍候...</p>
+        <p>🧬 正在執行安全協議驗證，請領袖稍候...</p>
     </div>
 
     <script>
-        // 您的 GAS 原始網址
+        // 核心調度網址
         const gasUrl = "https://script.google.com/macros/s/AKfycbx5S-r49P9WLhMMK3k0EFA9ldBbgLSXz2_KnkQd4aN1Wi5gS4tMK8yWaaYPDB1NZKHTqA/exec";
         const currentParams = window.location.search;
 
-        // 模擬系統處理感，延遲 800 毫秒後進入核心
+        // 模擬系統處理感，維持 800 毫秒的高端延遲
         setTimeout(() => {
             window.location.href = currentParams ? gasUrl + currentParams : gasUrl;
         }, 800);
