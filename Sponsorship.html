@@ -28,7 +28,7 @@
         
         .保牌提示 { background: rgba(255, 140, 0, 0.1); border: 1px solid var(--neon-orange); padding: 12px; border-radius: 12px; margin-bottom: 15px; font-size: 0.78em; color: var(--neon-orange); line-height: 1.5; }
         .copy-btn { background: none; border: 1px solid var(--neon-blue); color: var(--neon-blue); cursor: pointer; font-size: 0.7em; padding: 3px 8px; border-radius: 6px; margin-left: 10px; }
-        #match-area { display:none; }
+        #match-area, #final-bank-display { display:none; }
         #receive-notify { display:none; background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(0,0,0,1) 100%); border: 2px solid var(--gold-primary); padding: 20px; border-radius: 20px; margin-top: 20px; text-align: center; }
     </style>
 </head>
@@ -70,6 +70,14 @@
             <div style="color:var(--neon-green); font-weight:bold; margin-bottom:8px;">【A 區：基座重生模型】</div>
             <div class="step-row"><span class="step-num" style="color:var(--neon-green);">2給 ➡ 2幫</span><span>完成實質轉帳，啟動數位分身反哺能量。</span></div>
         </div>
+        <div class="zone-box" style="border-left: 4px solid var(--neon-blue);">
+            <div style="color:var(--neon-blue); font-weight:bold; margin-bottom:8px;">【B 區：倍率擴張模型】</div>
+            <div class="step-row"><span class="step-num" style="color:var(--neon-blue);">2幫 ➡ 2領</span><span>系統鎖定連結，確保贊助金 100% 導向數位代號。</span></div>
+        </div>
+        <div class="zone-box" style="border-left: 4px solid var(--gold-primary);">
+            <div style="color:var(--gold-primary); font-weight:bold; margin-bottom:8px;">【C 區：無限反哺模型】</div>
+            <div class="step-row"><span class="step-num" style="color:var(--gold-primary);">無限 ➡ 循環</span><span>子序號自動裂變，達成絕不跳線、永久鎖定之鐵則。</span></div>
+        </div>
     </div>
 
     <div class="legal-warning">
@@ -98,6 +106,15 @@
             <button class="btn-main" style="background:var(--neon-green); color:#000; margin-top:15px;" onclick="markAsSent()">我已完成轉帳 🆗</button>
         </div>
 
+        <div id="final-bank-display">
+            <div class="reward-tag" style="background:rgba(255,140,0,0.1); border-color:var(--neon-orange); color:var(--neon-orange);">⏳ 等待對方確認收款中...</div>
+            <div style="background:#111; padding:15px; border-radius:12px; border:1px solid var(--neon-orange); margin-top:10px;">
+                <p style="font-size:0.8em; color:#aaa;">您剛剛轉帳至：</p>
+                <p id="last-bank-info" style="font-size:1em; color:#fff;"></p>
+                <p style="font-size:0.75em; color:var(--neon-orange); margin-top:8px;">請保留轉帳截圖以備核對。</p>
+            </div>
+        </div>
+
         <a id="arsenal-link" href="#" class="btn-main btn-arsenal" target="_blank">開啟個人武器庫 (W1-W7)</a>
     </div>
 
@@ -107,10 +124,8 @@
 </div>
 
 <script>
-    // 🔗 指向您部署的 GAS 網址 [cite: 2026-02-23]
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec';
 
-    // 🚀 核心邏輯：執行資格驗證與媒合
     async function handleMatch() {
         const phone = document.getElementById('v-phone').value.trim();
         const lineId = document.getElementById('v-line').value.trim();
@@ -122,7 +137,6 @@
         btn.disabled = true;
 
         try {
-            // 使用 text/plain 繞過 CORS 預檢，這是 GAS 對接的最佳實踐
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -141,6 +155,7 @@
                 document.getElementById('target-name').innerText = result.receiver.code;
                 document.getElementById('target-bank').innerText = result.receiver.bankInfo;
                 window.currentTxId = result.txId;
+                window.currentBankInfo = result.receiver.bankInfo; // 暫存銀行資訊供後續顯示
             } else if (result.status === "limit") {
                 btn.innerText = "本月已新增一組贊助序號";
                 btn.style.background = "#333";
@@ -153,13 +168,12 @@
             }
         } catch (e) {
             console.error(e);
-            alert('❌ 系統對接失敗！\n1. 請確認 GAS 已部署為「任何人」存取。\n2. 請確認是否已完成「新版本」部署。');
+            alert('❌ 系統對接失敗，請檢查網路或 GAS 權限。');
             btn.disabled = false;
             btn.innerText = "重新嘗試驗證";
         }
     }
 
-    // 🚀 核心邏輯：確認收到贊助 (連動 K 欄累加)
     async function confirmReceived() {
         if(!confirm("確定已收到 3,000 元贊助款？確認後將增加您的受贈紀錄。")) return;
         
@@ -193,8 +207,14 @@
     }
 
     function markAsSent() {
+        if(!confirm("確定已完成轉帳？")) return;
+        
+        // 隱藏媒合區域，顯示最終確認資訊
+        document.getElementById('match-area').style.display = 'none';
+        document.getElementById('last-bank-info').innerText = window.currentBankInfo;
+        document.getElementById('final-bank-display').style.display = 'block';
+        
         alert('✅ 已通知受贈領袖查帳！待對方確認後，系統將自動核發您的新序號。');
-        document.getElementById('match-area').innerHTML = '<div class="reward-tag">⏳ 等待對方確認收款中...</div>';
     }
 </script>
 </body>
