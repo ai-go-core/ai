@@ -118,13 +118,14 @@
         if(!phone || !lineId) { alert('請輸入完整驗證資訊！'); return; }
 
         const btn = document.getElementById('enroll-btn');
-        btn.innerText = "⏳ 正在查驗 PV 與媒合對象...";
+        btn.innerText = "⏳ 正在查驗核心數據...";
         btn.disabled = true;
 
         try {
+            // 使用 text/plain 繞過 CORS 預檢，這是 GAS 對接的最佳實踐
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // 若遇到跨網域問題可調整，但建議後端處理 CORS
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({
                     action: "requestMatch",
                     phone: phone,
@@ -132,9 +133,7 @@
                 })
             });
 
-            // 註：因為 GAS POST 的特性，通常需要透過回傳處理，
-            // 這裡假設後端已部署為對接模式
-            const result = await fetch(SCRIPT_URL + "?action=check&p=" + phone).then(res => res.json());
+            const result = await response.json();
 
             if (result.status === "success") {
                 document.getElementById('verify-zone').style.display = 'none';
@@ -143,7 +142,6 @@
                 document.getElementById('target-bank').innerText = result.receiver.bankInfo;
                 window.currentTxId = result.txId;
             } else if (result.status === "limit") {
-                // 領袖要求：若本月已參加過，顯示限制文字
                 btn.innerText = "本月已新增一組贊助序號";
                 btn.style.background = "#333";
                 btn.style.cursor = "not-allowed";
@@ -154,8 +152,8 @@
                 btn.disabled = false;
             }
         } catch (e) {
-            // 由於 GAS Web App 限制，若 fetch 失敗則提示
-            alert('系統對接中，請確認 GAS 網址是否已開啟「所有人」存取權限。');
+            console.error(e);
+            alert('❌ 系統對接失敗！\n1. 請確認 GAS 已部署為「任何人」存取。\n2. 請確認是否已完成「新版本」部署。');
             btn.disabled = false;
             btn.innerText = "重新嘗試驗證";
         }
@@ -166,13 +164,18 @@
         if(!confirm("確定已收到 3,000 元贊助款？確認後將增加您的受贈紀錄。")) return;
         
         try {
-            // 發送確認請求至後端
-            await fetch(SCRIPT_URL, {
+            const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({ action: "confirmPayment", txId: window.currentTxId })
             });
-            alert('💎 恭喜！您已確認領取贊助，受贈次數(K欄)已自動更新。');
-            document.getElementById('receive-notify').style.display = 'none';
+            const res = await response.json();
+            if(res.status === "success") {
+                alert('💎 恭喜！您已確認領取贊助，受贈次數(K欄)已自動更新。');
+                document.getElementById('receive-notify').style.display = 'none';
+            } else {
+                alert('系統錯誤：' + res.msg);
+            }
         } catch (e) {
             alert('通訊異常，但請放心，數據已記錄於系統後台。');
         }
@@ -180,9 +183,13 @@
 
     function copyAccount() {
         const acc = document.getElementById('target-bank').innerText;
-        const accountOnly = acc.match(/\d+/); // 簡單抓取數字部分
-        navigator.clipboard.writeText(accountOnly ? accountOnly[0] : acc);
-        alert('帳號已複製！請至銀行 App 貼上轉帳。');
+        const accountOnly = acc.match(/\d+/); 
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(accountOnly ? accountOnly[0] : acc);
+            alert('帳號已複製！請至銀行 App 貼上轉帳。');
+        } else {
+            alert('您的瀏覽器不支援一鍵複製，請手動選取帳號。');
+        }
     }
 
     function markAsSent() {
