@@ -8,92 +8,83 @@
         body { 
             background-color: #050505; 
             color: #fff; 
-            font-family: 'PingFang TC', sans-serif; 
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
             margin: 0; 
             display: flex; 
             justify-content: center; 
             min-height: 100vh; 
-            overflow-y: auto;
         }
 
         .glow-box { 
-            position: relative; 
-            width: 92%; 
-            max-width: 420px; 
-            background: #000; 
-            border-radius: 25px; 
-            margin: 20px 0; 
+            width: 95%; 
+            max-width: 450px; 
+            margin: 15px auto;
         }
 
         .inner-content { 
             background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); 
-            border-radius: 23px; 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column; 
+            border-radius: 20px; 
+            padding: 18px; 
             border: 1px solid #333;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
         }
 
-        /* 🛡️ 定性名稱標題區 */
-        .header { text-align: center; margin-bottom: 20px; }
-        .system-title { color: #FFD700; font-size: 1.3rem; font-weight: 800; letter-spacing: 1px; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
-        .system-subtitle { font-size: 0.8rem; color: #D4AF37; margin-top: 5px; font-weight: bold; letter-spacing: 2px; }
+        .header { text-align: center; margin-bottom: 15px; }
+        .system-title { color: #FFD700; font-size: 1.4rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        .system-subtitle { font-size: 0.85rem; color: #D4AF37; margin-top: 4px; letter-spacing: 1px; }
         
         .marquee {
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(212, 175, 55, 0.08);
             color: #D4AF37;
             padding: 8px;
             font-size: 0.75rem;
-            border-radius: 5px;
-            margin-top: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
             overflow: hidden;
-            white-space: nowrap;
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.15);
         }
 
-        /* 核心按鈕矩陣 - 修正版 */
-        .nav-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); /* 確保永遠是兩列 */
-            gap: 12px; 
-            margin-top: 10px; 
+        /* 🚀 核心優化：自適應按鈕矩陣 */
+        .nav-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
         }
         
         .nav-item {
-            background: linear-gradient(145deg, #D4AF37, #B8860B); /* 統一黃金按鍵色 */
-            border: 1px solid #FFD700;
-            border-radius: 15px;
-            padding: 15px 5px;
+            flex: 0 0 calc(50% - 6px); /* 準確的 2x2 比例 */
+            background: #D4AF37; /* 回歸主理人最愛的黃金實體色 */
+            border-radius: 16px;
+            padding: 20px 5px;
             text-align: center;
             text-decoration: none;
-            color: #000 !important; /* 黑字更顯目 */
-            transition: 0.3s;
+            color: #000 !important;
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            min-height: 100px; /* 統一高度 */
             justify-content: center;
+            transition: transform 0.2s;
         }
 
-        .nav-item:active { transform: scale(0.95); background: #FFD700; }
-        .nav-icon { font-size: 1.6rem; margin-bottom: 8px; }
-        .nav-text { font-size: 0.95rem; font-weight: bold; }
-        .nav-desc { font-size: 0.6rem; opacity: 0.8; margin-top: 4px; }
+        .nav-item:active { transform: scale(0.96); opacity: 0.9; }
+        .nav-icon { font-size: 2rem; margin-bottom: 8px; }
+        .nav-text { font-size: 1rem; font-weight: bold; }
+        .nav-desc { font-size: 0.65rem; margin-top: 4px; opacity: 0.8; font-weight: normal; }
 
         /* 特色亮點區域 */
         .feature-banner {
-            margin-top: 25px;
-            background: linear-gradient(90deg, rgba(212,175,55,0.2), transparent);
+            margin-top: 20px;
+            background: rgba(212, 175, 55, 0.05);
             padding: 15px;
             border-radius: 12px;
-            border-left: 4px solid #D4AF37;
+            border-left: 3px solid #D4AF37;
         }
-        .feature-title { color: #FFD700; font-size: 0.9rem; font-weight: bold; }
-        .feature-list { font-size: 0.7rem; color: #ccc; margin-top: 5px; line-height: 1.6; }
+        .feature-title { color: #FFD700; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
+        .feature-list { font-size: 0.75rem; color: #aaa; line-height: 1.6; }
 
-        .footer { font-size: 0.65rem; color: #666; text-align: center; padding: 25px 0; letter-spacing: 1px; }
+        .footer { font-size: 0.65rem; color: #555; text-align: center; padding: 20px 0; }
     </style>
 </head>
 <body>
@@ -104,11 +95,11 @@
                 <div class="system-subtitle">/ 全方位數位輔助</div>
                 
                 <div class="marquee">
-                    <marquee scrollamount="5">🔥 封測限定：註冊即領人物蛋 + 50元購物金 | 推薦獎金 99 元無限發放 | 免會費、免配貨、消費全額抵扣 🚀</marquee>
+                    <marquee scrollamount="4">🔥 封測限定：註冊即領人物蛋 + 50元購物金 | 推薦獎金 99 元無限發放 | 免會費、免配貨 🚀</marquee>
                 </div>
             </div>
 
-            <div class="nav-grid">
+            <div class="nav-container">
                 <a id="link-sponsorship" href="#" class="nav-item">
                     <span class="nav-icon">💰</span>
                     <span class="nav-text">贊助回饋</span>
@@ -137,14 +128,13 @@
             <div class="feature-banner">
                 <div class="feature-title">🛡️ 領袖特權公告</div>
                 <div class="feature-list">
-                    • 系統核心贈送角色彩蛋，具備成長與收益價值。<br>
-                    • 消費全額抵扣，收益達 100 即可申請提領。<br>
-                    • 推薦獎金 99 元，達成目標享雙人免費國外旅遊。
+                    • 系統核心贈送角色彩蛋，具備成長價值。<br>
+                    • 推薦獎金 99 元，達成目標享免費旅遊。
                 </div>
             </div>
 
             <div class="footer">
-                AI系統核心 v3.0 | 最終解釋權歸系統核心所有
+                AI系統核心 v3.2 | 最終解釋權歸系統所有
             </div>
         </div>
     </div>
@@ -159,7 +149,6 @@
                 document.getElementById('link-sponsorship').href = "Sponsorship.html" + refParam;
                 document.getElementById('link-profile').href = "Profile.html" + refParam;
                 document.getElementById('link-writer').href = "Writer.html" + refParam;
-                
                 document.getElementById('link-contact').href = "https://line.me/ti/p/~" + userId;
                 document.getElementById('contact-desc').innerText = "ID: " + userId;
             } else {
@@ -167,10 +156,7 @@
                     e.preventDefault(); 
                     alert('系統提示：請透過推薦連結進入指令大廳'); 
                 };
-                document.getElementById('link-sponsorship').onclick = protectFunc;
-                document.getElementById('link-profile').onclick = protectFunc;
-                document.getElementById('link-contact').onclick = protectFunc;
-                document.getElementById('link-writer').onclick = protectFunc;
+                document.querySelectorAll('.nav-item').forEach(el => el.onclick = protectFunc);
             }
         };
     </script>
