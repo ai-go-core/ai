@@ -6,197 +6,256 @@
     <title>AI 生活小秘書 | 贊助升級核心</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold-primary: #D4AF37; --gold-light: #FFD700; --dark-bg: #050505; --neon-green: #00ff88; --neon-orange: #ff8c00; --neon-blue: #00e5ff; --neon-red: #ff4444; }
-        body { font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; background: var(--dark-bg); color: #fff; padding: 20px; display: flex; justify-content: center; min-height: 100vh; margin: 0; }
-        .container { width: 100%; max-width: 450px; background: rgba(15, 15, 15, 0.98); border: 1px solid var(--gold-primary); border-radius: 24px; padding: 25px; box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); }
-        .brand-header { margin-bottom: 25px; border-bottom: 2px solid var(--gold-primary); padding-bottom: 15px; text-align: center; }
-        .greeting-box { background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(0,0,0,1) 100%); border-radius: 15px; padding: 18px; margin-bottom: 20px; border: 1px solid rgba(212,175,55,0.3); }
-        .keyword-tag { display: inline-block; background: rgba(255,255,255,0.05); color: var(--gold-light); padding: 3px 8px; border-radius: 4px; font-size: 0.72em; margin: 2px; border: 1px solid rgba(212,175,55,0.2); }
-        .section-title { font-size: 0.92em; color: var(--gold-primary); text-align: left; margin: 25px 0 12px 5px; border-left: 4px solid var(--gold-primary); padding-left: 10px; font-weight: 800; }
-        .report-card { background: #0a0a0a; border-radius: 20px; padding: 18px; margin-top: 15px; border: 1px solid var(--gold-primary); position: relative; }
-        .btn-main { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 1.1em; display: block; text-align: center; text-decoration: none; box-sizing: border-box; }
-        .btn-match { background: linear-gradient(45deg, #D4AF37, #FFD700); color: #000; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
-        input { width: 100%; background: #111; border: 1px solid #444; color: #fff; padding: 14px; border-radius: 10px; box-sizing: border-box; margin-bottom: 12px; font-size: 1em; }
-        .保牌提示 { background: rgba(255, 140, 0, 0.1); border: 1px solid var(--neon-orange); padding: 12px; border-radius: 12px; margin-bottom: 15px; font-size: 0.78em; color: var(--neon-orange); line-height: 1.5; }
+        :root { 
+            --gold-primary: #D4AF37; 
+            --gold-light: #FFD700; 
+            --dark-bg: #050505; 
+            --neon-green: #00ff88; 
+            --neon-orange: #ff8c00; 
+            --neon-blue: #00e5ff; 
+            --neon-red: #ff4444; 
+        }
+        
+        body { 
+            font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
+            background: var(--dark-bg); 
+            color: #fff; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh; 
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 480px; 
+            background: rgba(10, 10, 10, 1); 
+            border: 1px solid var(--gold-primary); 
+            border-radius: 20px; 
+            padding: 20px; 
+            box-sizing: border-box;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            margin: 10px;
+        }
+
+        .brand-header { 
+            margin-bottom: 20px; 
+            border-bottom: 2px solid var(--gold-primary); 
+            padding-bottom: 15px; 
+            text-align: center; 
+        }
+
+        /* ⚠️ 領袖保牌提示 - 仿截圖樣式優化 */
+        .保牌提示 { 
+            background: rgba(255, 140, 0, 0.1); 
+            border: 1px solid var(--neon-orange); 
+            padding: 12px; 
+            border-radius: 12px; 
+            margin-bottom: 15px; 
+            font-size: 0.85em; 
+            color: var(--neon-orange); 
+            line-height: 1.6; 
+        }
+
+        /* ✨ 歡迎詞與標籤區 - 解決跑位問題 */
+        .greeting-box { 
+            background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(0,0,0,1) 100%); 
+            border-radius: 15px; 
+            padding: 18px; 
+            margin-bottom: 20px; 
+            border: 1px solid rgba(212,175,55,0.3); 
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .keyword-tag { 
+            background: rgba(212, 175, 55, 0.1); 
+            color: var(--gold-light); 
+            padding: 4px 10px; 
+            border-radius: 6px; 
+            font-size: 0.75em; 
+            border: 1px solid rgba(212,175,55,0.3);
+            white-space: nowrap;
+        }
+
+        .section-title { 
+            font-size: 0.95em; 
+            color: var(--gold-primary); 
+            text-align: left; 
+            margin: 25px 0 12px 0; 
+            border-left: 4px solid var(--gold-primary); 
+            padding-left: 10px; 
+            font-weight: bold; 
+        }
+
+        .condition-box { 
+            background: rgba(0, 229, 255, 0.05); 
+            border-radius: 12px; 
+            padding: 15px; 
+            margin-bottom: 20px; 
+            border: 1px solid var(--neon-blue); 
+        }
+
+        .report-card { 
+            background: #0d0d0d; 
+            border-radius: 15px; 
+            padding: 15px; 
+            border: 1px solid #222; 
+        }
+
+        .zone-box { 
+            margin-bottom: 12px; 
+            padding: 12px; 
+            border-radius: 10px; 
+            background: rgba(255,255,255,0.02); 
+            border-left: 4px solid #444;
+        }
+
+        .btn-main { 
+            width: 100%; 
+            padding: 16px; 
+            border: none; 
+            border-radius: 12px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            margin-top: 10px; 
+            font-size: 1.05em; 
+            display: block; 
+            text-align: center; 
+            text-decoration: none; 
+            box-sizing: border-box; 
+        }
+
+        .btn-match { 
+            background: linear-gradient(45deg, #D4AF37, #FFD700); 
+            color: #000; 
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); 
+        }
+
+        input { 
+            width: 100%; 
+            background: #111; 
+            border: 1px solid #333; 
+            color: #fff; 
+            padding: 14px; 
+            border-radius: 10px; 
+            box-sizing: border-box; 
+            margin-bottom: 12px; 
+            font-size: 1em; 
+            outline: none;
+        }
+
+        input:focus { border-color: var(--gold-primary); }
+
+        .reward-tag { 
+            display: block; 
+            background: rgba(0, 255, 136, 0.1); 
+            color: var(--neon-green); 
+            padding: 10px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            margin-bottom: 15px; 
+            text-align: center; 
+            border: 1px solid var(--neon-green); 
+        }
+
+        .copy-btn { 
+            background: var(--neon-blue); 
+            border: none; 
+            color: #000; 
+            cursor: pointer; 
+            font-size: 0.75em; 
+            padding: 4px 10px; 
+            border-radius: 6px; 
+            margin-left: 10px; 
+            font-weight: bold;
+        }
+
+        #match-area { display: none; margin-top: 15px; }
+
+        .footer-text { 
+            text-align: center; 
+            margin-top: 30px; 
+            font-size: 0.75em; 
+            color: #555; 
+            padding-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="brand-header">
-        <h2 style="margin:0;"><span style="color:var(--gold-primary)"><?= spMainTitle ?></span></h2>
-        <div style="font-size: 0.82em; color: var(--gold-light);"><?= spSubTitle ?></div>
+        <h2 style="margin:0;"><span style="color:var(--gold-primary)">AI 生活小秘書</span></h2>
+        <div style="font-size: 0.85em; color: var(--gold-light);">全方位數位輔助系統核心</div>
     </div>
 
     <div class="保牌提示">
-        ⚠️ <strong>領袖保牌提示：</strong> 系統僅媒合狀態為 <strong>【活躍】</strong> 之帳戶。
+        <i class="fas fa-exclamation-triangle"></i> <strong>領袖保牌提示：</strong><br>
+        系統僅媒合狀態為 <strong>【活躍】</strong> 之帳戶。若您的帳戶處於 <strong>【暫停】</strong> 狀態（如未滿 1PV），將自動跳過受贈權利。
     </div>
 
     <div class="greeting-box">
-        <p style="margin:0 0 10px 0; font-weight:bold; color:var(--gold-light);"><?= spGreeting ?></p>
-        <div>
-            <span class="keyword-tag">免費會員</span><span class="keyword-tag">超級AI工具</span>
-            <span class="keyword-tag">50元購物金</span><span class="keyword-tag">滿百提領</span>
+        <p style="margin:0; font-weight:bold; color:var(--gold-light); font-size:1em;">✨ 您好！領袖，歡迎進入數位核心...</p>
+        <div class="tag-container">
+            <span class="keyword-tag">免費會員</span>
+            <span class="keyword-tag">超級AI工具</span>
+            <span class="keyword-tag">角色彩蛋</span>
+            <span class="keyword-tag">50元購物金</span>
+            <span class="keyword-tag">99元推薦獎金</span>
+            <span class="keyword-tag">免費出國旅遊</span>
+            <span class="keyword-tag">滿百提領</span>
+            <span class="keyword-tag">免年費</span>
         </div>
-    </div>
-
-    <div class="section-title">🚀 創建數位分身 · 贊助媒合</div>
-    <div class="report-card">
-        <div id="verify-zone">
-            <input type="text" id="v-phone" placeholder="輸入主庫登記手機">
-            <input type="text" id="v-line" placeholder="輸入主庫登記 LINE ID">
-            <button id="enroll-btn" class="btn-main btn-match" onclick="handleMatch()"><?= spMatchBtn ?></button>
-        </div>
-        <div id="match-area" style="display:none;">
-            </div>
-    </div>
-
-    <div style="text-align: center; margin-top: 30px; font-size: 0.7em; color: #555;">
-        🛡️ 最終解釋權歸系統核心所有 | 最終代號：創建數位分身
-    </div>
-</div>
-
-<script>
-    // 這裡請保留您原本 Sponsorship.html 尾端的 handleMatch() 與 AJAX 通訊腳本
-</script>
-</body>
-</html><!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <title>AI 生活小秘書 | 全方位數位輔助</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --gold-primary: #D4AF37; --gold-light: #FFD700; --dark-bg: #050505; --neon-green: #00ff88; --neon-orange: #ff8c00; --neon-blue: #00e5ff; --neon-red: #ff4444; }
-        body { font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; background: var(--dark-bg); color: #fff; padding: 20px; display: flex; justify-content: center; min-height: 100vh; margin: 0; }
-        .container { width: 100%; max-width: 450px; background: rgba(15, 15, 15, 0.98); border: 1px solid var(--gold-primary); border-radius: 24px; padding: 25px; box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); }
-        .brand-header { margin-bottom: 25px; border-bottom: 2px solid var(--gold-primary); padding-bottom: 15px; text-align: center; }
-        .section-title { font-size: 0.92em; color: var(--gold-primary); text-align: left; margin: 25px 0 12px 5px; border-left: 4px solid var(--gold-primary); padding-left: 10px; font-weight: 800; }
-        .greeting-box { background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(0,0,0,1) 100%); border-radius: 15px; padding: 18px; margin-bottom: 20px; border: 1px solid rgba(212,175,55,0.3); }
-        .keyword-tag { display: inline-block; background: rgba(255,255,255,0.05); color: var(--gold-light); padding: 3px 8px; border-radius: 4px; font-size: 0.72em; margin: 2px; border: 1px solid rgba(212,175,55,0.2); }
-        .condition-box { background: rgba(0, 229, 255, 0.05); border-radius: 12px; padding: 15px; margin-bottom: 20px; border: 1px solid var(--neon-blue); }
-        .cond-item { font-size: 0.85em; margin-bottom: 8px; color: var(--neon-blue); display: flex; align-items: flex-start; gap: 8px; }
-        .report-card { background: #0a0a0a; border-radius: 20px; padding: 18px; margin-top: 15px; border: 1px solid var(--gold-primary); position: relative; }
-        .zone-box { margin-bottom: 15px; padding: 15px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid #222; }
-        .step-row { display: flex; gap: 10px; margin-bottom: 8px; font-size: 0.82em; line-height: 1.4; }
-        .step-num { color: var(--gold-light); font-weight: bold; flex-shrink: 0; width: 65px; }
-        .reward-tag { display: block; background: rgba(0, 255, 136, 0.05); color: var(--neon-green); padding: 8px; border-radius: 8px; font-weight: bold; margin: 10px 0; text-align: center; font-size: 0.9em; border: 1px solid var(--neon-green); }
-        .legal-warning { background: rgba(255, 68, 68, 0.05); border: 1px dashed var(--neon-red); padding: 15px; font-size: 0.75em; color: #ff9999; text-align: justify; margin: 15px 0; border-radius: 12px; line-height: 1.6; }
-        .btn-main { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 1.1em; display: inline-block; text-align: center; box-sizing: border-box; text-decoration: none; }
-        .btn-match { background: linear-gradient(45deg, #D4AF37, #FFD700); color: #000; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
-        .btn-arsenal { background: #000; color: var(--gold-primary); border: 1px solid var(--gold-primary); margin-top: 20px; display: none; }
-        input { width: 100%; background: #111; border: 1px solid #444; color: #fff; padding: 14px; border-radius: 10px; box-sizing: border-box; margin-bottom: 12px; font-size: 1em; outline: none; }
-        
-        .保牌提示 { background: rgba(255, 140, 0, 0.1); border: 1px solid var(--neon-orange); padding: 12px; border-radius: 12px; margin-bottom: 15px; font-size: 0.78em; color: var(--neon-orange); line-height: 1.5; }
-        .copy-btn { background: none; border: 1px solid var(--neon-blue); color: var(--neon-blue); cursor: pointer; font-size: 0.7em; padding: 3px 8px; border-radius: 6px; margin-left: 10px; }
-        #match-area, #final-bank-display { display:none; }
-        #receive-notify { display:none; background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(0,0,0,1) 100%); border: 2px solid var(--gold-primary); padding: 20px; border-radius: 20px; margin-top: 20px; text-align: center; }
-        
-        /* 狀態標籤樣式 */
-        .status-badge { font-size: 0.8em; padding: 2px 10px; border-radius: 20px; font-weight: bold; margin-left: 5px; }
-        .status-活跃 { background: var(--neon-green); color: #000; box-shadow: 0 0 10px var(--neon-green); }
-        .status-暂停 { background: var(--neon-orange); color: #000; }
-        .status-出局 { background: var(--neon-red); color: #fff; }
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="brand-header">
-        <h2 id="cloud_title" style="margin:0;"><span style="color:var(--gold-primary)">AI 生活小秘書</span></h2>
-        <div style="font-size: 0.82em; color: var(--gold-light);">全方位數位輔助系統核心</div>
-    </div>
-
-    <div class="保牌提示">
-        ⚠️ <strong>領袖保牌提示：</strong> 系統僅媒合狀態為 <strong>【活躍】</strong> 之帳戶。若您的帳戶處於 <strong>【暫停】</strong> 狀態（如未滿 1PV），將自動跳過受贈權利。
-    </div>
-
-    <div class="greeting-box">
-        <p id="cloud_greeting" style="margin:0 0 10px 0; font-weight:bold; color:var(--gold-light);">✨ 您好！領袖，歡迎進入數位核心...</p>
-        <div>
-            <span class="keyword-tag">免費會員</span><span class="keyword-tag">超級AI工具</span><span class="keyword-tag">角色彩蛋</span>
-            <span class="keyword-tag">50元購物金</span><span class="keyword-tag">99元推薦獎金</span><span class="keyword-tag">免費出國旅遊</span>
-            <span class="keyword-tag">免年費</span><span class="keyword-tag">滿百提領</span>
-        </div>
-    </div>
-
-    <div id="receive-notify">
-        <div style="font-size: 1.5em; margin-bottom: 10px;">🏆 賀！能量即將閉環</div>
-        <p style="font-size: 0.9em; color: var(--gold-light);">領袖夥伴已發起贊助轉帳</p>
-        <p style="font-size: 0.8em; color: #ccc;">請查收您的銀行帳戶，確認收到 3,000 元後：</p>
-        <button class="btn-main" style="background:var(--neon-green); color:#000;" onclick="confirmReceived()">確認收到贊助金 💎</button>
     </div>
 
     <div class="condition-box">
-        <div class="cond-item"><i class="fas fa-id-card"></i> <strong>活化門檻：</strong> 帳戶需為「活躍」狀態 (1500 PV)。</div>
-        <div class="cond-item"><i class="fas fa-coins"></i> <strong>贊助金額：</strong> 每筆贊助金額固定為 3,000 元。</div>
-    </div>
-
-    <div class="section-title">⚙️ 2-2-2 循環生命週期</div>
-    <div class="report-card">
-        <div class="zone-box" style="border-left: 4px solid var(--neon-green);">
-            <div style="color:var(--neon-green); font-weight:bold; margin-bottom:8px;">【A 區：活躍重生模型】</div>
-            <div class="step-row"><span class="step-num" style="color:var(--neon-green);">2給 ➡ 2幫</span><span>完成實質轉帳，啟動數位分身「活躍」能量。</span></div>
+        <div style="font-size: 0.85em; color: var(--neon-blue);">
+            <i class="fas fa-check-circle"></i> 活化門檻：帳戶需為活躍狀態 (1500 PV)<br>
+            <i class="fas fa-coins"></i> 贊助金額：每筆固定為 NT$ 3,000
         </div>
-        <div class="zone-box" style="border-left: 4px solid var(--neon-blue);">
-            <div style="color:var(--neon-blue); font-weight:bold; margin-bottom:8px;">【B 區：倍率擴張模型】</div>
-            <div class="step-row"><span class="step-num" style="color:var(--neon-blue);">2幫 ➡ 2領</span><span>系統鎖定連結，確保贊助金 100% 導向數位代號。</span></div>
-        </div>
-        <div class="zone-box" style="border-left: 4px solid var(--gold-primary);">
-            <div style="color:var(--gold-primary); font-weight:bold; margin-bottom:8px;">【C 區：終極出局模型】</div>
-            <div class="step-row"><span class="step-num" style="color:var(--gold-primary);">領滿 ➡ 出局</span><span>達成循環目標後自動「出局」，由子序號裂變重生。</span></div>
-        </div>
-    </div>
-
-    <div class="legal-warning">
-        ⚖️ <strong>法律自願聲明：</strong> 一切參加贊助之行為均屬個人自願，本系統僅擔任技術監督，100% 無損到帳。
     </div>
 
     <div class="section-title">🚀 創建數位分身 · 贊助媒合</div>
-    <div class="report-card" id="match-container">
+    <div class="report-card">
         <div id="verify-zone">
-            <input type="text" id="v-phone" placeholder="輸入主庫登記手機">
+            <input type="tel" id="v-phone" placeholder="輸入主庫登記手機">
             <input type="text" id="v-line" placeholder="輸入主庫登記 LINE ID">
             <button id="enroll-btn" class="btn-main btn-match" onclick="handleMatch()">驗證資格並搜尋媒合</button>
         </div>
 
         <div id="match-area">
             <div class="reward-tag">🎯 媒合成功！請執行自願贊助</div>
-            <p style="font-size:0.85em; margin-bottom:10px;">請贊助給領袖：<span id="target-name" style="color:var(--gold-light);">---</span></p>
-            <div style="background:#111; padding:15px; border-radius:12px; border:1px solid var(--gold-primary);">
-                <p style="font-size:0.8em; margin:5px 0;">受贈銀行資訊：</p>
-                <p style="font-size:1.1em; color:var(--neon-blue); margin:5px 0;">
+            <p style="font-size:0.9em; margin-bottom:10px;">請贊助給領袖：<span id="target-name" style="color:var(--gold-light); font-weight:bold;">---</span></p>
+            <div style="background:#000; padding:15px; border-radius:12px; border:1px solid var(--gold-primary);">
+                <p style="font-size:0.8em; color:#aaa; margin:0 0 5px 0;">受贈銀行資訊：</p>
+                <p style="font-size:1em; color:var(--neon-blue); margin:0; font-family: monospace;">
                     <span id="target-bank">載入中...</span>
                     <button class="copy-btn" onclick="copyAccount()">一鍵複製</button>
                 </p>
-                <p style="font-size:0.9em; font-weight:bold; color:var(--neon-red);">金額：NT$ 3,000</p>
+                <p style="font-size:1.1em; font-weight:bold; color:var(--neon-red); margin:10px 0 0 0;">金額：NT$ 3,000</p>
             </div>
-            <button class="btn-main" style="background:var(--neon-green); color:#000; margin-top:15px;" onclick="markAsSent()">我已完成轉帳 🆗</button>
+            <button class="btn-main" style="background:var(--neon-green); color:#000; margin-top:20px;" onclick="markAsSent()">我已完成轉帳 🆗</button>
         </div>
-
-        <div id="final-bank-display">
-            <div class="reward-tag" style="background:rgba(255,140,0,0.1); border-color:var(--neon-orange); color:var(--neon-orange);">⏳ 等待對方確認收款中...</div>
-            <div style="background:#111; padding:15px; border-radius:12px; border:1px solid var(--neon-orange); margin-top:10px;">
-                <p style="font-size:0.8em; color:#aaa;">您剛剛轉帳至：</p>
-                <p id="last-bank-info" style="font-size:1em; color:#fff;"></p>
-                <p style="font-size:0.75em; color:var(--neon-orange); margin-top:8px;">請保留轉帳截圖以備核對。</p>
-            </div>
-        </div>
-
-        <a id="arsenal-link" href="#" class="btn-main btn-arsenal" target="_blank">開啟個人武器庫 (W1-W7)</a>
     </div>
 
-    <div style="text-align: center; margin-top: 30px; font-size: 0.7em; color: #555;">
+    <div class="footer-text">
         🛡️ 最終解釋權歸系統核心所有 | 最終代號：創建數位分身
     </div>
 </div>
 
 <script>
+    // ⚠️ 請確保此處的 SCRIPT_URL 指向您的 Google Apps Script 部署網址
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec';
 
     async function handleMatch() {
         const phone = document.getElementById('v-phone').value.trim();
         const lineId = document.getElementById('v-line').value.trim();
-        
         if(!phone || !lineId) { alert('請輸入完整驗證資訊！'); return; }
 
         const btn = document.getElementById('enroll-btn');
@@ -207,15 +266,10 @@
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({
-                    action: "requestMatch",
-                    phone: phone,
-                    lineId: lineId
-                })
+                body: JSON.stringify({ action: "requestMatch", phone, lineId })
             });
 
             const result = await response.json();
-
             if (result.status === "success") {
                 document.getElementById('verify-zone').style.display = 'none';
                 document.getElementById('match-area').style.display = 'block';
@@ -224,58 +278,33 @@
                 window.currentTxId = result.txId;
                 window.currentBankInfo = result.receiver.bankInfo; 
             } else {
-                // 顯示精準的錯誤訊息 (例如：帳戶已暫停或已出局)
-                alert(result.msg || "驗證失敗：請確認帳戶是否處於「活躍」狀態及 PV 是否達標。");
+                alert(result.msg || "驗證失敗：請確認帳戶狀態。");
                 btn.innerText = "驗證資格並搜尋媒合";
                 btn.disabled = false;
             }
         } catch (e) {
-            console.error(e);
             alert('❌ 系統對接失敗，請聯繫 AI 生活小秘書。');
             btn.disabled = false;
             btn.innerText = "重新嘗試驗證";
         }
     }
 
-    async function confirmReceived() {
-        if(!confirm("確定已收到 3,000 元贊助款？確認後將增加受贈次數並更新狀態。")) return;
-        
-        try {
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: "confirmPayment", txId: window.currentTxId })
-            });
-            const res = await response.json();
-            if(res.status === "success") {
-                alert('💎 恭喜！能量已閉環。您的 K 欄受贈次數已更新。');
-                document.getElementById('receive-notify').style.display = 'none';
-                location.reload(); // 重新整理以反映最新狀態
-            } else {
-                alert('系統錯誤：' + res.msg);
-            }
-        } catch (e) {
-            alert('通訊異常，但請放心，數據已記錄於系統後台。');
-        }
-    }
-
     function copyAccount() {
         const acc = document.getElementById('target-bank').innerText;
         const accountOnly = acc.match(/\d+/); 
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(accountOnly ? accountOnly[0] : acc);
-            alert('帳號已複製！請至銀行 App 貼上。');
+        const textToCopy = accountOnly ? accountOnly[0] : acc;
+        
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(textToCopy).then(() => alert('帳號已複製！'));
         } else {
-            alert('請手動選取帳號複製。');
+            alert('請手動複製帳號：' + textToCopy);
         }
     }
 
     function markAsSent() {
         if(!confirm("確定已完成轉帳？")) return;
-        document.getElementById('match-area').style.display = 'none';
-        document.getElementById('last-bank-info').innerText = window.currentBankInfo;
-        document.getElementById('final-bank-display').style.display = 'block';
         alert('✅ 已通知受贈領袖查帳！請靜候對方確認「活躍」能量。');
+        location.reload();
     }
 </script>
 </body>
