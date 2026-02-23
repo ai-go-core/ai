@@ -28,7 +28,7 @@
         .inner-content { 
             background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); 
             border-radius: 23px; 
-            padding: 25px; 
+            padding: 20px; 
             display: flex; 
             flex-direction: column; 
             border: 1px solid #333;
@@ -36,7 +36,7 @@
         }
 
         /* 🛡️ 定性名稱標題區 */
-        .header { text-align: center; margin-bottom: 25px; }
+        .header { text-align: center; margin-bottom: 20px; }
         .system-title { color: #FFD700; font-size: 1.3rem; font-weight: 800; letter-spacing: 1px; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
         .system-subtitle { font-size: 0.8rem; color: #D4AF37; margin-top: 5px; font-weight: bold; letter-spacing: 2px; }
         
@@ -44,7 +44,7 @@
             background: rgba(212, 175, 55, 0.1);
             color: #D4AF37;
             padding: 8px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             border-radius: 5px;
             margin-top: 15px;
             overflow: hidden;
@@ -52,28 +52,35 @@
             border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
-        /* 核心按鈕矩陣 */
-        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+        /* 核心按鈕矩陣 - 修正版 */
+        .nav-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); /* 確保永遠是兩列 */
+            gap: 12px; 
+            margin-top: 10px; 
+        }
         
         .nav-item {
-            background: linear-gradient(145deg, #222, #111);
-            border: 1px solid #444;
+            background: linear-gradient(145deg, #D4AF37, #B8860B); /* 統一黃金按鍵色 */
+            border: 1px solid #FFD700;
             border-radius: 15px;
-            padding: 20px 10px;
+            padding: 15px 5px;
             text-align: center;
             text-decoration: none;
-            color: #fff;
+            color: #000 !important; /* 黑字更顯目 */
             transition: 0.3s;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            min-height: 100px; /* 統一高度 */
+            justify-content: center;
         }
 
-        .nav-item:active { transform: scale(0.95); border-color: #D4AF37; }
-        .nav-icon { font-size: 1.8rem; margin-bottom: 10px; }
-        .nav-text { font-size: 0.95rem; font-weight: bold; color: #BBB; }
-        .nav-desc { font-size: 0.65rem; color: #666; margin-top: 5px; }
+        .nav-item:active { transform: scale(0.95); background: #FFD700; }
+        .nav-icon { font-size: 1.6rem; margin-bottom: 8px; }
+        .nav-text { font-size: 0.95rem; font-weight: bold; }
+        .nav-desc { font-size: 0.6rem; opacity: 0.8; margin-top: 4px; }
 
         /* 特色亮點區域 */
         .feature-banner {
@@ -84,9 +91,9 @@
             border-left: 4px solid #D4AF37;
         }
         .feature-title { color: #FFD700; font-size: 0.9rem; font-weight: bold; }
-        .feature-list { font-size: 0.7rem; color: #888; margin-top: 5px; line-height: 1.6; }
+        .feature-list { font-size: 0.7rem; color: #ccc; margin-top: 5px; line-height: 1.6; }
 
-        .footer { font-size: 0.65rem; color: #444; text-align: center; padding: 30px 0; letter-spacing: 1px; }
+        .footer { font-size: 0.65rem; color: #666; text-align: center; padding: 25px 0; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -102,9 +109,9 @@
             </div>
 
             <div class="nav-grid">
-                <a id="link-sponsorship" href="#" class="nav-item" style="border-color: #D4AF37;">
+                <a id="link-sponsorship" href="#" class="nav-item">
                     <span class="nav-icon">💰</span>
-                    <span class="nav-text" style="color: #FFD700;">贊助回饋</span>
+                    <span class="nav-text">贊助回饋</span>
                     <span class="nav-desc">7代複利制度</span>
                 </a>
 
@@ -145,20 +152,17 @@
     <script>
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const userId = urlParams.get('id'); // 動態獲取如 vvvip.tw
+            const userId = urlParams.get('id'); 
             const refParam = userId ? "?id=" + userId : "";
 
-            // 🛡️ 公版動態連結邏輯
             if (userId) {
                 document.getElementById('link-sponsorship').href = "Sponsorship.html" + refParam;
                 document.getElementById('link-profile').href = "Profile.html" + refParam;
                 document.getElementById('link-writer').href = "Writer.html" + refParam;
                 
-                // 動態設定 LINE 聯繫連結
                 document.getElementById('link-contact').href = "https://line.me/ti/p/~" + userId;
                 document.getElementById('contact-desc').innerText = "ID: " + userId;
             } else {
-                // 無 ID 時的保護措施
                 const protectFunc = function(e) { 
                     e.preventDefault(); 
                     alert('系統提示：請透過推薦連結進入指令大廳'); 
