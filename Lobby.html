@@ -18,45 +18,45 @@
         .glow-box { 
             width: 95%; 
             max-width: 450px; 
-            margin: 15px auto;
+            margin: 10px auto;
         }
 
         .inner-content { 
             background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); 
             border-radius: 20px; 
-            padding: 18px; 
+            padding: 15px; 
             border: 1px solid #333;
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
         }
 
-        .header { text-align: center; margin-bottom: 15px; }
-        .system-title { color: #FFD700; font-size: 1.4rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
-        .system-subtitle { font-size: 0.85rem; color: #D4AF37; margin-top: 4px; letter-spacing: 1px; }
+        .header { text-align: center; margin-bottom: 10px; }
+        .system-title { color: #FFD700; font-size: 1.3rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        .system-subtitle { font-size: 0.8rem; color: #D4AF37; margin-top: 2px; letter-spacing: 1px; }
         
         .marquee {
             background: rgba(212, 175, 55, 0.08);
             color: #D4AF37;
-            padding: 8px;
+            padding: 6px;
             font-size: 0.75rem;
             border-radius: 8px;
-            margin: 15px 0;
+            margin: 12px 0;
             overflow: hidden;
             border: 1px solid rgba(212, 175, 55, 0.15);
         }
 
-        /* 🚀 核心優化：自適應按鈕矩陣 */
+        /* 🚀 核心優化：穩定的 Flex 矩陣 */
         .nav-container {
             display: flex;
             flex-wrap: wrap;
+            gap: 10px;
             justify-content: space-between;
-            gap: 12px;
         }
         
         .nav-item {
-            flex: 0 0 calc(50% - 6px); /* 準確的 2x2 比例 */
-            background: #D4AF37; /* 回歸主理人最愛的黃金實體色 */
-            border-radius: 16px;
-            padding: 20px 5px;
+            flex: 0 0 calc(50% - 5px); /* 精確對半分 */
+            background: #D4AF37; 
+            border-radius: 12px;
+            padding: 15px 5px; /* 縮減內距防止撐爆 */
             text-align: center;
             text-decoration: none;
             color: #000 !important;
@@ -65,26 +65,26 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s;
+            min-height: 90px;
         }
 
         .nav-item:active { transform: scale(0.96); opacity: 0.9; }
-        .nav-icon { font-size: 2rem; margin-bottom: 8px; }
-        .nav-text { font-size: 1rem; font-weight: bold; }
-        .nav-desc { font-size: 0.65rem; margin-top: 4px; opacity: 0.8; font-weight: normal; }
+        .nav-icon { font-size: 1.8rem; margin-bottom: 5px; }
+        .nav-text { font-size: 0.95rem; font-weight: bold; line-height: 1.2; }
+        .nav-desc { font-size: 0.6rem; margin-top: 3px; opacity: 0.8; white-space: nowrap; }
 
         /* 特色亮點區域 */
         .feature-banner {
-            margin-top: 20px;
+            margin-top: 15px;
             background: rgba(212, 175, 55, 0.05);
-            padding: 15px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 10px;
             border-left: 3px solid #D4AF37;
         }
-        .feature-title { color: #FFD700; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
-        .feature-list { font-size: 0.75rem; color: #aaa; line-height: 1.6; }
+        .feature-title { color: #FFD700; font-size: 0.85rem; font-weight: bold; margin-bottom: 3px; }
+        .feature-list { font-size: 0.7rem; color: #aaa; line-height: 1.5; }
 
-        .footer { font-size: 0.65rem; color: #555; text-align: center; padding: 20px 0; }
+        .footer { font-size: 0.6rem; color: #555; text-align: center; padding: 15px 0; }
     </style>
 </head>
 <body>
@@ -134,7 +134,7 @@
             </div>
 
             <div class="footer">
-                AI系統核心 v3.2 | 最終解釋權歸系統所有
+                AI系統核心 v3.3 | 最終解釋權歸系統所有
             </div>
         </div>
     </div>
@@ -150,7 +150,13 @@
                 document.getElementById('link-profile').href = "Profile.html" + refParam;
                 document.getElementById('link-writer').href = "Writer.html" + refParam;
                 document.getElementById('link-contact').href = "https://line.me/ti/p/~" + userId;
-                document.getElementById('contact-desc').innerText = "ID: " + userId;
+                
+                // 處理過長的 ID 防止跑位
+                const contactDesc = document.getElementById('contact-desc');
+                contactDesc.innerText = "ID: " + userId;
+                if (userId.length > 12) {
+                    contactDesc.style.fontSize = "0.5rem"; // ID 太長時自動縮小字體
+                }
             } else {
                 const protectFunc = function(e) { 
                     e.preventDefault(); 
