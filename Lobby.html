@@ -24,67 +24,67 @@
         .inner-content { 
             background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); 
             border-radius: 20px; 
-            padding: 15px; 
+            padding: 20px; 
             border: 1px solid #333;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
         }
 
         .header { text-align: center; margin-bottom: 10px; }
-        .system-title { color: #FFD700; font-size: 1.3rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
-        .system-subtitle { font-size: 0.8rem; color: #D4AF37; margin-top: 2px; letter-spacing: 1px; }
+        .system-title { color: #FFD700; font-size: 1.4rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        .system-subtitle { font-size: 0.85rem; color: #D4AF37; margin-top: 2px; letter-spacing: 1px; }
         
         .marquee {
             background: rgba(212, 175, 55, 0.08);
             color: #D4AF37;
-            padding: 6px;
+            padding: 8px;
             font-size: 0.75rem;
             border-radius: 8px;
-            margin: 12px 0;
+            margin: 15px 0;
             overflow: hidden;
             border: 1px solid rgba(212, 175, 55, 0.15);
         }
 
-        /* 🚀 核心優化：穩定的 Flex 矩陣 */
+        /* 🚀 核心優化：垂直長條金磚佈局 (同步儀表板風格) */
         .nav-container {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: space-between;
+            flex-direction: column; /* 強制垂直排列 */
+            gap: 12px;
         }
         
         .nav-item {
-            flex: 0 0 calc(50% - 5px); /* 精確對半分 */
+            width: 100%; /* 寬度全滿 */
             background: #D4AF37; 
             border-radius: 12px;
-            padding: 15px 5px; /* 縮減內距防止撐爆 */
+            padding: 15px 10px;
             text-align: center;
             text-decoration: none;
             color: #000 !important;
             box-sizing: border-box;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            align-items: center; /* 橫向排列內容 */
             justify-content: center;
-            min-height: 90px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        .nav-item:active { transform: scale(0.96); opacity: 0.9; }
-        .nav-icon { font-size: 1.8rem; margin-bottom: 5px; }
-        .nav-text { font-size: 0.95rem; font-weight: bold; line-height: 1.2; }
-        .nav-desc { font-size: 0.6rem; margin-top: 3px; opacity: 0.8; white-space: nowrap; }
+        .nav-item:active { transform: scale(0.98); opacity: 0.9; }
+        .nav-icon { font-size: 1.5rem; margin-right: 12px; } /* 圖標移到左側 */
+        .nav-text-group { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+        .nav-text { font-size: 1.05rem; font-weight: bold; }
+        .nav-desc { font-size: 0.7rem; opacity: 0.8; margin-top: 2px; }
 
         /* 特色亮點區域 */
         .feature-banner {
-            margin-top: 15px;
+            margin-top: 20px;
             background: rgba(212, 175, 55, 0.05);
-            padding: 12px;
+            padding: 15px;
             border-radius: 10px;
             border-left: 3px solid #D4AF37;
         }
-        .feature-title { color: #FFD700; font-size: 0.85rem; font-weight: bold; margin-bottom: 3px; }
-        .feature-list { font-size: 0.7rem; color: #aaa; line-height: 1.5; }
+        .feature-title { color: #FFD700; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
+        .feature-list { font-size: 0.75rem; color: #aaa; line-height: 1.6; }
 
-        .footer { font-size: 0.6rem; color: #555; text-align: center; padding: 15px 0; }
+        .footer { font-size: 0.65rem; color: #555; text-align: center; padding: 20px 0; }
     </style>
 </head>
 <body>
@@ -102,26 +102,34 @@
             <div class="nav-container">
                 <a id="link-sponsorship" href="#" class="nav-item">
                     <span class="nav-icon">💰</span>
-                    <span class="nav-text">贊助回饋</span>
-                    <span class="nav-desc">7代複利制度</span>
+                    <div class="nav-text-group">
+                        <span class="nav-text">贊助回饋</span>
+                        <span class="nav-desc">7代複利制度</span>
+                    </div>
                 </a>
 
                 <a id="link-profile" href="#" class="nav-item">
                     <span class="nav-icon">👤</span>
-                    <span class="nav-text">個人資產</span>
-                    <span class="nav-desc">角色蛋與收益</span>
+                    <div class="nav-text-group">
+                        <span class="nav-text">個人資產</span>
+                        <span class="nav-desc">角色蛋與收益</span>
+                    </div>
                 </a>
 
                 <a id="link-contact" href="#" class="nav-item">
                     <span class="nav-icon">💬</span>
-                    <span class="nav-text">聯繫領袖</span>
-                    <span id="contact-desc" class="nav-desc">啟動數位分身</span>
+                    <div class="nav-text-group">
+                        <span class="nav-text">聯繫領袖</span>
+                        <span id="contact-desc" class="nav-desc">啟動數位分身</span>
+                    </div>
                 </a>
 
                 <a id="link-writer" href="#" class="nav-item">
                     <span class="nav-icon">⚙️</span>
-                    <span class="nav-text">AI 工具箱</span>
-                    <span class="nav-desc">封測功能解鎖</span>
+                    <div class="nav-text-group">
+                        <span class="nav-text">AI 工具箱</span>
+                        <span class="nav-desc">封測功能解鎖</span>
+                    </div>
                 </a>
             </div>
 
@@ -134,7 +142,7 @@
             </div>
 
             <div class="footer">
-                AI系統核心 v3.3 | 最終解釋權歸系統所有
+                AI系統核心 v3.5 | 最終解釋權歸系統所有
             </div>
         </div>
     </div>
@@ -151,11 +159,10 @@
                 document.getElementById('link-writer').href = "Writer.html" + refParam;
                 document.getElementById('link-contact').href = "https://line.me/ti/p/~" + userId;
                 
-                // 處理過長的 ID 防止跑位
                 const contactDesc = document.getElementById('contact-desc');
                 contactDesc.innerText = "ID: " + userId;
-                if (userId.length > 12) {
-                    contactDesc.style.fontSize = "0.5rem"; // ID 太長時自動縮小字體
+                if (userId.length > 20) {
+                    contactDesc.style.fontSize = "0.6rem";
                 }
             } else {
                 const protectFunc = function(e) { 
