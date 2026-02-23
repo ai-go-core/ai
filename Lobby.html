@@ -44,36 +44,33 @@
             border: 1px solid rgba(212, 175, 55, 0.15);
         }
 
-        /* 🚀 核心優化：垂直長條金磚佈局 (同步儀表板風格) */
+        /* 🚀 垂直長條金磚佈局 */
         .nav-container {
             display: flex;
-            flex-direction: column; /* 強制垂直排列 */
+            flex-direction: column;
             gap: 12px;
         }
         
         .nav-item {
-            width: 100%; /* 寬度全滿 */
+            width: 100%; 
             background: #D4AF37; 
             border-radius: 12px;
-            padding: 15px 10px;
-            text-align: center;
+            padding: 15px 15px;
             text-decoration: none;
             color: #000 !important;
             box-sizing: border-box;
             display: flex;
-            align-items: center; /* 橫向排列內容 */
-            justify-content: center;
+            align-items: center; 
             transition: transform 0.2s;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .nav-item:active { transform: scale(0.98); opacity: 0.9; }
-        .nav-icon { font-size: 1.5rem; margin-right: 12px; } /* 圖標移到左側 */
-        .nav-text-group { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+        .nav-icon { font-size: 1.5rem; margin-right: 15px; width: 30px; text-align: center; }
+        .nav-text-group { display: flex; flex-direction: column; align-items: flex-start; }
         .nav-text { font-size: 1.05rem; font-weight: bold; }
         .nav-desc { font-size: 0.7rem; opacity: 0.8; margin-top: 2px; }
 
-        /* 特色亮點區域 */
         .feature-banner {
             margin-top: 20px;
             background: rgba(212, 175, 55, 0.05);
@@ -120,7 +117,7 @@
                     <span class="nav-icon">💬</span>
                     <div class="nav-text-group">
                         <span class="nav-text">聯繫領袖</span>
-                        <span id="contact-desc" class="nav-desc">啟動數位分身</span>
+                        <span id="contact-desc" class="nav-desc">正在讀取推薦人...</span>
                     </div>
                 </a>
 
@@ -142,34 +139,48 @@
             </div>
 
             <div class="footer">
-                AI系統核心 v3.5 | 最終解釋權歸系統所有
+                AI系統核心 v3.6 | 最終解釋權歸系統所有
             </div>
         </div>
     </div>
 
     <script>
         window.onload = function() {
+            // 解析網址參數
             const urlParams = new URLSearchParams(window.location.search);
-            const userId = urlParams.get('id'); 
-            const refParam = userId ? "?id=" + userId : "";
+            const lineId = urlParams.get('id'); // 這裡抓取的是推薦人的 LINE ID
+            
+            const contactBtn = document.getElementById('link-contact');
+            const contactDesc = document.getElementById('contact-desc');
 
-            if (userId) {
+            if (lineId && lineId !== "null" && lineId !== "") {
+                const refParam = "?id=" + encodeURIComponent(lineId);
+
+                // 更新所有內部網頁連結
                 document.getElementById('link-sponsorship').href = "Sponsorship.html" + refParam;
                 document.getElementById('link-profile').href = "Profile.html" + refParam;
                 document.getElementById('link-writer').href = "Writer.html" + refParam;
-                document.getElementById('link-contact').href = "https://line.me/ti/p/~" + userId;
                 
-                const contactDesc = document.getElementById('contact-desc');
-                contactDesc.innerText = "ID: " + userId;
-                if (userId.length > 20) {
-                    contactDesc.style.fontSize = "0.6rem";
+                // 【核心修正】聯繫推薦人直接使用 LINE ID 搜尋連結
+                contactBtn.href = "https://line.me/ti/p/~" + lineId;
+                contactDesc.innerText = "推薦人 LINE ID: " + lineId;
+
+                // 如果不小心抓到 UID (U開頭長字串) 的視覺提醒
+                if (lineId.startsWith('U') && lineId.length > 25) {
+                    contactDesc.innerText = "推薦人 ID 格式異常";
+                    contactDesc.style.color = "#d9534f";
                 }
             } else {
+                // 無 ID 進入時的鎖定機制
                 const protectFunc = function(e) { 
                     e.preventDefault(); 
-                    alert('系統提示：請透過推薦連結進入指令大廳'); 
+                    alert('系統提示：請透過推薦人的專屬連結進入指令大廳'); 
                 };
-                document.querySelectorAll('.nav-item').forEach(el => el.onclick = protectFunc);
+                document.querySelectorAll('.nav-item').forEach(el => {
+                    el.onclick = protectFunc;
+                    el.style.opacity = "0.5";
+                });
+                contactDesc.innerText = "未偵測到推薦人 ID";
             }
         };
     </script>
