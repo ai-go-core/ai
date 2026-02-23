@@ -3,6 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>AI 生活小秘書 | 贊助升級核心</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --gold-primary: #D4AF37; --gold-light: #FFD700; --dark-bg: #050505; --neon-green: #00ff88; --neon-orange: #ff8c00; --neon-blue: #00e5ff; --neon-red: #ff4444; }
+        body { font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; background: var(--dark-bg); color: #fff; padding: 20px; display: flex; justify-content: center; min-height: 100vh; margin: 0; }
+        .container { width: 100%; max-width: 450px; background: rgba(15, 15, 15, 0.98); border: 1px solid var(--gold-primary); border-radius: 24px; padding: 25px; box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); }
+        .brand-header { margin-bottom: 25px; border-bottom: 2px solid var(--gold-primary); padding-bottom: 15px; text-align: center; }
+        .greeting-box { background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(0,0,0,1) 100%); border-radius: 15px; padding: 18px; margin-bottom: 20px; border: 1px solid rgba(212,175,55,0.3); }
+        .keyword-tag { display: inline-block; background: rgba(255,255,255,0.05); color: var(--gold-light); padding: 3px 8px; border-radius: 4px; font-size: 0.72em; margin: 2px; border: 1px solid rgba(212,175,55,0.2); }
+        .section-title { font-size: 0.92em; color: var(--gold-primary); text-align: left; margin: 25px 0 12px 5px; border-left: 4px solid var(--gold-primary); padding-left: 10px; font-weight: 800; }
+        .report-card { background: #0a0a0a; border-radius: 20px; padding: 18px; margin-top: 15px; border: 1px solid var(--gold-primary); position: relative; }
+        .btn-main { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 1.1em; display: block; text-align: center; text-decoration: none; box-sizing: border-box; }
+        .btn-match { background: linear-gradient(45deg, #D4AF37, #FFD700); color: #000; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
+        input { width: 100%; background: #111; border: 1px solid #444; color: #fff; padding: 14px; border-radius: 10px; box-sizing: border-box; margin-bottom: 12px; font-size: 1em; }
+        .保牌提示 { background: rgba(255, 140, 0, 0.1); border: 1px solid var(--neon-orange); padding: 12px; border-radius: 12px; margin-bottom: 15px; font-size: 0.78em; color: var(--neon-orange); line-height: 1.5; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="brand-header">
+        <h2 style="margin:0;"><span style="color:var(--gold-primary)"><?= spMainTitle ?></span></h2>
+        <div style="font-size: 0.82em; color: var(--gold-light);"><?= spSubTitle ?></div>
+    </div>
+
+    <div class="保牌提示">
+        ⚠️ <strong>領袖保牌提示：</strong> 系統僅媒合狀態為 <strong>【活躍】</strong> 之帳戶。
+    </div>
+
+    <div class="greeting-box">
+        <p style="margin:0 0 10px 0; font-weight:bold; color:var(--gold-light);"><?= spGreeting ?></p>
+        <div>
+            <span class="keyword-tag">免費會員</span><span class="keyword-tag">超級AI工具</span>
+            <span class="keyword-tag">50元購物金</span><span class="keyword-tag">滿百提領</span>
+        </div>
+    </div>
+
+    <div class="section-title">🚀 創建數位分身 · 贊助媒合</div>
+    <div class="report-card">
+        <div id="verify-zone">
+            <input type="text" id="v-phone" placeholder="輸入主庫登記手機">
+            <input type="text" id="v-line" placeholder="輸入主庫登記 LINE ID">
+            <button id="enroll-btn" class="btn-main btn-match" onclick="handleMatch()"><?= spMatchBtn ?></button>
+        </div>
+        <div id="match-area" style="display:none;">
+            </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; font-size: 0.7em; color: #555;">
+        🛡️ 最終解釋權歸系統核心所有 | 最終代號：創建數位分身
+    </div>
+</div>
+
+<script>
+    // 這裡請保留您原本 Sponsorship.html 尾端的 handleMatch() 與 AJAX 通訊腳本
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <title>AI 生活小秘書 | 全方位數位輔助</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
