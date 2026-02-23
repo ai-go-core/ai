@@ -30,6 +30,12 @@
         .copy-btn { background: none; border: 1px solid var(--neon-blue); color: var(--neon-blue); cursor: pointer; font-size: 0.7em; padding: 3px 8px; border-radius: 6px; margin-left: 10px; }
         #match-area, #final-bank-display { display:none; }
         #receive-notify { display:none; background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(0,0,0,1) 100%); border: 2px solid var(--gold-primary); padding: 20px; border-radius: 20px; margin-top: 20px; text-align: center; }
+        
+        /* 狀態標籤樣式 */
+        .status-badge { font-size: 0.8em; padding: 2px 10px; border-radius: 20px; font-weight: bold; margin-left: 5px; }
+        .status-活跃 { background: var(--neon-green); color: #000; box-shadow: 0 0 10px var(--neon-green); }
+        .status-暂停 { background: var(--neon-orange); color: #000; }
+        .status-出局 { background: var(--neon-red); color: #fff; }
     </style>
 </head>
 <body>
@@ -40,7 +46,7 @@
     </div>
 
     <div class="保牌提示">
-        ⚠️ <strong>領袖保牌提示：</strong> 建議每月 1-5 號優先完成 PV 回報。系統媒合採即時查驗，若媒合當下為 0PV 將自動跳過受贈權，直至 PV 更新。
+        ⚠️ <strong>領袖保牌提示：</strong> 系統僅媒合狀態為 <strong>【活躍】</strong> 之帳戶。若您的帳戶處於 <strong>【暫停】</strong> 狀態（如未滿 1PV），將自動跳過受贈權利。
     </div>
 
     <div class="greeting-box">
@@ -53,30 +59,30 @@
     </div>
 
     <div id="receive-notify">
-        <div style="font-size: 1.5em; margin-bottom: 10px;">🏆 賀！有人準備贊助您</div>
+        <div style="font-size: 1.5em; margin-bottom: 10px;">🏆 賀！能量即將閉環</div>
         <p style="font-size: 0.9em; color: var(--gold-light);">領袖夥伴已發起贊助轉帳</p>
         <p style="font-size: 0.8em; color: #ccc;">請查收您的銀行帳戶，確認收到 3,000 元後：</p>
         <button class="btn-main" style="background:var(--neon-green); color:#000;" onclick="confirmReceived()">確認收到贊助金 💎</button>
     </div>
 
     <div class="condition-box">
-        <div class="cond-item"><i class="fas fa-id-card"></i> <strong>加入條件：</strong> 註冊完成並取得 1500 PV。</div>
+        <div class="cond-item"><i class="fas fa-id-card"></i> <strong>活化門檻：</strong> 帳戶需為「活躍」狀態 (1500 PV)。</div>
         <div class="cond-item"><i class="fas fa-coins"></i> <strong>贊助金額：</strong> 每筆贊助金額固定為 3,000 元。</div>
     </div>
 
     <div class="section-title">⚙️ 2-2-2 循環生命週期</div>
     <div class="report-card">
         <div class="zone-box" style="border-left: 4px solid var(--neon-green);">
-            <div style="color:var(--neon-green); font-weight:bold; margin-bottom:8px;">【A 區：基座重生模型】</div>
-            <div class="step-row"><span class="step-num" style="color:var(--neon-green);">2給 ➡ 2幫</span><span>完成實質轉帳，啟動數位分身反哺能量。</span></div>
+            <div style="color:var(--neon-green); font-weight:bold; margin-bottom:8px;">【A 區：活躍重生模型】</div>
+            <div class="step-row"><span class="step-num" style="color:var(--neon-green);">2給 ➡ 2幫</span><span>完成實質轉帳，啟動數位分身「活躍」能量。</span></div>
         </div>
         <div class="zone-box" style="border-left: 4px solid var(--neon-blue);">
             <div style="color:var(--neon-blue); font-weight:bold; margin-bottom:8px;">【B 區：倍率擴張模型】</div>
             <div class="step-row"><span class="step-num" style="color:var(--neon-blue);">2幫 ➡ 2領</span><span>系統鎖定連結，確保贊助金 100% 導向數位代號。</span></div>
         </div>
         <div class="zone-box" style="border-left: 4px solid var(--gold-primary);">
-            <div style="color:var(--gold-primary); font-weight:bold; margin-bottom:8px;">【C 區：無限反哺模型】</div>
-            <div class="step-row"><span class="step-num" style="color:var(--gold-primary);">無限 ➡ 循環</span><span>子序號自動裂變，達成絕不跳線、永久鎖定之鐵則。</span></div>
+            <div style="color:var(--gold-primary); font-weight:bold; margin-bottom:8px;">【C 區：終極出局模型】</div>
+            <div class="step-row"><span class="step-num" style="color:var(--gold-primary);">領滿 ➡ 出局</span><span>達成循環目標後自動「出局」，由子序號裂變重生。</span></div>
         </div>
     </div>
 
@@ -155,27 +161,23 @@
                 document.getElementById('target-name').innerText = result.receiver.code;
                 document.getElementById('target-bank').innerText = result.receiver.bankInfo;
                 window.currentTxId = result.txId;
-                window.currentBankInfo = result.receiver.bankInfo; // 暫存銀行資訊供後續顯示
-            } else if (result.status === "limit") {
-                btn.innerText = "本月已新增一組贊助序號";
-                btn.style.background = "#333";
-                btn.style.cursor = "not-allowed";
-                alert("領袖，本月您已執行過贊助。請等待系統反哺子序號。");
+                window.currentBankInfo = result.receiver.bankInfo; 
             } else {
-                alert(result.msg || "驗證不通過，請確認 PV 是否達 1500");
+                // 顯示精準的錯誤訊息 (例如：帳戶已暫停或已出局)
+                alert(result.msg || "驗證失敗：請確認帳戶是否處於「活躍」狀態及 PV 是否達標。");
                 btn.innerText = "驗證資格並搜尋媒合";
                 btn.disabled = false;
             }
         } catch (e) {
             console.error(e);
-            alert('❌ 系統對接失敗，請檢查網路或 GAS 權限。');
+            alert('❌ 系統對接失敗，請聯繫 AI 生活小秘書。');
             btn.disabled = false;
             btn.innerText = "重新嘗試驗證";
         }
     }
 
     async function confirmReceived() {
-        if(!confirm("確定已收到 3,000 元贊助款？確認後將增加您的受贈紀錄。")) return;
+        if(!confirm("確定已收到 3,000 元贊助款？確認後將增加受贈次數並更新狀態。")) return;
         
         try {
             const response = await fetch(SCRIPT_URL, {
@@ -185,8 +187,9 @@
             });
             const res = await response.json();
             if(res.status === "success") {
-                alert('💎 恭喜！您已確認領取贊助，受贈次數(K欄)已自動更新。');
+                alert('💎 恭喜！能量已閉環。您的 K 欄受贈次數已更新。');
                 document.getElementById('receive-notify').style.display = 'none';
+                location.reload(); // 重新整理以反映最新狀態
             } else {
                 alert('系統錯誤：' + res.msg);
             }
@@ -200,21 +203,18 @@
         const accountOnly = acc.match(/\d+/); 
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(accountOnly ? accountOnly[0] : acc);
-            alert('帳號已複製！請至銀行 App 貼上轉帳。');
+            alert('帳號已複製！請至銀行 App 貼上。');
         } else {
-            alert('您的瀏覽器不支援一鍵複製，請手動選取帳號。');
+            alert('請手動選取帳號複製。');
         }
     }
 
     function markAsSent() {
         if(!confirm("確定已完成轉帳？")) return;
-        
-        // 隱藏媒合區域，顯示最終確認資訊
         document.getElementById('match-area').style.display = 'none';
         document.getElementById('last-bank-info').innerText = window.currentBankInfo;
         document.getElementById('final-bank-display').style.display = 'block';
-        
-        alert('✅ 已通知受贈領袖查帳！待對方確認後，系統將自動核發您的新序號。');
+        alert('✅ 已通知受贈領袖查帳！請靜候對方確認「活躍」能量。');
     }
 </script>
 </body>
