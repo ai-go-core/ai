@@ -88,7 +88,7 @@
     <div class="glow-box">
         <div class="inner-content">
             <div class="header">
-                <div class="system-title">AI 生活小秘書</div>
+                <div id="main-title" class="system-title">AI 生活小秘書</div>
                 <div class="system-subtitle">/ 全方位數位輔助</div>
                 
                 <div class="marquee">
@@ -146,32 +146,42 @@
 
     <script>
         window.onload = function() {
-            // 解析網址參數
+            // 🚀 1. 關鍵修復：同時解析「推薦人(id)」與「本人(user)」
             const urlParams = new URLSearchParams(window.location.search);
-            const lineId = urlParams.get('id'); // 這裡抓取的是推薦人的 LINE ID
+            const lineId = urlParams.get('id');    // 推薦人的 LINE ID
+            const mySelfId = urlParams.get('user'); // 本人的 LINE ID
             
             const contactBtn = document.getElementById('link-contact');
             const contactDesc = document.getElementById('contact-desc');
+            const mainTitle = document.getElementById('main-title');
 
+            // 🚀 2. 顯示本人身分 (防止失憶)
+            if (mySelfId && mySelfId !== "null" && mySelfId !== "") {
+                mainTitle.innerText = "領袖：" + mySelfId;
+            }
+
+            // 🚀 3. 處理網址跳轉邏輯
             if (lineId && lineId !== "null" && lineId !== "") {
-                const refParam = "?id=" + encodeURIComponent(lineId);
+                // 組合參數：確保 id 與 user 同時傳遞給下一個頁面
+                const combinedParams = "?id=" + encodeURIComponent(lineId) + 
+                                     (mySelfId ? "&user=" + encodeURIComponent(mySelfId) : "");
 
-                // 更新所有內部網頁連結
-                document.getElementById('link-sponsorship').href = "Sponsorship.html" + refParam;
-                document.getElementById('link-profile').href = "Profile.html" + refParam;
-                document.getElementById('link-writer').href = "Writer.html" + refParam;
+                // 更新所有內部連結
+                document.getElementById('link-sponsorship').href = "Sponsorship.html" + combinedParams;
+                document.getElementById('link-profile').href = "Profile.html" + combinedParams;
+                document.getElementById('link-writer').href = "Writer.html" + combinedParams;
                 
-                // 【核心修正】聯繫推薦人直接使用 LINE ID 搜尋連結
+                // 聯繫推薦人連結
                 contactBtn.href = "https://line.me/ti/p/~" + lineId;
                 contactDesc.innerText = "推薦人 LINE ID: " + lineId;
 
-                // 如果不小心抓到 UID (U開頭長字串) 的視覺提醒
+                // 錯誤檢查
                 if (lineId.startsWith('U') && lineId.length > 25) {
                     contactDesc.innerText = "推薦人 ID 格式異常";
                     contactDesc.style.color = "#d9534f";
                 }
             } else {
-                // 無 ID 進入時的鎖定機制
+                // 鎖定機制
                 const protectFunc = function(e) { 
                     e.preventDefault(); 
                     alert('系統提示：請透過推薦人的專屬連結進入指令大廳'); 
