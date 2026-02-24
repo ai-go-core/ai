@@ -2,52 +2,80 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 爆款產文神器</title>
     <style>
         /* 沿用黑金流光風格，保持視覺一致性 */
-        body { background: #050505; color: #fff; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .container { width: 100%; max-width: 400px; background: #111; border: 1px solid #D4AF37; border-radius: 15px; padding: 20px; box-shadow: 0 0 20px rgba(212,175,55,0.2); }
-        h2 { color: #D4AF37; text-align: center; }
+        body { background: #050505; color: #fff; font-family: 'PingFang TC', sans-serif; display: flex; justify-content: center; padding: 20px; min-height: 100vh; }
+        .container { width: 100%; max-width: 400px; background: #111; border: 1px solid #D4AF37; border-radius: 15px; padding: 20px; box-shadow: 0 0 20px rgba(212,175,55,0.2); align-self: flex-start; }
+        h2 { color: #D4AF37; text-align: center; margin-bottom: 5px; }
+        .subtitle { color: #888; text-align: center; font-size: 0.8rem; margin-bottom: 20px; }
         .input-group { margin-bottom: 20px; }
-        select, button { width: 100%; padding: 12px; border-radius: 5px; margin-top: 10px; border: none; }
+        label { color: #D4AF37; font-size: 0.9rem; font-weight: bold; }
+        select, button { width: 100%; padding: 12px; border-radius: 8px; margin-top: 10px; border: none; font-size: 1rem; }
         select { background: #222; color: #fff; border: 1px solid #444; }
-        button { background: linear-gradient(90deg, #b8860b, #ffd700); color: #000; font-weight: bold; cursor: pointer; }
-        #output { background: #000; border: 1px dashed #D4AF37; padding: 15px; min-height: 100px; margin-top: 20px; white-space: pre-wrap; font-size: 0.9rem; color: #ccc; }
-        .copy-btn { background: #333; color: #D4AF37; border: 1px solid #D4AF37; margin-top: 10px; }
+        button { background: linear-gradient(90deg, #b8860b, #ffd700); color: #000; font-weight: bold; cursor: pointer; transition: transform 0.2s; }
+        button:active { transform: scale(0.98); }
+        #output { background: #000; border: 1px dashed #D4AF37; padding: 15px; min-height: 150px; margin-top: 20px; white-space: pre-wrap; font-size: 0.85rem; color: #ccc; line-height: 1.6; border-radius: 10px; }
+        .copy-btn { background: transparent; color: #D4AF37; border: 1px solid #D4AF37; margin-top: 15px; }
+        .back-btn { background: #333; color: #aaa; margin-top: 10px; font-size: 0.8rem; padding: 8px; text-decoration: none; display: block; text-align: center; border-radius: 8px; }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>🔥 爆款產文神器</h2>
+        <div id="display-code" class="subtitle">領袖身分同步中...</div>
+        
         <div class="input-group">
             <label>選擇推廣場景：</label>
             <select id="topic">
-                <option value="wealth">【被動收入篇】躺著也能賺</option>
-                <option value="tool">【AI 工具篇】封測免費使用</option>
-                <option value="travel">【免費旅遊篇】說走就走的旅行</option>
+                <option value="wealth">💰【財富增長】被動收入與角色蛋</option>
+                <option value="tool">🤖【超級工具】AI 數位武庫免費送</option>
+                <option value="travel">✈️【圓夢旅遊】出國機會與消費折抵</option>
             </select>
         </div>
-        <button onclick="generateText()">🚀 一鍵生成爆款文案</button>
+        
+        <button onclick="generateText()">🚀 一鍵生成領袖文案</button>
         <div id="output">文案生成區...</div>
-        <button class="copy-btn" onclick="copyText()">📋 點擊複製全文</button>
+        <button class="copy-btn" onclick="copyText()">📋 點擊複製全文 (含推薦連結)</button>
+        
+        <a id="back-home" href="Lobby.html" class="back-btn">返回 AI 指令大廳</a>
     </div>
 
     <script>
-        function generateText() {
+        let myFinalCode = "";
+
+        window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const refId = urlParams.get('id') || '您的ID';
+            const refId = urlParams.get('id') || "";
+            const myCode = urlParams.get('user') || "";
+            
+            // 🚀 優先使用本人代號作為推薦連結的後綴
+            myFinalCode = (myCode && myCode !== "null") ? myCode : refId;
+            
+            if (myCode && myCode !== "null") {
+                document.getElementById('display-code').innerText = "👑 授權領袖：" + myCode;
+            } else {
+                document.getElementById('display-code').innerText = "⚠️ 訪客模式 (連結將不帶代號)";
+            }
+
+            // 返回鍵參數保持
+            document.getElementById('back-home').href = "Lobby.html?id=" + refId + "&user=" + myCode;
+        };
+
+        function generateText() {
             const topic = document.getElementById('topic').value;
             let text = "";
 
-            const commonTail = `\n\n✅ 免會費、免年費、無須囤貨\n✅ 註冊送人物蛋 + 50元購物金\n✅ 推薦一人再獎 99 元\n🔗 立即搶佔封測名額：\nhttps://ai-go-core.github.io/ai/?ref=${refId}`;
+            // 🚀 符合主理人規範的廣告內容
+            const commonTail = `\n\n🎁 封測福利大放送：\n✨ 免會費、免年費、免囤貨、免配貨\n✨ 註冊即領「角色蛋」+ 50元購物金\n✨ 推薦一人再獎 99 元 (無上限)\n✨ 消費全額折抵，滿 100 即可提現\n✨ 更有機會獲取「免費出國旅遊」名額！\n\n🔗 立即加入數位生活圈：\nhttps://ai-go-core.github.io/ai/?ref=${myFinalCode}`;
 
             if(topic === "wealth") {
-                text = "您好！我是您的AI生活小秘書。✨\n\n【誠邀領袖加盟】\n想過日常消費也能變收入嗎？這裡不只是系統，更是您的財富放大器！封測期間系統贈送「角色蛋」，讓您的被動收入像雪球一樣滾動！" + commonTail;
+                text = "您好！我是您的AI生活小秘書。✨\n\n【誠邀領袖加盟 👑】\n想過日常消費也能變收入嗎？這裡不只是系統，更是您的財富放大器！封測期間系統贈送「角色蛋」，讓您的被動收入像雪球一樣自動滾動！無須配套、無須對碰，簡單領取 4% 起跳！" + commonTail;
             } else if(topic === "tool") {
-                text = "您好！我是您的AI生活小秘書。✨\n\n【數位武庫開啟】\n免費使用超級 AI 工具！自動排版、自動行銷、自動管理，系統在封測期間給予角色蛋加持，全方位助您數位轉型！" + commonTail;
+                text = "您好！我是您的AI生活小秘書。✨\n\n【數位武庫全開 🛠️】\n免費使用超級 AI 工具 (產文、行銷、管理一氣呵成)！封測期間入籍，系統加碼給予角色蛋加持，全方位助您數位轉型，打造專屬數位分身！" + commonTail;
             } else {
-                text = "您好！我是您的AI生活小秘書。✨\n\n【夢幻旅遊計畫】\n除了推薦獎金，我們更提供免費出國旅遊機會！消費即全額扣抵，當提領達到 100 即可隨時領現！" + commonTail;
+                text = "您好！我是您的AI生活小秘書。✨\n\n【說走就走的夢幻旅行 ✈️】\n這不只是賺錢，更是生活！除了 99 元推薦金，我們更提供免費出國旅遊機會！在數位生活圈內，消費即全額扣抵，讓您的每一分花費都回流到口袋！" + commonTail;
             }
 
             document.getElementById('output').innerText = text;
@@ -55,8 +83,13 @@
 
         function copyText() {
             const content = document.getElementById('output').innerText;
-            navigator.clipboard.writeText(content);
-            alert("文案已複製！趕快去分享給夥伴吧！");
+            if (content === "文案生成區...") {
+                alert("請先生成文案喔！");
+                return;
+            }
+            navigator.clipboard.writeText(content).then(() => {
+                alert("✅ 文案已成功複製！\n請貼到 LINE 或社群媒體分享給夥伴。");
+            });
         }
     </script>
 </body>
