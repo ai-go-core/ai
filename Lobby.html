@@ -32,7 +32,7 @@
             <div class="header">
                 <div class="system-title">數位生活圈大廳</div>
                 <div class="system-subtitle">/ AI 生活小秘書</div>
-                <div id="user-badge" class="user-badge">正在讀取身分...</div>
+                <div id="user-badge" class="user-badge">正在同步數位身分...</div>
                 <div class="marquee">
                     <marquee scrollamount="4">🔥 封測限定：註冊即領人物蛋 + 50元購物金 | 推薦獎金 99 元 | 免會費、免配貨 🚀</marquee>
                 </div>
@@ -57,7 +57,7 @@
                     <span class="nav-icon">💬</span>
                     <div class="nav-text-group">
                         <span class="nav-text">聯繫領袖</span>
-                        <span id="contact-desc" class="nav-desc">正在識別推薦人...</span>
+                        <span id="contact-desc" class="nav-desc">正在識別推薦路徑...</span>
                     </div>
                 </a>
                 <a id="link-writer" href="#" class="nav-item">
@@ -81,62 +81,51 @@
     </div>
 
     <script>
-        // 🚀 請主理人確認部署網址
-        const GAS_URL = "https://script.google.com/macros/s/您的腳本ID/exec"; 
-        const ADMIN_LINE_ID = "您的官方客服ID"; 
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec"; 
+        const ADMIN_LINE_ID = "jack197775"; // 僅作為最終後援
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const urlUser = urlParams.get('user');
             const urlId = urlParams.get('id');
             
-            // 🛑 原則：大廳先認識主人。只要網址有帶任何 ID，就直接視為主人進入。
+            // 🛑 先讓大廳認識主人，功能全開
             const myIdentity = urlUser || urlId || "Guest";
             const badge = document.getElementById('user-badge');
             const contactBtn = document.getElementById('link-contact');
             const contactDesc = document.getElementById('contact-desc');
 
-            // 1. 立即讓大廳「認識主人」，不等待後台回傳
             badge.innerText = "👑 領袖代號：" + myIdentity;
             
-            // 2. 立即更新所有功能連結，確保主人能點進去看資訊
+            // 預設聯繫路徑：如果試算表還沒回傳，先指向帶他進來的人 (urlId)
+            const backupContact = urlId || ADMIN_LINE_ID;
+            contactBtn.href = "https://line.me/ti/p/~" + backupContact;
+            contactDesc.innerText = "連線中，點擊聯繫領袖";
+
+            // 更新按鈕連結
             const combinedParams = `?user=${encodeURIComponent(myIdentity)}`;
             document.getElementById('link-sponsorship').href = "Sponsorship.html" + combinedParams;
             document.getElementById('link-profile').href = "Profile.html" + combinedParams;
             document.getElementById('link-writer').href = "Writer.html" + combinedParams;
 
-            // 3. 異步執行「尋祖功能」，不影響主介面操作
+            // 🔍 背景尋祖：精準鎖定親生推薦人
             if (myIdentity !== "Guest") {
                 fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(myIdentity)}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // 更新為精準的數位代號（如果有）
                             if (data.teamCode) badge.innerText = "👑 領袖代號：" + data.teamCode;
                             
-                            // 更新推薦人聯繫方式
+                            // 精準尋祖成功：指向 M 欄推薦人
                             if (data.referrerLineId) {
                                 contactBtn.href = "https://line.me/ti/p/~" + data.referrerLineId;
                                 contactDesc.innerText = "點擊聯繫推薦領袖";
-                            } else {
-                                contactBtn.href = "https://line.me/ti/p/~" + ADMIN_LINE_ID;
-                                contactDesc.innerText = "創世模式：聯繫官方客服";
                             }
-                        } else {
-                            // 後台找不到尋祖資料，後備方案：聯繫原本進入的 ID (urlId) 或客服
-                            contactBtn.href = "https://line.me/ti/p/~" + (urlId || ADMIN_LINE_ID);
-                            contactDesc.innerText = "聯繫邀請領袖";
                         }
                     })
                     .catch(() => {
-                        // 即使後台掛了，也要讓聯繫按鈕能動
-                        contactBtn.href = "https://line.me/ti/p/~" + (urlId || ADMIN_LINE_ID);
-                        contactDesc.innerText = "連線異常，點擊聯繫";
+                        console.log("尋祖異步請求略過，維持預設聯繫人");
                     });
-            } else {
-                badge.innerText = "👤 訪客模式";
-                contactBtn.href = "https://line.me/ti/p/~" + ADMIN_LINE_ID;
-                contactDesc.innerText = "點擊聯繫官方客服";
             }
         };
     </script>
