@@ -24,7 +24,7 @@
         .system-title { color: #FFD700; font-size: 1.4rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
         .system-subtitle { font-size: 0.85rem; color: #D4AF37; margin-top: 2px; letter-spacing: 1px; }
         
-        /* 🚀 新增：領袖身分標籤樣式 */
+        /* 🚀 領袖身分標籤樣式 */
         .user-badge {
             display: inline-block;
             background: rgba(212, 175, 55, 0.15);
@@ -34,7 +34,7 @@
             font-size: 0.75rem;
             margin-top: 8px;
             border: 1px solid rgba(212, 175, 55, 0.3);
-            display: none; /* 預設隱藏，有代號才顯示 */
+            display: none; 
         }
 
         .marquee {
@@ -121,38 +121,45 @@
     <script>
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const lineId = urlParams.get('id');    // 推薦人
-            const mySelfCode = urlParams.get('user'); // 本人代號
+            const lineId = urlParams.get('id');    // 推薦人 LINE ID
+            const mySelfCode = urlParams.get('user'); // 本人數位代號
             
             const badge = document.getElementById('user-badge');
             const contactBtn = document.getElementById('link-contact');
             const contactDesc = document.getElementById('contact-desc');
 
-            // 🚀 1. 處理本人代號顯示 (不改標題，改用小標籤)
+            // 🚀 1. 顯示領袖代號標籤
             if (mySelfCode && mySelfCode !== "null" && mySelfCode !== "") {
                 badge.innerText = "👑 領袖代號：" + mySelfCode;
                 badge.style.display = "inline-block";
             }
 
-            // 🚀 2. 解鎖邏輯：只要有推薦人或是本人代號其一，就正常運作
-            if ((lineId && lineId !== "null" && lineId !== "") || (mySelfCode && mySelfCode !== "")) {
-                const combinedParams = "?id=" + encodeURIComponent(lineId || "") + 
-                                     (mySelfCode ? "&user=" + encodeURIComponent(mySelfCode) : "");
+            // 🚀 2. 核心邏輯：建立穩定參數鏈，確保跳轉不失憶
+            const combinedParams = "?id=" + encodeURIComponent(lineId || "") + 
+                                 "&user=" + encodeURIComponent(mySelfCode || "");
 
+            // 🚀 3. 解鎖判斷：只要有本人代號，門就開了
+            if ((mySelfCode && mySelfCode !== "null" && mySelfCode !== "") || (lineId && lineId !== "null" && lineId !== "")) {
+                // 更新所有子頁面連結，強制帶入本人代號
                 document.getElementById('link-sponsorship').href = "Sponsorship.html" + combinedParams;
                 document.getElementById('link-profile').href = "Profile.html" + combinedParams;
                 document.getElementById('link-writer').href = "Writer.html" + combinedParams;
                 
-                if (lineId && lineId !== "null") {
+                // 聯繫推薦人邏輯
+                if (lineId && lineId !== "null" && lineId !== "") {
                     contactBtn.href = "https://line.me/ti/p/~" + lineId;
                     contactDesc.innerText = "推薦人 LINE ID: " + lineId;
                 } else {
+                    contactBtn.href = "#";
                     contactDesc.innerText = "個人專屬管理模式";
                 }
             } else {
-                // 完全無身分時鎖定
+                // 完全無資料時執行保護鎖定
                 document.querySelectorAll('.nav-item').forEach(el => {
-                    el.onclick = function(e) { e.preventDefault(); alert('系統提示：請由專屬連結進入'); };
+                    el.onclick = function(e) { 
+                        e.preventDefault(); 
+                        alert('系統提示：請由專屬連結進入大廳'); 
+                    };
                     el.style.opacity = "0.5";
                 });
                 contactDesc.innerText = "未偵測到身分資訊";
