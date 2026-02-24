@@ -5,58 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 生活小秘書 / 全方位數位輔助</title>
     <style>
-        body { 
-            background-color: #050505; 
-            color: #fff; 
-            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
-            margin: 0; 
-            display: flex; 
-            justify-content: center; 
-            min-height: 100vh; 
-        }
+        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
         .glow-box { width: 95%; max-width: 450px; margin: 10px auto; }
-        .inner-content { 
-            background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); 
-            border-radius: 20px; padding: 20px; border: 1px solid #333;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
-        }
+        .inner-content { background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); border-radius: 20px; padding: 20px; border: 1px solid #333; box-shadow: 0 0 20px rgba(212, 175, 55, 0.15); }
         .header { text-align: center; margin-bottom: 10px; }
         .system-title { color: #FFD700; font-size: 1.4rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
         .system-subtitle { font-size: 0.85rem; color: #D4AF37; margin-top: 2px; letter-spacing: 1px; }
-        
-        /* 🚀 領袖身分標籤樣式 */
-        .user-badge {
-            display: inline-block;
-            background: rgba(212, 175, 55, 0.15);
-            color: #D4AF37;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            margin-top: 8px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            display: none; 
-        }
-
-        .marquee {
-            background: rgba(212, 175, 55, 0.08); color: #D4AF37; padding: 8px; font-size: 0.75rem;
-            border-radius: 8px; margin: 15px 0; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.15);
-        }
+        .user-badge { display: inline-block; background: rgba(212, 175, 55, 0.15); color: #D4AF37; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; margin-top: 8px; border: 1px solid rgba(212, 175, 55, 0.3); display: none; }
+        .marquee { background: rgba(212, 175, 55, 0.08); color: #D4AF37; padding: 8px; font-size: 0.75rem; border-radius: 8px; margin: 15px 0; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.15); }
         .nav-container { display: flex; flex-direction: column; gap: 12px; }
-        .nav-item {
-            width: 100%; background: #D4AF37; border-radius: 12px; padding: 15px 15px;
-            text-decoration: none; color: #000 !important; box-sizing: border-box;
-            display: flex; align-items: center; transition: transform 0.2s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
+        .nav-item { width: 100%; background: #D4AF37; border-radius: 12px; padding: 15px 15px; text-decoration: none; color: #000 !important; box-sizing: border-box; display: flex; align-items: center; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .nav-item:active { transform: scale(0.98); opacity: 0.9; }
         .nav-icon { font-size: 1.5rem; margin-right: 15px; width: 30px; text-align: center; }
         .nav-text-group { display: flex; flex-direction: column; align-items: flex-start; }
         .nav-text { font-size: 1.05rem; font-weight: bold; }
         .nav-desc { font-size: 0.7rem; opacity: 0.8; margin-top: 2px; }
-        .feature-banner {
-            margin-top: 20px; background: rgba(212, 175, 55, 0.05); padding: 15px;
-            border-radius: 10px; border-left: 3px solid #D4AF37;
-        }
+        .feature-banner { margin-top: 20px; background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 10px; border-left: 3px solid #D4AF37; }
         .feature-title { color: #FFD700; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
         .feature-list { font-size: 0.75rem; color: #aaa; line-height: 1.6; }
         .footer { font-size: 0.65rem; color: #555; text-align: center; padding: 20px 0; }
@@ -68,9 +32,7 @@
             <div class="header">
                 <div class="system-title">數位生活圈大廳</div>
                 <div class="system-subtitle">/ 全方位數位輔助</div>
-                
                 <div id="user-badge" class="user-badge"></div>
-                
                 <div class="marquee">
                     <marquee scrollamount="4">🔥 封測限定：註冊即領人物蛋 + 50元購物金 | 推薦獎金 99 元 | 免會費、免配貨 🚀</marquee>
                 </div>
@@ -91,11 +53,11 @@
                         <span class="nav-desc">角色蛋與收益</span>
                     </div>
                 </a>
-                <a id="link-contact" href="#" class="nav-item">
+                <a id="link-contact" href="#" class="nav-item" target="_blank">
                     <span class="nav-icon">💬</span>
                     <div class="nav-text-group">
                         <span class="nav-text">聯繫領袖</span>
-                        <span id="contact-desc" class="nav-desc">正在讀取推薦人...</span>
+                        <span id="contact-desc" class="nav-desc">正在識別領袖資訊...</span>
                     </div>
                 </a>
                 <a id="link-writer" href="#" class="nav-item">
@@ -119,9 +81,12 @@
     </div>
 
     <script>
+        // 替換為您的 GAS 網址
+        const GAS_URL = "https://script.google.com/macros/s/您的腳本ID/exec"; 
+
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const lineId = urlParams.get('id');    // 推薦人 LINE ID
+            const lineId = urlParams.get('id');    // 推薦人初始參數
             const mySelfCode = urlParams.get('user'); // 本人數位代號
             
             const badge = document.getElementById('user-badge');
@@ -134,35 +99,44 @@
                 badge.style.display = "inline-block";
             }
 
-            // 🚀 2. 核心邏輯：建立穩定參數鏈，確保跳轉不失憶
             const combinedParams = "?id=" + encodeURIComponent(lineId || "") + 
                                  "&user=" + encodeURIComponent(mySelfCode || "");
 
-            // 🚀 3. 解鎖判斷：只要有本人代號，門就開了
-            if ((mySelfCode && mySelfCode !== "null" && mySelfCode !== "") || (lineId && lineId !== "null" && lineId !== "")) {
-                // 更新所有子頁面連結，強制帶入本人代號
-                document.getElementById('link-sponsorship').href = "Sponsorship.html" + combinedParams;
-                document.getElementById('link-profile').href = "Profile.html" + combinedParams;
-                document.getElementById('link-writer').href = "Writer.html" + combinedParams;
-                
-                // 聯繫推薦人邏輯
-                if (lineId && lineId !== "null" && lineId !== "") {
-                    contactBtn.href = "https://line.me/ti/p/~" + lineId;
-                    contactDesc.innerText = "推薦人 LINE ID: " + lineId;
-                } else {
-                    contactBtn.href = "#";
-                    contactDesc.innerText = "個人專屬管理模式";
-                }
+            // 🚀 2. 更新子頁面連結
+            document.getElementById('link-sponsorship').href = "Sponsorship.html" + combinedParams;
+            document.getElementById('link-profile').href = "Profile.html" + combinedParams;
+            document.getElementById('link-writer').href = "Writer.html" + combinedParams;
+
+            // 🚀 3. 動態讀取 O 欄進行聯繫管道對接
+            if (lineId && lineId !== "null" && lineId !== "") {
+                // 向後台請求推薦人的正式資料
+                fetch(`${GAS_URL}?action=get_leader_data&id=${lineId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.teamCode) {
+                            // 成功抓到推薦人的 O 欄 (teamCode)
+                            contactBtn.href = "https://line.me/ti/p/~" + lineId; // LINE 連結維持使用 LINE ID
+                            contactDesc.innerText = "推薦人數位代號: " + data.teamCode;
+                        } else {
+                            contactBtn.href = "https://line.me/ti/p/~" + lineId;
+                            contactDesc.innerText = "推薦人 LINE ID: " + lineId;
+                        }
+                    })
+                    .catch(() => {
+                        contactBtn.href = "https://line.me/ti/p/~" + lineId;
+                        contactDesc.innerText = "推薦人 LINE ID: " + lineId;
+                    });
             } else {
-                // 完全無資料時執行保護鎖定
+                contactBtn.href = "#";
+                contactDesc.innerText = "創世管理模式";
+            }
+
+            // 安全防護
+            if (!mySelfCode && !lineId) {
                 document.querySelectorAll('.nav-item').forEach(el => {
-                    el.onclick = function(e) { 
-                        e.preventDefault(); 
-                        alert('系統提示：請由專屬連結進入大廳'); 
-                    };
+                    el.onclick = function(e) { e.preventDefault(); alert('請由專屬連結進入大廳'); };
                     el.style.opacity = "0.5";
                 });
-                contactDesc.innerText = "未偵測到身分資訊";
             }
         };
     </script>
