@@ -81,45 +81,52 @@
     </div>
 
     <script>
-        // 🚀 請務必確認此處為您正確的部署網址
+        // 🚀 請務必替換為您正確的部署網址
         const GAS_URL = "https://script.google.com/macros/s/您的腳本ID/exec"; 
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            // 抓取進入時的身分憑證 (優先從 user 抓數位代號，次之從 id 抓 LINE ID)
-            const entranceKey = urlParams.get('user') || urlParams.get('id');
+            const urlLineId = urlParams.get('id');    // 網址帶入的推薦人參考
+            const urlUserCode = urlParams.get('user'); // 網址帶入的本人身分
+            const entranceKey = urlUserCode || urlLineId;
             
             const badge = document.getElementById('user-badge');
             const contactBtn = document.getElementById('link-contact');
             const contactDesc = document.getElementById('contact-desc');
 
             if (entranceKey && entranceKey !== "null") {
-                // 🚀 執行後台精準讀取 (含 M/P 尋祖邏輯)
+                // 向後台請求精準尋祖資料
                 fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(entranceKey)}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // 1. 顯示主人的「數位代號」(O 欄)
+                            // 1. 顯示主人的「數位代號」
                             const myTeamCode = data.teamCode || entranceKey;
                             badge.innerText = "👑 領袖代號：" + myTeamCode;
                             badge.style.display = "inline-block";
 
-                            // 2. 更新所有子頁面的參數連結 (固定傳遞本人數位代號)
+                            // 2. 同步更新所有導航連結，確保 user 參數傳遞
                             const combinedParams = "?user=" + encodeURIComponent(myTeamCode);
                             document.getElementById('link-sponsorship').href = "Sponsorship.html" + combinedParams;
                             document.getElementById('link-profile').href = "Profile.html" + combinedParams;
                             document.getElementById('link-writer').href = "Writer.html" + combinedParams;
 
-                            // 🎯 3. 解決聯繫功能：裝上經由 M 欄/P 欄尋祖回傳的推薦人 LINE ID
+                            // 🎯 3. 聯繫按鈕邏輯：解決聯絡不到人的問題
                             if (data.referrerLineId) {
+                                // 優先使用尋祖回傳的推薦人 LINE ID
                                 contactBtn.href = "https://line.me/ti/p/~" + data.referrerLineId;
                                 contactDesc.innerText = "點擊聯繫推薦領袖";
+                            } else if (urlLineId && urlLineId !== myTeamCode) {
+                                // 後備方案：尋祖失敗則使用網址原始傳入的 id
+                                contactBtn.href = "https://line.me/ti/p/~" + urlLineId;
+                                contactDesc.innerText = "聯繫指定推薦人";
                             } else {
+                                // 創世模式
                                 contactBtn.href = "#";
-                                contactDesc.innerText = "創世領袖模式 (無推薦人)";
+                                contactDesc.innerText = "創世領袖模式";
                                 contactBtn.onclick = (e) => { 
                                     e.preventDefault(); 
-                                    alert("系統提示：您目前處於最高階領袖模式。"); 
+                                    alert("系統提示：您目前為最高階領袖，或推薦人尚未設定聯繫方式。"); 
                                 };
                             }
                         } else {
