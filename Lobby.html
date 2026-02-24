@@ -14,73 +14,51 @@
             justify-content: center; 
             min-height: 100vh; 
         }
-
-        .glow-box { 
-            width: 95%; 
-            max-width: 450px; 
-            margin: 10px auto;
-        }
-
+        .glow-box { width: 95%; max-width: 450px; margin: 10px auto; }
         .inner-content { 
             background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); 
-            border-radius: 20px; 
-            padding: 20px; 
-            border: 1px solid #333;
+            border-radius: 20px; padding: 20px; border: 1px solid #333;
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
         }
-
         .header { text-align: center; margin-bottom: 10px; }
         .system-title { color: #FFD700; font-size: 1.4rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
         .system-subtitle { font-size: 0.85rem; color: #D4AF37; margin-top: 2px; letter-spacing: 1px; }
         
-        .marquee {
-            background: rgba(212, 175, 55, 0.08);
+        /* 🚀 新增：領袖身分標籤樣式 */
+        .user-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.15);
             color: #D4AF37;
-            padding: 8px;
+            padding: 4px 12px;
+            border-radius: 50px;
             font-size: 0.75rem;
-            border-radius: 8px;
-            margin: 15px 0;
-            overflow: hidden;
-            border: 1px solid rgba(212, 175, 55, 0.15);
+            margin-top: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            display: none; /* 預設隱藏，有代號才顯示 */
         }
 
-        /* 🚀 垂直長條金磚佈局 */
-        .nav-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .marquee {
+            background: rgba(212, 175, 55, 0.08); color: #D4AF37; padding: 8px; font-size: 0.75rem;
+            border-radius: 8px; margin: 15px 0; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.15);
         }
-        
+        .nav-container { display: flex; flex-direction: column; gap: 12px; }
         .nav-item {
-            width: 100%; 
-            background: #D4AF37; 
-            border-radius: 12px;
-            padding: 15px 15px;
-            text-decoration: none;
-            color: #000 !important;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center; 
-            transition: transform 0.2s;
+            width: 100%; background: #D4AF37; border-radius: 12px; padding: 15px 15px;
+            text-decoration: none; color: #000 !important; box-sizing: border-box;
+            display: flex; align-items: center; transition: transform 0.2s;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-
         .nav-item:active { transform: scale(0.98); opacity: 0.9; }
         .nav-icon { font-size: 1.5rem; margin-right: 15px; width: 30px; text-align: center; }
         .nav-text-group { display: flex; flex-direction: column; align-items: flex-start; }
         .nav-text { font-size: 1.05rem; font-weight: bold; }
         .nav-desc { font-size: 0.7rem; opacity: 0.8; margin-top: 2px; }
-
         .feature-banner {
-            margin-top: 20px;
-            background: rgba(212, 175, 55, 0.05);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 3px solid #D4AF37;
+            margin-top: 20px; background: rgba(212, 175, 55, 0.05); padding: 15px;
+            border-radius: 10px; border-left: 3px solid #D4AF37;
         }
         .feature-title { color: #FFD700; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
         .feature-list { font-size: 0.75rem; color: #aaa; line-height: 1.6; }
-
         .footer { font-size: 0.65rem; color: #555; text-align: center; padding: 20px 0; }
     </style>
 </head>
@@ -88,11 +66,13 @@
     <div class="glow-box">
         <div class="inner-content">
             <div class="header">
-                <div id="main-title" class="system-title">AI 生活小秘書</div>
+                <div class="system-title">數位生活圈大廳</div>
                 <div class="system-subtitle">/ 全方位數位輔助</div>
                 
+                <div id="user-badge" class="user-badge"></div>
+                
                 <div class="marquee">
-                    <marquee scrollamount="4">🔥 封測限定：註冊即領人物蛋 + 50元購物金 | 推薦獎金 99 元無限發放 | 免會費、免配貨 🚀</marquee>
+                    <marquee scrollamount="4">🔥 封測限定：註冊即領人物蛋 + 50元購物金 | 推薦獎金 99 元 | 免會費、免配貨 🚀</marquee>
                 </div>
             </div>
 
@@ -104,7 +84,6 @@
                         <span class="nav-desc">7代複利制度</span>
                     </div>
                 </a>
-
                 <a id="link-profile" href="#" class="nav-item">
                     <span class="nav-icon">👤</span>
                     <div class="nav-text-group">
@@ -112,7 +91,6 @@
                         <span class="nav-desc">角色蛋與收益</span>
                     </div>
                 </a>
-
                 <a id="link-contact" href="#" class="nav-item">
                     <span class="nav-icon">💬</span>
                     <div class="nav-text-group">
@@ -120,7 +98,6 @@
                         <span id="contact-desc" class="nav-desc">正在讀取推薦人...</span>
                     </div>
                 </a>
-
                 <a id="link-writer" href="#" class="nav-item">
                     <span class="nav-icon">⚙️</span>
                     <div class="nav-text-group">
@@ -137,60 +114,48 @@
                     • 推薦獎金 99 元，達成目標享免費旅遊。
                 </div>
             </div>
-
-            <div class="footer">
-                AI系統核心 v3.6 | 最終解釋權歸系統所有
-            </div>
+            <div class="footer">AI系統核心 v3.6 | 最終解釋權歸系統所有</div>
         </div>
     </div>
 
     <script>
         window.onload = function() {
-            // 🚀 1. 關鍵修復：同時解析「推薦人(id)」與「本人(user)」
             const urlParams = new URLSearchParams(window.location.search);
-            const lineId = urlParams.get('id');    // 推薦人的 LINE ID
-            const mySelfId = urlParams.get('user'); // 本人的 LINE ID
+            const lineId = urlParams.get('id');    // 推薦人
+            const mySelfCode = urlParams.get('user'); // 本人代號
             
+            const badge = document.getElementById('user-badge');
             const contactBtn = document.getElementById('link-contact');
             const contactDesc = document.getElementById('contact-desc');
-            const mainTitle = document.getElementById('main-title');
 
-            // 🚀 2. 顯示本人身分 (防止失憶)
-            if (mySelfId && mySelfId !== "null" && mySelfId !== "") {
-                mainTitle.innerText = "領袖：" + mySelfId;
+            // 🚀 1. 處理本人代號顯示 (不改標題，改用小標籤)
+            if (mySelfCode && mySelfCode !== "null" && mySelfCode !== "") {
+                badge.innerText = "👑 領袖代號：" + mySelfCode;
+                badge.style.display = "inline-block";
             }
 
-            // 🚀 3. 處理網址跳轉邏輯
-            if (lineId && lineId !== "null" && lineId !== "") {
-                // 組合參數：確保 id 與 user 同時傳遞給下一個頁面
-                const combinedParams = "?id=" + encodeURIComponent(lineId) + 
-                                     (mySelfId ? "&user=" + encodeURIComponent(mySelfId) : "");
+            // 🚀 2. 解鎖邏輯：只要有推薦人或是本人代號其一，就正常運作
+            if ((lineId && lineId !== "null" && lineId !== "") || (mySelfCode && mySelfCode !== "")) {
+                const combinedParams = "?id=" + encodeURIComponent(lineId || "") + 
+                                     (mySelfCode ? "&user=" + encodeURIComponent(mySelfCode) : "");
 
-                // 更新所有內部連結
                 document.getElementById('link-sponsorship').href = "Sponsorship.html" + combinedParams;
                 document.getElementById('link-profile').href = "Profile.html" + combinedParams;
                 document.getElementById('link-writer').href = "Writer.html" + combinedParams;
                 
-                // 聯繫推薦人連結
-                contactBtn.href = "https://line.me/ti/p/~" + lineId;
-                contactDesc.innerText = "推薦人 LINE ID: " + lineId;
-
-                // 錯誤檢查
-                if (lineId.startsWith('U') && lineId.length > 25) {
-                    contactDesc.innerText = "推薦人 ID 格式異常";
-                    contactDesc.style.color = "#d9534f";
+                if (lineId && lineId !== "null") {
+                    contactBtn.href = "https://line.me/ti/p/~" + lineId;
+                    contactDesc.innerText = "推薦人 LINE ID: " + lineId;
+                } else {
+                    contactDesc.innerText = "個人專屬管理模式";
                 }
             } else {
-                // 鎖定機制
-                const protectFunc = function(e) { 
-                    e.preventDefault(); 
-                    alert('系統提示：請透過推薦人的專屬連結進入指令大廳'); 
-                };
+                // 完全無身分時鎖定
                 document.querySelectorAll('.nav-item').forEach(el => {
-                    el.onclick = protectFunc;
+                    el.onclick = function(e) { e.preventDefault(); alert('系統提示：請由專屬連結進入'); };
                     el.style.opacity = "0.5";
                 });
-                contactDesc.innerText = "未偵測到推薦人 ID";
+                contactDesc.innerText = "未偵測到身分資訊";
             }
         };
     </script>
