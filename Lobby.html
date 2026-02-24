@@ -87,60 +87,69 @@
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            // 優先抓本人代號(user)，若無則抓來源(id)來識別「誰進入了大廳」
             const entranceKey = urlParams.get('user') || urlParams.get('id');
             
             const badge = document.getElementById('user-badge');
             const contactBtn = document.getElementById('link-contact');
             const contactDesc = document.getElementById('contact-desc');
 
+            // 🛑 先讓大廳顯示，不要鎖死
             if (entranceKey && entranceKey !== "null") {
-                // 🛑 原則：大廳先認識主人 (透過 entranceKey 去查詢後台)
+                // 向後台請求「認識主人」
                 fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(entranceKey)}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // 【大廳認識主人了！】
+                            // 【成功認識主人】
                             const myTeamCode = data.teamCode || entranceKey;
                             badge.innerText = "👑 領袖代號：" + myTeamCode;
                             badge.style.display = "inline-block";
 
-                            // 既然認識了主人，所有功能按鈕都填入主人的身分
-                            const combinedParams = `?user=${encodeURIComponent(myTeamCode)}`;
-                            document.getElementById('link-sponsorship').href = "Sponsorship.html" + combinedParams;
-                            document.getElementById('link-profile').href = "Profile.html" + combinedParams;
-                            document.getElementById('link-writer').href = "Writer.html" + combinedParams;
+                            // 更新所有導航按鈕連結
+                            updateLinks(myTeamCode);
 
-                            // 【接下來才幫主人找推薦人】
+                            // 【找推薦人】
                             if (data.referrerLineId) {
-                                // 找到推薦領袖了
                                 contactBtn.href = "https://line.me/ti/p/~" + data.referrerLineId;
                                 contactDesc.innerText = "點擊聯繫推薦領袖";
                             } else {
-                                // 找不到推薦領袖 (可能是創世領袖)
                                 contactBtn.href = "https://line.me/ti/p/~" + ADMIN_LINE_ID;
-                                contactDesc.innerText = "創世模式：聯繫官方客服";
+                                contactDesc.innerText = "聯繫系統官方客服";
                             }
                         } else {
-                            // 即使查無資料，也視為訪客，至少給個客服管道
-                            handleAuthError("訪客模式：聯繫客服");
+                            // 查無此人但有帶參數，當作新公民
+                            badge.innerText = "✨ 數位公民：訪客";
+                            badge.style.display = "inline-block";
+                            updateLinks(entranceKey);
+                            contactBtn.href = "https://line.me/ti/p/~" + (urlParams.get('id') || ADMIN_LINE_ID);
+                            contactDesc.innerText = "聯繫邀請人";
                         }
                     })
-                    .catch(() => handleAuthError("連線異常，請重新進入"));
+                    .catch(() => {
+                        // 網路錯誤時的保險邏輯
+                        badge.innerText = "⚠️ 系統離線模式";
+                        badge.style.display = "inline-block";
+                        contactDesc.innerText = "點擊嘗試聯繫";
+                        contactBtn.href = "https://line.me/ti/p/~" + ADMIN_LINE_ID;
+                    });
             } else {
-                handleAuthError("未識別身分：聯繫客服");
+                // 完全沒參數（主人直接點進來）
+                badge.innerText = "👤 未登錄身分";
+                badge.style.display = "inline-block";
+                contactDesc.innerText = "聯繫官方客服";
+                contactBtn.href = "https://line.me/ti/p/~" + ADMIN_LINE_ID;
+                
+                // 雖然沒認識主人，但也不要鎖死按鈕，讓主人可以點進去再登入
+                document.querySelectorAll('.nav-item:not(#link-contact)').forEach(el => {
+                    el.style.opacity = "0.8";
+                });
             }
 
-            function handleAuthError(msg) {
-                document.querySelectorAll('.nav-item:not(#link-contact)').forEach(el => {
-                    el.onclick = function(e) { 
-                        e.preventDefault(); 
-                        alert('系統提示：目前為訪客模式，請透過專屬連結進入。'); 
-                    };
-                    el.style.opacity = "0.5";
-                });
-                contactDesc.innerText = msg;
-                contactBtn.href = "https://line.me/ti/p/~" + ADMIN_LINE_ID;
+            function updateLinks(code) {
+                const combinedParams = `?user=${encodeURIComponent(code)}`;
+                document.getElementById('link-sponsorship').href = "Sponsorship.html" + combinedParams;
+                document.getElementById('link-profile').href = "Profile.html" + combinedParams;
+                document.getElementById('link-writer').href = "Writer.html" + combinedParams;
             }
         };
     </script>
