@@ -27,7 +27,7 @@
         .hatch-bar-bg { width: 100%; height: 12px; background: #222; border-radius: 10px; border: 1px solid #444; overflow: hidden; }
         .hatch-bar-fill { height: 100%; transition: width 1.5s ease; box-shadow: 0 0 15px #FFD700; background: linear-gradient(90deg, #FFD700, #FFFACD); }
 
-        /* 核心區：解決文字蓋蛋問題 */
+        /* 核心區 */
         .hero-container {
             display: flex;
             flex-direction: column;
@@ -39,7 +39,7 @@
 
         .egg-wrapper {
             position: relative;
-            width: 150px; /* 稍微放大增加威壓感 */
+            width: 150px; 
             height: 200px;
             z-index: 1;
             animation: eggBreath 3s ease-in-out infinite;
@@ -55,14 +55,13 @@
             z-index: -1; animation: energyPulse 4s infinite;
         }
 
-        /* 文字資訊塊：增加上邊距，徹底避開蛋體 */
         .leader-info-block {
             width: 100%;
             display: flex;
             justify-content: space-between; 
             align-items: flex-end;
             padding: 0 5px;
-            margin-top: 20px; /* 關鍵：增加與蛋的距離，防止重疊 */
+            margin-top: 20px; 
             z-index: 2;
         }
 
@@ -71,23 +70,19 @@
         .leader-name { font-size: 1.4rem; font-weight: 900; margin: 2px 0; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
         .leader-tag { color: #D4AF37; font-size: 0.85rem; }
 
-        /* SC 顯示：確保右移且不壓蛋 */
         .sc-display { 
             display: inline-flex; align-items: center; background: rgba(0, 229, 255, 0.1); 
             border: 1px solid #00E5FF; padding: 6px 14px; border-radius: 20px;
             box-shadow: 0 2px 10px rgba(0, 229, 255, 0.2);
         }
 
-        /* 數據卡片 */
         .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
         .stat-card { background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 12px; border: 1px solid #333; text-align: center; }
         .card-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border-left: 4px solid #D4AF37; margin-bottom: 12px; cursor: pointer; }
         
-        /* 旅遊進度 */
         .travel-bar-bg { width: 100%; height: 8px; background: #222; border-radius: 10px; margin-top: 10px; overflow: hidden; }
         .travel-bar-fill { height: 100%; background: linear-gradient(90deg, #00E5FF, #fff); box-shadow: 0 0 10px #00E5FF; transition: width 1.5s ease; }
 
-        /* 工具欄 */
         .asset-bar { display: grid; grid-template-columns: repeat(3, 1fr); background: linear-gradient(145deg, #151515, #000); border: 1px solid #D4AF37; border-radius: 18px; padding: 15px 5px; margin: 15px 0; }
         .asset-btn { text-align: center; }
         .asset-label { font-size: 0.7rem; font-weight: bold; color: #D4AF37; margin-top: 5px; display: block; }
@@ -176,37 +171,65 @@
 </div>
 
 <script>
+    // 🚀 核心 API 位址
     const API = "https://script.google.com/macros/s/AKfycbyZBh3TzIOpmP9qzZ8YZPeZbVbs2J_gVbjsWw0ZJzWlD9eB_LSJ7-wePJj8oYTyT9Do/exec";
 
     window.onload = function() {
-        const id = new URLSearchParams(window.location.search).get('id');
-        if (id) {
-            document.getElementById('back-home').href = "Lobby.html?id=" + id;
-            loadData(id);
+        // 🚀 1. 修正：同時抓取推薦人(id)與主人代號(user)
+        const urlParams = new URLSearchParams(window.location.search);
+        const refId = urlParams.get('id');
+        const myCode = urlParams.get('user');
+
+        // 🚀 2. 修正：返回大廳時，要把身分帶回去，否則大廳會變「失憶」
+        const backBtn = document.getElementById('back-home');
+        backBtn.href = "Lobby.html?id=" + (refId || "") + "&user=" + (myCode || "");
+
+        // 🚀 3. 修正：優先使用本人代號向資料庫請求數據
+        if (myCode && myCode !== "null") {
+            loadData(myCode);
+        } else if (refId && refId !== "null") {
+            // 如果只有推薦人 ID (通常是舊版相容)，則嘗試載入該 ID
+            loadData(refId);
+        } else {
+            document.getElementById('u-name').innerText = "未登入領袖";
         }
     };
 
-    async function loadData(id) {
+    async function loadData(targetId) {
         try {
-            const r = await fetch(`${API}?action=get_leader_data&id=${id}`);
+            // 🚀 4. 發送請求：使用 action=get_leader_data 取得該代號的資料
+            const r = await fetch(`${API}?action=get_leader_data&id=${encodeURIComponent(targetId)}`);
             const d = await r.json();
+            
             if (d.success) {
+                // 渲染資料
                 document.getElementById('u-name').innerText = d.name || "領袖";
                 document.getElementById('u-team').innerText = d.teamCode || "數位分身同步中";
                 document.getElementById('u-sc').innerText = formatVal(d.sc);
-                document.getElementById('u-cum').innerText = "NT$ " + (50 + (Number(d.bonusPaid)||0)).toLocaleString();
+                
+                // 累積收益 (50基數 + 獎金)
+                const bonus = Number(d.bonusPaid) || 0;
+                document.getElementById('u-cum').innerText = "NT$ " + (50 + bonus).toLocaleString();
+                
                 document.getElementById('u-group').innerText = d.groupTotal || 0;
                 document.getElementById('u-sys').innerText = d.sysTotal || 0;
                 
+                // 旅遊進度
                 let tvl = Number(d.travel) || 0;
                 document.getElementById('u-travel').innerText = tvl + " / 300";
                 document.getElementById('travel-fill').style.width = Math.min(100, (tvl/300)*100) + "%";
 
+                // 孵化進度 (假設 1000 人為滿)
                 let progress = Math.min(100, (Number(d.groupTotal)/1000)*100);
                 document.getElementById('hatch-fill').style.width = progress + "%";
                 document.getElementById('hatch-pct').innerText = Math.floor(progress) + "%";
+            } else {
+                document.getElementById('u-name').innerText = "查無領袖資料";
             }
-        } catch(e) { console.error("ERR"); }
+        } catch(e) { 
+            console.error("ERR", e); 
+            document.getElementById('u-name').innerText = "系統連線失敗";
+        }
     }
 
     function formatVal(n) {
