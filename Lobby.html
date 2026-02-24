@@ -81,62 +81,65 @@
     </div>
 
     <script>
-        // 替換為您的 GAS 網址
+        // 🚀 請務必確認此處為您正確的部署網址
         const GAS_URL = "https://script.google.com/macros/s/您的腳本ID/exec"; 
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const lineId = urlParams.get('id');    // 推薦人初始參數
-            const mySelfCode = urlParams.get('user'); // 本人數位代號
+            // 抓取進入時的身分憑證 (優先從 user 抓數位代號，次之從 id 抓 LINE ID)
+            const entranceKey = urlParams.get('user') || urlParams.get('id');
             
             const badge = document.getElementById('user-badge');
             const contactBtn = document.getElementById('link-contact');
             const contactDesc = document.getElementById('contact-desc');
 
-            // 🚀 1. 顯示領袖代號標籤
-            if (mySelfCode && mySelfCode !== "null" && mySelfCode !== "") {
-                badge.innerText = "👑 領袖代號：" + mySelfCode;
-                badge.style.display = "inline-block";
-            }
-
-            const combinedParams = "?id=" + encodeURIComponent(lineId || "") + 
-                                 "&user=" + encodeURIComponent(mySelfCode || "");
-
-            // 🚀 2. 更新子頁面連結
-            document.getElementById('link-sponsorship').href = "Sponsorship.html" + combinedParams;
-            document.getElementById('link-profile').href = "Profile.html" + combinedParams;
-            document.getElementById('link-writer').href = "Writer.html" + combinedParams;
-
-            // 🚀 3. 動態讀取 O 欄進行聯繫管道對接
-            if (lineId && lineId !== "null" && lineId !== "") {
-                // 向後台請求推薦人的正式資料
-                fetch(`${GAS_URL}?action=get_leader_data&id=${lineId}`)
+            if (entranceKey && entranceKey !== "null") {
+                // 🚀 執行後台精準讀取 (含 M/P 尋祖邏輯)
+                fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(entranceKey)}`)
                     .then(response => response.json())
                     .then(data => {
-                        if (data.success && data.teamCode) {
-                            // 成功抓到推薦人的 O 欄 (teamCode)
-                            contactBtn.href = "https://line.me/ti/p/~" + lineId; // LINE 連結維持使用 LINE ID
-                            contactDesc.innerText = "推薦人數位代號: " + data.teamCode;
+                        if (data.success) {
+                            // 1. 顯示主人的「數位代號」(O 欄)
+                            const myTeamCode = data.teamCode || entranceKey;
+                            badge.innerText = "👑 領袖代號：" + myTeamCode;
+                            badge.style.display = "inline-block";
+
+                            // 2. 更新所有子頁面的參數連結 (固定傳遞本人數位代號)
+                            const combinedParams = "?user=" + encodeURIComponent(myTeamCode);
+                            document.getElementById('link-sponsorship').href = "Sponsorship.html" + combinedParams;
+                            document.getElementById('link-profile').href = "Profile.html" + combinedParams;
+                            document.getElementById('link-writer').href = "Writer.html" + combinedParams;
+
+                            // 🎯 3. 解決聯繫功能：裝上經由 M 欄/P 欄尋祖回傳的推薦人 LINE ID
+                            if (data.referrerLineId) {
+                                contactBtn.href = "https://line.me/ti/p/~" + data.referrerLineId;
+                                contactDesc.innerText = "點擊聯繫推薦領袖";
+                            } else {
+                                contactBtn.href = "#";
+                                contactDesc.innerText = "創世領袖模式 (無推薦人)";
+                                contactBtn.onclick = (e) => { 
+                                    e.preventDefault(); 
+                                    alert("系統提示：您目前處於最高階領袖模式。"); 
+                                };
+                            }
                         } else {
-                            contactBtn.href = "https://line.me/ti/p/~" + lineId;
-                            contactDesc.innerText = "推薦人 LINE ID: " + lineId;
+                            handleAuthError();
                         }
                     })
-                    .catch(() => {
-                        contactBtn.href = "https://line.me/ti/p/~" + lineId;
-                        contactDesc.innerText = "推薦人 LINE ID: " + lineId;
-                    });
+                    .catch(() => handleAuthError());
             } else {
-                contactBtn.href = "#";
-                contactDesc.innerText = "創世管理模式";
+                handleAuthError();
             }
 
-            // 安全防護
-            if (!mySelfCode && !lineId) {
-                document.querySelectorAll('.nav-item').forEach(el => {
-                    el.onclick = function(e) { e.preventDefault(); alert('請由專屬連結進入大廳'); };
+            function handleAuthError() {
+                document.querySelectorAll('.nav-item:not(#link-contact)').forEach(el => {
+                    el.onclick = function(e) { 
+                        e.preventDefault(); 
+                        alert('系統提示：身分識別失敗，請重新從個人專屬連結進入大廳'); 
+                    };
                     el.style.opacity = "0.5";
                 });
+                contactDesc.innerText = "身分驗證失敗";
             }
         };
     </script>
