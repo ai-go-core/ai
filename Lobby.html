@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 生活小秘書 / 全方位數位輔助</title>
     <style>
-        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; margin: 0; padding: 0; display: flex; justify-content: center; width: 100%; min-height: 100vh; }
+        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; margin: 0; padding: 0; display: flex; justify-content: center; width: 100%; min-height: 100vh; overflow-x: hidden; }
         .glow-box { width: 100%; max-width: 500px; padding: 15px; box-sizing: border-box; }
-        .inner-content { background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); border-radius: 20px; padding: 25px; border: 1px solid #333; box-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
+        .inner-content { background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); border-radius: 20px; padding: 25px; border: 1px solid #333; box-shadow: 0 0 30px rgba(212, 175, 55, 0.2); min-height: 90vh; display: flex; flex-direction: column; }
         .header { text-align: center; margin-bottom: 20px; }
-        .system-title { color: #FFD700; font-size: 1.6rem; font-weight: bold; }
-        .user-badge { display: inline-block; background: rgba(212, 175, 55, 0.2); color: #FFD700; padding: 8px 18px; border-radius: 50px; font-size: 0.9rem; margin-top: 10px; border: 1px solid #D4AF37; }
-        .nav-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-        .nav-item { width: 100%; background: linear-gradient(45deg, #D4AF37, #FFD700); border-radius: 12px; padding: 18px; text-decoration: none; color: #000 !important; font-weight: bold; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
-        .nav-icon { font-size: 1.5rem; margin-right: 15px; }
-        .footer { font-size: 0.7rem; color: #555; text-align: center; margin-top: 30px; }
+        .system-title { color: #FFD700; font-size: 1.6rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        .user-badge { display: inline-block; background: rgba(212, 175, 55, 0.15); color: #FFD700; padding: 8px 18px; border-radius: 50px; font-size: 0.9rem; margin-top: 10px; border: 1px solid rgba(212, 175, 55, 0.3); }
+        .nav-container { display: flex; flex-direction: column; gap: 15px; flex-grow: 1; }
+        .nav-item { width: 100%; background: linear-gradient(45deg, #D4AF37, #FFD700); border-radius: 12px; padding: 18px; text-decoration: none; color: #000 !important; font-weight: bold; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); transition: 0.2s; box-sizing: border-box; }
+        .nav-item:active { transform: scale(0.97); opacity: 0.9; }
+        .nav-icon { font-size: 1.6rem; margin-right: 15px; width: 30px; text-align: center; }
+        .footer { font-size: 0.7rem; color: #555; text-align: center; margin-top: 30px; padding-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -22,7 +23,7 @@
         <div class="inner-content">
             <div class="header">
                 <div class="system-title">數位生活圈大廳</div>
-                <div id="user-badge" class="user-badge">👑 識別中...</div>
+                <div id="user-badge" class="user-badge">👑 識別身分中...</div>
             </div>
 
             <div class="nav-container">
@@ -33,69 +34,65 @@
                     <span class="nav-icon">👤</span>個人資產 (角色收益)
                 </a>
                 <a id="link-contact" href="#" class="nav-item" target="_blank">
-                    <span class="nav-icon">💬</span>聯繫領袖 (<span id="ref-name">載入中</span>)
+                    <span class="nav-icon">💬</span>聯繫推薦領袖 (<span id="ref-label">追蹤中</span>)
                 </a>
                 <a id="link-writer" href="#" class="nav-item">
-                    <span class="nav-icon">⚙️</span>AI 工具箱 (文案庫)
+                    <span class="nav-icon">⚙️</span>AI 工具箱 (武器庫)
                 </a>
             </div>
             
-            <div class="footer">AI系統核心 v3.6 | 最終代號：創建數位分身</div>
+            <div class="footer">AI系統核心 v3.6 | 目錄大廳輸入 M</div>
         </div>
     </div>
 
     <script>
-        // 🚀 核心參數：請確保此網址正確
         const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
-        const ADMIN_LINE_ID = "vvvip.tw"; 
+        const ADMIN_ID = "vvvip.tw"; // 最終備案
 
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
-            // 認主：優先從 user 抓，失敗就從 id 抓
             const myId = params.get('user') || params.get('id') || "Guest";
-            let refId = params.get('ref') || "";
+            let urlRef = params.get('ref') || ""; // 網址帶來的推薦人
 
-            const badge = document.getElementById('user-badge');
-            badge.innerText = "👑 領袖代號：" + myId;
+            document.getElementById('user-badge').innerText = "👑 領袖代號：" + myId;
 
-            // 🛠️ 核心：刷新所有連結，帶入 user 與 ref
-            function refreshLinks(finalRef) {
-                const suffix = `&user=${encodeURIComponent(myId)}&ref=${encodeURIComponent(finalRef)}`;
-                
-                document.getElementById('link-sponsorship').href = GAS_URL + "?action=sponsorship" + suffix;
-                document.getElementById('link-profile').href = GAS_URL + "?action=home" + suffix;
-                document.getElementById('link-writer').href = GAS_URL + "?action=writer" + suffix;
+            function syncLinks(finalRef) {
+                const query = `&user=${encodeURIComponent(myId)}&ref=${encodeURIComponent(finalRef)}`;
+                document.getElementById('link-sponsorship').href = GAS_URL + "?action=sponsorship" + query;
+                document.getElementById('link-profile').href = GAS_URL + "?action=home" + query;
+                document.getElementById('link-writer').href = GAS_URL + "?action=writer" + query;
 
                 const contactBtn = document.getElementById('link-contact');
-                const refLabel = document.getElementById('ref-name');
+                const label = document.getElementById('ref-label');
 
                 if (finalRef && finalRef !== "null") {
                     contactBtn.href = "https://line.me/ti/p/~" + finalRef;
-                    refLabel.innerText = finalRef;
+                    label.innerText = finalRef;
+                } else if (urlRef) {
+                    contactBtn.href = "https://line.me/ti/p/~" + urlRef;
+                    label.innerText = urlRef;
                 } else {
-                    contactBtn.href = "https://line.me/ti/p/~" + ADMIN_LINE_ID;
-                    refLabel.innerText = "官方客服";
+                    contactBtn.href = "https://line.me/ti/p/~" + ADMIN_ID;
+                    label.innerText = "官方客服";
                 }
             }
 
-            // 1. 先跑一次初始化
-            refreshLinks(refId);
+            // 1. 初始化
+            syncLinks(urlRef);
 
-            // 2. 🚀 暴力尋祖：向後台請求 M 欄對應的 LINE ID
+            // 2. 🚀 從 Q 欄取回精準推薦人資訊
             if (myId !== "Guest") {
                 fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(myId)}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        if (data.teamCode) badge.innerText = "👑 領袖代號：" + data.teamCode;
-                        // 如果後台有抓到 M 欄的親生推薦人，立即覆蓋
+                        // 這裡後台 API 必須回傳 Q 欄的數據給 data.referrerLineId
                         if (data.referrerLineId) {
-                            console.log("尋祖鎖定成功:", data.referrerLineId);
-                            refreshLinks(data.referrerLineId);
+                            console.log("Q欄尋祖成功:", data.referrerLineId);
+                            syncLinks(data.referrerLineId);
                         }
                     }
-                })
-                .catch(err => console.log("連線中..."));
+                }).catch(e => console.log("尋祖同步中..."));
             }
         };
     </script>
