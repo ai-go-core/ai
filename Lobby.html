@@ -81,64 +81,67 @@
     </div>
 
     <script>
-        // 🚀 請確保部署網址正確
-        const GAS_URL = "https://script.google.com/macros/s/您的腳本ID/exec"; 
-        const ADMIN_LINE_ID = "您的實際LINE_ID"; 
+        // 🚀 自動取得當前 Web App 的部署網址
+        const GAS_URL = window.location.href.split('?')[0];
+        // 創世客服 LINE ID (當尋不到祖時的最終備案)
+        const ADMIN_LINE_ID = "service_ai"; 
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const urlUser = urlParams.get('user'); // 主人
-            const urlId = urlParams.get('id');     // 推薦人
+            const urlUser = urlParams.get('user'); // 網址傳遞的主人 ID
+            const urlId = urlParams.get('id');     // 網址傳遞的推薦人 ID
 
             const badge = document.getElementById('user-badge');
             const contactBtn = document.getElementById('link-contact');
             const contactDesc = document.getElementById('contact-desc');
 
-            // 1. 立即認主：只要網址有東西，就先認主
-            const myIdentity = urlUser || urlId || "Guest";
+            // 1. 初始識別
+            const myIdentity = urlUser || "Guest";
             badge.innerText = "👑 領袖代號：" + myIdentity;
 
-            // 2. 立即鎖定「推薦人」：優先拿網址裡的 id
-            // 這一步保證了主人「一進來就能聯絡到帶他來的人」
-            let currentReferrer = urlId;
-            
-            function updateContactUI(referrerId) {
-                if (referrerId && referrerId !== "null" && referrerId !== myIdentity) {
-                    contactBtn.href = "https://line.me/ti/p/~" + referrerId;
-                    contactDesc.innerText = "點擊聯繫推薦領袖 (" + referrerId + ")";
+            // 2. 更新功能按鈕的跳轉參數
+            function syncAllLinks(finalRef) {
+                const params = `?action=sponsorship&user=${encodeURIComponent(myIdentity)}&ref=${encodeURIComponent(finalRef)}`;
+                document.getElementById('link-sponsorship').onclick = function() {
+                    window.location.href = GAS_URL + params;
+                    return false;
+                };
+                
+                // 個人資產
+                document.getElementById('link-profile').href = GAS_URL + `?action=home&user=${myIdentity}`;
+                
+                // 更新聯繫 UI
+                if (finalRef && finalRef !== "null") {
+                    contactBtn.href = "https://line.me/ti/p/~" + finalRef;
+                    contactDesc.innerText = "點擊聯繫推薦領袖 (" + finalRef + ")";
                 } else {
                     contactBtn.href = "https://line.me/ti/p/~" + ADMIN_LINE_ID;
                     contactDesc.innerText = "創世模式：聯繫官方客服";
                 }
             }
 
-            // 初始化所有功能連結
-            function syncAllLinks(referrer) {
-                const r = referrer || "";
-                const params = `?user=${encodeURIComponent(myIdentity)}&id=${encodeURIComponent(r)}`;
-                document.getElementById('link-sponsorship').href = "Sponsorship.html" + params;
-                document.getElementById('link-profile').href = "Profile.html" + params;
-                document.getElementById('link-writer').href = "Writer.html" + params;
-                updateContactUI(r);
-            }
-
-            // 啟動時先跑一次（用網址 id）
+            // 優先使用網址帶來的 ID 進行初始化
             syncAllLinks(urlId);
 
-            // 3. 背景精準對帳：去試算表 M 欄找「親生推薦人」
+            // 3. 🚀 核心：背景精準寻祖（去 Google Sheets 找真正的推薦人）
             if (myIdentity !== "Guest") {
                 fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(myIdentity)}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            if (data.teamCode) badge.innerText = "👑 領袖代號：" + data.teamCode;
-                            // 如果後台回傳了更精準的 M 欄領袖，就更新它
+                            // 更新顯示為正確的數位代號
+                            badge.innerText = "👑 領袖代號：" + (data.teamCode || myIdentity);
+                            
+                            // 關鍵：如果後端找到了真正的推薦人 F 欄 (referrerLineId)，強制更新聯繫連結
                             if (data.referrerLineId) {
                                 syncAllLinks(data.referrerLineId);
                             }
                         }
                     })
-                    .catch(() => console.log("背景識別完成"));
+                    .catch(err => {
+                        console.error("尋祖失敗:", err);
+                        contactDesc.innerText = "連線不穩，請聯繫官方";
+                    });
             }
         };
     </script>
