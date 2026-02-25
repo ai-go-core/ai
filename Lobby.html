@@ -5,29 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 生活小秘書 / 全方位數位輔助</title>
     <style>
-        /* 1. 修正版面縮小：確保滿版顯示 */
-        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; margin: 0; padding: 0; display: flex; justify-content: center; width: 100%; min-height: 100vh; overflow-x: hidden; }
-        .glow-box { width: 100%; max-width: 500px; padding: 10px; box-sizing: border-box; }
-        .inner-content { background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); border-radius: 20px; padding: 20px; border: 1px solid #333; box-shadow: 0 0 20px rgba(212, 175, 55, 0.15); min-height: 90vh; }
-        
-        .header { text-align: center; margin-bottom: 10px; }
-        .system-title { color: #FFD700; font-size: 1.6rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
-        .system-subtitle { font-size: 0.9rem; color: #D4AF37; margin-top: 2px; letter-spacing: 1px; }
-        .user-badge { display: inline-block; background: rgba(212, 175, 55, 0.15); color: #D4AF37; padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; margin-top: 10px; border: 1px solid rgba(212, 175, 55, 0.3); }
-        .marquee { background: rgba(212, 175, 55, 0.08); color: #D4AF37; padding: 8px; font-size: 0.8rem; border-radius: 8px; margin: 15px 0; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.15); }
-        
-        .nav-container { display: flex; flex-direction: column; gap: 15px; }
-        .nav-item { width: 100%; background: #D4AF37; border-radius: 12px; padding: 18px 20px; text-decoration: none; color: #000 !important; box-sizing: border-box; display: flex; align-items: center; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .nav-item:active { transform: scale(0.96); opacity: 0.9; }
-        .nav-icon { font-size: 1.8rem; margin-right: 15px; width: 35px; text-align: center; }
-        .nav-text-group { display: flex; flex-direction: column; align-items: flex-start; }
-        .nav-text { font-size: 1.2rem; font-weight: bold; }
-        .nav-desc { font-size: 0.8rem; opacity: 0.8; margin-top: 2px; }
-        
-        .feature-banner { margin-top: 25px; background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 10px; border-left: 4px solid #D4AF37; }
-        .feature-title { color: #FFD700; font-size: 1rem; font-weight: bold; margin-bottom: 8px; }
-        .feature-list { font-size: 0.85rem; color: #aaa; line-height: 1.8; }
-        .footer { font-size: 0.7rem; color: #555; text-align: center; padding: 25px 0; }
+        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; margin: 0; padding: 0; display: flex; justify-content: center; width: 100%; min-height: 100vh; }
+        .glow-box { width: 100%; max-width: 500px; padding: 15px; box-sizing: border-box; }
+        .inner-content { background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); border-radius: 20px; padding: 25px; border: 1px solid #333; box-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
+        .header { text-align: center; margin-bottom: 20px; }
+        .system-title { color: #FFD700; font-size: 1.6rem; font-weight: bold; }
+        .user-badge { display: inline-block; background: rgba(212, 175, 55, 0.2); color: #FFD700; padding: 8px 18px; border-radius: 50px; font-size: 0.9rem; margin-top: 10px; border: 1px solid #D4AF37; }
+        .nav-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+        .nav-item { width: 100%; background: linear-gradient(45deg, #D4AF37, #FFD700); border-radius: 12px; padding: 18px; text-decoration: none; color: #000 !important; font-weight: bold; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        .nav-icon { font-size: 1.5rem; margin-right: 15px; }
+        .footer { font-size: 0.7rem; color: #555; text-align: center; margin-top: 30px; }
     </style>
 </head>
 <body>
@@ -35,100 +22,80 @@
         <div class="inner-content">
             <div class="header">
                 <div class="system-title">數位生活圈大廳</div>
-                <div class="system-subtitle">/ AI 生活小秘書</div>
-                <div id="user-badge" class="user-badge">👑 領袖代號：辨識中...</div>
-                <div class="marquee">
-                    <marquee scrollamount="4">🔥 封測限定：註冊即領人物蛋 + 50元購物金 | 推薦獎金 99 元 | 免會費、免配貨 🚀</marquee>
-                </div>
+                <div id="user-badge" class="user-badge">👑 識別中...</div>
             </div>
 
             <div class="nav-container">
                 <a id="link-sponsorship" href="#" class="nav-item">
-                    <span class="nav-icon">💰</span>
-                    <div class="nav-text-group">
-                        <span class="nav-text">贊助回饋</span>
-                        <span class="nav-desc">7代複利制度</span>
-                    </div>
+                    <span class="nav-icon">💰</span>贊助回饋 (7代複利)
                 </a>
                 <a id="link-profile" href="#" class="nav-item">
-                    <span class="nav-icon">👤</span>
-                    <div class="nav-text-group">
-                        <span class="nav-text">個人資產</span>
-                        <span class="nav-desc">角色蛋與收益</span>
-                    </div>
+                    <span class="nav-icon">👤</span>個人資產 (角色收益)
                 </a>
                 <a id="link-contact" href="#" class="nav-item" target="_blank">
-                    <span class="nav-icon">💬</span>
-                    <div class="nav-text-group">
-                        <span class="nav-text">聯繫領袖</span>
-                        <span id="contact-desc" class="nav-desc">正在追蹤推薦路徑...</span>
-                    </div>
+                    <span class="nav-icon">💬</span>聯繫領袖 (<span id="ref-name">載入中</span>)
                 </a>
                 <a id="link-writer" href="#" class="nav-item">
-                    <span class="nav-icon">⚙️</span>
-                    <div class="nav-text-group">
-                        <span class="nav-text">AI 工具箱</span>
-                        <span class="nav-desc">封測功能解鎖</span>
-                    </div>
+                    <span class="nav-icon">⚙️</span>AI 工具箱 (文案庫)
                 </a>
             </div>
-
-            <div class="feature-banner">
-                <div class="feature-title">🛡️ 領袖特權公告</div>
-                <div class="feature-list">
-                    • 系統核心贈送角色彩蛋，具備成長價值。<br>
-                    • 推薦獎金 99 元，達成目標享免費旅遊。
-                </div>
-            </div>
-            <div class="footer">AI系統核心 v3.6 | 最終解釋權歸系統所有</div>
+            
+            <div class="footer">AI系統核心 v3.6 | 最終代號：創建數位分身</div>
         </div>
     </div>
 
     <script>
-        // 修正後的正確 ID：vvvip.tw
-        const ADMIN_LINE_ID = "vvvip.tw"; 
+        // 🚀 核心參數：請確保此網址正確
         const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
+        const ADMIN_LINE_ID = "vvvip.tw"; 
 
         window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            // 2. 認主邏輯：優先抓 user，沒有則抓 id，最後才 Guest
-            const myId = urlParams.get('user') || urlParams.get('id') || "Guest";
-            let referrerLineId = urlParams.get('ref') || "";
+            const params = new URLSearchParams(window.location.search);
+            // 認主：優先從 user 抓，失敗就從 id 抓
+            const myId = params.get('user') || params.get('id') || "Guest";
+            let refId = params.get('ref') || "";
 
             const badge = document.getElementById('user-badge');
-            const contactBtn = document.getElementById('link-contact');
-            const contactDesc = document.getElementById('contact-desc');
-
             badge.innerText = "👑 領袖代號：" + myId;
 
-            function updateUI(ref) {
-                const query = `?user=${encodeURIComponent(myId)}&id=${encodeURIComponent(ref)}`;
-                document.getElementById('link-sponsorship').href = GAS_URL + "?action=sponsorship&" + query;
-                document.getElementById('link-profile').href = GAS_URL + "?action=home&" + query;
-                document.getElementById('link-writer').href = GAS_URL + "?action=writer&" + query;
+            // 🛠️ 核心：刷新所有連結，帶入 user 與 ref
+            function refreshLinks(finalRef) {
+                const suffix = `&user=${encodeURIComponent(myId)}&ref=${encodeURIComponent(finalRef)}`;
+                
+                document.getElementById('link-sponsorship').href = GAS_URL + "?action=sponsorship" + suffix;
+                document.getElementById('link-profile').href = GAS_URL + "?action=home" + suffix;
+                document.getElementById('link-writer').href = GAS_URL + "?action=writer" + suffix;
 
-                // 3. 確保帶入正確 ID：vvvip.tw
-                if (ref && ref !== "null" && ref !== "") {
-                    contactBtn.href = "https://line.me/ti/p/~" + ref;
-                    contactDesc.innerText = "點擊聯繫推薦領袖 (" + ref + ")";
+                const contactBtn = document.getElementById('link-contact');
+                const refLabel = document.getElementById('ref-name');
+
+                if (finalRef && finalRef !== "null") {
+                    contactBtn.href = "https://line.me/ti/p/~" + finalRef;
+                    refLabel.innerText = finalRef;
                 } else {
                     contactBtn.href = "https://line.me/ti/p/~" + ADMIN_LINE_ID;
-                    contactDesc.innerText = "創世模式：聯繫官方客服";
+                    refLabel.innerText = "官方客服";
                 }
             }
 
-            updateUI(referrerLineId);
+            // 1. 先跑一次初始化
+            refreshLinks(refId);
 
-            // 背景對帳，抓取 M 欄對應的親生推薦人 F 欄 ID
+            // 2. 🚀 暴力尋祖：向後台請求 M 欄對應的 LINE ID
             if (myId !== "Guest") {
                 fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(myId)}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success) {
-                            if (data.teamCode) badge.innerText = "👑 領袖代號：" + data.teamCode;
-                            if (data.referrerLineId) updateUI(data.referrerLineId);
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        if (data.teamCode) badge.innerText = "👑 領袖代號：" + data.teamCode;
+                        // 如果後台有抓到 M 欄的親生推薦人，立即覆蓋
+                        if (data.referrerLineId) {
+                            console.log("尋祖鎖定成功:", data.referrerLineId);
+                            refreshLinks(data.referrerLineId);
                         }
-                    });
+                    }
+                })
+                .catch(err => console.log("連線中..."));
             }
         };
     </script>
