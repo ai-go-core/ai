@@ -5,25 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 生活小秘書 / 全方位數位輔助</title>
     <style>
-        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
-        .glow-box { width: 95%; max-width: 450px; margin: 10px auto; }
-        .inner-content { background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); border-radius: 20px; padding: 20px; border: 1px solid #333; box-shadow: 0 0 20px rgba(212, 175, 55, 0.15); }
+        /* 1. 修正版面縮小：確保滿版顯示 */
+        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; margin: 0; padding: 0; display: flex; justify-content: center; width: 100%; min-height: 100vh; overflow-x: hidden; }
+        .glow-box { width: 100%; max-width: 500px; padding: 10px; box-sizing: border-box; }
+        .inner-content { background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); border-radius: 20px; padding: 20px; border: 1px solid #333; box-shadow: 0 0 20px rgba(212, 175, 55, 0.15); min-height: 90vh; }
+        
         .header { text-align: center; margin-bottom: 10px; }
-        .system-title { color: #FFD700; font-size: 1.4rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
-        .system-subtitle { font-size: 0.85rem; color: #D4AF37; margin-top: 2px; letter-spacing: 1px; }
-        .user-badge { display: inline-block; background: rgba(212, 175, 55, 0.15); color: #D4AF37; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; margin-top: 8px; border: 1px solid rgba(212, 175, 55, 0.3); }
-        .marquee { background: rgba(212, 175, 55, 0.08); color: #D4AF37; padding: 8px; font-size: 0.75rem; border-radius: 8px; margin: 15px 0; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.15); }
-        .nav-container { display: flex; flex-direction: column; gap: 12px; }
-        .nav-item { width: 100%; background: #D4AF37; border-radius: 12px; padding: 15px 15px; text-decoration: none; color: #000 !important; box-sizing: border-box; display: flex; align-items: center; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; border: none; }
-        .nav-item:active { transform: scale(0.98); opacity: 0.9; }
-        .nav-icon { font-size: 1.5rem; margin-right: 15px; width: 30px; text-align: center; }
+        .system-title { color: #FFD700; font-size: 1.6rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        .system-subtitle { font-size: 0.9rem; color: #D4AF37; margin-top: 2px; letter-spacing: 1px; }
+        .user-badge { display: inline-block; background: rgba(212, 175, 55, 0.15); color: #D4AF37; padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; margin-top: 10px; border: 1px solid rgba(212, 175, 55, 0.3); }
+        .marquee { background: rgba(212, 175, 55, 0.08); color: #D4AF37; padding: 8px; font-size: 0.8rem; border-radius: 8px; margin: 15px 0; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.15); }
+        
+        .nav-container { display: flex; flex-direction: column; gap: 15px; }
+        .nav-item { width: 100%; background: #D4AF37; border-radius: 12px; padding: 18px 20px; text-decoration: none; color: #000 !important; box-sizing: border-box; display: flex; align-items: center; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .nav-item:active { transform: scale(0.96); opacity: 0.9; }
+        .nav-icon { font-size: 1.8rem; margin-right: 15px; width: 35px; text-align: center; }
         .nav-text-group { display: flex; flex-direction: column; align-items: flex-start; }
-        .nav-text { font-size: 1.05rem; font-weight: bold; }
-        .nav-desc { font-size: 0.7rem; opacity: 0.8; margin-top: 2px; }
-        .feature-banner { margin-top: 20px; background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 10px; border-left: 3px solid #D4AF37; }
-        .feature-title { color: #FFD700; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
-        .feature-list { font-size: 0.75rem; color: #aaa; line-height: 1.6; }
-        .footer { font-size: 0.65rem; color: #555; text-align: center; padding: 20px 0; }
+        .nav-text { font-size: 1.2rem; font-weight: bold; }
+        .nav-desc { font-size: 0.8rem; opacity: 0.8; margin-top: 2px; }
+        
+        .feature-banner { margin-top: 25px; background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 10px; border-left: 4px solid #D4AF37; }
+        .feature-title { color: #FFD700; font-size: 1rem; font-weight: bold; margin-bottom: 8px; }
+        .feature-list { font-size: 0.85rem; color: #aaa; line-height: 1.8; }
+        .footer { font-size: 0.7rem; color: #555; text-align: center; padding: 25px 0; }
     </style>
 </head>
 <body>
@@ -32,7 +36,7 @@
             <div class="header">
                 <div class="system-title">數位生活圈大廳</div>
                 <div class="system-subtitle">/ AI 生活小秘書</div>
-                <div id="user-badge" class="user-badge">正在同步核心...</div>
+                <div id="user-badge" class="user-badge">👑 領袖代號：辨識中...</div>
                 <div class="marquee">
                     <marquee scrollamount="4">🔥 封測限定：註冊即領人物蛋 + 50元購物金 | 推薦獎金 99 元 | 免會費、免配貨 🚀</marquee>
                 </div>
@@ -64,7 +68,7 @@
                     <span class="nav-icon">⚙️</span>
                     <div class="nav-text-group">
                         <span class="nav-text">AI 工具箱</span>
-                        <span class="nav-desc">數位文案庫</span>
+                        <span class="nav-desc">封測功能解鎖</span>
                     </div>
                 </a>
             </div>
@@ -81,64 +85,50 @@
     </div>
 
     <script>
-        // 🚀 請在此處填入您實際部署的 Google App Script 網址
+        // 修正後的正確 ID：vvvip.tw
+        const ADMIN_LINE_ID = "vvvip.tw"; 
         const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
-        // 🚀 預設官方客服 ID（當尋不到推薦人時使用）
-        const DEFAULT_SERVICE_ID = "vvivp.tw"; 
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
+            // 2. 認主邏輯：優先抓 user，沒有則抓 id，最後才 Guest
             const myId = urlParams.get('user') || urlParams.get('id') || "Guest";
-            let referrerLineId = urlParams.get('ref') || ""; // 網址帶入的推薦人
+            let referrerLineId = urlParams.get('ref') || "";
 
             const badge = document.getElementById('user-badge');
-            const linkSponsorship = document.getElementById('link-sponsorship');
-            const linkProfile = document.getElementById('link-profile');
-            const linkContact = document.getElementById('link-contact');
-            const linkWriter = document.getElementById('link-writer');
+            const contactBtn = document.getElementById('link-contact');
             const contactDesc = document.getElementById('contact-desc');
 
             badge.innerText = "👑 領袖代號：" + myId;
 
-            // 🛠️ 更新所有按鈕連結的函數
-            function refreshAllLinks(ref) {
-                const baseParams = `user=${encodeURIComponent(myId)}&ref=${encodeURIComponent(ref)}`;
-                
-                linkSponsorship.href = `${GAS_URL}?action=sponsorship&${baseParams}`;
-                linkProfile.href = `${GAS_URL}?action=home&${baseParams}`;
-                linkWriter.href = `${GAS_URL}?action=writer&${baseParams}`;
+            function updateUI(ref) {
+                const query = `?user=${encodeURIComponent(myId)}&id=${encodeURIComponent(ref)}`;
+                document.getElementById('link-sponsorship').href = GAS_URL + "?action=sponsorship&" + query;
+                document.getElementById('link-profile').href = GAS_URL + "?action=home&" + query;
+                document.getElementById('link-writer').href = GAS_URL + "?action=writer&" + query;
 
-                // 更新聯繫領袖連結
+                // 3. 確保帶入正確 ID：vvvip.tw
                 if (ref && ref !== "null" && ref !== "") {
-                    linkContact.href = "https://line.me/ti/p/~" + ref;
+                    contactBtn.href = "https://line.me/ti/p/~" + ref;
                     contactDesc.innerText = "點擊聯繫推薦領袖 (" + ref + ")";
                 } else {
-                    linkContact.href = "https://line.me/ti/p/~" + DEFAULT_SERVICE_ID;
+                    contactBtn.href = "https://line.me/ti/p/~" + ADMIN_LINE_ID;
                     contactDesc.innerText = "創世模式：聯繫官方客服";
                 }
             }
 
-            // 初始化按鈕（先用網址帶來的推薦人參數）
-            refreshAllLinks(referrerLineId);
+            updateUI(referrerLineId);
 
-            // 🚀 背景精準尋祖：去後台撈取真正的推薦人 LINE ID (F 欄)
+            // 背景對帳，抓取 M 欄對應的親生推薦人 F 欄 ID
             if (myId !== "Guest") {
                 fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(myId)}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        if (data.teamCode) badge.innerText = "👑 領袖代號：" + data.teamCode;
-                        
-                        // 🎯 核心鎖定：如果後台回傳了真正的親生推薦人 LINE ID
-                        if (data.referrerLineId) {
-                            console.log("尋祖鎖定成功，推薦人 ID:", data.referrerLineId);
-                            refreshAllLinks(data.referrerLineId);
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            if (data.teamCode) badge.innerText = "👑 領袖代號：" + data.teamCode;
+                            if (data.referrerLineId) updateUI(data.referrerLineId);
                         }
-                    }
-                })
-                .catch(err => {
-                    console.log("尋祖請求失敗，維持現有參數", err);
-                });
+                    });
             }
         };
     </script>
