@@ -14,7 +14,7 @@
         .user-badge { display: inline-block; background: rgba(212, 175, 55, 0.15); color: #D4AF37; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; margin-top: 8px; border: 1px solid rgba(212, 175, 55, 0.3); }
         .marquee { background: rgba(212, 175, 55, 0.08); color: #D4AF37; padding: 8px; font-size: 0.75rem; border-radius: 8px; margin: 15px 0; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.15); }
         .nav-container { display: flex; flex-direction: column; gap: 12px; }
-        .nav-item { width: 100%; background: #D4AF37; border-radius: 12px; padding: 15px 15px; text-decoration: none; color: #000 !important; box-sizing: border-box; display: flex; align-items: center; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .nav-item { width: 100%; background: #D4AF37; border-radius: 12px; padding: 15px 15px; text-decoration: none; color: #000 !important; box-sizing: border-box; display: flex; align-items: center; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; }
         .nav-item:active { transform: scale(0.98); opacity: 0.9; }
         .nav-icon { font-size: 1.5rem; margin-right: 15px; width: 30px; text-align: center; }
         .nav-text-group { display: flex; flex-direction: column; align-items: flex-start; }
@@ -39,20 +39,20 @@
             </div>
 
             <div class="nav-container">
-                <a id="link-sponsorship" href="#" class="nav-item">
+                <div id="btn-sponsorship" class="nav-item">
                     <span class="nav-icon">💰</span>
                     <div class="nav-text-group">
                         <span class="nav-text">贊助回饋</span>
                         <span class="nav-desc">7代複利制度</span>
                     </div>
-                </a>
-                <a id="link-profile" href="#" class="nav-item">
+                </div>
+                <div id="btn-profile" class="nav-item">
                     <span class="nav-icon">👤</span>
                     <div class="nav-text-group">
                         <span class="nav-text">個人資產</span>
                         <span class="nav-desc">角色蛋與收益</span>
                     </div>
-                </a>
+                </div>
                 <a id="link-contact" href="#" class="nav-item" target="_blank">
                     <span class="nav-icon">💬</span>
                     <div class="nav-text-group">
@@ -60,13 +60,13 @@
                         <span id="contact-desc" class="nav-desc">正在追蹤推薦路徑...</span>
                     </div>
                 </a>
-                <a id="link-writer" href="#" class="nav-item">
+                <div id="btn-writer" class="nav-item">
                     <span class="nav-icon">⚙️</span>
                     <div class="nav-text-group">
                         <span class="nav-text">AI 工具箱</span>
                         <span class="nav-desc">封測功能解鎖</span>
                     </div>
-                </a>
+                </div>
             </div>
 
             <div class="feature-banner">
@@ -81,67 +81,71 @@
     </div>
 
     <script>
-        // 🚀 自動取得當前 Web App 的部署網址
+        // 🚀 自動取得當前腳本網址
         const GAS_URL = window.location.href.split('?')[0];
-        // 創世客服 LINE ID (當尋不到祖時的最終備案)
         const ADMIN_LINE_ID = "service_ai"; 
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const urlUser = urlParams.get('user'); // 網址傳遞的主人 ID
-            const urlId = urlParams.get('id');     // 網址傳遞的推薦人 ID
+            const myId = urlParams.get('user') || urlParams.get('id') || "Guest";
+            let referrerLineId = urlParams.get('ref') || ""; // 優先從網址讀取推薦人
 
             const badge = document.getElementById('user-badge');
             const contactBtn = document.getElementById('link-contact');
             const contactDesc = document.getElementById('contact-desc');
 
-            // 1. 初始識別
-            const myIdentity = urlUser || "Guest";
-            badge.innerText = "👑 領袖代號：" + myIdentity;
+            // 👑 初始顯示
+            badge.innerText = "👑 領袖代號：" + myId;
 
-            // 2. 更新功能按鈕的跳轉參數
-            function syncAllLinks(finalRef) {
-                const params = `?action=sponsorship&user=${encodeURIComponent(myIdentity)}&ref=${encodeURIComponent(finalRef)}`;
-                document.getElementById('link-sponsorship').onclick = function() {
-                    window.location.href = GAS_URL + params;
-                    return false;
+            // 🛠️ 函數：更新所有按鈕跳轉路徑
+            function updateAllActions(ref) {
+                referrerLineId = ref;
+                
+                // 1. 贊助回饋跳轉
+                document.getElementById('btn-sponsorship').onclick = function() {
+                    window.location.href = `${GAS_URL}?action=sponsorship&user=${myId}&ref=${ref}`;
                 };
-                
-                // 個人資產
-                document.getElementById('link-profile').href = GAS_URL + `?action=home&user=${myIdentity}`;
-                
-                // 更新聯繫 UI
-                if (finalRef && finalRef !== "null") {
-                    contactBtn.href = "https://line.me/ti/p/~" + finalRef;
-                    contactDesc.innerText = "點擊聯繫推薦領袖 (" + finalRef + ")";
+
+                // 2. 個人資產跳轉
+                document.getElementById('btn-profile').onclick = function() {
+                    window.location.href = `${GAS_URL}?action=home&user=${myId}`;
+                };
+
+                // 3. AI 工具箱
+                document.getElementById('btn-writer').onclick = function() {
+                    alert("工具箱功能正在同步數據中...");
+                };
+
+                // 4. 🚀 聯繫推薦人 LINE 鎖定
+                if (ref && ref !== "null" && ref !== "") {
+                    contactBtn.href = "https://line.me/ti/p/~" + ref;
+                    contactDesc.innerText = "點擊聯繫推薦領袖 (" + ref + ")";
                 } else {
                     contactBtn.href = "https://line.me/ti/p/~" + ADMIN_LINE_ID;
                     contactDesc.innerText = "創世模式：聯繫官方客服";
                 }
             }
 
-            // 優先使用網址帶來的 ID 進行初始化
-            syncAllLinks(urlId);
+            // 初始化（先用網址帶的推薦人）
+            updateAllActions(referrerLineId);
 
-            // 3. 🚀 核心：背景精準寻祖（去 Google Sheets 找真正的推薦人）
-            if (myIdentity !== "Guest") {
-                fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(myIdentity)}`)
+            // 🚀 核心：向後台請求「精準尋祖」數據
+            if (myId !== "Guest") {
+                fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(myId)}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // 更新顯示為正確的數位代號
-                            badge.innerText = "👑 領袖代號：" + (data.teamCode || myIdentity);
+                            // 更新為資料表內的真實數位代號 (O欄)
+                            if (data.teamCode) badge.innerText = "👑 領袖代號：" + data.teamCode;
                             
-                            // 關鍵：如果後端找到了真正的推薦人 F 欄 (referrerLineId)，強制更新聯繫連結
+                            // 🎯 關鍵：如果後台回傳了該會員的推薦人 LINE ID (F欄)
                             if (data.referrerLineId) {
-                                syncAllLinks(data.referrerLineId);
+                                console.log("尋祖成功，推薦人為:", data.referrerLineId);
+                                updateAllActions(data.referrerLineId);
                             }
                         }
                     })
-                    .catch(err => {
-                        console.error("尋祖失敗:", err);
-                        contactDesc.innerText = "連線不穩，請聯繫官方";
-                    });
+                    .catch(err => console.log("尋祖連線中..."));
             }
         };
     </script>
