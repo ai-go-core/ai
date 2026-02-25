@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <title>AI 生活小秘書 | 贊助升級核心</title>
+    <title><?= webMainTitle ?> | 贊助升級核心</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
@@ -45,7 +45,6 @@
             text-align: center; 
         }
 
-        /* ⚠️ 領袖保牌提示 - 仿截圖樣式優化 */
         .保牌提示 { 
             background: rgba(255, 140, 0, 0.1); 
             border: 1px solid var(--neon-orange); 
@@ -57,7 +56,6 @@
             line-height: 1.6; 
         }
 
-        /* ✨ 歡迎詞與標籤區 - 解決跑位問題 */
         .greeting-box { 
             background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(0,0,0,1) 100%); 
             border-radius: 15px; 
@@ -106,14 +104,6 @@
             border-radius: 15px; 
             padding: 15px; 
             border: 1px solid #222; 
-        }
-
-        .zone-box { 
-            margin-bottom: 12px; 
-            padding: 12px; 
-            border-radius: 10px; 
-            background: rgba(255,255,255,0.02); 
-            border-left: 4px solid #444;
         }
 
         .btn-main { 
@@ -191,8 +181,8 @@
 <body>
 <div class="container">
     <div class="brand-header">
-        <h2 style="margin:0;"><span style="color:var(--gold-primary)">AI 生活小秘書</span></h2>
-        <div style="font-size: 0.85em; color: var(--gold-light);">全方位數位輔助系統核心</div>
+        <h2 style="margin:0;"><span style="color:var(--gold-primary)"><?= spMainTitle ?></span></h2>
+        <div style="font-size: 0.85em; color: var(--gold-light);"><?= spSubTitle ?></div>
     </div>
 
     <div class="保牌提示">
@@ -201,7 +191,7 @@
     </div>
 
     <div class="greeting-box">
-        <p style="margin:0; font-weight:bold; color:var(--gold-light); font-size:1em;">✨ 您好！領袖，歡迎進入數位核心...</p>
+        <p style="margin:0; font-weight:bold; color:var(--gold-light); font-size:1em;"><?= spGreeting ?></p>
         <div class="tag-container">
             <span class="keyword-tag">免費會員</span>
             <span class="keyword-tag">超級AI工具</span>
@@ -210,7 +200,7 @@
             <span class="keyword-tag">99元推薦獎金</span>
             <span class="keyword-tag">免費出國旅遊</span>
             <span class="keyword-tag">滿百提領</span>
-            <span class="keyword-tag">免年費</span>
+            <span class="keyword-tag">消費全額抵扣</span>
         </div>
     </div>
 
@@ -226,21 +216,21 @@
         <div id="verify-zone">
             <input type="tel" id="v-phone" placeholder="輸入主庫登記手機">
             <input type="text" id="v-line" placeholder="輸入主庫登記 LINE ID">
-            <button id="enroll-btn" class="btn-main btn-match" onclick="handleMatch()">驗證資格並搜尋媒合</button>
+            <button id="enroll-btn" class="btn-main btn-match" onclick="handleMatch()"><?= spMatchBtn ?></button>
         </div>
 
         <div id="match-area">
-            <div class="reward-tag">🎯 媒合成功！請執行自願贊助</div>
-            <p style="font-size:0.9em; margin-bottom:10px;">請贊助給領袖：<span id="target-name" style="color:var(--gold-light); font-weight:bold;">---</span></p>
+            <div id="dynamic-task-tag" class="reward-tag">🎯 媒合成功！請執行自願贊助</div>
+            <p style="font-size:0.9em; margin-bottom:10px;">請匯款至：<span id="target-name" style="color:var(--gold-light); font-weight:bold;">---</span></p>
             <div style="background:#000; padding:15px; border-radius:12px; border:1px solid var(--gold-primary);">
-                <p style="font-size:0.8em; color:#aaa; margin:0 0 5px 0;">受贈銀行資訊：</p>
+                <p style="font-size:0.8em; color:#aaa; margin:0 0 5px 0;">受贈帳戶資訊：</p>
                 <p style="font-size:1em; color:var(--neon-blue); margin:0; font-family: monospace;">
                     <span id="target-bank">載入中...</span>
                     <button class="copy-btn" onclick="copyAccount()">一鍵複製</button>
                 </p>
-                <p style="font-size:1.1em; font-weight:bold; color:var(--neon-red); margin:10px 0 0 0;">金額：NT$ 3,000</p>
+                <p id="dynamic-price" style="font-size:1.1em; font-weight:bold; color:var(--neon-red); margin:10px 0 0 0;">金額：NT$ 3,000</p>
             </div>
-            <button class="btn-main" style="background:var(--neon-green); color:#000; margin-top:20px;" onclick="markAsSent()">我已完成轉帳 🆗</button>
+            <button id="confirm-btn" class="btn-main" style="background:var(--neon-green); color:#000; margin-top:20px;" onclick="markAsSent()">我已完成轉帳 🆗</button>
         </div>
     </div>
 
@@ -250,8 +240,8 @@
 </div>
 
 <script>
-    // ⚠️ 請確保此處的 SCRIPT_URL 指向您的 Google Apps Script 部署網址
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec';
+    // 自動取得當前 Web App 的網址
+    const SCRIPT_URL = window.location.href.split('?')[0];
 
     async function handleMatch() {
         const phone = document.getElementById('v-phone').value.trim();
@@ -259,27 +249,48 @@
         if(!phone || !lineId) { alert('請輸入完整驗證資訊！'); return; }
 
         const btn = document.getElementById('enroll-btn');
-        btn.innerText = "⏳ 正在查驗核心數據...";
+        btn.innerText = "⏳ 正在查驗數位核心...";
         btn.disabled = true;
 
         try {
+            // 🚀 第一步：取得 1024 任務分流判定
+            const taskResp = await fetch(`${SCRIPT_URL}?action=get_task`);
+            const taskData = await taskResp.json();
+            
+            // 🚀 第二步：執行媒合
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: "requestMatch", phone, lineId })
+                body: JSON.stringify({ 
+                  action: "requestMatch", 
+                  phone: phone, 
+                  lineId: lineId,
+                  taskType: taskData.task // 將 1024 判定結果傳回後端
+                })
             });
 
             const result = await response.json();
             if (result.status === "success") {
                 document.getElementById('verify-zone').style.display = 'none';
                 document.getElementById('match-area').style.display = 'block';
+                
+                // 🎯 根據 1024 任務動態更新 UI
+                const tag = document.getElementById('dynamic-task-tag');
+                tag.innerText = `🎯 媒合成功：${taskData.task}`;
+                
+                // 若為門票任務或反哺，變更顏色以區分
+                if (taskData.target.includes("B_J_ZONE") || taskData.target.includes("A_ZONE_救災")) {
+                  tag.style.borderColor = "var(--neon-orange)";
+                  tag.style.color = "var(--neon-orange)";
+                  document.getElementById('confirm-btn').style.background = "var(--neon-orange)";
+                }
+
                 document.getElementById('target-name').innerText = result.receiver.code;
                 document.getElementById('target-bank').innerText = result.receiver.bankInfo;
-                window.currentTxId = result.txId;
-                window.currentBankInfo = result.receiver.bankInfo; 
+                
             } else {
                 alert(result.msg || "驗證失敗：請確認帳戶狀態。");
-                btn.innerText = "驗證資格並搜尋媒合";
+                btn.innerText = "<?= spMatchBtn ?>";
                 btn.disabled = false;
             }
         } catch (e) {
@@ -291,19 +302,20 @@
 
     function copyAccount() {
         const acc = document.getElementById('target-bank').innerText;
-        const accountOnly = acc.match(/\d+/); 
-        const textToCopy = accountOnly ? accountOnly[0] : acc;
+        const accountOnly = acc.match(/\d+/) ? acc.match(/\d+/)[0] : acc;
         
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(textToCopy).then(() => alert('帳號已複製！'));
-        } else {
-            alert('請手動複製帳號：' + textToCopy);
-        }
+        const tempInput = document.createElement("input");
+        tempInput.value = accountOnly;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert('帳號已複製！');
     }
 
     function markAsSent() {
         if(!confirm("確定已完成轉帳？")) return;
-        alert('✅ 已通知受贈領袖查帳！請靜候對方確認「活躍」能量。');
+        alert('✅ 已通知受贈領袖/指揮塔查帳！請靜候「活躍」能量同步。');
         location.reload();
     }
 </script>
