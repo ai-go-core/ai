@@ -34,7 +34,7 @@
                     <span class="nav-icon">👤</span>個人資產 (角色收益)
                 </a>
                 <a id="link-contact" href="#" class="nav-item" target="_blank">
-                    <span class="nav-icon">💬</span>聯繫推薦領袖 (<span id="ref-label">追蹤中</span>)
+                    <span class="nav-icon">💬</span>聯繫推薦領袖 (<span id="ref-label">鎖定中...</span>)
                 </a>
                 <a id="link-writer" href="#" class="nav-item">
                     <span class="nav-icon">⚙️</span>AI 工具箱 (武器庫)
@@ -47,7 +47,6 @@
 
     <script>
         const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
-        // 🎯 貫徹主理人意志：最終引導至官方 LINE@，避免跳線
         const ADMIN_ID = "@641zpzus"; 
 
         window.onload = function() {
@@ -57,30 +56,35 @@
 
             document.getElementById('user-badge').innerText = "👑 領袖代號：" + myId;
 
-            function syncLinks(finalRef) {
-                const query = `&user=${encodeURIComponent(myId)}&ref=${encodeURIComponent(finalRef)}`;
-                document.getElementById('link-sponsorship').href = GAS_URL + "?action=sponsorship" + query;
-                document.getElementById('link-profile').href = GAS_URL + "?action=home" + query;
-                document.getElementById('link-writer').href = GAS_URL + "?action=writer" + query;
-
+            function syncLinks(finalRef, forceAdmin = false) {
                 const contactBtn = document.getElementById('link-contact');
                 const label = document.getElementById('ref-label');
-
+                
                 let targetLineId = "";
 
-                // 🚀 優先級邏輯
+                // 🚀 核心邏輯修正：除非 forceAdmin 為 true，否則不輕易顯示官方 ID
                 if (finalRef && finalRef !== "null" && finalRef !== "") {
                     targetLineId = finalRef;
                     label.innerText = finalRef;
                 } else if (urlRef && urlRef !== "null" && urlRef !== "") {
                     targetLineId = urlRef;
                     label.innerText = urlRef;
-                } else {
+                } else if (forceAdmin) {
                     targetLineId = ADMIN_ID;
                     label.innerText = "官方客服";
+                } else {
+                    // 初始狀態或等待中
+                    label.innerText = "鎖定中...";
+                    contactBtn.href = "javascript:void(0)";
+                    return; 
                 }
 
-                // 🛠️ 判斷是否為官方帳號 (@ 開頭)
+                // 更新連結
+                const query = `&user=${encodeURIComponent(myId)}&ref=${encodeURIComponent(targetLineId)}`;
+                document.getElementById('link-sponsorship').href = GAS_URL + "?action=sponsorship" + query;
+                document.getElementById('link-profile').href = GAS_URL + "?action=home" + query;
+                document.getElementById('link-writer').href = GAS_URL + "?action=writer" + query;
+
                 if (targetLineId.startsWith('@')) {
                     contactBtn.href = "https://line.me/R/ti/p/" + targetLineId;
                 } else {
@@ -88,22 +92,29 @@
                 }
             }
 
-            // 1. 初始同步 (先用網址攜帶的 ref 墊底)
-            syncLinks(urlRef);
+            // 1. 初始同步：如果有 urlRef 就先顯示，沒有就維持「鎖定中」，不跳官方
+            syncLinks(urlRef, false);
 
-            // 2. 向後台請求 Q 欄最新數據 (直取尋祖)
+            // 2. 向後台請求 Q 欄數據
             if (myId !== "Guest") {
                 fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(myId)}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.success && data.referrerLineId) {
-                        // 🎯 成功取得 Q 欄，立即更新按鈕
-                        syncLinks(data.referrerLineId);
+                        // 🎯 抓到 Q 欄，最高優先級覆蓋
+                        syncLinks(data.referrerLineId, true);
+                    } else {
+                        // 🎯 抓不到 Q 欄，此時才允許顯示官方保底
+                        syncLinks(urlRef, true);
                     }
                 })
                 .catch(e => {
-                    console.log("尋祖同步中...");
+                    // 連線失敗也執行保底
+                    syncLinks(urlRef, true);
                 });
+            } else {
+                // 訪客直接保底
+                syncLinks(urlRef, true);
             }
         };
     </script>
