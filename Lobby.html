@@ -47,12 +47,13 @@
 
     <script>
         const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
-        const ADMIN_ID = ""; // 最終備案
+        // 🎯 貫徹主理人意志：最終引導至官方 LINE@，避免跳線
+        const ADMIN_ID = "@641zpzus"; 
 
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
             const myId = params.get('user') || params.get('id') || "Guest";
-            let urlRef = params.get('ref') || ""; // 網址帶來的推薦人
+            let urlRef = params.get('ref') || ""; 
 
             document.getElementById('user-badge').innerText = "👑 領袖代號：" + myId;
 
@@ -65,46 +66,43 @@
                 const contactBtn = document.getElementById('link-contact');
                 const label = document.getElementById('ref-label');
 
-                if (finalRef && finalRef !== "null") {
-                    contactBtn.href = "https://line.me/ti/p/~" + finalRef;
+                let targetLineId = "";
+
+                // 🚀 優先級邏輯
+                if (finalRef && finalRef !== "null" && finalRef !== "") {
+                    targetLineId = finalRef;
                     label.innerText = finalRef;
-                } else if (urlRef) {
-                    contactBtn.href = "https://line.me/ti/p/~" + urlRef;
+                } else if (urlRef && urlRef !== "null" && urlRef !== "") {
+                    targetLineId = urlRef;
                     label.innerText = urlRef;
                 } else {
-                    contactBtn.href = "https://line.me/ti/p/~" + ADMIN_ID;
+                    targetLineId = ADMIN_ID;
                     label.innerText = "官方客服";
+                }
+
+                // 🛠️ 判斷是否為官方帳號 (@ 開頭)
+                if (targetLineId.startsWith('@')) {
+                    contactBtn.href = "https://line.me/R/ti/p/" + targetLineId;
+                } else {
+                    contactBtn.href = "https://line.me/ti/p/~" + targetLineId;
                 }
             }
 
-            // 1. 初始化
+            // 1. 初始同步 (先用網址攜帶的 ref 墊底)
             syncLinks(urlRef);
 
-            // 🚀 [暴力除錯版] 從 Q 欄取回精準推薦人資訊
+            // 2. 向後台請求 Q 欄最新數據 (直取尋祖)
             if (myId !== "Guest") {
-                console.log("正在發起請求，尋找 ID:", myId);
                 fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(myId)}`)
-                .then(res => {
-                    if (!res.ok) throw new Error('網路回應不正常');
-                    return res.json();
-                })
+                .then(res => res.json())
                 .then(data => {
-                    if (data.success) {
-                        // 🎯 成功抓到資料，彈窗顯示 Q 欄內容
-                        if (data.referrerLineId) {
-                            alert("尋祖成功！Q 欄推薦人是：" + data.referrerLineId);
-                            syncLinks(data.referrerLineId);
-                        } else {
-                            alert("尋祖成功，但該帳號的 Q 欄是空的！");
-                        }
-                    } else {
-                        // 🎯 後台回報查無此人
-                        alert("後台回傳失敗：" + data.msg);
+                    if (data.success && data.referrerLineId) {
+                        // 🎯 成功取得 Q 欄，立即更新按鈕
+                        syncLinks(data.referrerLineId);
                     }
                 })
                 .catch(e => {
-                    // 🎯 根本連不上後台，通常是 GAS_URL 錯了或沒部署好
-                    alert("連線根本沒成功！請檢查 GAS_URL。錯誤訊息：" + e.message);
+                    console.log("尋祖同步中...");
                 });
             }
         };
