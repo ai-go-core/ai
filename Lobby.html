@@ -80,19 +80,32 @@
             // 1. 初始化
             syncLinks(urlRef);
 
-            // 2. 🚀 從 Q 欄取回精準推薦人資訊
+            // 🚀 [暴力除錯版] 從 Q 欄取回精準推薦人資訊
             if (myId !== "Guest") {
+                console.log("正在發起請求，尋找 ID:", myId);
                 fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(myId)}`)
-                .then(res => res.json())
+                .then(res => {
+                    if (!res.ok) throw new Error('網路回應不正常');
+                    return res.json();
+                })
                 .then(data => {
                     if (data.success) {
-                        // 這裡後台 API 必須回傳 Q 欄的數據給 data.referrerLineId
+                        // 🎯 成功抓到資料，彈窗顯示 Q 欄內容
                         if (data.referrerLineId) {
-                            console.log("Q欄尋祖成功:", data.referrerLineId);
+                            alert("尋祖成功！Q 欄推薦人是：" + data.referrerLineId);
                             syncLinks(data.referrerLineId);
+                        } else {
+                            alert("尋祖成功，但該帳號的 Q 欄是空的！");
                         }
+                    } else {
+                        // 🎯 後台回報查無此人
+                        alert("後台回傳失敗：" + data.msg);
                     }
-                }).catch(e => console.log("尋祖同步中..."));
+                })
+                .catch(e => {
+                    // 🎯 根本連不上後台，通常是 GAS_URL 錯了或沒部署好
+                    alert("連線根本沒成功！請檢查 GAS_URL。錯誤訊息：" + e.message);
+                });
             }
         };
     </script>
