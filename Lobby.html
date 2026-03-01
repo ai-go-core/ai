@@ -14,8 +14,22 @@
         .nav-container { display: flex; flex-direction: column; gap: 15px; flex-grow: 1; }
         .nav-item { width: 100%; background: linear-gradient(45deg, #D4AF37, #FFD700); border-radius: 12px; padding: 18px; text-decoration: none; color: #000 !important; font-weight: bold; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); transition: 0.2s; box-sizing: border-box; }
         .nav-item:active { transform: scale(0.97); opacity: 0.9; }
+        
+        /* 💎 新增：PV 按鈕特殊科技藍風格 */
+        .nav-item-pv { background: linear-gradient(45deg, #00c6ff, #0072ff); color: #fff !important; box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4); }
+        
         .nav-icon { font-size: 1.6rem; margin-right: 15px; width: 30px; text-align: center; }
         .footer { font-size: 0.7rem; color: #555; text-align: center; margin-top: 30px; padding-bottom: 10px; }
+
+        /* 🖼️ 新增：回報彈窗樣式 */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; justify-content: center; align-items: center; }
+        .modal-content { background: #1a1a1a; border: 2px solid #D4AF37; padding: 30px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+        .modal-title { color: #D4AF37; font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; }
+        .modal-input { width: 100%; padding: 15px; margin-bottom: 20px; background: #262626; border: 1px solid #444; color: #fff; border-radius: 10px; font-size: 1.2rem; box-sizing: border-box; text-align: center; outline: none; }
+        .modal-input:focus { border-color: #D4AF37; }
+        .btn-group { display: flex; gap: 10px; }
+        .btn-confirm { flex: 1; background: #D4AF37; color: #000; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        .btn-cancel { flex: 1; background: #333; color: #fff; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1rem; }
     </style>
 </head>
 <body>
@@ -27,6 +41,10 @@
             </div>
 
             <div class="nav-container">
+                <a href="javascript:void(0)" onclick="openPVModal()" class="nav-item nav-item-pv">
+                    <span class="nav-icon">📊</span>當月 PV 業績回報
+                </a>
+
                 <a id="link-sponsorship" href="#" class="nav-item">
                     <span class="nav-icon">💰</span>贊助回饋 (7代複利)
                 </a>
@@ -45,78 +63,114 @@
         </div>
     </div>
 
+    <div id="pvModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">📈 業績 PV 回報</div>
+            <input type="number" id="pv-value" class="modal-input" placeholder="請輸入回報點數" inputmode="decimal">
+            <div class="btn-group">
+                <button class="btn-confirm" id="submit-btn" onclick="submitPV()">確認送出</button>
+                <button class="btn-cancel" onclick="closePVModal()">取消</button>
+            </div>
+            <p style="font-size: 0.65rem; color: #888; margin-top: 15px; line-height: 1.4;">
+                溫馨提示：送出後系統將立即執行 7 代 4% 分潤計算，數據將永久鎖定於個人帳譜。
+            </p>
+        </div>
+    </div>
+
     <script>
         const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
         const ADMIN_ID = "@641zpzus"; 
 
+        const params = new URLSearchParams(window.location.search);
+        const myId = params.get('user') || params.get('id') || "Guest";
+        let urlRef = params.get('ref') || ""; 
+
         window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-            const myId = params.get('user') || params.get('id') || "Guest";
-            let urlRef = params.get('ref') || ""; 
-
             document.getElementById('user-badge').innerText = "👑 領袖代號：" + myId;
-
-            function syncLinks(finalRef, forceAdmin = false) {
-                const contactBtn = document.getElementById('link-contact');
-                const label = document.getElementById('ref-label');
-                
-                let targetLineId = "";
-
-                // 🚀 核心邏輯修正：除非 forceAdmin 為 true，否則不輕易顯示官方 ID
-                if (finalRef && finalRef !== "null" && finalRef !== "") {
-                    targetLineId = finalRef;
-                    label.innerText = finalRef;
-                } else if (urlRef && urlRef !== "null" && urlRef !== "") {
-                    targetLineId = urlRef;
-                    label.innerText = urlRef;
-                } else if (forceAdmin) {
-                    targetLineId = ADMIN_ID;
-                    label.innerText = "官方客服";
-                } else {
-                    // 初始狀態或等待中
-                    label.innerText = "鎖定中...";
-                    contactBtn.href = "javascript:void(0)";
-                    return; 
-                }
-
-                // 更新連結
-                const query = `&user=${encodeURIComponent(myId)}&ref=${encodeURIComponent(targetLineId)}`;
-                document.getElementById('link-sponsorship').href = GAS_URL + "?action=sponsorship" + query;
-                document.getElementById('link-profile').href = GAS_URL + "?action=home" + query;
-                document.getElementById('link-writer').href = GAS_URL + "?action=writer" + query;
-
-                if (targetLineId.startsWith('@')) {
-                    contactBtn.href = "https://line.me/R/ti/p/" + targetLineId;
-                } else {
-                    contactBtn.href = "https://line.me/ti/p/~" + targetLineId;
-                }
-            }
-
-            // 1. 初始同步：如果有 urlRef 就先顯示，沒有就維持「鎖定中」，不跳官方
             syncLinks(urlRef, false);
 
-            // 2. 向後台請求 Q 欄數據
             if (myId !== "Guest") {
                 fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(myId)}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.success && data.referrerLineId) {
-                        // 🎯 抓到 Q 欄，最高優先級覆蓋
                         syncLinks(data.referrerLineId, true);
                     } else {
-                        // 🎯 抓不到 Q 欄，此時才允許顯示官方保底
                         syncLinks(urlRef, true);
                     }
                 })
-                .catch(e => {
-                    // 連線失敗也執行保底
-                    syncLinks(urlRef, true);
-                });
+                .catch(e => syncLinks(urlRef, true));
             } else {
-                // 訪客直接保底
                 syncLinks(urlRef, true);
             }
         };
+
+        function syncLinks(finalRef, forceAdmin = false) {
+            const contactBtn = document.getElementById('link-contact');
+            const label = document.getElementById('ref-label');
+            let targetLineId = "";
+
+            if (finalRef && finalRef !== "null" && finalRef !== "") {
+                targetLineId = finalRef;
+                label.innerText = finalRef;
+            } else if (urlRef && urlRef !== "null" && urlRef !== "") {
+                targetLineId = urlRef;
+                label.innerText = urlRef;
+            } else if (forceAdmin) {
+                targetLineId = ADMIN_ID;
+                label.innerText = "官方客服";
+            } else {
+                label.innerText = "鎖定中...";
+                contactBtn.href = "javascript:void(0)";
+                return; 
+            }
+
+            const query = `&user=${encodeURIComponent(myId)}&ref=${encodeURIComponent(targetLineId)}`;
+            document.getElementById('link-sponsorship').href = GAS_URL + "?action=sponsorship" + query;
+            document.getElementById('link-profile').href = GAS_URL + "?action=home" + query;
+            document.getElementById('link-writer').href = GAS_URL + "?action=writer" + query;
+
+            contactBtn.href = targetLineId.startsWith('@') ? "https://line.me/R/ti/p/" + targetLineId : "https://line.me/ti/p/~" + targetLineId;
+        }
+
+        // 🟢 PV 控制邏輯
+        function openPVModal() {
+            if (myId === "Guest") { alert("請先完成註冊身分後再進行回報。"); return; }
+            document.getElementById('pvModal').style.display = 'flex';
+        }
+
+        function closePVModal() {
+            document.getElementById('pvModal').style.display = 'none';
+            document.getElementById('pv-value').value = '';
+        }
+
+        function submitPV() {
+            const val = document.getElementById('pv-value').value;
+            const btn = document.getElementById('submit-btn');
+
+            if (!val || val <= 0) { alert("請輸入正確的 PV 數值"); return; }
+
+            btn.disabled = true;
+            btn.innerText = "處理中...";
+
+            fetch(`${GAS_URL}?action=report_pv&id=${encodeURIComponent(myId)}&pv=${val}`)
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert(`✅ 成功回報 ${val} PV！\n系統已完成 7 代利潤分配。`);
+                    closePVModal();
+                } else {
+                    alert("❌ 回報異常：" + (data.msg || "請聯繫客服"));
+                    btn.disabled = false;
+                    btn.innerText = "確認送出";
+                }
+            })
+            .catch(e => {
+                alert("連線超時，請檢查網路。");
+                btn.disabled = false;
+                btn.innerText = "確認送出";
+            });
+        }
     </script>
 </body>
 </html>
