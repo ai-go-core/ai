@@ -3,18 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 領袖屬性面板 - 視覺修正版</title>
+    <title>AI 領袖屬性面板 | 數據同步版</title>
     <style>
-        /* ✨ 動畫：呼吸感金蛋 */
+        /* ✨ 動畫與樣式保持主理人喜好的黑金風格 */
         @keyframes eggBreath { 
             0%, 100% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.4)); } 
             50% { transform: scale(1.04); filter: brightness(1.2) drop-shadow(0 0 30px rgba(255, 215, 0, 0.7)); } 
         }
-        @keyframes energyPulse {
-            0% { opacity: 0.2; transform: scale(0.9); }
-            50% { opacity: 0.5; transform: scale(1.1); }
-            100% { opacity: 0.2; transform: scale(0.9); }
-        }
+        @keyframes energyPulse { 0% { opacity: 0.2; transform: scale(0.9); } 50% { opacity: 0.5; transform: scale(1.1); } 100% { opacity: 0.2; transform: scale(0.9); } }
         @keyframes holyShine { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.5) drop-shadow(0 0 10px #FFD700); } }
         @keyframes pulseMining { 0%, 100% { filter: drop-shadow(0 0 3px #00E5FF); } 50% { filter: drop-shadow(0 0 12px #00E5FF); } }
 
@@ -22,60 +18,22 @@
         .glow-box { width: 92%; max-width: 420px; background: #000; border-radius: 25px; margin: 20px 0; border: 1px solid #333; overflow: hidden; position: relative; padding-bottom: 20px; }
         .inner-content { padding: 20px; display: flex; flex-direction: column; }
 
-        /* 進度條 */
         .top-hatch-area { margin-bottom: 25px; }
         .hatch-bar-bg { width: 100%; height: 12px; background: #222; border-radius: 10px; border: 1px solid #444; overflow: hidden; }
         .hatch-bar-fill { height: 100%; transition: width 1.5s ease; box-shadow: 0 0 15px #FFD700; background: linear-gradient(90deg, #FFD700, #FFFACD); }
 
-        /* 核心區 */
-        .hero-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            padding-bottom: 10px;
-            margin-top: 10px;
-        }
+        .hero-container { display: flex; flex-direction: column; align-items: center; position: relative; padding-bottom: 10px; margin-top: 10px; }
+        .egg-wrapper { position: relative; width: 150px; height: 200px; z-index: 1; animation: eggBreath 3s ease-in-out infinite; }
+        .egg-main { width: 100%; height: 100%; border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%; background: radial-gradient(circle at 35% 35%, #fff 0%, #ffd700 45%, #8b6508 100%); border: 2px solid rgba(212, 175, 55, 0.8); position: relative; }
+        .egg-glow-aura { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 220px; height: 260px; background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%); z-index: -1; animation: energyPulse 4s infinite; }
 
-        .egg-wrapper {
-            position: relative;
-            width: 150px; 
-            height: 200px;
-            z-index: 1;
-            animation: eggBreath 3s ease-in-out infinite;
-        }
-        .egg-main { 
-            width: 100%; height: 100%; border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%; 
-            background: radial-gradient(circle at 35% 35%, #fff 0%, #ffd700 45%, #8b6508 100%);
-            border: 2px solid rgba(212, 175, 55, 0.8); position: relative;
-        }
-        .egg-glow-aura {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 220px; height: 260px; background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%);
-            z-index: -1; animation: energyPulse 4s infinite;
-        }
-
-        .leader-info-block {
-            width: 100%;
-            display: flex;
-            justify-content: space-between; 
-            align-items: flex-end;
-            padding: 0 5px;
-            margin-top: 20px; 
-            z-index: 2;
-        }
-
+        .leader-info-block { width: 100%; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 5px; margin-top: 20px; z-index: 2; }
         .info-left { display: flex; flex-direction: column; align-items: flex-start; }
         .leader-title { color: #FFD700; font-size: 0.75rem; font-weight: bold; margin-bottom: 2px; }
         .leader-name { font-size: 1.4rem; font-weight: 900; margin: 2px 0; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
         .leader-tag { color: #D4AF37; font-size: 0.85rem; }
 
-        .sc-display { 
-            display: inline-flex; align-items: center; background: rgba(0, 229, 255, 0.1); 
-            border: 1px solid #00E5FF; padding: 6px 14px; border-radius: 20px;
-            box-shadow: 0 2px 10px rgba(0, 229, 255, 0.2);
-        }
-
+        .sc-display { display: inline-flex; align-items: center; background: rgba(0, 229, 255, 0.1); border: 1px solid #00E5FF; padding: 6px 14px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0, 229, 255, 0.2); }
         .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
         .stat-card { background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 12px; border: 1px solid #333; text-align: center; }
         .card-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border-left: 4px solid #D4AF37; margin-bottom: 12px; cursor: pointer; }
@@ -98,7 +56,7 @@
     <div class="inner-content">
         <div class="top-hatch-area">
             <div style="display:flex; justify-content:space-between; color:#FFD700; font-size:0.85rem; font-weight:bold; margin-bottom:8px;">
-                <span>🐣 破蛋孵化進度</span><span id="hatch-pct">0%</span>
+                <span>🐣 角色卵孵化進度</span><span id="hatch-pct">0%</span>
             </div>
             <div class="hatch-bar-bg"><div id="hatch-fill" class="hatch-bar-fill" style="width: 0%;"></div></div>
         </div>
@@ -106,16 +64,14 @@
         <div class="hero-container">
             <div class="egg-glow-aura"></div>
             <div class="egg-wrapper">
-                <div id="dynamic-egg" class="egg-main">
-                    <div id="crack-container" style="position:absolute; width:100%; height:100%;"></div>
-                </div>
+                <div id="dynamic-egg" class="egg-main"></div>
             </div>
             
             <div class="leader-info-block">
                 <div class="info-left">
                     <div class="leader-title">🎖️ 封測先鋒領袖</div>
-                    <div id="u-name" class="leader-name">載入中...</div>
-                    <div id="u-team" class="leader-tag">數位分身同步中</div>
+                    <div id="u-name" class="leader-name">數據加載中...</div>
+                    <div id="u-team" class="leader-tag">數位分身連線中</div>
                 </div>
                 <div class="sc-display">
                     <span id="u-sc" style="color:#00E5FF; font-weight:bold; font-size:1.1rem;">0</span>
@@ -151,84 +107,76 @@
         </div>
 
         <div class="asset-bar">
-            <div class="asset-btn">
-                <span style="font-size:1.8rem; display:block;">🥚</span>
-                <span class="asset-label">角色卵</span>
-            </div>
-            <div class="asset-btn mining-glow">
-                <span style="font-size:1.8rem; display:block;">🏭</span>
-                <span class="asset-label">算力礦場</span>
-            </div>
-            <div class="asset-btn">
-                <span class="medal-icon">🏆</span>
-                <span class="asset-label">創世勳章</span>
-            </div>
+            <div class="asset-btn"><span style="font-size:1.8rem; display:block;">🥚</span><span class="asset-label">角色卵</span></div>
+            <div class="asset-btn mining-glow"><span style="font-size:1.8rem; display:block;">🏭</span><span class="asset-label">算力礦場</span></div>
+            <div class="asset-btn"><span class="medal-icon">🏆</span><span class="asset-label">創世勳章</span></div>
         </div>
 
-        <a id="back-home" href="Lobby.html" class="card-box" style="text-align:center; color:#000; background:linear-gradient(180deg, #D4AF37, #B8860B); font-weight:bold; text-decoration:none; display:block;">返回 AI 指令大廳</a>
-        <div class="system-footer">最終解釋權歸系統核心所有</div>
+        <a id="back-home" href="#" class="card-box" style="text-align:center; color:#000; background:linear-gradient(180deg, #D4AF37, #B8860B); font-weight:bold; text-decoration:none; display:block;">返回 AI 指令大廳</a>
+        <div class="system-footer">最終解釋權歸系統核心所有 | 目錄大廳輸入 M</div>
     </div>
 </div>
 
 <script>
-    // 🚀 核心 API 位址
+    // 🚀 使用您最新的 GAS API 位址
     const API = "https://script.google.com/macros/s/AKfycbyZBh3TzIOpmP9qzZ8YZPeZbVbs2J_gVbjsWw0ZJzWlD9eB_LSJ7-wePJj8oYTyT9Do/exec";
 
     window.onload = function() {
-        // 🚀 1. 修正：同時抓取推薦人(id)與主人代號(user)
         const urlParams = new URLSearchParams(window.location.search);
-        const refId = urlParams.get('id');
-        const myCode = urlParams.get('user');
+        const refId = urlParams.get('id');   // 推薦人 ID
+        const myCode = urlParams.get('user'); // 本人領袖代號
 
-        // 🚀 2. 修正：返回大廳時，要把身分帶回去，否則大廳會變「失憶」
+        // 🚀 修正：動態建構返回連結，確保身分鎖定
         const backBtn = document.getElementById('back-home');
-        backBtn.href = "Lobby.html?id=" + (refId || "") + "&user=" + (myCode || "");
+        const queryStr = `?id=${encodeURIComponent(refId || "")}&user=${encodeURIComponent(myCode || "")}`;
+        backBtn.href = "Lobby.html" + queryStr;
 
-        // 🚀 3. 修正：優先使用本人代號向資料庫請求數據
+        // 🚀 數據請求核心邏輯
         if (myCode && myCode !== "null") {
             loadData(myCode);
         } else if (refId && refId !== "null") {
-            // 如果只有推薦人 ID (通常是舊版相容)，則嘗試載入該 ID
-            loadData(refId);
+            loadData(refId); // 兼容模式
         } else {
-            document.getElementById('u-name').innerText = "未登入領袖";
+            document.getElementById('u-name').innerText = "訪客領袖";
         }
     };
 
     async function loadData(targetId) {
         try {
-            // 🚀 4. 發送請求：使用 action=get_leader_data 取得該代號的資料
+            // 使用 action=get_leader_data 向後台請求
             const r = await fetch(`${API}?action=get_leader_data&id=${encodeURIComponent(targetId)}`);
             const d = await r.json();
             
             if (d.success) {
-                // 渲染資料
-                document.getElementById('u-name').innerText = d.name || "領袖";
-                document.getElementById('u-team').innerText = d.teamCode || "數位分身同步中";
-                document.getElementById('u-sc').innerText = formatVal(d.sc);
+                // 渲染基礎資料
+                document.getElementById('u-name').innerText = d.name || targetId;
+                document.getElementById('u-team').innerText = d.teamCode || "創建數位分身";
+                document.getElementById('u-sc').innerText = formatVal(d.sc || 0);
                 
-                // 累積收益 (50基數 + 獎金)
+                // 收益計算：50元開戶金 + 獎金
                 const bonus = Number(d.bonusPaid) || 0;
                 document.getElementById('u-cum').innerText = "NT$ " + (50 + bonus).toLocaleString();
                 
+                // 團隊數據
                 document.getElementById('u-group').innerText = d.groupTotal || 0;
                 document.getElementById('u-sys').innerText = d.sysTotal || 0;
                 
-                // 旅遊進度
+                // 旅遊積分進度 (300分門檻)
                 let tvl = Number(d.travel) || 0;
                 document.getElementById('u-travel').innerText = tvl + " / 300";
                 document.getElementById('travel-fill').style.width = Math.min(100, (tvl/300)*100) + "%";
 
-                // 孵化進度 (假設 1000 人為滿)
-                let progress = Math.min(100, (Number(d.groupTotal)/1000)*100);
+                // 🐣 孵化進度：以個人小組達 10 人為 100% 階段性破殼 (可自定義基數)
+                let hatchBase = 10; 
+                let progress = Math.min(100, (Number(d.groupTotal)/hatchBase)*100);
                 document.getElementById('hatch-fill').style.width = progress + "%";
                 document.getElementById('hatch-pct').innerText = Math.floor(progress) + "%";
             } else {
-                document.getElementById('u-name').innerText = "查無領袖資料";
+                document.getElementById('u-name').innerText = "查無此代號";
             }
         } catch(e) { 
-            console.error("ERR", e); 
-            document.getElementById('u-name').innerText = "系統連線失敗";
+            console.error("Connection ERR", e); 
+            document.getElementById('u-name').innerText = "系統校準中...";
         }
     }
 
