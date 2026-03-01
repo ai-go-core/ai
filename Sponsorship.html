@@ -162,44 +162,45 @@
     <div class="核心準則">
         <i class="fas fa-sync-alt"></i> <strong>5050 豬羊變色機制：</strong><br>
         • 每 1024 號啟動一次<strong>反哺任務</strong>。<br>
-        • <strong>點對點贊助</strong>：3,000 元直接匯入，不經平台，資產無損。
+        • <strong>點對點贊助</strong>：3,000 元直接匯入受贈領袖，不經平台，100% 無損。
     </div>
 
     <div class="special-offer">
-        <i class="fas fa-rocket"></i> <strong style="color: var(--neon-blue);">初期再贊助限定特權</strong><br>
+        <i class="fas fa-rocket"></i> <strong style="color: var(--neon-blue);">加速特權：序號 +10 加贈</strong><br>
         <span style="font-size: 0.85em;">
-            當序號推進滿 +10 號，可額外消費 1500 PV，<br>
-            <strong>再次啟動 3,000 元贊助，加速卡位！</strong>
+            當系統序號每前進 10 號，原持有者解鎖<strong>額外贊助權</strong>，<br>
+            消費 1500 PV 即可再次卡位 3,000 元點對點席位！
         </span>
     </div>
 
     <div class="condition-box">
         <div style="font-size: 0.85em; color: var(--neon-green);">
-            <i class="fas fa-check-circle"></i> <strong>參與條件 (與 SC 無涉)：</strong><br>
-            • <strong>門票資格</strong>：單筆消費 1500 PV (日用品到手)。<br>
-            • <strong>活躍維護</strong>：每月至少 1 PV 消保。
+            <i class="fas fa-check-circle"></i> <strong>參與門檻：</strong><br>
+            • <strong>消費先行</strong>：單筆消費 1500 PV (與 SC 無涉)。<br>
+            • <strong>活躍維護</strong>：每月至少 1 PV 消費，證明真實參與。
         </div>
     </div>
 
-    <div class="section-title">🚀 啟動 1024 節點媒合</div>
+    <div class="section-title">🚀 執行 1024 節點媒合</div>
     <div class="report-card">
         <div id="verify-zone">
+            <p style="font-size:0.8em; color:#aaa; margin-bottom:10px;">當前用戶：<span id="display-user">檢測中...</span></p>
             <input type="tel" id="v-phone" placeholder="輸入主庫登記手機">
             <input type="text" id="v-line" placeholder="輸入主庫登記 LINE ID">
-            <button id="enroll-btn" class="btn-main btn-match" onclick="handleMatch()">開始節點對接</button>
+            <button id="enroll-btn" class="btn-main btn-match" onclick="handleMatch()">開始媒合贊助對象</button>
         </div>
 
         <div id="match-area">
-            <div id="dynamic-task-tag" class="reward-tag">🎯 數據流校準中...</div>
+            <div id="dynamic-task-tag" class="reward-tag">🎯 任務生成中...</div>
             <p style="font-size:0.9em; margin-bottom:10px;">請匯款至受贈對象：<span id="target-name" style="color:var(--gold-light); font-weight:bold;">---</span></p>
             <div style="background:#000; padding:15px; border-radius:12px; border:1px solid var(--gold-primary);">
-                <p style="font-size:0.8em; color:#aaa; margin:0 0 5px 0;">點對點帳戶資訊：</p>
+                <p style="font-size:0.8em; color:#aaa; margin:0 0 5px 0;">受贈帳戶資訊：</p>
                 <p style="font-size:1em; color:var(--neon-blue); margin:0; font-family: monospace;">
                     <span id="target-bank">載入中...</span>
                 </p>
                 <p style="font-size:1.1em; font-weight:bold; color:var(--neon-red); margin:10px 0 0 0;">金額：NT$ 3,000</p>
             </div>
-            <button id="confirm-btn" class="btn-main" style="background:var(--neon-green); color:#000; margin-top:20px;" onclick="markAsSent()">我已完成轉帳 🆗</button>
+            <button id="confirm-btn" class="btn-main" style="background:var(--neon-green); color:#000; margin-top:20px;" onclick="markAsSent()">我已完成點對點轉帳 🆗</button>
         </div>
     </div>
 
@@ -208,34 +209,40 @@
     </a>
 
     <div class="footer-text">
-        🛡️ 數位代號：創建數位分身 | 本頁面為 1024 加速器專區
+        🛡️ 數位代號：創建數位分身 | 認可編號：<?= sn ?>
     </div>
 </div>
 
 <script>
-    // 🔗 這裡需填寫您 GAS 部署後產生的 Web App URL (結尾是 /exec)
-    const GAS_BACKEND_URL = "您的_GAS_發布網址_在此"; 
+    // 從網址解析參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentUser = urlParams.get('user') || '未識別';
+    const currentRef = urlParams.get('ref') || 'none';
+    const GAS_URL = window.location.href.split('?')[0]; // 自動獲取當前 GAS Exec 網址
+
+    document.getElementById('display-user').innerText = currentUser;
 
     async function handleMatch() {
         const phone = document.getElementById('v-phone').value.trim();
         const lineId = document.getElementById('v-line').value.trim();
-        if(!phone || !lineId) { alert('請輸入驗證資訊！'); return; }
+        if(!phone || !lineId) { alert('請填寫驗證資訊！'); return; }
 
         const btn = document.getElementById('enroll-btn');
         btn.innerText = "⏳ 1024 節點判定中...";
         btn.disabled = true;
 
         try {
-            // 從 GAS 獲取當前任務序號
-            const taskResp = await fetch(`${GAS_BACKEND_URL}?action=get_task`);
+            // 呼叫您的 calculateSponsorshipTask()
+            const taskResp = await fetch(`${GAS_URL}?action=get_task`);
             const taskData = await taskResp.json();
             
-            // 提交驗證
-            const response = await fetch(GAS_BACKEND_URL, {
+            const response = await fetch(GAS_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({ 
                   action: "requestMatch", 
+                  user: currentUser,
+                  ref: currentRef,
                   phone: phone, 
                   lineId: lineId,
                   sn: taskData.sn,
@@ -247,24 +254,24 @@
             if (result.status === "success") {
                 document.getElementById('verify-zone').style.display = 'none';
                 document.getElementById('match-area').style.display = 'block';
-                document.getElementById('dynamic-task-tag').innerText = `🎯 序列 #${taskData.sn} | 任務：${taskData.task}`;
+                document.getElementById('dynamic-task-tag').innerText = `🎯 序號 #${taskData.sn} | ${taskData.task}`;
                 document.getElementById('target-name').innerText = result.receiver.code;
                 document.getElementById('target-bank').innerText = result.receiver.bankInfo;
             } else {
-                alert(result.msg || "資格判定未通過。");
+                alert(result.msg || "未達 1500 PV 門檻或資格不符。");
                 btn.disabled = false;
-                btn.innerText = "開始節點對接";
+                btn.innerText = "重新啟動媒合";
             }
         } catch (e) {
-            alert('❌ 節點連線失敗，請確認 GAS 後端已正確部署。');
+            alert('❌ 節點連線超時，請檢查網路。');
             btn.disabled = false;
         }
     }
 
     function markAsSent() {
-        if(!confirm("確定已完成點對點轉帳？")) return;
-        alert('✅ 已通知受贈方！');
-        window.location.href = "https://ai-go-core.github.io/ai/"; // 完成後導回主門戶
+        if(!confirm("確定已完成轉帳？")) return;
+        alert('✅ 訊息已發送至核心系統，請靜候對方確認。');
+        window.location.href = "https://ai-go-core.github.io/ai/"; 
     }
 </script>
 </body>
