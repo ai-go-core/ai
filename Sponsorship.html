@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <title><?= webMainTitle ?> | 贊助升級核心</title>
+    <title>AI 生活小秘書 | 5050 數位分身贊助核心</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
@@ -34,7 +34,7 @@
             border-radius: 20px; 
             padding: 20px; 
             box-sizing: border-box;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
             margin: 10px;
         }
 
@@ -45,59 +45,43 @@
             text-align: center; 
         }
 
-        /* 🚀 修正：5050 核心提示 */
+        /* 🚀 核心邏輯：5050 互換與反哺 */
         .核心準則 { 
-            background: rgba(0, 229, 255, 0.1); 
-            border: 1px solid var(--neon-blue); 
+            background: rgba(255, 68, 68, 0.1); 
+            border: 1px solid var(--neon-red); 
             padding: 12px; 
             border-radius: 12px; 
             margin-bottom: 15px; 
             font-size: 0.85em; 
-            color: var(--neon-blue); 
+            color: #ffcccc; 
             line-height: 1.6; 
         }
 
-        .greeting-box { 
-            background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(0,0,0,1) 100%); 
-            border-radius: 15px; 
-            padding: 18px; 
+        /* 🎁 限定優惠：+10 加速機制 */
+        .special-offer {
+            background: linear-gradient(45deg, rgba(0, 229, 255, 0.2), rgba(0, 255, 136, 0.2));
+            border: 2px dashed var(--neon-blue);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .condition-box { 
+            background: rgba(0, 255, 136, 0.05); 
+            border-radius: 12px; 
+            padding: 15px; 
             margin-bottom: 20px; 
-            border: 1px solid rgba(212,175,55,0.3); 
-        }
-
-        .tag-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 10px;
-        }
-
-        .keyword-tag { 
-            background: rgba(212, 175, 55, 0.1); 
-            color: var(--gold-light); 
-            padding: 4px 10px; 
-            border-radius: 6px; 
-            font-size: 0.75em; 
-            border: 1px solid rgba(212,175,55,0.3);
-            white-space: nowrap;
+            border: 1px solid var(--neon-green); 
         }
 
         .section-title { 
             font-size: 0.95em; 
             color: var(--gold-primary); 
-            text-align: left; 
             margin: 25px 0 12px 0; 
             border-left: 4px solid var(--gold-primary); 
             padding-left: 10px; 
             font-weight: bold; 
-        }
-
-        .condition-box { 
-            background: rgba(255, 140, 0, 0.05); 
-            border-radius: 12px; 
-            padding: 15px; 
-            margin-bottom: 20px; 
-            border: 1px solid var(--neon-orange); 
         }
 
         .report-card { 
@@ -110,23 +94,17 @@
         .btn-main { 
             width: 100%; 
             padding: 16px; 
-            border: none; 
             border-radius: 12px; 
             font-weight: 800; 
             cursor: pointer; 
             transition: 0.3s; 
-            margin-top: 10px; 
             font-size: 1.05em; 
-            display: block; 
-            text-align: center; 
-            text-decoration: none; 
-            box-sizing: border-box; 
+            border: none;
         }
 
         .btn-match { 
             background: linear-gradient(45deg, #D4AF37, #FFD700); 
             color: #000; 
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); 
         }
 
         input { 
@@ -138,122 +116,102 @@
             border-radius: 10px; 
             box-sizing: border-box; 
             margin-bottom: 12px; 
-            font-size: 1em; 
             outline: none;
         }
 
-        input:focus { border-color: var(--gold-primary); }
-
         .reward-tag { 
             display: block; 
-            background: rgba(0, 255, 136, 0.1); 
-            color: var(--neon-green); 
+            background: rgba(255, 140, 0, 0.1); 
+            color: var(--neon-orange); 
             padding: 10px; 
             border-radius: 8px; 
-            font-weight: bold; 
-            margin-bottom: 15px; 
             text-align: center; 
-            border: 1px solid var(--neon-green); 
-        }
-
-        .copy-btn { 
-            background: var(--neon-blue); 
-            border: none; 
-            color: #000; 
-            cursor: pointer; 
-            font-size: 0.75em; 
-            padding: 4px 10px; 
-            border-radius: 6px; 
-            margin-left: 10px; 
+            border: 1px solid var(--neon-orange); 
+            margin-bottom: 15px;
             font-weight: bold;
         }
 
-        #match-area { display: none; margin-top: 15px; }
+        #match-area { display: none; }
 
         .footer-text { 
             text-align: center; 
             margin-top: 30px; 
             font-size: 0.75em; 
             color: #555; 
-            padding-bottom: 20px;
         }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="brand-header">
-        <h2 style="margin:0;"><span style="color:var(--gold-primary)"><?= spMainTitle ?></span></h2>
-        <div style="font-size: 0.85em; color: var(--gold-light);">AI 生活小秘書 · 全方位數位輔助</div>
+        <h2 style="margin:0;"><span style="color:var(--gold-primary)">5050 數位分身</span></h2>
+        <div style="font-size: 0.85em; color: var(--gold-light);">AI 生活小秘書 · 1024 節點加速器</div>
     </div>
 
     <div class="核心準則">
-        <i class="fas fa-shield-alt"></i> <strong>5050 終極分潤核心：</strong><br>
-        1. <strong>50% 推薦獎勵</strong>：直接撥發給推薦領袖。<br>
-        2. <strong>50% 系統回饋</strong>：撥入數位資產池，由 1024 節點任務分配，啟動 7 代 4% 複利收益。
+        <i class="fas fa-sync-alt"></i> <strong>5050 豬羊變色機制：</strong><br>
+        • 1024 節點循環：每 1024 號啟動一次<strong>反哺任務</strong>。<br>
+        • 完成 J 區終點後，下一位贊助者啟動 A 區反哺。<br>
+        • <strong>點對點贊助</strong>：3,000 元直接匯入，不經平台，資產無損。
     </div>
 
-    <div class="greeting-box">
-        <p style="margin:0; font-weight:bold; color:var(--gold-light); font-size:1em;"><?= spGreeting ?></p>
-        <div class="tag-container">
-            <span class="keyword-tag">免費會員</span>
-            <span class="keyword-tag">5050分潤</span>
-            <span class="keyword-tag">1024節點</span>
-            <span class="keyword-tag">50元購物金</span>
-            <span class="keyword-tag">99元推薦金</span>
-            <span class="keyword-tag">7代4%利潤</span>
-            <span class="keyword-tag">消費全額抵扣</span>
-            <span class="keyword-tag">滿百提領</span>
-        </div>
+    <div class="special-offer">
+        <i class="fas fa-rocket"></i> <strong style="color: var(--neon-blue);">初期再贊助限定特權</strong><br>
+        <span style="font-size: 0.85em;">
+            當系統序號推進滿 10 號（如 A0001 ➔ A0011），<br>
+            原序號持有者可額外消費 1500 PV，<br>
+            <strong>解鎖第二次 3,000 元贊助機會！</strong><br>
+            (此特權不受每月限額 1 組之限制)
+        </span>
     </div>
 
     <div class="condition-box">
-        <div style="font-size: 0.85em; color: var(--neon-orange);">
-            <i class="fas fa-bolt"></i> <strong>數位節點激活狀態：</strong><br>
-            • 活化門檻：帳戶需達 1024 PV<br>
-            • 贊助效力：固定為 NT$ 3,000 / 次<br>
-            • 系統僅媒合<strong>「活躍」</strong>領袖，未滿門檻將跳過受贈權利。
+        <div style="font-size: 0.85em; color: var(--neon-green);">
+            <i class="fas fa-check-circle"></i> <strong>參與條件 (與 SC 無涉)：</strong><br>
+            • <strong>門票資格</strong>：單筆消費 1500 PV (日用品到手)。<br>
+            • <strong>節奏控制</strong>：每月購足 1500 PV 可獲 1 組進場名額。<br>
+            • <strong>活躍維護</strong>：每月至少 1 PV 消保，維持真實消費身份。<br>
+            • <strong>媒合對象</strong>：由 1024 算法自動分配對接。
         </div>
     </div>
 
-    <div class="section-title">🚀 創建數位分身 · 1024 節點媒合</div>
+    <div class="section-title">🚀 啟動 1024 節點媒合</div>
     <div class="report-card">
         <div id="verify-zone">
             <input type="tel" id="v-phone" placeholder="輸入主庫登記手機">
             <input type="text" id="v-line" placeholder="輸入主庫登記 LINE ID">
-            <button id="enroll-btn" class="btn-main btn-match" onclick="handleMatch()">開始 1024 節點媒合</button>
+            <button id="enroll-btn" class="btn-main btn-match" onclick="handleMatch()">開始節點對接</button>
         </div>
 
         <div id="match-area">
-            <div id="dynamic-task-tag" class="reward-tag">🎯 1024 節點對接成功！</div>
+            <div id="dynamic-task-tag" class="reward-tag">🎯 數據流校準中...</div>
             <p style="font-size:0.9em; margin-bottom:10px;">請匯款至受贈對象：<span id="target-name" style="color:var(--gold-light); font-weight:bold;">---</span></p>
             <div style="background:#000; padding:15px; border-radius:12px; border:1px solid var(--gold-primary);">
-                <p style="font-size:0.8em; color:#aaa; margin:0 0 5px 0;">受贈帳戶資訊：</p>
+                <p style="font-size:0.8em; color:#aaa; margin:0 0 5px 0;">點對點帳戶資訊：</p>
                 <p style="font-size:1em; color:var(--neon-blue); margin:0; font-family: monospace;">
                     <span id="target-bank">載入中...</span>
-                    <button class="copy-btn" onclick="copyAccount()">一鍵複製</button>
                 </p>
-                <p id="dynamic-price" style="font-size:1.1em; font-weight:bold; color:var(--neon-red); margin:10px 0 0 0;">金額：NT$ 3,000</p>
+                <p style="font-size:1.1em; font-weight:bold; color:var(--neon-red); margin:10px 0 0 0;">金額：NT$ 3,000</p>
             </div>
-            <button id="confirm-btn" class="btn-main" style="background:var(--neon-green); color:#000; margin-top:20px;" onclick="markAsSent()">我已完成贊助轉帳 🆗</button>
+            <button id="confirm-btn" class="btn-main" style="background:var(--neon-green); color:#000; margin-top:20px;" onclick="markAsSent()">我已完成轉帳 🆗</button>
         </div>
     </div>
 
     <div class="footer-text">
-        🛡️ 最終解釋權歸系統核心所有 | 數位代號：創建數位分身
+        🛡️ 數位代號：創建數位分身 | PV 僅作為資格檢驗之用
     </div>
 </div>
 
 <script>
-    // 腳本邏輯保持不變，對接後端分流判定...
     const SCRIPT_URL = window.location.href.split('?')[0];
 
     async function handleMatch() {
         const phone = document.getElementById('v-phone').value.trim();
         const lineId = document.getElementById('v-line').value.trim();
-        if(!phone || !lineId) { alert('請輸入完整驗證資訊！'); return; }
+        if(!phone || !lineId) { alert('請輸入驗證資訊！'); return; }
 
         const btn = document.getElementById('enroll-btn');
-        btn.innerText = "⏳ 正在校準 1024 數據流...";
+        btn.innerText = "⏳ 1024 節點判定中...";
         btn.disabled = true;
 
         try {
@@ -267,7 +225,8 @@
                   action: "requestMatch", 
                   phone: phone, 
                   lineId: lineId,
-                  taskType: taskData.task 
+                  sn: taskData.sn,
+                  task: taskData.task 
                 })
             });
 
@@ -277,45 +236,30 @@
                 document.getElementById('match-area').style.display = 'block';
                 
                 const tag = document.getElementById('dynamic-task-tag');
-                tag.innerText = `🎯 節點對接：${taskData.task}`;
+                tag.innerText = `🎯 序列 #${taskData.sn} | 任務：${taskData.task}`;
                 
-                if (taskData.target && (taskData.target.includes("B_J_ZONE") || taskData.target.includes("A_ZONE_救災"))) {
-                  tag.style.borderColor = "var(--neon-orange)";
-                  tag.style.color = "var(--neon-orange)";
-                  document.getElementById('confirm-btn').style.background = "var(--neon-orange)";
+                if (taskData.task === "反哺任務") {
+                    tag.style.background = "var(--neon-red)";
+                    tag.style.color = "#fff";
                 }
 
                 document.getElementById('target-name').innerText = result.receiver.code;
                 document.getElementById('target-bank').innerText = result.receiver.bankInfo;
                 
             } else {
-                alert(result.msg || "驗證失敗：請確認帳戶狀態。");
-                btn.innerText = "開始 1024 節點媒合";
+                alert(result.msg || "資格判定未通過。");
                 btn.disabled = false;
+                btn.innerText = "開始節點對接";
             }
         } catch (e) {
-            alert('❌ 系統對接失敗，請聯繫 AI 生活小秘書。');
+            alert('❌ 節點連線失敗。');
             btn.disabled = false;
-            btn.innerText = "重新校準驗證";
         }
     }
 
-    function copyAccount() {
-        const acc = document.getElementById('target-bank').innerText;
-        const accountOnly = acc.match(/\d+/) ? acc.match(/\d+/)[0] : acc;
-        
-        const tempInput = document.createElement("input");
-        tempInput.value = accountOnly;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand("copy");
-        document.body.removeChild(tempInput);
-        alert('帳號已複製！');
-    }
-
     function markAsSent() {
-        if(!confirm("確定已完成轉帳？")) return;
-        alert('✅ 已通知受贈領袖！\n1024 能量將在查帳後自動同步至您的帳譜。');
+        if(!confirm("確定已完成點對點轉帳？")) return;
+        alert('✅ 已通知受贈方！系統將追蹤 1024 能量同步狀態。');
         location.reload();
     }
 </script>
