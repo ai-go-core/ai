@@ -22,7 +22,8 @@
             color: #fff; 
             margin: 0; 
             display: flex; 
-            justify-content: center; 
+            flex-direction: column;
+            align-items: center; 
             min-height: 100vh; 
         }
 
@@ -45,7 +46,6 @@
             text-align: center; 
         }
 
-        /* 🚀 核心邏輯：5050 互換與反哺 */
         .核心準則 { 
             background: rgba(255, 68, 68, 0.1); 
             border: 1px solid var(--neon-red); 
@@ -57,7 +57,6 @@
             line-height: 1.6; 
         }
 
-        /* 🎁 限定優惠：+10 加速機制 */
         .special-offer {
             background: linear-gradient(45deg, rgba(0, 229, 255, 0.2), rgba(0, 255, 136, 0.2));
             border: 2px dashed var(--neon-blue);
@@ -100,11 +99,22 @@
             transition: 0.3s; 
             font-size: 1.05em; 
             border: none;
+            display: block;
+            text-align: center;
+            text-decoration: none;
         }
 
         .btn-match { 
             background: linear-gradient(45deg, #D4AF37, #FFD700); 
             color: #000; 
+        }
+
+        .btn-home {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid #444;
+            margin-top: 20px;
+            font-size: 0.9em;
         }
 
         input { 
@@ -138,6 +148,7 @@
             margin-top: 30px; 
             font-size: 0.75em; 
             color: #555; 
+            padding-bottom: 20px;
         }
     </style>
 </head>
@@ -150,18 +161,15 @@
 
     <div class="核心準則">
         <i class="fas fa-sync-alt"></i> <strong>5050 豬羊變色機制：</strong><br>
-        • 1024 節點循環：每 1024 號啟動一次<strong>反哺任務</strong>。<br>
-        • 完成 J 區終點後，下一位贊助者啟動 A 區反哺。<br>
+        • 每 1024 號啟動一次<strong>反哺任務</strong>。<br>
         • <strong>點對點贊助</strong>：3,000 元直接匯入，不經平台，資產無損。
     </div>
 
     <div class="special-offer">
         <i class="fas fa-rocket"></i> <strong style="color: var(--neon-blue);">初期再贊助限定特權</strong><br>
         <span style="font-size: 0.85em;">
-            當系統序號推進滿 10 號（如 A0001 ➔ A0011），<br>
-            原序號持有者可額外消費 1500 PV，<br>
-            <strong>解鎖第二次 3,000 元贊助機會！</strong><br>
-            (此特權不受每月限額 1 組之限制)
+            當序號推進滿 +10 號，可額外消費 1500 PV，<br>
+            <strong>再次啟動 3,000 元贊助，加速卡位！</strong>
         </span>
     </div>
 
@@ -169,9 +177,7 @@
         <div style="font-size: 0.85em; color: var(--neon-green);">
             <i class="fas fa-check-circle"></i> <strong>參與條件 (與 SC 無涉)：</strong><br>
             • <strong>門票資格</strong>：單筆消費 1500 PV (日用品到手)。<br>
-            • <strong>節奏控制</strong>：每月購足 1500 PV 可獲 1 組進場名額。<br>
-            • <strong>活躍維護</strong>：每月至少 1 PV 消保，維持真實消費身份。<br>
-            • <strong>媒合對象</strong>：由 1024 算法自動分配對接。
+            • <strong>活躍維護</strong>：每月至少 1 PV 消保。
         </div>
     </div>
 
@@ -197,13 +203,18 @@
         </div>
     </div>
 
+    <a href="https://ai-go-core.github.io/ai/" class="btn-main btn-home">
+        <i class="fas fa-home"></i> 回系統目錄大廳 (M)
+    </a>
+
     <div class="footer-text">
-        🛡️ 數位代號：創建數位分身 | PV 僅作為資格檢驗之用
+        🛡️ 數位代號：創建數位分身 | 本頁面為 1024 加速器專區
     </div>
 </div>
 
 <script>
-    const SCRIPT_URL = window.location.href.split('?')[0];
+    // 🔗 這裡需填寫您 GAS 部署後產生的 Web App URL (結尾是 /exec)
+    const GAS_BACKEND_URL = "您的_GAS_發布網址_在此"; 
 
     async function handleMatch() {
         const phone = document.getElementById('v-phone').value.trim();
@@ -215,10 +226,12 @@
         btn.disabled = true;
 
         try {
-            const taskResp = await fetch(`${SCRIPT_URL}?action=get_task`);
+            // 從 GAS 獲取當前任務序號
+            const taskResp = await fetch(`${GAS_BACKEND_URL}?action=get_task`);
             const taskData = await taskResp.json();
             
-            const response = await fetch(SCRIPT_URL, {
+            // 提交驗證
+            const response = await fetch(GAS_BACKEND_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({ 
@@ -234,33 +247,24 @@
             if (result.status === "success") {
                 document.getElementById('verify-zone').style.display = 'none';
                 document.getElementById('match-area').style.display = 'block';
-                
-                const tag = document.getElementById('dynamic-task-tag');
-                tag.innerText = `🎯 序列 #${taskData.sn} | 任務：${taskData.task}`;
-                
-                if (taskData.task === "反哺任務") {
-                    tag.style.background = "var(--neon-red)";
-                    tag.style.color = "#fff";
-                }
-
+                document.getElementById('dynamic-task-tag').innerText = `🎯 序列 #${taskData.sn} | 任務：${taskData.task}`;
                 document.getElementById('target-name').innerText = result.receiver.code;
                 document.getElementById('target-bank').innerText = result.receiver.bankInfo;
-                
             } else {
                 alert(result.msg || "資格判定未通過。");
                 btn.disabled = false;
                 btn.innerText = "開始節點對接";
             }
         } catch (e) {
-            alert('❌ 節點連線失敗。');
+            alert('❌ 節點連線失敗，請確認 GAS 後端已正確部署。');
             btn.disabled = false;
         }
     }
 
     function markAsSent() {
         if(!confirm("確定已完成點對點轉帳？")) return;
-        alert('✅ 已通知受贈方！系統將追蹤 1024 能量同步狀態。');
-        location.reload();
+        alert('✅ 已通知受贈方！');
+        window.location.href = "https://ai-go-core.github.io/ai/"; // 完成後導回主門戶
     }
 </script>
 </body>
