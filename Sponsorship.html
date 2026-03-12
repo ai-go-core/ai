@@ -1,71 +1,3 @@
-Skip to content
-ai-go-core
-ai
-Repository navigation
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-ai
-/
-Sponsorship.html
-in
-main
-
-Edit
-
-Preview
-Indent mode
-
-Spaces
-Indent size
-
-4
-Line wrap mode
-
-No wrap
-Editing Sponsorship.html file contents
-  1
-  2
-  3
-  4
-  5
-  6
-  7
-  8
-  9
- 10
- 11
- 12
- 13
- 14
- 15
- 16
- 17
- 18
- 19
- 20
- 21
- 22
- 23
- 24
- 25
- 26
- 27
- 28
- 29
- 30
- 31
- 32
- 33
- 34
- 35
- 36
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -75,33 +7,170 @@ Editing Sponsorship.html file contents
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
-            --gold-primary: #D4AF37; 
+            --gold: #D4AF37; 
             --gold-light: #FFD700; 
-            --dark-bg: #050505; 
+            --bg: #050505; 
             --card-bg: #111111;
             --neon-green: #00ff88; 
             --neon-blue: #00e5ff; 
             --neon-red: #ff4444; 
         }
         
-        body { 
-            font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
-            background: var(--dark-bg); 
-            color: #ffffff; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            min-height: 100vh; 
-        }
+        body { font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; background: var(--bg); color: #fff; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 500px; background: rgba(20, 20, 20, 0.98); border: 1px solid var(--gold); border-radius: 24px; padding: 25px; box-sizing: border-box; margin: 15px; box-shadow: 0 0 50px rgba(212, 175, 55, 0.15); }
+        
+        /* 標題與視覺 */
+        .header { text-align: center; border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 25px; }
+        .value-up { color: var(--neon-green); text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); font-weight: 900; }
 
-        .container { 
-            width: 100%; 
-            max-width: 480px; 
-            background: rgba(20, 20, 20, 0.95); 
-            border: 1px solid var(--gold-primary); 
-            border-radius: 24px; 
-            padding: 20px; 
-Use Control + Shift + m to toggle the tab key moving focus. Alternatively, use esc then tab to move to the next interactive element on the page.
- 
-Copied!
+        /* 內容區塊 */
+        .section-title { color: var(--gold); font-size: 1.15em; font-weight: bold; margin: 25px 0 12px 0; border-left: 4px solid var(--gold); padding-left: 12px; }
+        .content-text { font-size: 0.95em; color: #ccc; line-height: 1.8; margin-bottom: 15px; text-align: justify; }
+        .quote { background: rgba(212, 175, 55, 0.08); padding: 18px; border-radius: 12px; font-style: italic; font-size: 0.9em; color: var(--gold-light); border: 1px dashed rgba(212, 175, 55, 0.4); margin: 25px 0; text-align: center; }
+        
+        /* 三部曲小卡 */
+        .trilogy-card { background: #1a1a1a; padding: 18px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #333; transition: 0.3s; }
+        .trilogy-card:hover { border-color: var(--gold); }
+        .trilogy-card h4 { margin: 0 0 8px 0; color: var(--neon-blue); font-size: 1.05em; display: flex; align-items: center; }
+        .trilogy-card h4 i { margin-right: 10px; font-size: 0.9em; }
+        .trilogy-card p { margin: 0; font-size: 0.88em; color: #aaa; line-height: 1.6; }
+
+        /* 福利清單 */
+        .benefit-list { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 15px; margin: 20px 0; border: 1px solid #222; }
+        .benefit-item { display: flex; align-items: flex-start; margin-bottom: 12px; font-size: 0.9em; }
+        .benefit-item i { color: var(--gold); margin-right: 10px; margin-top: 4px; }
+
+        /* 互動區塊 */
+        .interactive-zone { background: #000; border: 1px solid var(--gold); border-radius: 20px; padding: 25px; margin-top: 40px; box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.1); }
+        input { width: 100%; background: #000; border: 1px solid #444; color: #fff; padding: 16px; border-radius: 12px; margin-bottom: 15px; box-sizing: border-box; outline: none; font-size: 1em; }
+        input:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(212,175,55,0.2); }
+        .btn-main { width: 100%; padding: 18px; border-radius: 15px; font-weight: 900; cursor: pointer; font-size: 1.1em; border: none; transition: 0.3s; }
+        .btn-gold { background: linear-gradient(135deg, #D4AF37, #FFD700); color: #000; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        
+        /* 對接資訊區 */
+        .bank-card { background: #080808; border: 1px solid var(--neon-blue); border-radius: 15px; padding: 20px; margin-top: 15px; position: relative; }
+        #match-area { display: none; animation: fadeIn 0.6s; }
+        @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+
+        .footer { text-align: center; font-size: 0.75em; color: #666; margin-top: 40px; padding-bottom: 30px; border-top: 1px solid #222; padding-top: 25px; line-height: 1.8; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2 style="margin:0; font-weight: 900; letter-spacing: 2px;">數位分身 · <span class="value-up">消費增值</span></h2>
+        <p style="font-size: 0.8em; color: var(--gold); margin-top: 8px;">啟動增值循環 | 讓每一筆支出 100% 回流</p>
+    </div>
+
+    <div class="section-title">經營初衷</div>
+    <div class="content-text">
+        在「AI 生活小秘書」的戰略藍圖中，消費不應是資產的終點，而是增值的起點。我們致力於讓每一位公民養成在樂瑞（LeRich）平台購物的習慣，將家中的日常採買，轉化為「日常消費增值計畫」的核心動能。感恩活動是為了支持實質經營的夥伴，讓<b>聰明消費覺醒者</b>經營更穩、獲利更豐。這是一場基於共好與習慣的數位革命，符合資格者可自由參加。
+    </div>
+
+    <div class="quote">
+        「我們從不推銷，我們只是將『日常消費就能增值』的真實體會，分享給同樣懂生活的你。」
+    </div>
+
+    <div class="section-title">智慧經營三部曲</div>
+    <div class="trilogy-card">
+        <h4><i class="fas fa-list-ul"></i> 1. 即時清單，隨手紀錄</h4>
+        <p>勾選家中的日常必需品。這不是單純的採買，而是將「必要支出」轉化為<b>活躍度憑證</b>。每一份憑證都在為您的數位分身累積動能。</p>
+    </div>
+    <div class="trilogy-card">
+        <h4><i class="fas fa-layer-group"></i> 2. 憑證參與，位移成長</h4>
+        <p>每達成指定的消費積點（PV），即可獲得憑證參與感恩位移。您將親身體驗從 1 份憑證延伸至多份的循環喜悅，這是一場基於互助的能量傳播。</p>
+    </div>
+    <div class="trilogy-card">
+        <h4><i class="fas fa-plane-departure"></i> 3. 多重回饋，圓夢韓國</h4>
+        <p>維持活躍，不僅能領取經營者支持回饋，更能同步累積 2026 韓國雙人遊點數，將日常生活品質轉化為年度夢想清單。</p>
+    </div>
+
+    <div class="section-title">覺醒夥伴專屬福利</div>
+    <div class="benefit-list">
+        <div class="benefit-item"><i class="fas fa-check-circle"></i> <span>成功註冊即領取 <b>購物禮金</b>，首份清單直接享受折抵。</span></div>
+        <div class="benefit-item"><i class="fas fa-check-circle"></i> <span>憑證進入感恩序列，依序領取 <b>經營者支持回饋</b>。</span></div>
+        <div class="benefit-item"><i class="fas fa-check-circle"></i> <span>隨時選擇參與或暫停；若暫斷活躍度，權利將自動鎖定，待恢復後 <b>立即接續進度</b>。</span></div>
+    </div>
+
+    <div class="interactive-zone">
+        <div style="text-align: center; color: var(--gold); font-weight: 900; margin-bottom: 25px; font-size: 1.2em; letter-spacing: 1px;">🚀 覺醒夥伴 · 啟動對接</div>
+        
+        <div id="verify-zone">
+            <input type="tel" id="v-phone" placeholder="📱 驗證手機 (回饋核帳唯一憑證)">
+            <input type="text" id="v-line" placeholder="💬 LINE ID (接收進度通知)">
+            <button class="btn-main btn-gold" onclick="executeMatch()">啟動消費增值方案 <i class="fas fa-rocket"></i></button>
+            <p style="text-align: center; font-size: 0.7em; color: #555; margin-top: 15px;">點擊即代表您已理解並認同「消費增值論」覺醒者協議</p>
+        </div>
+
+        <div id="match-area">
+            <div style="text-align:center; padding:12px; background:rgba(0,255,136,0.1); color:var(--neon-green); border-radius:10px; margin-bottom:20px; font-size:0.95em; font-weight:bold; border: 1px solid var(--neon-green);">
+                <i class="fas fa-link"></i> 增值種子已播種：G<span id="gen-depth">0</span>
+            </div>
+            <div class="bank-card">
+                <p style="font-size:0.8em; color:var(--gold); margin:0 0 12px 0;">增值對接對象：<span id="target-code" style="color:#fff; font-weight: bold;">---</span></p>
+                <div id="target-bank" style="font-size:1.2em; color:var(--neon-blue); font-family: 'Courier New', monospace; letter-spacing: 1px; font-weight: bold;">載入中...</div>
+                <div style="margin-top:20px; padding-top:15px; border-top:1px dashed #333;">
+                    <span style="font-size:0.85em; color:#888;">增值啟動金：</span>
+                    <span style="font-size:1.5em; color:var(--neon-red); font-weight:900;">NT$ 1,000</span>
+                </div>
+            </div>
+            <button class="btn-main" style="background:var(--neon-green); color:#000; margin-top:25px;" onclick="confirmSent()">我已完成增值投放 🆗</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        讓花掉的錢學會自己回家，這就是消費增值論的終極實踐。<br>
+        AI 生活小秘書 · 全方位數位輔助系統<br>
+        <strong>回目錄大廳請輸入 M</strong>
+    </div>
+</div>
+
+<script>
+    // 獲取 URL 參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentUser = urlParams.get('user') || urlParams.get('id') || 'GUEST';
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
+    
+    // 顯示當前 ID
+    document.querySelector('.header').insertAdjacentHTML('beforeend', `<div style="font-size:0.7em; color:var(--gold-light); margin-top:5px;">覺醒編號: ${currentUser}</div>`);
+
+    async function executeMatch() {
+        const phone = document.getElementById('v-phone').value.trim();
+        const line = document.getElementById('v-line').value.trim();
+        if(!phone || !line) { alert('請填寫完整驗證資訊'); return; }
+        
+        const btn = document.querySelector('.btn-gold');
+        btn.innerText = "⏳ 正在驗證覺醒權限...";
+        btn.disabled = true;
+
+        try {
+            const response = await fetch(GAS_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: "requestMatch", user: currentUser, phone: phone, lineId: line })
+            });
+            const result = await response.json();
+            if(result.status === "success") {
+                document.getElementById('verify-zone').style.display = 'none';
+                document.getElementById('match-area').style.display = 'block';
+                document.getElementById('target-code').innerText = result.receiverName;
+                document.getElementById('target-bank').innerText = result.bankInfo;
+                document.getElementById('gen-depth').innerText = result.depth;
+            } else {
+                alert(result.msg);
+                btn.disabled = false;
+                btn.innerText = "重新啟動方案";
+            }
+        } catch(e) { alert('系統連線異常，請稍後再試'); btn.disabled = false; btn.innerText = "啟動方案"; }
+    }
+
+    function confirmSent() {
+        if(confirm("您確定已完成 NT$ 1,000 的增值投放？\n虛假回報將導致數位分身血統永久鎖定。")) {
+            alert('✅ 數據已紀錄，請等待系統核帳位移。');
+            window.location.reload();
+        }
+    }
+</script>
+</body>
+</html>
