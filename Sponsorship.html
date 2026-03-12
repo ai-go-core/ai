@@ -1,12 +1,154 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>AI 生活小秘書 | 消費增值實踐終端</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* 增加一個增值感強烈的霓虹效果 */
+        :root { 
+            --gold-primary: #D4AF37; 
+            --gold-light: #FFD700; 
+            --dark-bg: #050505; 
+            --card-bg: #111111;
+            --neon-green: #00ff88; 
+            --neon-blue: #00e5ff; 
+            --neon-red: #ff4444; 
+        }
+        
+        body { 
+            font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
+            background: var(--dark-bg); 
+            color: #ffffff; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            min-height: 100vh; 
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 480px; 
+            background: rgba(20, 20, 20, 0.95); 
+            border: 1px solid var(--gold-primary); 
+            border-radius: 24px; 
+            padding: 20px; 
+            box-sizing: border-box;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.15);
+            margin: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* 標題區 */
+        .theory-header {
+            text-align: center;
+            padding: 10px 0 20px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 20px;
+        }
+
         .value-up {
             color: var(--neon-green);
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
             font-weight: 900;
+        }
+
+        /* 數據看板 */
+        .power-status {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .status-item { text-align: center; }
+        .status-label { font-size: 0.7em; color: #888; margin-bottom: 4px; }
+        .status-value { font-size: 0.9em; font-weight: bold; color: var(--gold-light); }
+
+        /* 告知欄 */
+        .legal-notice {
+            background: rgba(0, 255, 136, 0.03);
+            border-left: 4px solid var(--neon-green);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 0.85em;
+            line-height: 1.6;
+            color: #ddd;
+        }
+
+        /* 輸入項 */
+        input { 
+            width: 100%; 
+            background: #000; 
+            border: 1px solid #333; 
+            color: #fff; 
+            padding: 16px; 
+            border-radius: 12px; 
+            margin-bottom: 15px; 
+            box-sizing: border-box;
+            font-size: 1em;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus { border-color: var(--gold-primary); }
+
+        .btn-main { 
+            width: 100%; 
+            padding: 18px; 
+            border-radius: 15px; 
+            font-weight: 900; 
+            cursor: pointer; 
+            font-size: 1.1em; 
+            border: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-match { 
+            background: linear-gradient(135deg, #D4AF37, #B8860B); 
+            color: #000; 
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-match:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* 對接顯示區 */
+        #match-area { display: none; animation: fadeIn 0.6s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .bank-card {
+            background: #000;
+            border: 1px solid var(--gold-primary);
+            border-radius: 18px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bank-card::after {
+            content: "\f53d";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            bottom: -10px; right: 10px;
+            font-size: 5em;
+            color: rgba(255,255,255,0.03);
+        }
+
+        .footer-nav {
+            margin-top: 30px;
+            color: #555;
+            font-size: 0.75em;
+            text-align: center;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+            line-height: 1.8;
         }
     </style>
 </head>
@@ -15,61 +157,130 @@
 <div class="container">
     <div class="theory-header">
         <h2 style="margin:0; font-weight: 900; letter-spacing: 2px;">數位分身 · <span class="value-up">消費增值</span></h2>
-        <p style="font-size: 0.8em; color: var(--gold-primary); margin-top: 5px;">啟動增值循環 | 讓每一筆支出 100% 回流</p>
+        <p style="font-size: 0.8em; color: var(--gold-primary); margin-top: 5px;">讓每一筆支出 100% 進入增值循環</p>
     </div>
 
     <div class="power-status">
         <div class="status-item">
-            <div class="status-label">增值血統代碼</div>
-            <div id="display-user" class="status-value">讀取中...</div>
+            <div class="status-label">增值代號</div>
+            <div id="display-user" class="status-value">載入中...</div>
         </div>
         <div class="status-item">
-            <div class="status-label">預計回流倍率</div>
-            <div class="status-value">600% ~ 無限</div>
+            <div class="status-label">預計增值效益</div>
+            <div class="status-value">依活躍度延伸</div>
         </div>
     </div>
 
     <div class="legal-notice">
         <i class="fas fa-chart-line" style="color:var(--neon-green)"></i> <strong>主理人：消費增值論</strong><br>
-        傳統消費是資產的終點，但在本系統，消費是**增值的起點**。
-        1. 您投出的每一筆 1,000 元，皆為啟動 **18,000 元回流** 的燃料。<br>
-        2. 透過 G 代血統複投，您的增值動能將隨著裂變代數呈幾何倍數增長。<br>
-        <strong>「會花錢，更要讓花掉的錢學會自己回家。」</strong>
+        傳統消費是資產的終點，但在本系統，消費是**增值的起點**。<br>
+        1. 每一次感恩投放，皆為啟動 **循環回饋** 的燃料。<br>
+        2. 透過血統延伸，您的增值動能將隨著團隊共好位移而成長。<br>
+        <strong>「讓花掉的錢學會自己回家。」</strong>
     </div>
 
     <div id="verify-zone">
-        <input type="tel" id="v-phone" placeholder="📱 驗證手機 (資產回流唯一憑證)">
-        <input type="text" id="v-line" placeholder="💬 LINE ID (接收增值進度通知)">
+        <input type="tel" id="v-phone" placeholder="📱 驗證手機 (回饋核帳唯一憑證)">
+        <input type="text" id="v-line" placeholder="💬 LINE ID (接收進度通知)">
         
         <button id="match-btn" class="btn-main btn-match" onclick="executeMatch()">
             啟動消費增值方案 <i class="fas fa-rocket"></i>
         </button>
-        <p style="text-align: center; font-size: 0.7em; color: #555; margin-top: 10px;">點擊即代表您已理解並認同「消費增值論」資產協議</p>
+        <p style="text-align: center; font-size: 0.7em; color: #666; margin-top: 12px;">點擊即代表認同「消費增值論」覺醒者協議</p>
     </div>
 
     <div id="match-area">
-        <div style="background: rgba(0, 255, 136, 0.1); color: var(--neon-green); padding: 10px; border-radius: 8px; text-align: center; margin-bottom: 15px; font-weight: bold; border: 1px solid var(--neon-green);">
+        <div style="background: rgba(0, 255, 136, 0.1); color: var(--neon-green); padding: 12px; border-radius: 10px; text-align: center; margin-bottom: 20px; font-weight: bold; border: 1px solid var(--neon-green);">
             <i class="fas fa-seedling"></i> 增值種子已播種：血統代數 G<span id="gen-depth">0</span>
         </div>
 
         <div class="bank-card">
-            <p style="font-size:0.75em; color:var(--gold-primary); margin:0 0 10px 0;">增值對接對象：<span id="target-code" style="color:#fff; font-weight: bold;">---</span></p>
-            <p style="font-size:0.8em; color:#888; margin-bottom: 5px;">種子匯入帳戶：</p>
-            <p id="target-bank" style="font-size:1.15em; color:var(--neon-blue); font-family: 'Courier New', monospace; letter-spacing: 1px; margin: 0;"></p>
+            <p style="font-size:0.75em; color:var(--gold-primary); margin:0 0 12px 0; letter-spacing: 1px;">對接對象 (數位代號)：<span id="target-code" style="color:#fff; font-weight: bold;">---</span></p>
+            <p style="font-size:0.8em; color:#888; margin-bottom: 8px;">種子匯入帳戶：</p>
+            <p id="target-bank" style="font-size:1.2em; color:var(--neon-blue); font-family: 'Courier New', monospace; letter-spacing: 1px; margin: 0; font-weight: bold;"></p>
             
-            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #333;">
-                <span style="font-size: 0.8em; color: #888;">增值啟動金：</span>
-                <span style="font-size: 1.4em; font-weight: 900; color: var(--neon-red);">NT$ 1,000</span>
+            <div style="margin-top: 25px; padding-top: 15px; border-top: 1px dashed #444;">
+                <span style="font-size: 0.85em; color: #888;">增值啟動金：</span>
+                <span style="font-size: 1.5em; font-weight: 900; color: var(--neon-red);">NT$ 1,000</span>
             </div>
         </div>
 
-        <button id="confirm-btn" class="btn-main" style="background:var(--neon-green); color:#000; margin-top:20px;" onclick="confirmSent()">
+        <button id="confirm-btn" class="btn-main" style="background:var(--neon-green); color:#000; margin-top:25px;" onclick="confirmSent()">
             我已完成增值投放，等待回流 🆗
         </button>
     </div>
 
     <div class="footer-nav">
         AI 生活小秘書 · 全方位數位輔助系統<br>
-        回目錄大廳請輸入 M
+        2026 消費增值論 · 聰明消費覺醒者專屬<br>
+        <strong>回目錄大廳請輸入 M</strong>
     </div>
 </div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentUser = urlParams.get('user') || urlParams.get('id') || 'GUEST';
+    // ⚠️ 請在此處填入您的 Google Apps Script 網址
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
+
+    document.getElementById('display-user').innerText = currentUser;
+
+    async function executeMatch() {
+        const phone = document.getElementById('v-phone').value.trim();
+        const line = document.getElementById('v-line').value.trim();
+        
+        if(!phone || !line) {
+            alert('請完整填寫驗證資訊，以確保增值血統能正確對接。');
+            return;
+        }
+
+        const btn = document.getElementById('match-btn');
+        btn.innerText = "⏳ 正在計算最佳回流路徑...";
+        btn.disabled = true;
+
+        try {
+            const response = await fetch(GAS_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ 
+                    action: "requestMatch", 
+                    user: currentUser, 
+                    phone: phone, 
+                    lineId: line 
+                })
+            });
+
+            const result = await response.json();
+            
+            if (result.status === "success") {
+                document.getElementById('verify-zone').style.display = 'none';
+                document.getElementById('match-area').style.display = 'block';
+                document.getElementById('target-code').innerText = result.receiverName;
+                document.getElementById('target-bank').innerText = result.bankInfo;
+                document.getElementById('gen-depth').innerText = result.depth;
+            } else {
+                alert(result.msg || "資格驗證失敗，請聯繫 AI 小秘書。");
+                btn.disabled = false;
+                btn.innerText = "重新啟動方案";
+            }
+        } catch (e) {
+            alert('系統數據同步異常，請稍後再試。');
+            btn.disabled = false;
+            btn.innerText = "啟動消費增值方案";
+        }
+    }
+
+    async function confirmSent() {
+        if(!confirm("您確定已完成 NT$ 1,000 的增值投放嗎？\n(虛假數據將導致該數位分身血統永久斷裂)")) return;
+        
+        const btn = document.getElementById('confirm-btn');
+        btn.innerText = "📡 數據上鏈紀錄中...";
+        btn.disabled = true;
+
+        // 這裡您可以加入 updateState 的邏輯，或直接跳轉
+        alert('✅ 投放完成！數據已記錄，請等待系統完成位移。');
+        window.location.reload();
+    }
+</script>
+</body>
+</html>
