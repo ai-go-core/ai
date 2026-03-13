@@ -6,191 +6,81 @@
     <title>AI 生活小秘書 | 數位生活圈大廳</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { 
-            --gold: #D4AF37; 
-            --gold-light: #FFD700; 
-            --bg: #050505; 
-            --card-bg: rgba(20, 20, 20, 0.98);
-            --neon-blue: #00e5ff;
-            --neon-green: #00ff88;
-        }
-        
-        body { 
-            font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
-            background: var(--bg); 
-            background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%);
-            color: #fff; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            min-height: 100vh;
-        }
-
-        .container { 
-            width: 100%; 
-            max-width: 500px; 
-            background: var(--card-bg); 
-            border: 1px solid var(--gold); 
-            border-radius: 24px; 
-            padding: 30px; 
-            box-sizing: border-box; 
-            margin: 20px 15px; 
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.15); 
-            text-align: center;
-        }
-        
+        :root { --gold: #D4AF37; --gold-light: #FFD700; --bg: #050505; --card-bg: rgba(20, 20, 20, 0.98); --neon-blue: #00e5ff; --neon-green: #00ff88; }
+        body { font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; background: var(--bg); background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%); color: #fff; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 500px; background: var(--card-bg); border: 1px solid var(--gold); border-radius: 24px; padding: 30px; box-sizing: border-box; margin: 20px 15px; box-shadow: 0 0 50px rgba(212, 175, 55, 0.15); text-align: center; }
         .header { margin-bottom: 30px; border-bottom: 2px solid var(--gold); padding-bottom: 20px; }
         h1 { margin: 0; font-weight: 900; letter-spacing: 2px; color: #fff; font-size: 1.8em; }
         .sub-title { font-size: 0.85em; color: var(--gold); margin-top: 10px; letter-spacing: 1px; }
-
-        .id-badge { 
-            background: rgba(212, 175, 55, 0.1); 
-            color: var(--gold-light); 
-            padding: 8px 20px; 
-            border-radius: 25px; 
-            font-size: 0.9em; 
-            border: 1px solid var(--gold); 
-            display: inline-block; 
-            margin: 20px 0;
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
-        }
-
+        .id-badge { background: rgba(212, 175, 55, 0.1); color: var(--gold-light); padding: 8px 20px; border-radius: 25px; font-size: 0.9em; border: 1px solid var(--gold); display: inline-block; margin: 20px 0; font-weight: bold; }
         .menu-grid { display: grid; grid-gap: 15px; width: 100%; margin-top: 20px; }
-
-        .menu-btn { 
-            width: 100%; 
-            padding: 20px; 
-            border-radius: 16px; 
-            border: 1px solid #333; 
-            font-size: 1.1em; 
-            font-weight: bold; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: flex-start; 
-            transition: 0.3s; 
-            text-decoration: none; 
-            color: #fff;
-            background: #111;
-            box-sizing: border-box;
-        }
-
+        .menu-btn { width: 100%; padding: 20px; border-radius: 16px; border: 1px solid #333; font-size: 1.1em; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: flex-start; transition: 0.3s; text-decoration: none; color: #fff; background: #111; box-sizing: border-box; }
         .menu-btn i { width: 40px; font-size: 1.3em; color: var(--gold); }
         .menu-btn:hover { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); transform: translateY(-2px); }
-
-        .btn-highlight { 
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(0, 0, 0, 0));
-            border: 1px solid var(--gold) !important;
-        }
-
-        .btn-blue i { color: var(--neon-blue); }
-        .btn-green i { color: var(--neon-green); }
-
-        .footer { 
-            text-align: center; 
-            font-size: 0.75em; 
-            color: #666; 
-            margin-top: 40px; 
-            padding-bottom: 20px; 
-            border-top: 1px solid #222; 
-            padding-top: 25px; 
-            width: 100%;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-        }
+        .btn-highlight { background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(0, 0, 0, 0)); border: 1px solid var(--gold) !important; }
+        .footer { text-align: center; font-size: 0.75em; color: #666; margin-top: 40px; padding-bottom: 20px; border-top: 1px solid #222; padding-top: 25px; width: 100%; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
         .pulse-effect { animation: pulse 2s infinite; }
     </style>
 </head>
 <body>
-
 <div class="container">
     <div class="header">
         <h1>數位生活圈大廳</h1>
         <div class="sub-title">AI 生活小秘書 · 全方位數位輔助</div>
     </div>
-
     <div id="leader-badge" class="id-badge">👑 領袖代號：偵測中...</div>
-
     <div class="menu-grid">
-        <a href="javascript:void(0)" class="menu-btn btn-blue" onclick="nav('PV')">
-            <i class="fas fa-chart-line"></i>
-            <span>當月業績回報系統</span>
-        </a>
-
-        <a href="javascript:void(0)" class="menu-btn btn-highlight pulse-effect" onclick="nav('Sponsorship')">
-            <i class="fas fa-rocket"></i>
-            <span>啟動消費增值方案</span>
-        </a>
-
-        <a href="javascript:void(0)" class="menu-btn" onclick="nav('Assets')">
-            <i class="fas fa-id-card-alt"></i>
-            <span>個人數位資產查詢</span>
-        </a>
-
-        <a href="javascript:void(0)" class="menu-btn btn-green" onclick="nav('Tools')">
-            <i class="fas fa-tools"></i>
-            <span>數位分身武器庫文案</span>
-        </a>
-
-        <a href="javascript:void(0)" class="menu-btn" onclick="nav('Support')">
-            <i class="fas fa-user-shield"></i>
-            <span>聯繫推薦領袖客服</span>
-        </a>
+        <a href="javascript:void(0)" class="menu-btn" onclick="nav('PV')"><i class="fas fa-chart-line"></i><span>當月業績回報系統</span></a>
+        <a href="javascript:void(0)" class="menu-btn btn-highlight pulse-effect" onclick="nav('Sponsorship')"><i class="fas fa-rocket"></i><span>啟動消費增值方案</span></a>
+        <a href="javascript:void(0)" class="menu-btn" onclick="nav('Assets')"><i class="fas fa-id-card-alt"></i><span>個人數位資產查詢</span></a>
+        <a href="javascript:void(0)" class="menu-btn" onclick="nav('Tools')"><i class="fas fa-tools"></i><span>數位分身武器庫文案</span></a>
+        <a href="javascript:void(0)" class="menu-btn" onclick="nav('Support')"><i class="fas fa-user-shield"></i><span>聯繫推薦領袖客服</span></a>
     </div>
-
     <div class="footer">
         讓花掉的錢學會自己回家 · 消費增值論終極實踐<br>
-        AI 生活小秘書 · All rights reserved 2026<br><br>
-        <strong>回目錄大廳請輸入 M</strong>
+        AI 生活小秘書 · All rights reserved 2026
     </div>
 </div>
 
 <script>
-    /**
-     * 🛡️ 終極校準：統一使用 ref 參數
-     */
-    function getLineId() {
-        const urlParams = new URLSearchParams(window.location.search);
-        // 🚀 修改點：優先讀取 ref，並兼容 id 和 user
-        let rawId = urlParams.get('ref') || urlParams.get('id') || urlParams.get('user');
-        
-        if (!rawId || rawId === 'undefined' || rawId === 'null' || rawId === '') {
-            return 'Guest';
+    function getIdentity() {
+        const params = new URLSearchParams(window.location.search);
+        let id = params.get('ref') || params.get('id');
+        let name = params.get('name');
+
+        if (id && id !== 'undefined') {
+            localStorage.setItem('user_line_id', id);
+            if(name) localStorage.setItem('user_nickname', name);
+            return { id: id, name: name || "" };
         }
-        
-        return decodeURIComponent(rawId).trim();
+        return { 
+            id: localStorage.getItem('user_line_id') || 'Guest',
+            name: localStorage.getItem('user_nickname') || ""
+        };
     }
 
-    const currentRef = getLineId();
-    document.getElementById('leader-badge').innerText = `👑 領袖代號：${currentRef}`;
+    const user = getIdentity();
+    // 抬頭顯示：優先顯示外號 (數位代號)，沒外號才顯 ID
+    const display = user.name ? decodeURIComponent(user.name) : user.id;
+    document.getElementById('leader-badge').innerText = `👑 歡迎領袖：${display}`;
 
     function nav(target) {
-        // 🚀 修改點：如果沒 ID 就彈窗攔截，維持系統純淨度
-        if(currentRef === 'Guest' || currentRef === '') {
-            alert('⚠️ 無法偵測領袖識別碼，請從 LINE 官方帳號重新進入。');
+        if(user.id === 'Guest') {
+            alert('⚠️ 無法偵測領袖識別碼，請從 LINE 重新進入。');
             return;
         }
-
-        const baseUrls = {
+        const urls = {
             'Sponsorship': 'https://ai-go-core.github.io/ai/Sponsorship.html',
             'PV': 'https://ai-go-core.github.io/ai/PV_Report.html',
             'Tools': 'https://ai-go-core.github.io/ai/Tools.html',
             'Assets': 'https://ai-go-core.github.io/ai/Assets.html',
-            'Support': 'https://line.me/ti/p/~' + currentRef
+            'Support': 'https://line.me/ti/p/~' + user.id
         };
-
-        if (baseUrls[target]) {
-            // 🚀 修改點：跳轉時統一將參數名設為 ref=
-            const separator = baseUrls[target].indexOf('?') !== -1 ? '&' : '?';
-            window.location.href = baseUrls[target] + separator + "ref=" + encodeURIComponent(currentRef);
-        } else {
-            alert('功能升級中，敬請期待！');
+        if (urls[target]) {
+            // 跳轉絕對帶入 LINE ID (ref)
+            const sep = urls[target].includes('?') ? '&' : '?';
+            window.location.href = urls[target] + sep + "ref=" + encodeURIComponent(user.id);
         }
     }
 </script>
