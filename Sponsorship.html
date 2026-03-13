@@ -119,18 +119,19 @@
     }
 
     const currentID = getPromoId();
+    // 💡 請確保此 URL 與您在 1_Core_Engine.gs 部署後的網址完全一致
     const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
     
     document.getElementById('display-user-badge').innerText = `覺醒編號: ${currentID}`;
 
-    // 💡 全域回呼函式，用於接收 GAS 回傳的資料
+    // 💡 全域回呼函式，接收來自 GAS 的 JSONP 回傳
     window.handleGASResponse = function(response) {
         const btn = document.getElementById('submit-btn');
         if (response.status === "success") {
             document.getElementById('verify-zone').style.display = 'none';
             document.getElementById('match-area').style.display = 'block';
             document.getElementById('target-code').innerText = response.receiverName || "系統推薦領袖";
-            document.getElementById('target-bank').innerText = response.bankInfo || "請聯繫客服確認";
+            document.getElementById('target-bank').innerText = response.bankInfo || "資料已發送至您的 LINE";
             document.getElementById('gen-depth').innerText = response.depth || "1";
         } else {
             alert(response.msg || '配對失敗，請確認資料正確性');
@@ -153,7 +154,7 @@
         btn.innerHTML = "⌛ 數據對接中...";
         btn.disabled = true;
 
-        // 💡 使用 JSONP 方式請求 GAS (GET 請求帶參數)
+        // 💡 使用 JSONP 請求處理跨網域連線
         const script = document.createElement('script');
         script.id = 'gas-script';
         const params = new URLSearchParams({
@@ -161,13 +162,13 @@
             user: currentID,
             phone: phone,
             lineId: line,
-            callback: "handleGASResponse" // 告訴 GAS 執行完要呼叫哪個 function
+            callback: "handleGASResponse" 
         });
         
         script.src = `${GAS_URL}?${params.toString()}`;
         document.body.appendChild(script);
 
-        // 防呆逾時
+        // 防呆逾時處理
         setTimeout(() => {
             if (btn.disabled && btn.innerHTML.includes("對接中")) {
                 alert('系統連線繁忙，請檢查網路或稍後再試');
