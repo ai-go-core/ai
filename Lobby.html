@@ -153,31 +153,25 @@
 
 <script>
     /**
-     * 🛡️ 終極校準：解決 Guest 顯示問題
+     * 🛡️ 終極校準：統一使用 ref 參數
      */
     function getLineId() {
-        // 抓取網址參數
         const urlParams = new URLSearchParams(window.location.search);
-        let rawId = urlParams.get('id') || urlParams.get('ref') || urlParams.get('user');
+        // 🚀 修改點：優先讀取 ref，並兼容 id 和 user
+        let rawId = urlParams.get('ref') || urlParams.get('id') || urlParams.get('user');
         
-        // 🔍 防呆過濾：排除 undefined 或 null 的字串情況
-        if (!rawId || rawId === 'undefined' || rawId === 'null') {
+        if (!rawId || rawId === 'undefined' || rawId === 'null' || rawId === '') {
             return 'Guest';
         }
         
         return decodeURIComponent(rawId).trim();
     }
 
-    // 立即鎖定當前身分
     const currentRef = getLineId();
     document.getElementById('leader-badge').innerText = `👑 領袖代號：${currentRef}`;
 
-    // 🚀 如果偵測到是 Guest，且網址其實有帶東西但解析失敗，嘗試強制刷新
-    if (currentRef === 'Guest' && window.location.search.length > 5) {
-        console.log("正在嘗試二次解析網址...");
-    }
-
     function nav(target) {
+        // 🚀 修改點：如果沒 ID 就彈窗攔截，維持系統純淨度
         if(currentRef === 'Guest' || currentRef === '') {
             alert('⚠️ 無法偵測領袖識別碼，請從 LINE 官方帳號重新進入。');
             return;
@@ -192,9 +186,9 @@
         };
 
         if (baseUrls[target]) {
-            // 🛡️ 確保跳轉時一定會帶上 ?id=
+            // 🚀 修改點：跳轉時統一將參數名設為 ref=
             const separator = baseUrls[target].indexOf('?') !== -1 ? '&' : '?';
-            window.location.href = baseUrls[target] + separator + "id=" + encodeURIComponent(currentRef);
+            window.location.href = baseUrls[target] + separator + "ref=" + encodeURIComponent(currentRef);
         } else {
             alert('功能升級中，敬請期待！');
         }
