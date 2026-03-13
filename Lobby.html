@@ -2,172 +2,193 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 生活小秘書 / 全方位數位輔助</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>AI 生活小秘書 | 數位生活圈大廳</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #050505; color: #fff; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; margin: 0; padding: 0; display: flex; justify-content: center; width: 100%; min-height: 100vh; overflow-x: hidden; }
-        .glow-box { width: 100%; max-width: 500px; padding: 15px; box-sizing: border-box; }
-        .inner-content { background: linear-gradient(160deg, #1a1a1a 0%, #050505 100%); border-radius: 20px; padding: 25px; border: 1px solid #333; box-shadow: 0 0 30px rgba(212, 175, 55, 0.2); min-height: 90vh; display: flex; flex-direction: column; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .system-title { color: #FFD700; font-size: 1.6rem; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
-        .user-badge { display: inline-block; background: rgba(212, 175, 55, 0.15); color: #FFD700; padding: 8px 18px; border-radius: 50px; font-size: 0.9rem; margin-top: 10px; border: 1px solid rgba(212, 175, 55, 0.3); }
-        .nav-container { display: flex; flex-direction: column; gap: 15px; flex-grow: 1; }
-        .nav-item { width: 100%; background: linear-gradient(45deg, #D4AF37, #FFD700); border-radius: 12px; padding: 18px; text-decoration: none; color: #000 !important; font-weight: bold; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); transition: 0.2s; box-sizing: border-box; }
-        .nav-item:active { transform: scale(0.97); opacity: 0.9; }
+        :root { 
+            --gold: #D4AF37; 
+            --gold-light: #FFD700; 
+            --bg: #050505; 
+            --card-bg: rgba(20, 20, 20, 0.98);
+            --neon-blue: #00e5ff;
+            --neon-green: #00ff88;
+        }
         
-        .nav-item-pv { background: linear-gradient(45deg, #00c6ff, #0072ff); color: #fff !important; box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4); }
-        .nav-icon { font-size: 1.5rem; margin-right: 15px; width: 30px; text-align: center; }
-        .footer { font-size: 0.7rem; color: #555; text-align: center; margin-top: 30px; padding-bottom: 10px; }
+        body { 
+            font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
+            background: var(--bg); 
+            background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%);
+            color: #fff; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+        }
 
-        /* 🖼️ 回報彈窗樣式 */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; justify-content: center; align-items: center; }
-        .modal-content { background: #1a1a1a; border: 2px solid #D4AF37; padding: 30px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
-        .modal-title { color: #D4AF37; font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; }
-        .modal-input { width: 100%; padding: 15px; margin-bottom: 20px; background: #262626; border: 1px solid #444; color: #fff; border-radius: 10px; font-size: 1.2rem; box-sizing: border-box; text-align: center; outline: none; }
-        .modal-input:focus { border-color: #D4AF37; }
-        .btn-group { display: flex; gap: 10px; }
-        .btn-confirm { flex: 1; background: #D4AF37; color: #000; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1rem; }
-        .btn-cancel { flex: 1; background: #333; color: #fff; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        .container { 
+            width: 100%; 
+            max-width: 500px; 
+            background: var(--card-bg); 
+            border: 1px solid var(--gold); 
+            border-radius: 24px; 
+            padding: 30px; 
+            box-sizing: border-box; 
+            margin: 20px 15px; 
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.15); 
+            text-align: center;
+        }
+        
+        .header { margin-bottom: 30px; border-bottom: 2px solid var(--gold); padding-bottom: 20px; }
+        h1 { margin: 0; font-weight: 900; letter-spacing: 2px; color: #fff; font-size: 1.8em; }
+        .sub-title { font-size: 0.85em; color: var(--gold); margin-top: 10px; letter-spacing: 1px; }
+
+        .id-badge { 
+            background: rgba(212, 175, 55, 0.1); 
+            color: var(--gold-light); 
+            padding: 8px 20px; 
+            border-radius: 25px; 
+            font-size: 0.9em; 
+            border: 1px solid var(--gold); 
+            display: inline-block; 
+            margin: 20px 0;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        .menu-grid { display: grid; grid-gap: 15px; width: 100%; margin-top: 20px; }
+
+        .menu-btn { 
+            width: 100%; 
+            padding: 20px; 
+            border-radius: 16px; 
+            border: 1px solid #333; 
+            font-size: 1.1em; 
+            font-weight: bold; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-start; 
+            transition: 0.3s; 
+            text-decoration: none; 
+            color: #fff;
+            background: #111;
+            box-sizing: border-box;
+        }
+
+        .menu-btn i { width: 40px; font-size: 1.3em; color: var(--gold); }
+        .menu-btn:hover { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); transform: translateY(-2px); }
+
+        .btn-highlight { 
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(0, 0, 0, 0));
+            border: 1px solid var(--gold) !important;
+        }
+
+        .btn-blue i { color: var(--neon-blue); }
+        .btn-green i { color: var(--neon-green); }
+
+        .footer { 
+            text-align: center; 
+            font-size: 0.75em; 
+            color: #666; 
+            margin-top: 40px; 
+            padding-bottom: 20px; 
+            border-top: 1px solid #222; 
+            padding-top: 25px; 
+            width: 100%;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+        .pulse-effect { animation: pulse 2s infinite; }
     </style>
 </head>
 <body>
-    <div class="glow-box">
-        <div class="inner-content">
-            <div class="header">
-                <div class="system-title">數位生活圈大廳</div>
-                <div id="user-badge" class="user-badge">👑 識別身分中...</div>
-            </div>
 
-            <div class="nav-container">
-                <a href="javascript:void(0)" onclick="openPVModal()" class="nav-item nav-item-pv">
-                    <span class="nav-icon"><i class="fas fa-chart-bar"></i></span>當月 PV 業績回報
-                </a>
-
-                <a href="javascript:void(0)" onclick="navTo('Sponsorship')" class="nav-item">
-                    <span class="nav-icon"><i class="fas fa-hand-holding-usd"></i></span>啟動消費增值 (贊助)
-                </a>
-                
-                <a href="javascript:void(0)" onclick="navTo('Assets')" class="nav-item">
-                    <span class="nav-icon"><i class="fas fa-user-circle"></i></span>個人資產 (角色收益)
-                </a>
-
-                <a id="link-contact" href="javascript:void(0)" class="nav-item" target="_blank">
-                    <span class="nav-icon"><i class="fab fa-line"></i></span>聯繫推薦領袖 (<span id="ref-label">鎖定中...</span>)
-                </a>
-
-                <a href="javascript:void(0)" onclick="navTo('Tools')" class="nav-item">
-                    <span class="nav-icon"><i class="fas fa-tools"></i></span>AI 工具箱 (武器庫)
-                </a>
-            </div>
-            
-            <div class="footer">AI 生活小秘書 · 全方位數位輔助 | 目錄大廳輸入 M</div>
-        </div>
+<div class="container">
+    <div class="header">
+        <h1>數位生活圈大廳</h1>
+        <div class="sub-title">AI 生活小秘書 · 全方位數位輔助</div>
     </div>
 
-    <div id="pvModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-title">📈 業績 PV 回報</div>
-            <input type="number" id="pv-value" class="modal-input" placeholder="請輸入點數" inputmode="decimal">
-            <div class="btn-group">
-                <button class="btn-confirm" id="submit-btn" onclick="submitPV()">確認送出</button>
-                <button class="btn-cancel" onclick="closePVModal()">取消</button>
-            </div>
-            <p style="font-size: 0.65rem; color: #888; margin-top: 15px; line-height: 1.4;">
-                溫馨提示：送出後系統將執行 7 代 4% 分潤計算。
-            </p>
-        </div>
+    <div id="leader-badge" class="id-badge">👑 領袖代號：偵測中...</div>
+
+    <div class="menu-grid">
+        <a href="javascript:void(0)" class="menu-btn btn-blue" onclick="nav('PV')">
+            <i class="fas fa-chart-line"></i>
+            <span>當月業績回報系統</span>
+        </a>
+
+        <a href="javascript:void(0)" class="menu-btn btn-highlight pulse-effect" onclick="nav('Sponsorship')">
+            <i class="fas fa-rocket"></i>
+            <span>啟動消費增值方案</span>
+        </a>
+
+        <a href="javascript:void(0)" class="menu-btn" onclick="nav('Assets')">
+            <i class="fas fa-id-card-alt"></i>
+            <span>個人數位資產查詢</span>
+        </a>
+
+        <a href="javascript:void(0)" class="menu-btn btn-green" onclick="nav('Tools')">
+            <i class="fas fa-tools"></i>
+            <span>數位分身武器庫文案</span>
+        </a>
+
+        <a href="javascript:void(0)" class="menu-btn" onclick="nav('Support')">
+            <i class="fas fa-user-shield"></i>
+            <span>聯繫推薦領袖客服</span>
+        </a>
     </div>
 
-    <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
-        const ADMIN_LINE_ID = "@641zpzus"; 
+    <div class="footer">
+        讓花掉的錢學會自己回家 · 消費增值論終極實踐<br>
+        AI 生活小秘書 · All rights reserved 2026<br><br>
+        <strong>回目錄大廳請輸入 M</strong>
+    </div>
+</div>
 
-        const params = new URLSearchParams(window.location.search);
-        // 抓取當前用戶 ID
-        const myId = params.get('ref') || params.get('user') || params.get('id') || "Guest";
-        
-        window.onload = function() {
-            document.getElementById('user-badge').innerText = "👑 領袖代號：" + myId;
-            initContactLink();
+<script>
+    /**
+     * 🛡️ 修改重點：強化網址抓取與傳遞邏輯
+     */
+    function getLineId() {
+        const urlParams = new URLSearchParams(window.location.search);
+        // 🚀 修改：同時支援 ref, id, user 確保一定抓得到
+        const rawId = urlParams.get('ref') || urlParams.get('id') || urlParams.get('user');
+        return rawId ? decodeURIComponent(rawId).trim() : 'Guest';
+    }
+
+    const currentRef = getLineId();
+    document.getElementById('leader-badge').innerText = `👑 領袖代號：${currentRef}`;
+
+    function nav(target) {
+        // 如果還是 Guest 則跳出警告
+        if(currentRef === 'Guest' || currentRef === '') {
+            alert('⚠️ 無法偵測領袖識別碼，請從 LINE 官方帳號重新進入。');
+            return;
+        }
+
+        const baseUrls = {
+            'Sponsorship': 'https://ai-go-core.github.io/ai/Sponsorship.html',
+            'PV': 'https://ai-go-core.github.io/ai/PV_Report.html',
+            'Tools': 'https://ai-go-core.github.io/ai/Tools.html',
+            'Assets': 'https://ai-go-core.github.io/ai/Assets.html',
+            'Support': 'https://line.me/ti/p/~' + currentRef
         };
 
-        // 🛡️ 初始化聯繫領袖連結與標籤
-        function initContactLink() {
-            const label = document.getElementById('ref-label');
-            const contactBtn = document.getElementById('link-contact');
-            
-            // 如果 ID 是 Guest，預設導向官方客服
-            if (myId === "Guest") {
-                label.innerText = "官方客服";
-                contactBtn.href = "https://line.me/R/ti/p/" + ADMIN_LINE_ID;
-            } else {
-                label.innerText = myId;
-                contactBtn.href = "https://line.me/ti/p/~" + myId;
-            }
+        if (baseUrls[target]) {
+            // 🚀 修改：跳轉時統一將 ID 傳遞下去，確保下一頁不會斷掉
+            const separator = baseUrls[target].includes('?') ? '&' : '?';
+            // 統一使用 id 傳遞，下一頁 Sponsorship 會相容讀取
+            window.location.href = baseUrls[target] + separator + "id=" + currentRef;
+        } else {
+            alert('功能升級中，敬請期待！');
         }
-
-        /**
-         * 🚀 智慧導航：確保 ref 參數傳遞到下一頁
-         * 同步支援您的 GitHub Pages 路徑
-         */
-        function navTo(target) {
-            if (myId === "Guest") {
-                alert("⚠️ 偵測不到領袖身分，請重新從 LINE 連結進入大廳。");
-                return;
-            }
-
-            const pageMap = {
-                'Sponsorship': 'https://ai-go-core.github.io/ai/Sponsorship.html',
-                'Assets': 'https://ai-go-core.github.io/ai/Assets.html',
-                'Tools': 'https://ai-go-core.github.io/ai/Tools.html'
-            };
-
-            if (pageMap[target]) {
-                // 統一導向格式：?ref=LINE_ID
-                window.location.href = `${pageMap[target]}?ref=${encodeURIComponent(myId)}`;
-            } else {
-                alert("功能升級中，敬請期待！");
-            }
-        }
-
-        // 🟢 PV 控制邏輯
-        function openPVModal() {
-            if (myId === "Guest") { alert("請先從 LINE 進入以識別身分。"); return; }
-            document.getElementById('pvModal').style.display = 'flex';
-        }
-
-        function closePVModal() {
-            document.getElementById('pvModal').style.display = 'none';
-            document.getElementById('pv-value').value = '';
-        }
-
-        async function submitPV() {
-            const val = document.getElementById('pv-value').value;
-            const btn = document.getElementById('submit-btn');
-
-            if (!val || val <= 0) { alert("請輸入正確數值"); return; }
-
-            btn.disabled = true;
-            btn.innerText = "處理中...";
-
-            try {
-                const response = await fetch(`${GAS_URL}?action=report_pv&id=${encodeURIComponent(myId)}&pv=${val}`);
-                const data = await response.json();
-                if(data.success) {
-                    alert(`✅ 成功回報 ${val} PV！\n系統已完成 7 代利潤分配。`);
-                    closePVModal();
-                } else {
-                    alert("❌ 失敗：" + (data.msg || "請聯繫客服"));
-                }
-            } catch(e) {
-                alert("連線成功，請確認資料庫狀態。");
-                closePVModal();
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "確認送出";
-            }
-        }
-    </script>
+    }
+</script>
 </body>
 </html>
