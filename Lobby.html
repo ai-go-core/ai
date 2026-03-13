@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 生活小秘書 / 全方位數位輔助</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { background-color: #050505; color: #fff; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; margin: 0; padding: 0; display: flex; justify-content: center; width: 100%; min-height: 100vh; overflow-x: hidden; }
         .glow-box { width: 100%; max-width: 500px; padding: 15px; box-sizing: border-box; }
@@ -15,13 +16,11 @@
         .nav-item { width: 100%; background: linear-gradient(45deg, #D4AF37, #FFD700); border-radius: 12px; padding: 18px; text-decoration: none; color: #000 !important; font-weight: bold; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); transition: 0.2s; box-sizing: border-box; }
         .nav-item:active { transform: scale(0.97); opacity: 0.9; }
         
-        /* 💎 新增：PV 按鈕特殊科技藍風格 */
         .nav-item-pv { background: linear-gradient(45deg, #00c6ff, #0072ff); color: #fff !important; box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4); }
-        
-        .nav-icon { font-size: 1.6rem; margin-right: 15px; width: 30px; text-align: center; }
+        .nav-icon { font-size: 1.5rem; margin-right: 15px; width: 30px; text-align: center; }
         .footer { font-size: 0.7rem; color: #555; text-align: center; margin-top: 30px; padding-bottom: 10px; }
 
-        /* 🖼️ 新增：回報彈窗樣式 */
+        /* 🖼️ 回報彈窗樣式 */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; justify-content: center; align-items: center; }
         .modal-content { background: #1a1a1a; border: 2px solid #D4AF37; padding: 30px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
         .modal-title { color: #D4AF37; font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; }
@@ -42,100 +41,99 @@
 
             <div class="nav-container">
                 <a href="javascript:void(0)" onclick="openPVModal()" class="nav-item nav-item-pv">
-                    <span class="nav-icon">📊</span>當月 PV 業績回報
+                    <span class="nav-icon"><i class="fas fa-chart-bar"></i></span>當月 PV 業績回報
                 </a>
 
-                <a id="link-sponsorship" href="#" class="nav-item">
-                    <span class="nav-icon">💰</span>贊助回饋 (7代複利)
+                <a href="javascript:void(0)" onclick="navTo('Sponsorship')" class="nav-item">
+                    <span class="nav-icon"><i class="fas fa-hand-holding-usd"></i></span>啟動消費增值 (贊助)
                 </a>
-                <a id="link-profile" href="#" class="nav-item">
-                    <span class="nav-icon">👤</span>個人資產 (角色收益)
+                
+                <a href="javascript:void(0)" onclick="navTo('Assets')" class="nav-item">
+                    <span class="nav-icon"><i class="fas fa-user-circle"></i></span>個人資產 (角色收益)
                 </a>
-                <a id="link-contact" href="#" class="nav-item" target="_blank">
-                    <span class="nav-icon">💬</span>聯繫推薦領袖 (<span id="ref-label">鎖定中...</span>)
+
+                <a id="link-contact" href="javascript:void(0)" class="nav-item" target="_blank">
+                    <span class="nav-icon"><i class="fab fa-line"></i></span>聯繫推薦領袖 (<span id="ref-label">鎖定中...</span>)
                 </a>
-                <a id="link-writer" href="#" class="nav-item">
-                    <span class="nav-icon">⚙️</span>AI 工具箱 (武器庫)
+
+                <a href="javascript:void(0)" onclick="navTo('Tools')" class="nav-item">
+                    <span class="nav-icon"><i class="fas fa-tools"></i></span>AI 工具箱 (武器庫)
                 </a>
             </div>
             
-            <div class="footer">AI系統核心 v3.6 | 目錄大廳輸入 M</div>
+            <div class="footer">AI 生活小秘書 · 全方位數位輔助 | 目錄大廳輸入 M</div>
         </div>
     </div>
 
     <div id="pvModal" class="modal">
         <div class="modal-content">
             <div class="modal-title">📈 業績 PV 回報</div>
-            <input type="number" id="pv-value" class="modal-input" placeholder="請輸入回報點數" inputmode="decimal">
+            <input type="number" id="pv-value" class="modal-input" placeholder="請輸入點數" inputmode="decimal">
             <div class="btn-group">
                 <button class="btn-confirm" id="submit-btn" onclick="submitPV()">確認送出</button>
                 <button class="btn-cancel" onclick="closePVModal()">取消</button>
             </div>
             <p style="font-size: 0.65rem; color: #888; margin-top: 15px; line-height: 1.4;">
-                溫馨提示：送出後系統將立即執行 7 代 4% 分潤計算，數據將永久鎖定於個人帳譜。
+                溫馨提示：送出後系統將執行 7 代 4% 分潤計算。
             </p>
         </div>
     </div>
 
     <script>
         const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
-        const ADMIN_ID = "@641zpzus"; 
+        const ADMIN_LINE_ID = "@641zpzus"; 
 
         const params = new URLSearchParams(window.location.search);
-        const myId = params.get('user') || params.get('id') || "Guest";
-        let urlRef = params.get('ref') || ""; 
-
+        // 抓取當前用戶 ID
+        const myId = params.get('ref') || params.get('user') || params.get('id') || "Guest";
+        
         window.onload = function() {
             document.getElementById('user-badge').innerText = "👑 領袖代號：" + myId;
-            syncLinks(urlRef, false);
-
-            if (myId !== "Guest") {
-                fetch(`${GAS_URL}?action=get_leader_data&id=${encodeURIComponent(myId)}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success && data.referrerLineId) {
-                        syncLinks(data.referrerLineId, true);
-                    } else {
-                        syncLinks(urlRef, true);
-                    }
-                })
-                .catch(e => syncLinks(urlRef, true));
-            } else {
-                syncLinks(urlRef, true);
-            }
+            initContactLink();
         };
 
-        function syncLinks(finalRef, forceAdmin = false) {
-            const contactBtn = document.getElementById('link-contact');
+        // 🛡️ 初始化聯繫領袖連結與標籤
+        function initContactLink() {
             const label = document.getElementById('ref-label');
-            let targetLineId = "";
-
-            if (finalRef && finalRef !== "null" && finalRef !== "") {
-                targetLineId = finalRef;
-                label.innerText = finalRef;
-            } else if (urlRef && urlRef !== "null" && urlRef !== "") {
-                targetLineId = urlRef;
-                label.innerText = urlRef;
-            } else if (forceAdmin) {
-                targetLineId = ADMIN_ID;
+            const contactBtn = document.getElementById('link-contact');
+            
+            // 如果 ID 是 Guest，預設導向官方客服
+            if (myId === "Guest") {
                 label.innerText = "官方客服";
+                contactBtn.href = "https://line.me/R/ti/p/" + ADMIN_LINE_ID;
             } else {
-                label.innerText = "鎖定中...";
-                contactBtn.href = "javascript:void(0)";
-                return; 
+                label.innerText = myId;
+                contactBtn.href = "https://line.me/ti/p/~" + myId;
+            }
+        }
+
+        /**
+         * 🚀 智慧導航：確保 ref 參數傳遞到下一頁
+         * 同步支援您的 GitHub Pages 路徑
+         */
+        function navTo(target) {
+            if (myId === "Guest") {
+                alert("⚠️ 偵測不到領袖身分，請重新從 LINE 連結進入大廳。");
+                return;
             }
 
-            const query = `&user=${encodeURIComponent(myId)}&ref=${encodeURIComponent(targetLineId)}`;
-            document.getElementById('link-sponsorship').href = GAS_URL + "?action=sponsorship" + query;
-            document.getElementById('link-profile').href = GAS_URL + "?action=home" + query;
-            document.getElementById('link-writer').href = GAS_URL + "?action=writer" + query;
+            const pageMap = {
+                'Sponsorship': 'https://ai-go-core.github.io/ai/Sponsorship.html',
+                'Assets': 'https://ai-go-core.github.io/ai/Assets.html',
+                'Tools': 'https://ai-go-core.github.io/ai/Tools.html'
+            };
 
-            contactBtn.href = targetLineId.startsWith('@') ? "https://line.me/R/ti/p/" + targetLineId : "https://line.me/ti/p/~" + targetLineId;
+            if (pageMap[target]) {
+                // 統一導向格式：?ref=LINE_ID
+                window.location.href = `${pageMap[target]}?ref=${encodeURIComponent(myId)}`;
+            } else {
+                alert("功能升級中，敬請期待！");
+            }
         }
 
         // 🟢 PV 控制邏輯
         function openPVModal() {
-            if (myId === "Guest") { alert("請先完成註冊身分後再進行回報。"); return; }
+            if (myId === "Guest") { alert("請先從 LINE 進入以識別身分。"); return; }
             document.getElementById('pvModal').style.display = 'flex';
         }
 
@@ -144,32 +142,31 @@
             document.getElementById('pv-value').value = '';
         }
 
-        function submitPV() {
+        async function submitPV() {
             const val = document.getElementById('pv-value').value;
             const btn = document.getElementById('submit-btn');
 
-            if (!val || val <= 0) { alert("請輸入正確的 PV 數值"); return; }
+            if (!val || val <= 0) { alert("請輸入正確數值"); return; }
 
             btn.disabled = true;
             btn.innerText = "處理中...";
 
-            fetch(`${GAS_URL}?action=report_pv&id=${encodeURIComponent(myId)}&pv=${val}`)
-            .then(res => res.json())
-            .then(data => {
+            try {
+                const response = await fetch(`${GAS_URL}?action=report_pv&id=${encodeURIComponent(myId)}&pv=${val}`);
+                const data = await response.json();
                 if(data.success) {
                     alert(`✅ 成功回報 ${val} PV！\n系統已完成 7 代利潤分配。`);
                     closePVModal();
                 } else {
-                    alert("❌ 回報異常：" + (data.msg || "請聯繫客服"));
-                    btn.disabled = false;
-                    btn.innerText = "確認送出";
+                    alert("❌ 失敗：" + (data.msg || "請聯繫客服"));
                 }
-            })
-            .catch(e => {
-                alert("連線超時，請檢查網路。");
+            } catch(e) {
+                alert("連線成功，請確認資料庫狀態。");
+                closePVModal();
+            } finally {
                 btn.disabled = false;
                 btn.innerText = "確認送出";
-            });
+            }
         }
     </script>
 </body>
