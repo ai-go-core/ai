@@ -28,6 +28,7 @@
             box-shadow: 0 0 30px rgba(212, 175, 55, 0.6); margin: 30px 0; border: 2px solid #fff;
         }
 
+        .ref-display { color: var(--cyan); font-weight: bold; }
         .footer { text-align: center; color: #555; font-size: 11px; padding: 30px 0; border-top: 1px solid #222; }
     </style>
 </head>
@@ -35,56 +36,32 @@
 
 <div class="container">
     <div class="manifesto">
-        <h2 style="margin:0;">這 1,500 元，將徹底翻轉您的帳單</h2>
-        <p style="margin:10px 0 0; font-size:15px; opacity: 0.9;">這不是消費支出，而是資產配置的開始。</p>
+        <h2 style="margin:0;">這 1,500 元，將翻轉您的帳單</h2>
+        <p style="margin:10px 0 0; font-size:15px;">您好！我是您的 AI 生活推廣員：<span id="refName" class="ref-display">系統預設</span></p>
     </div>
 
     <div class="card" style="border-color: var(--cyan);">
-        <h3 style="color: var(--cyan); text-align: center; margin-top: 0;">💎 僅此一次首購，解鎖無限價值</h3>
-        
-        <div class="value-item">
-            <div class="value-icon">1</div>
-            <div class="value-text"><b>拿回 100% 日常所需：</b> 消費泰山、黑人牙膏、牛頭牌等大廠名品，錢沒有變不見，只是換成您本來就要用的高品質物資。</div>
-        </div>
-
-        <div class="value-item">
-            <div class="value-icon">2</div>
-            <div class="value-text"><b>現領 $50 購物金 + $60 回饋：</b> 註冊首購立即抵扣，實質回饋感最直接。</div>
-        </div>
-
-        <div class="value-item">
-            <div class="value-icon">3</div>
-            <div class="value-text"><b>永久擁有「AI 數位分身」：</b> 獲得 24H 自動引流分身，幫您在社群自動開口，不用口才也能輕鬆推廣。</div>
-        </div>
-
-        <div class="value-item">
-            <div class="value-icon">4</div>
-            <div class="value-text"><b>解鎖 W1-W7 數位軍火庫：</b> 內含強大文案與行銷工具，一鍵生成的獲利術。</div>
-        </div>
-
-        <div class="value-item">
-            <div class="value-icon">5</div>
-            <div class="value-text"><b>獲取 7 代 4% 終身分潤權：</b> 只要 1500 元達標，系統永久鎖定您的推廣收益，挑戰月領 18 萬。</div>
-        </div>
-
-        <div class="value-item">
-            <div class="value-icon">6</div>
-            <div class="value-text"><b>領取「免費韓國旅遊」門票：</b> 參與 5x5 裂變計畫，達標即享 2027 韓國尊榮之旅，我們帶您出國玩！</div>
-        </div>
+        <h3 style="color: var(--cyan); text-align: center; margin-top: 0;">💎 消費 1500 元的跨時代價值</h3>
+        <div class="value-item"><div class="value-icon">1</div><div class="value-text"><b>拿回 100% 日用品：</b>泰山、黑人牙膏、牛頭牌等大廠名品搬回家。</div></div>
+        <div class="value-item"><div class="value-icon">2</div><div class="value-text"><b>現領 $50 購物金：</b>註冊即領，首購直接抵扣。</div></div>
+        <div class="value-item"><div class="value-icon">3</div><div class="value-text"><b>AI 數位分身授權：</b>獲得 24H 自動引流分身，替您在網路收單。</div></div>
+        <div class="value-item"><div class="value-icon">4</div><div class="value-text"><b>數位軍火庫：</b>解鎖 W1-W7 文案與行銷自動化武器。</div></div>
+        <div class="value-item"><div class="value-icon">5</div><div class="value-text"><b>終身分潤權：</b>解鎖七代 4% 分潤，挑戰月領 18 萬。</div></div>
+        <div class="value-item"><div class="value-icon">6</div><div class="value-text"><b>免費韓國旅遊：</b>參與 5x5 計畫，送您 2027 韓國尊榮之旅。</div></div>
     </div>
 
-    <div class="card" style="border-color: var(--pink);">
-        <h3 style="color: var(--pink); text-align: center; margin-top: 0; font-size: 18px;">📉 只要分享 5 人，負擔趨近於零</h3>
-        <p style="text-align: center; font-size: 14px; margin: 0;">
-            當您分享 5 位好友同樣搬移 1,500 元預算<br>
-            您的首購成本立即降至 <span style="color: var(--green); font-weight: bold; font-size: 20px;">$595</span> (約 39 折)<br>
-            <span style="color: var(--gold);">再往下延伸一代，您就開始「領錢」了！</span>
+    <div class="card" style="border-color: var(--green);">
+        <h3 style="color: var(--green); text-align: center; margin-top: 0;">📈 財富翻轉算式</h3>
+        <p style="text-align: center; font-size: 14px;">
+            跟隨 <span class="ref-display" id="refName2">推廣員</span> 的腳步分享 5 位好友<br>
+            您的首購成本降至 <span style="color: var(--pink); font-weight: bold;">$595</span><br>
+            <span style="color: var(--gold);">啟動 AI 爆裂術後，二代即享「消費免單」！</span>
         </p>
     </div>
 
-    <a href="https://ai-go-core.github.io/ai/?ref=YOUR_LINE_ID" class="btn-m">
-        <span style="font-size: 24px;">🔥 立即註冊 · 啟動 1500 價值</span>
-        <span style="font-size: 14px; margin-top: 5px; opacity: 0.9;">拿回 50 元並開啟您的 AI 爆裂術</span>
+    <a id="regBtn" href="https://ai-go-core.github.io/ai/?ref=default" class="btn-m">
+        <span style="font-size: 24px;">🔥 立即註冊 · 搶佔名額</span>
+        <span style="font-size: 14px; margin-top: 5px; opacity: 0.9;">成為 <span id="refName3">推薦人</span> 的戰友</span>
     </a>
 
     <div class="footer">
@@ -92,6 +69,23 @@
         <p>© 2026 數位代號戰隊 ‧ 提示回目錄請輸入 M</p>
     </div>
 </div>
+
+<script>
+    // 自動抓取網址參數腳本
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const refId = urlParams.get('ref') || '數位代號戰友'; // 若無參數則顯示預設
+        
+        // 1. 更新網頁中的顯示文字
+        document.getElementById('refName').innerText = refId;
+        document.getElementById('refName2').innerText = refId;
+        document.getElementById('refName3').innerText = refId;
+        
+        // 2. 更新按鈕連結
+        const regBtn = document.getElementById('regBtn');
+        regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId;
+    };
+</script>
 
 </body>
 </html>
