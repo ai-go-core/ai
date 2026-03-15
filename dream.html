@@ -85,6 +85,7 @@
         }
         .repair-info { display: flex; align-items: center; gap: 8px; flex: 1; }
         .repair-name { font-size: 14px; color: #eee; }
+        .checked-text { text-decoration: line-through; color: #666 !important; }
         
         .strategy-note { 
             background: rgba(0, 255, 255, 0.05); 
@@ -139,7 +140,7 @@
     </div>
 
     <div class="user-header">
-        <span class="user-welcome">領袖：</span><span id="user_nickname" class="user-name-tag">讀取中...</span>
+        <span class="user-welcome">領袖：</span><span id="user_nickname" class="user-name-tag">數據同步中...</span>
     </div>
 
     <div class="bonus-card">
@@ -168,7 +169,7 @@
 
         <div class="strategy-note">
             ✨ <strong style="color: var(--cyan);">領袖增值路徑：</strong><br>
-            只需透過分享系統與日常消費，即可創造持續性增值。讓每一筆錢，都回流成為修復家園的助力！
+            透過 AI 系統自動化推薦與 SC 能量積累，每一筆數位分潤都將直接注入修繕資金庫，實現 100% 夢想自動化。
         </div>
     </div>
 
@@ -176,7 +177,7 @@
     <div class="repair-box">
         <div class="dream-grid">
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300');"><div class="dream-overlay">尊爵極致別墅</div></div>
-            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300');"><div class="dream-overlay">頂級奢華座駕</div></div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300');"><div class="dream-overlay">頂頂座駕</div></div>
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=300');"><div class="dream-overlay">寰宇深度之旅</div></div>
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=300');"><div class="dream-overlay">永續財富自由</div></div>
         </div>
@@ -198,73 +199,117 @@
 </div>
 
 <script>
+    // 鎖定後端 GAS URL
     const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec"; 
     const LOBBY_BASE = "https://ai-go-core.github.io/ai/"; 
     const uid = new URLSearchParams(window.location.search).get('uid');
 
+    /**
+     * 從後端獲取領袖數據與修繕清單
+     */
     async function fetchData() {
-        if (!uid) return;
+        if (!uid) {
+            document.getElementById('user_nickname').innerText = "未登錄領袖";
+            return;
+        }
         try {
-            const res = await fetch(`${GAS_URL}?action=getUserDreamData&uid=${uid}`);
-            const data = await res.json();
+            const response = await fetch(`${GAS_URL}?action=getUserDreamData&uid=${uid}`);
+            const data = await response.json();
+            
             if (data.status === "success") {
-                // 渲染 O 欄位暱稱
-                document.getElementById('user_nickname').innerText = data.userName || "數位分身";
-                
-                document.getElementById('val_totalIncome').innerText = "NT$ " + (data.totalIncome || 0).toLocaleString();
+                // 更新領袖基礎資訊
+                document.getElementById('user_nickname').innerText = data.userName || "領袖";
+                document.getElementById('val_totalIncome').innerText = "NT$ " + (Number(data.totalIncome) || 0).toLocaleString();
                 document.getElementById('travel_pts').innerText = data.travelPts || 0;
+                
+                // 動態進度條更新
+                const progressPercent = Math.min((data.travelPts / 300) * 100, 100);
                 setTimeout(() => { 
-                    document.getElementById('travel_bar').style.width = Math.min((data.travelPts/300)*100, 100) + "%"; 
+                    document.getElementById('travel_bar').style.width = progressPercent + "%"; 
                 }, 300);
                 
-                const list = document.getElementById('repairList');
-                list.innerHTML = "";
-                let sumNeed = 0;
-                
-                if (data.repairs && data.repairs.length > 0) {
-                    data.repairs.forEach(item => {
-                        const cost = parseInt(item.cost || 0);
-                        sumNeed += cost;
-                        const div = document.createElement('div');
-                        div.className = 'repair-item';
-                        div.innerHTML = `
-                            <div class="repair-info">
-                                <input type="checkbox" ${item.status==='done'?'checked':''} disabled style="width:18px; height:18px;">
-                                <span class="repair-name" style="${item.status==='done'?'text-decoration:line-through; color:#666;':''}">${item.content}</span>
-                            </div>
-                            <span style="color: var(--gold); font-size: 14px; font-weight:bold;">$${cost.toLocaleString()}</span>
-                        `;
-                        list.appendChild(div);
-                    });
-                }
-                document.getElementById('totalNeed').innerText = "NT$ " + sumNeed.toLocaleString();
+                // 渲染修繕清單
+                renderRepairList(data.repairs);
             }
         } catch (e) { 
             console.error("同步失敗", e); 
-            document.getElementById('user_nickname').innerText = "讀取失敗";
+            document.getElementById('user_nickname').innerText = "連線中斷";
         }
     }
 
+    /**
+     * 渲染清單 DOM
+     */
+    function renderRepairList(repairs) {
+        const listContainer = document.getElementById('repairList');
+        listContainer.innerHTML = "";
+        let totalCost = 0;
+        
+        if (repairs && repairs.length > 0) {
+            repairs.forEach(item => {
+                const cost = parseInt(item.cost || 0);
+                totalCost += cost;
+                
+                const div = document.createElement('div');
+                div.className = 'repair-item';
+                const isDone = (item.status === 'completed');
+                
+                div.innerHTML = `
+                    <div class="repair-info">
+                        <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleStatus(${item.row})" style="width:18px; height:18px;">
+                        <span class="repair-name ${isDone ? 'checked-text' : ''}">${item.content}</span>
+                    </div>
+                    <span style="color: var(--gold); font-size: 14px; font-weight:bold;">$${cost.toLocaleString()}</span>
+                `;
+                listContainer.appendChild(div);
+            });
+        }
+        document.getElementById('totalNeed').innerText = "NT$ " + totalCost.toLocaleString();
+    }
+
+    /**
+     * 新增修繕項目
+     */
     async function addRepair() {
         const input = document.getElementById('repairInput');
-        const cost = document.getElementById('costInput');
+        const costInput = document.getElementById('costInput');
         if (!input.value.trim() || !uid) return;
 
         const btn = document.getElementById('saveBtn');
-        btn.innerText = "...";
+        btn.innerText = "⏳";
         btn.disabled = true;
         
         try {
-            await fetch(`${GAS_URL}?action=saveRepair&uid=${uid}&content=${encodeURIComponent(input.value)}&cost=${cost.value || 0}`);
-            input.value = ""; cost.value = "";
-        } catch (err) { console.error("儲存錯誤", err); }
-        
-        btn.innerText = "紀錄";
-        btn.disabled = false;
-        fetchData(); 
+            const apiCall = `${GAS_URL}?action=saveRepair&uid=${uid}&content=${encodeURIComponent(input.value)}&cost=${costInput.value || 0}`;
+            await fetch(apiCall);
+            input.value = ""; 
+            costInput.value = "";
+            await fetchData(); // 重新整理
+        } catch (err) { 
+            console.error("儲存失敗", err); 
+        } finally {
+            btn.innerText = "紀錄";
+            btn.disabled = false;
+        }
     }
 
-    function goToLobby() { window.location.href = LOBBY_BASE + "Lobby.html?uid=" + uid; }
+    /**
+     * 狀態切換持久化
+     */
+    async function toggleStatus(row) {
+        if (!row) return;
+        try {
+            await fetch(`${GAS_URL}?action=toggleRepair&row=${row}`);
+            fetchData();
+        } catch (err) {
+            console.error("更新狀態失敗", err);
+        }
+    }
+
+    function goToLobby() { 
+        window.location.href = LOBBY_BASE + "Lobby.html?uid=" + uid; 
+    }
+
     window.onload = fetchData;
 </script>
 </body>
