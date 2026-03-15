@@ -3,98 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 生活小秘書 · 樂瑞品牌生活全書</title>
+    <title>AI 生活小秘書 · 樂瑞財富全書</title>
     <style>
-        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; }
-        body { background-color: var(--black); color: #ffffff; font-family: -apple-system, 'PingFang TC', sans-serif; margin: 0; padding: 15px; }
+        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; --red: #FF4444; }
+        body { background-color: var(--black); color: #ffffff; font-family: -apple-system, 'PingFang TC', sans-serif; margin: 0; padding: 15px; line-height: 1.6; }
         .container { max-width: 600px; margin: 0 auto; }
         
-        /* 品牌生活卡樣式優化 */
-        .brand-card { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 20px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* 品牌卡：親和力 */
+        .brand-card { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 25px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .brand-header { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; text-align: center; }
         .brand-header h3 { margin: 0; color: #d32f2f; font-size: 20px; }
-        .brand-category { margin-bottom: 15px; }
-        .category-title { font-weight: bold; color: #555; font-size: 14px; border-left: 4px solid var(--gold); padding-left: 8px; margin-bottom: 10px; }
-        .brand-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag { background: #f0f0f0; color: #444; padding: 5px 12px; border-radius: 20px; font-size: 13px; border: 1px solid #ddd; }
-        .highlight-tag { background: #fff9c4; border: 1px solid #fbc02d; font-weight: bold; }
+        .brand-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+        .tag { background: #f8f8f8; color: #555; padding: 4px 10px; border-radius: 4px; font-size: 12px; border: 1px solid #ddd; }
 
-        .card { background: var(--dark-gray); border-radius: 12px; padding: 18px; margin-bottom: 15px; border-left: 4px solid var(--gold); }
-        .formula { background: #000; padding: 12px; border-radius: 6px; color: var(--green); text-align: center; border: 1px dashed #444; font-family: monospace; }
-        .btn-m { display: block; width: 100%; padding: 15px; background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000; text-align: center; text-decoration: none; font-weight: bold; border-radius: 30px; margin: 25px 0; border: none; }
+        /* 財富卡：慾望區 */
+        .wealth-card { background: linear-gradient(145deg, #1a1a1a, #000); border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--gold); position: relative; overflow: hidden; }
+        .wealth-card::after { content: "PASSIVE INCOME"; position: absolute; top: -10px; right: -10px; font-size: 40px; color: rgba(212, 175, 55, 0.05); font-weight: 900; z-index: 0; }
+        .wealth-content { position: relative; z-index: 1; }
+        
+        .income-title { color: var(--gold); font-size: 18px; font-weight: bold; border-left: 4px solid var(--gold); padding-left: 10px; margin-bottom: 15px; }
+        .formula-box { background: rgba(0, 255, 0, 0.05); border: 1px dashed var(--green); padding: 15px; border-radius: 8px; color: var(--green); text-align: center; margin: 15px 0; }
+        .money-text { color: var(--gold); font-size: 22px; font-weight: bold; }
+        
+        .step-list { list-style: none; padding: 0; margin: 0; }
+        .step-list li { padding-left: 25px; position: relative; margin-bottom: 12px; font-size: 14px; }
+        .step-list li::before { content: "✔"; position: absolute; left: 0; color: var(--cyan); font-weight: bold; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+        th { text-align: left; color: #888; padding: 8px 4px; border-bottom: 1px solid #333; }
+        td { padding: 10px 4px; border-bottom: 1px solid #222; }
+        .val-highlight { color: var(--gold); font-weight: bold; text-align: right; }
+
+        .btn-m { display: block; width: 100%; padding: 18px; background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000; text-align: center; text-decoration: none; font-weight: 900; border-radius: 50px; margin: 30px 0; font-size: 18px; letter-spacing: 1px; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4); }
+        .footer { text-align: center; color: #555; font-size: 11px; padding-bottom: 30px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header" style="text-align: center; padding: 20px 0;">
-        <h1 style="color: var(--gold); margin: 0;">🏛️ 樂瑞品牌生活全書</h1>
-        <p style="color: #888; font-size: 13px;">官網直供：https://www.lerich.com.tw/</p>
+    <div style="text-align: center; padding: 30px 0;">
+        <h1 style="color: var(--gold); margin: 0; letter-spacing: 2px;">🏛️ 樂瑞財富倍增計畫</h1>
+        <p style="color: #888; font-size: 13px;">AI 生活小秘書 · 全方位數位輔助 認證版</p>
     </div>
 
     <div class="brand-card">
         <div class="brand-header">
-            <h3>🛒 強大品牌力 = 您的競爭力</h3>
-            <p style="font-size: 12px; color: #777; margin: 5px 0;">免推銷！賣的是您本來就在用的民生用品</p>
+            <h3>🛒 消費即創業，無痛轉移</h3>
         </div>
-
-        <div class="brand-category">
-            <div class="category-title">🧃 暢銷飲品系列</div>
-            <div class="brand-tags">
-                <span class="tag">可口可樂</span><span class="tag">雪碧</span><span class="tag">黑松沙士</span>
-                <span class="tag">麥香奶茶/紅茶</span><span class="tag">立頓原味奶茶</span><span class="tag">舒跑</span>
-                <span class="tag">波蜜果菜汁</span><span class="tag">健酪</span><span class="tag">泰山冰鎮/水果茶</span>
-            </div>
+        <div class="brand-tags">
+            <span class="tag">金蘭醬油</span><span class="tag">麥香奶茶</span><span class="tag">黑人牙膏</span>
+            <span class="tag">維力炸醬麵</span><span class="tag">可口可樂</span><span class="tag">舒跑</span>
+            <span class="tag">義美小泡芙</span><span class="tag">科學麵</span><span class="tag">萬家香醬油</span>
+            <span class="tag">舒潔衛生紙</span><span class="tag">黑松沙士</span><span class="tag">統一肉燥麵</span>
         </div>
-
-        <div class="brand-category">
-            <div class="category-title">🍪 國民零食甜點</div>
-            <div class="brand-tags">
-                <span class="tag">義美小泡芙</span><span class="tag">可樂果</span><span class="tag">新貴派</span>
-                <span class="tag">卡辣姆久</span><span class="tag">樂事洋芋片</span><span class="tag">多力多滋</span>
-                <span class="tag">旺旺仙貝/雪餅</span><span class="tag">森永牛奶糖</span><span class="tag">喜年來蛋捲/金牛角</span>
-            </div>
-        </div>
-
-        <div class="brand-category">
-            <div class="category-title">🍜 廚房美味專家</div>
-            <div class="brand-tags">
-                <span class="tag highlight-tag">金蘭醬油 (純釀造)</span><span class="tag">維力炸醬麵</span>
-                <span class="tag">味味A排骨雞麵</span><span class="tag">統一肉燥麵</span><span class="tag">味王牛肉麵</span>
-                <span class="tag">素飄香</span><span class="tag">新屋芋香米</span>
-            </div>
-        </div>
-
-        <div class="brand-category">
-            <div class="category-title">🧴 居家洗劑與衛生</div>
-            <div class="brand-tags">
-                <span class="tag">黑人超氟牙膏</span><span class="tag">好來全亮白</span><span class="tag">舒酸定</span>
-                <span class="tag">高露潔</span><span class="tag">花仙子芳香噴霧</span><span class="tag">威拂魔撢</span>
-            </div>
-        </div>
-
-        <p style="text-align: center; font-size: 12px; color: #d32f2f; font-weight: bold; margin-top: 15px;">
-            ✅ 價格透明比照大賣場，消費 100% 抵扣，再賺 4% 回饋！
+        <p style="text-align: center; font-size: 12px; color: #777; margin-top: 10px;">
+            這些商品您本來就在買，只是在樂瑞買，<br><span style="color: #d32f2f; font-weight: bold;">錢會回流到您的口袋！</span>
         </p>
     </div>
 
-    <div class="card">
-        <h2 style="color: var(--cyan); font-size: 16px;">💰 被動收入公式</h2>
-        <div class="formula">月收益 = 7代內總消費 × 4%</div>
-        <p style="font-size: 13px; color: #ccc;">當您的團隊朋友在喝麥香、吃小泡芙、用黑人牙膏時，您的獎金就在自動產生。</p>
+    <div class="wealth-card">
+        <div class="wealth-content">
+            <div class="income-title">💰 七代 4% 被動分潤</div>
+            <p style="font-size: 14px; color: #ccc;">這不是一次性獎金，而是只要有人「活著消費」，您就有錢領。採「本人為第一代」原則：</p>
+            <div class="formula-box">
+                您 ＋ 下方 6 代成員 = <span class="money-text">4% 現金回饋</span>
+            </div>
+            <ul class="step-list">
+                <li><strong>睡後收入：</strong>當您的夥伴早上刷牙(黑人牙膏)、下午喝茶(麥香)，您的帳戶就在跳錢。</li>
+                <li><strong>倍增效應：</strong>每人僅需推薦 3 位領袖，七代人數可達 <span class="highlight">3,279 人</span>。</li>
+                <li><strong>月入過萬：</strong>平均每人月消費 1,000 元，您的月收入即突破 <span class="highlight">$130,000</span>。</li>
+            </ul>
+        </div>
     </div>
 
-    <div class="card">
-        <h2 style="color: var(--cyan); font-size: 16px;">🛫 韓國雙人旅遊積分</h2>
-        <p style="font-size: 13px;">1-3代會員，單帳號月消費滿 <span style="color:var(--gold)">1500元</span> 即可累積 1 點。<br>
-        🎯 年度累積 300 點，直接抱走韓國 5 天 4 夜雙人遊！</p>
+    <div class="wealth-card" style="border-color: var(--cyan);">
+        <div class="wealth-content">
+            <div class="income-title" style="color: var(--cyan); border-color: var(--cyan);">👑 領袖級階梯成就獎金</div>
+            <p style="font-size: 14px; color: #ccc;">這是為主理人準備的「額外大紅包」，不含在 4% 內：</p>
+            <table>
+                <thead>
+                    <tr><th>成就門檻 (1-7代總PV)</th><th style="text-align: right;">獎勵金額</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>首次達 100 萬 (核心門檻)</td><td class="val-highlight">NT$ 40,000</td></tr>
+                    <tr><td>累積達 1,000 萬</td><td class="val-highlight">NT$ 100,000</td></tr>
+                    <tr><td>累積達 5,000 萬</td><td class="val-highlight">NT$ 500,000</td></tr>
+                    <tr><td>累積達 1 億 (最高成就)</td><td class="val-highlight" style="font-size: 18px;">NT$ 1,000,000</td></tr>
+                </tbody>
+            </table>
+            <div style="background: rgba(0, 255, 255, 0.1); padding: 10px; border-radius: 8px; margin-top: 15px; font-size: 12px; color: var(--cyan);">
+                💡 <strong>領取關鍵：</strong>當月二代需達 3 萬 PV，三代達 5 萬 PV。這保證您的團隊結構健康且穩定！
+            </div>
+        </div>
     </div>
 
-    <button onclick="window.close();" class="btn-m">我看懂了！開始創建數位分身</button>
+    <div class="wealth-card">
+        <div class="wealth-content">
+            <div class="income-title">⚡ SC 數位能量倍增</div>
+            <p style="font-size: 14px; color: #ccc;">在數位生活圈，您的消費會轉化為資產：</p>
+            <div class="formula-box" style="color: var(--cyan); border-color: var(--cyan);">
+                1 PV 消費 = <span class="money-text" style="color: var(--cyan);">100 倍 SC 能量</span>
+            </div>
+            <p style="font-size: 13px; color: #888;">SC 能量是租用「高級 AI 工具」與參與「未來算力分紅」的核心權益，消費愈多，資產愈大。</p>
+        </div>
+    </div>
 
-    <div style="text-align: center; color: #555; font-size: 11px; padding-bottom: 20px;">
-        AI 生活小秘書 · 全方位數位輔助<br>
-        提示回目錄大廳請輸入 M
+    <div style="text-align: center; padding: 10px;">
+        <h2 style="color: var(--gold); margin-bottom: 5px;">這不是開銷，是投資。</h2>
+        <p style="font-size: 14px; color: #888; margin: 0;">現在就加入，讓您的每一筆消費都有尊嚴。</p>
+    </div>
+
+    <a href="javascript:void(0);" onclick="window.close();" class="btn-m">立即領取 $50 並開啟計畫</a>
+
+    <div class="footer">
+        <p>AI 生活小秘書 · 全方位數位輔助<br>© 2026 LeRich Digital System</p>
+        <p>提示回目錄大廳請輸入 M</p>
     </div>
 </div>
 
