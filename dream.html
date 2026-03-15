@@ -17,10 +17,9 @@
         input[type="text"]:focus { border-color: var(--gold); outline: none; }
         .btn-save { background: var(--gold); color: #000; border: none; padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .repair-item { display: flex; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #222; }
-        .repair-item.done { border-left: 4px solid var(--green); opacity: 0.8; }
         .checkbox { margin-right: 12px; transform: scale(1.2); }
 
-        /* 中段獎金盤點區 */
+        /* 中段獎金盤點區 - 消費增值金更新 */
         .bonus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .bonus-card { background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); border: 1px solid #d4af3744; padding: 15px; border-radius: 12px; text-align: center; }
         .bonus-label { font-size: 11px; color: #888; margin-bottom: 5px; letter-spacing: 1px; }
@@ -30,7 +29,7 @@
         .dream-container { background: #111; border-radius: 12px; padding: 15px; text-align: center; border: 1px solid #222; }
         .slogan { font-size: 14px; color: var(--cyan); margin: 10px 0 20px; font-weight: bold; letter-spacing: 1px; }
         .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .dream-item { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid #333; height: 110px; display: flex; align-items: flex-end; background-size: cover; background-position: center; filter: grayscale(40%); }
+        .dream-item { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid #333; height: 110px; display: flex; align-items: flex-end; background-size: cover; background-position: center; }
         .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 12px; padding: 6px 0; color: var(--gold); font-weight: bold; }
 
         .btn-back { display: block; width: 100%; padding: 15px; background: #222; color: #aaa; text-align: center; text-decoration: none; border-radius: 30px; margin-top: 30px; font-size: 14px; border: 1px solid #333; }
@@ -47,34 +46,34 @@
     <div class="section-title">🔧 第一階段：解決眼前問題</div>
     <div class="repair-box">
         <div class="input-group">
-            <input type="text" id="repairInput" placeholder="輸入目前急需解決的問題...">
+            <input type="text" id="repairInput" placeholder="輸入急需解決的生活問題...">
             <button class="btn-save" onclick="addRepair()">紀錄</button>
         </div>
         <div id="repairList">
-            <div class="repair-item done">
-                <input type="checkbox" class="checkbox" checked disabled>
-                <span style="font-size: 14px;">設定數位分身資產帳戶</span>
+            <div class="repair-item">
+                <input type="checkbox" class="checkbox">
+                <span style="font-size: 14px;">規劃數位資產配置</span>
             </div>
         </div>
     </div>
 
-    <div class="section-title">💰 解決問題的工具 (獎金盤點)</div>
+    <div class="section-title">💰 解決問題的工具 (資產盤點)</div>
     <div class="bonus-grid">
         <div class="bonus-card">
             <div class="bonus-label">4% 1-7代獎金</div>
-            <div class="bonus-value">$0</div>
+            <div class="bonus-value" id="val_bonus4">NT$ 0</div>
         </div>
         <div class="bonus-card">
-            <div class="bonus-label">二代首購獎 ($99/人)</div>
-            <div class="bonus-value">$0</div>
+            <div class="bonus-label">二代首購獎金 ($99)</div>
+            <div class="bonus-value" id="val_bonus99">NT$ 0</div>
         </div>
         <div class="bonus-card">
-            <div class="bonus-label">百萬領袖獎金</div>
-            <div class="bonus-value">審核中</div>
+            <div class="bonus-label">百萬領袖紅包</div>
+            <div class="bonus-value" id="val_leader">審核中</div>
         </div>
         <div class="bonus-card">
-            <div class="bonus-label">紅包贊助金</div>
-            <div class="bonus-value">$0</div>
+            <div class="bonus-label">消費增值金</div>
+            <div class="bonus-value" id="val_added">NT$ 0</div>
         </div>
     </div>
 
@@ -113,15 +112,12 @@
         const input = document.getElementById('repairInput');
         const list = document.getElementById('repairList');
         if (input.value.trim() === "") return;
-
         const div = document.createElement('div');
         div.className = 'repair-item';
         div.innerHTML = `<input type="checkbox" class="checkbox"> <span style="font-size: 14px;">${input.value}</span>`;
-        
         list.insertBefore(div, list.firstChild);
         input.value = "";
     }
 </script>
-
 </body>
 </html>
