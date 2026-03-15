@@ -8,80 +8,118 @@
         :root { --gold: #D4AF37; --black: #000000; --cyan: #00FFFF; --pink: #FF69B4; --green: #39FF14; --white: #ffffff; }
         html, body { background-color: var(--black) !important; color: var(--white) !important; margin: 0; padding: 0; }
         body { font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.6; }
-        .container { max-width: 480px; margin: 0 auto; padding: 20px; box-sizing: border-box; }
+        .container { max-width: 480px; margin: 0 auto; padding: 25px; box-sizing: border-box; }
         
+        /* 震撼標題區 */
         .manifesto { 
-            background: linear-gradient(135deg, var(--gold), #8B6508); 
-            color: #000 !important; padding: 25px; border-radius: 20px; text-align: center; 
-            margin-bottom: 25px; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, #1a1a1a, #000); 
+            border: 2px solid var(--gold); padding: 30px 20px; border-radius: 20px; text-align: center; 
+            margin-bottom: 30px; box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
         }
+        .manifesto h2 { margin: 0; font-size: 26px; color: var(--gold); letter-spacing: 1px; }
 
-        .card { background: #151515; border: 1px solid #333; border-radius: 15px; padding: 20px; margin-bottom: 20px; position: relative; }
-        .value-item { display: flex; align-items: flex-start; margin-bottom: 15px; }
-        .value-icon { background: var(--gold); color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; font-weight: bold; font-size: 14px; }
-        .value-text b { color: var(--gold); font-size: 16px; }
+        .info-text { font-size: 14px; color: #888; text-align: center; margin-bottom: 20px; line-height: 1.4; }
 
+        /* 利益核心區 */
+        .card { background: rgba(255, 255, 255, 0.03); border: 1px solid #333; border-radius: 15px; padding: 25px; margin-bottom: 20px; }
+        .benefit-item { display: flex; align-items: flex-start; margin-bottom: 22px; }
+        .benefit-icon { width: 32px; height: 32px; background: var(--gold); color: #000; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; font-weight: 900; }
+        .benefit-content b { color: var(--white); font-size: 17px; display: block; margin-bottom: 4px; }
+        .benefit-content span { color: var(--cyan); font-size: 14px; font-weight: bold; }
+        .benefit-content p { color: #bbb; font-size: 13px; margin: 0; margin-top: 4px; }
+
+        /* 算式區塊 */
+        .math-box { border: 1px dashed var(--green); background: rgba(57, 255, 20, 0.05); padding: 20px; border-radius: 12px; text-align: center; }
+        .math-box b { font-size: 28px; color: var(--green); }
+
+        /* 終極按鈕 */
         .btn-m { 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
             width: 100%; padding: 22px 0; background: linear-gradient(90deg, var(--gold), #B8860B); 
             color: #000 !important; text-decoration: none; font-weight: 900; border-radius: 50px; 
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.6); margin: 30px 0; border: 2px solid #fff;
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5); margin: 30px 0; border: 2px solid #fff;
         }
 
-        .ref-display { color: var(--cyan); font-weight: bold; }
-        .footer { text-align: center; color: #555; font-size: 11px; padding: 30px 0; border-top: 1px solid #222; }
+        .footer { text-align: center; color: #444; font-size: 11px; padding: 30px 0; border-top: 1px solid #222; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="manifesto">
-        <h2 style="margin:0;">這 1,500 元，將翻轉您的帳單</h2>
-        <p style="margin:10px 0 0; font-size:15px;">您好！我是您的 AI 生活推廣員：<span id="refName" class="ref-display">系統預設</span></p>
+        <h2>解鎖 1,500 元最大利益</h2>
+        <p style="margin-top:10px; color: #fff;">換個地方買日常用品，啟動您的財富引擎</p>
     </div>
 
-    <div class="card" style="border-color: var(--cyan);">
-        <h3 style="color: var(--cyan); text-align: center; margin-top: 0;">💎 消費 1500 元的跨時代價值</h3>
-        <div class="value-item"><div class="value-icon">1</div><div class="value-text"><b>拿回 100% 日用品：</b>泰山、黑人牙膏、牛頭牌等大廠名品搬回家。</div></div>
-        <div class="value-item"><div class="value-icon">2</div><div class="value-text"><b>現領 $50 購物金：</b>註冊即領，首購直接抵扣。</div></div>
-        <div class="value-item"><div class="value-icon">3</div><div class="value-text"><b>AI 數位分身授權：</b>獲得 24H 自動引流分身，替您在網路收單。</div></div>
-        <div class="value-item"><div class="value-icon">4</div><div class="value-text"><b>數位軍火庫：</b>解鎖 W1-W7 文案與行銷自動化武器。</div></div>
-        <div class="value-item"><div class="value-icon">5</div><div class="value-text"><b>終身分潤權：</b>解鎖七代 4% 分潤，挑戰月領 18 萬。</div></div>
-        <div class="value-item"><div class="value-icon">6</div><div class="value-text"><b>免費韓國旅遊：</b>參與 5x5 計畫，送您 2027 韓國尊榮之旅。</div></div>
+    <p class="info-text">
+        💡 樂瑞購物並無限制消費金額，但經過團隊精算，<br>
+        消費 1,500 元能獲取「最大化紅利與工具權限」。
+    </p>
+
+    <div class="card">
+        <div class="benefit-item">
+            <div class="benefit-icon">1</div>
+            <div class="benefit-content">
+                <b>立即現金回饋</b>
+                <span>自我回饋 4% = $60 元立即入袋</span>
+                <p>首購即省，這只是致富的第一步。</p>
+            </div>
+        </div>
+
+        <div class="benefit-item">
+            <div class="benefit-icon">2</div>
+            <div class="benefit-content">
+                <b>2027 韓國尊榮之旅</b>
+                <span>取得旅遊點數 1 點</span>
+                <p>1-3 代累積滿 300 點，公司免費招待 2 人韓國旅遊。</p>
+            </div>
+        </div>
+
+        <div class="benefit-item">
+            <div class="benefit-icon">3</div>
+            <div class="benefit-content">
+                <b>團隊 AI 爆裂行銷工具</b>
+                <span>獲得數位分身與文案資源中心</span>
+                <p>解鎖 AI 自動引流與文案工具，讓電腦為您工作。</p>
+            </div>
+        </div>
+
+        <div class="benefit-item">
+            <div class="benefit-icon">4</div>
+            <div class="benefit-content">
+                <b>1-7 代無限分潤</b>
+                <span>鎖定 1500PV * 4% = 每家回饋 $60</span>
+                <p>挑戰 100 萬元以上月收入，實現真正的被動收益。</p>
+            </div>
+        </div>
     </div>
 
-    <div class="card" style="border-color: var(--green);">
-        <h3 style="color: var(--green); text-align: center; margin-top: 0;">📈 財富翻轉算式</h3>
-        <p style="text-align: center; font-size: 14px;">
-            跟隨 <span class="ref-display" id="refName2">推廣員</span> 的腳步分享 5 位好友<br>
-            您的首購成本降至 <span style="color: var(--pink); font-weight: bold;">$595</span><br>
-            <span style="color: var(--gold);">啟動 AI 爆裂術後，二代即享「消費免單」！</span>
-        </p>
+    <div class="math-box">
+        <p style="margin:0; font-size: 14px; color: #ccc;">當二代裂變完成，您的月回饋將達到</p>
+        <b>$2,295 / 月</b><br>
+        <span style="color: var(--cyan); font-weight: bold;">消費免單，額外領取淨利潤！</span>
     </div>
 
-    <a id="regBtn" href="https://ai-go-core.github.io/ai/?ref=default" class="btn-m">
-        <span style="font-size: 24px;">🔥 立即註冊 · 搶佔名額</span>
-        <span style="font-size: 14px; margin-top: 5px; opacity: 0.9;">成為 <span id="refName3">推薦人</span> 的戰友</span>
+    <p style="text-align: center; font-size: 13px; color: #666; margin-top: 20px;">
+        推薦人：<span id="refDisplay" style="color: var(--gold); font-weight: bold;">識別中...</span>
+    </p>
+
+    <a id="regBtn" href="#" class="btn-m">
+        <span style="font-size: 24px;">🔥 立即註冊 · 啟動生活財富計畫</span>
+        <span style="font-size: 13px; margin-top: 5px; opacity: 0.9;">領取 $50，首購1500開啟 AI 爆裂行銷工具與韓國旅遊</span>
     </a>
 
     <div class="footer">
         <p>AI 生活小秘書 · 全方位數位輔助 認證</p>
-        <p>© 2026 數位代號戰隊 ‧ 提示回目錄請輸入 M</p>
+        <p>© 2026 數位生活圈 ‧ 提示回目錄請輸入 M</p>
     </div>
 </div>
 
 <script>
-    // 自動抓取網址參數腳本
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
-        const refId = urlParams.get('ref') || '數位代號戰友'; // 若無參數則顯示預設
-        
-        // 1. 更新網頁中的顯示文字
-        document.getElementById('refName').innerText = refId;
-        document.getElementById('refName2').innerText = refId;
-        document.getElementById('refName3').innerText = refId;
-        
-        // 2. 更新按鈕連結
+        const refId = urlParams.get('ref') || '數位生活圈';
+        document.getElementById('refDisplay').innerText = refId;
         const regBtn = document.getElementById('regBtn');
         regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId;
     };
