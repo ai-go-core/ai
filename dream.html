@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏡 修繕清單 + 夢想板計畫</title>
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --cyan: #00FFFF;
+            --green: #00FF00;
+        }
+
+        body {
+            background-color: var(--black);
+            color: #ffffff;
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .asset-card {
+            background: linear-gradient(145deg, #222, #000);
+            border: 1px solid var(--gold);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .asset-val {
+            font-size: 28px;
+            color: var(--gold);
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .progress-section {
+            background: var(--dark-gray);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .progress-item {
+            margin-bottom: 15px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .bar-bg {
+            background: #333;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            background: var(--gold);
+            height: 100%;
+            width: 0%; /* 之後可透過 JS 根據數據動態填入 */
+            transition: width 1s ease-in-out;
+        }
+
+        .repair-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .repair-item {
+            background: #111;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .repair-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .btn-action {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: var(--gold);
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 30px;
+            margin-top: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1 style="color: var(--gold); margin: 0;">🏡 夢想板計畫</h1>
+            <p style="color: var(--cyan); font-size: 14px;">數位分身修繕與資產盤點</p>
+        </div>
+
+        <div class="asset-card">
+            <p style="margin: 0; color: #888;">當前算力資產儲備</p>
+            <div class="asset-val" id="scBalance">正在連線系統...</div>
+            <div style="color: var(--green); font-size: 13px;">SC 數位能量已鎖定</div>
+        </div>
+
+        <div class="progress-section">
+            <h3 style="margin-top: 0; color: var(--gold);">🛠️ 數位分身修繕進度</h3>
+            
+            <div class="progress-item">
+                <div class="progress-label"><span>基礎能量核心</span><span>85%</span></div>
+                <div class="bar-bg"><div class="bar-fill" style="width: 85%;"></div></div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-label"><span>七代分潤鏈結</span><span>40%</span></div>
+                <div class="bar-bg"><div class="bar-fill" style="width: 40%; background: var(--cyan);"></div></div>
+            </div>
+        </div>
+
+        <h3 style="color: var(--gold);">🎯 2026 願景清單</h3>
+        <ul class="repair-list">
+            <li class="repair-item">
+                <div class="repair-icon">🛫</div>
+                <div>
+                    <div style="font-weight: bold;">環球旅遊資格</div>
+                    <div style="font-size: 12px; color: #888;">需累計 300 點旅遊積分</div>
+                </div>
+            </li>
+            <li class="repair-item">
+                <div class="repair-icon">💰</div>
+                <div>
+                    <div style="font-weight: bold;">百萬領袖紅包</div>
+                    <div style="font-size: 12px; color: #888;">解鎖進度：二代 PV 達標中</div>
+                </div>
+            </li>
+        </ul>
+
+        <a href="javascript:window.close();" class="btn-action">返回數位總部</a>
+
+        <div class="footer">
+            <p>AI 生活小秘書 · 全方位數位輔助 系統監控</p>
+            <p>提示回目錄大廳請輸入 M</p>
+        </div>
+    </div>
+
+    <script>
+        // 模擬數據或從網址參數抓取 (例如 dream.html?sc=10000)
+        const urlParams = new URLSearchParams(window.location.search);
+        const sc = urlParams.get('sc') || "查詢中...";
+        if(document.getElementById('scBalance')) {
+            document.getElementById('scBalance').innerText = sc + " SC";
+        }
+    </script>
+</body>
+</html>
