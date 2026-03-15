@@ -1,115 +1,38 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 生活小秘書 · 樂瑞財富全書</title>
-    <style>
-        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; --red: #FF4444; }
-        body { background-color: var(--black); color: #ffffff; font-family: -apple-system, 'PingFang TC', sans-serif; margin: 0; padding: 15px; line-height: 1.6; }
-        .container { max-width: 600px; margin: 0 auto; }
-        
-        /* 頂級視覺：AI 爆裂風格 */
-        .ai-burst-card { background: linear-gradient(135deg, #000 0%, #1a1a1a 100%); border: 2px solid var(--cyan); border-radius: 15px; padding: 20px; margin: 25px 0; position: relative; box-shadow: 0 0 20px rgba(0, 255, 255, 0.3); }
-        .ai-title { color: var(--cyan); font-size: 22px; font-weight: 900; text-align: center; margin-bottom: 15px; text-shadow: 0 0 10px var(--cyan); }
-        
-        .brand-card { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 25px; color: #333; }
-        .brand-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
-        .tag { background: #f0f0f0; color: #444; padding: 4px 10px; border-radius: 4px; font-size: 12px; border: 1px solid #ddd; }
-
-        .wealth-card { background: var(--dark-gray); border-radius: 15px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--gold); }
-        .money-text { color: var(--gold); font-size: 24px; font-weight: bold; }
-        
-        .zero-risk { background: rgba(255, 68, 68, 0.1); border: 1px solid var(--red); border-radius: 10px; padding: 15px; margin-bottom: 20px; text-align: center; }
-        
-        .step-item { display: flex; align-items: flex-start; margin-bottom: 15px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; }
-        .step-num { background: var(--cyan); color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 12px; flex-shrink: 0; }
-
-        .btn-m { display: block; width: 100%; padding: 20px; background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000 !important; text-align: center; text-decoration: none; font-weight: 900; border-radius: 50px; margin: 30px 0; font-size: 20px; box-shadow: 0 10px 20px rgba(212, 175, 55, 0.4); border: none; }
-        
-        .footer { text-align: center; color: #555; font-size: 11px; padding: 20px 0 40px; border-top: 1px solid #222; }
+<style>
+        .zero-risk { 
+            background: rgba(0, 255, 255, 0.05); /* 青色透明背景 */
+            border: 2px solid var(--cyan); /* 青色邊框 */
+            border-radius: 12px; 
+            padding: 18px; 
+            margin-bottom: 20px; 
+            text-align: center; 
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); 
+        }
+        .zero-risk-title { 
+            color: var(--cyan); /* 標題改為青色 */
+            margin: 0 0 12px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            text-shadow: 0 0 5px var(--cyan); 
+        }
+        .zero-risk p { 
+            font-size: 14px; 
+            color: #fff; 
+            margin: 0; 
+            line-height: 1.8; 
+        }
+        .zero-risk-highlight { 
+            color: var(--gold); /* 關鍵字改為黃色 */
+            font-weight: bold; 
+        }
     </style>
-</head>
-<body>
-
-<div class="container">
-    <div style="text-align: center; padding: 20px 0;">
-        <h1 style="color: var(--gold); margin: 0; font-size: 26px;">🏛️ 樂瑞財富事業版圖</h1>
-        <p style="color: #888; font-size: 14px;">數位時代的最強獲利公式</p>
-    </div>
-
-    <div class="brand-card">
-        <h3 style="margin: 0 0 10px; text-align: center; color: #d32f2f;">🛒 國民大廠直供 ‧ 消費轉收入</h3>
-        <div class="brand-tags">
-            <span class="tag">金蘭醬油</span><span class="tag">麥香系列</span><span class="tag">黑人牙膏</span>
-            <span class="tag">維力炸醬麵</span><span class="tag">可口可樂</span><span class="tag">義美小泡芙</span>
-            <span class="tag">科學麵</span><span class="tag">舒潔</span><span class="tag">萬家香</span><span class="tag">黑松沙士</span>
-        </div>
-        <p style="text-align: center; font-size: 12px; color: #666; margin-top: 12px;">
-            價格透明，只是「換個地方買」你本來就在用的東西，<br><b>讓每一筆支出都變成你的睡後收入！</b>
-        </p>
-    </div>
-
-    <div class="wealth-card">
-        <div style="color: var(--gold); font-weight: bold; margin-bottom: 8px;">💰 七代 4% 現金回饋</div>
-        <div style="background: rgba(0, 255, 0, 0.05); padding: 15px; border-radius: 8px; color: var(--green); text-align: center;">
-            平均月入預估：<span class="money-text">$48,000 ~ $1,000,000+</span>
-        </div>
-        <p style="font-size: 13px; color: #aaa; margin-top: 10px;">
-            採「本人第一代」原則，您的 1-7 代夥伴喝水、吃飯、刷牙，您都有現金領！
-        </p>
-    </div>
-
-    <div class="ai-burst-card">
-        <div class="ai-title">🚀 AI 爆裂行銷術</div>
-        <p style="text-align: center; color: #ccc; font-size: 14px; margin-bottom: 20px;">
-            擔心找不到人？我們為您配置了最強數位武裝：
-        </p>
-        
-        <div class="step-item">
-            <div class="step-num">1</div>
-            <div><b>創建數位分身：</b>24小時全自動運作，精準觸及潛在客戶。</div>
-        </div>
-        <div class="step-item">
-            <div class="step-num">2</div>
-            <div><b>精準裂變系統：</b>透過 AI 演算，快速發展您的生活事業版圖。</div>
-        </div>
-        <div class="step-item">
-            <div class="step-num">3</div>
-            <div><b>一鍵爆發流量：</b>解決人脈痛點，讓您的戰隊呈爆炸式成長。</div>
-        </div>
-        
-        <p style="text-align: center; color: var(--cyan); font-weight: bold; font-size: 13px;">
-            ※ 註冊後立即解鎖 AI 爆裂工具箱使用權！
-        </p>
-    </div>
 
     <div class="zero-risk">
-        <h3 style="color: var(--red); margin: 0 0 10px;">🚫 真正的五免承諾</h3>
-        <div style="font-size: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <span>✅ 免會費 / 免年費</span>
-            <span>✅ 免囤貨 / 免扛貨</span>
-            <span>✅ 免強迫推銷</span>
-            <span>✅ 購買家庭用品即是創業</span>
-        </div>
-        <p style="margin-top: 15px; color: var(--gold); font-weight: bold;">「註冊現領 $50，現在就是您的致富起點！」</p>
+        <h3 class="zero-risk-title">🚫 真正的五免承諾 ‧ 零風險致富</h3>
+        <p>
+            <span class="zero-risk-highlight">免</span>入會費 ‧ <span class="zero-risk-highlight">免</span>年費 ‧ <span class="zero-risk-highlight">免</span>囤貨 ‧ <span class="zero-risk-highlight">免</span>扛貨 ‧ <span class="zero-risk-highlight">免</span>推銷
+        </p>
+        <p style="margin-top: 15px; color: #eee; font-size: 16px;">
+            「註冊領 <span class="zero-risk-highlight">$50</span> 啟動金，現在就是致富起點！」
+        </p>
     </div>
-
-    <a href="您的個人推廣連結" class="btn-m">
-        🔥 立即免費註冊 ‧ 開啟爆裂行銷術
-    </a>
-
-    <div style="text-align: center; margin-bottom: 20px;">
-        <p style="color: #888; font-size: 13px;">24小時運轉 ‧ 滿 100 提現</p>
-    </div>
-
-    <div class="footer">
-        <p>AI 生活小秘書 · 全方位數位輔助 認證</p>
-        <p>© 2026 LeRich Digital System. Tracker: AI-BURST-V1</p>
-        <br>
-        <p>提示回目錄大廳請輸入 M</p>
-    </div>
-</div>
-
-</body>
-</html>
