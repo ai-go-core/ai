@@ -3,91 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 生活小秘書 · 樂瑞 2026 五大獎勵全書</title>
+    <title>AI 生活小秘書 · 樂瑞品牌生活全書</title>
     <style>
-        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; --red: #FF4444; }
-        body { background-color: var(--black); color: #ffffff; font-family: -apple-system, 'PingFang TC', sans-serif; margin: 0; padding: 15px; line-height: 1.5; }
+        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; }
+        body { background-color: var(--black); color: #ffffff; font-family: -apple-system, 'PingFang TC', sans-serif; margin: 0; padding: 15px; }
         .container { max-width: 600px; margin: 0 auto; }
-        .header { text-align: center; padding: 25px 0; border-bottom: 2px solid var(--gold); margin-bottom: 20px; }
-        .header h1 { color: var(--gold); font-size: 22px; letter-spacing: 1px; margin: 0; }
         
-        .card { background: var(--dark-gray); border-radius: 12px; padding: 18px; margin-bottom: 15px; border-left: 4px solid var(--gold); box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .card h2 { color: var(--cyan); font-size: 17px; margin: 0 0 12px; display: flex; align-items: center; }
-        .card h2 .badge { background: var(--gold); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 8px; }
-        
-        .formula { background: #000; padding: 12px; border-radius: 6px; color: var(--green); font-family: monospace; margin: 10px 0; text-align: center; border: 1px dashed #444; }
-        .highlight { color: var(--gold); font-weight: bold; }
-        .note { font-size: 12px; color: #888; margin-top: 8px; }
-        
-        table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
-        td { padding: 8px 4px; border-bottom: 1px solid #333; }
-        .val { text-align: right; color: var(--gold); font-weight: bold; }
+        /* 品牌生活卡樣式優化 */
+        .brand-card { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 20px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .brand-header { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; text-align: center; }
+        .brand-header h3 { margin: 0; color: #d32f2f; font-size: 20px; }
+        .brand-category { margin-bottom: 15px; }
+        .category-title { font-weight: bold; color: #555; font-size: 14px; border-left: 4px solid var(--gold); padding-left: 8px; margin-bottom: 10px; }
+        .brand-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag { background: #f0f0f0; color: #444; padding: 5px 12px; border-radius: 20px; font-size: 13px; border: 1px solid #ddd; }
+        .highlight-tag { background: #fff9c4; border: 1px solid #fbc02d; font-weight: bold; }
 
+        .card { background: var(--dark-gray); border-radius: 12px; padding: 18px; margin-bottom: 15px; border-left: 4px solid var(--gold); }
+        .formula { background: #000; padding: 12px; border-radius: 6px; color: var(--green); text-align: center; border: 1px dashed #444; font-family: monospace; }
         .btn-m { display: block; width: 100%; padding: 15px; background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000; text-align: center; text-decoration: none; font-weight: bold; border-radius: 30px; margin: 25px 0; border: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
-        <h1>🏛️ 樂瑞 2026 五大獎勵說明</h1>
-        <p style="color: #888; font-size: 13px;">AI 生活小秘書 · 全方位數位輔助 認證版</p>
+    <div class="header" style="text-align: center; padding: 20px 0;">
+        <h1 style="color: var(--gold); margin: 0;">🏛️ 樂瑞品牌生活全書</h1>
+        <p style="color: #888; font-size: 13px;">官網直供：https://www.lerich.com.tw/</p>
     </div>
 
-    <div class="card">
-        <h2><span class="badge">第一重</span> 註冊 50 元購物金</h2>
-        <p>註冊成為會員，即刻贈送 <span class="highlight">$50</span> 購物金。</p>
-        <p class="note">✅ 無年費、無隱藏收費，將日常消費轉換至樂瑞即可享受。</p>
-    </div>
-
-    <div class="card">
-        <h2><span class="badge">第二重</span> 推薦獎勵 99 元</h2>
-        <p>推薦朋友註冊並完成<span class="highlight">初次消費</span>，您即可獲得：</p>
-        <div class="formula">推薦收益 = $99 × 推薦人數 (無上限)</div>
-    </div>
-
-    <div class="card">
-        <h2><span class="badge">第三重</span> 2027 韓國雙人旅遊</h2>
-        <p>實現與家人環遊世界的夢想，累積 300 點即可達標。</p>
-        <div class="formula">1代+2代+3代：任一帳號月消費滿 $1500 = 1 點</div>
-        <table style="font-size: 11px; color: #aaa;">
-            <tr><td>舉例：當月消費 $500</td><td>❌ 0 點 (不可跨月累積)</td></tr>
-            <tr><td>舉例：分次消費滿 $1500</td><td>✅ 1 點</td></tr>
-            <tr><td>舉例：單一帳號 $6000</td><td>⚠️ 仍計 1 點</td></tr>
-        </table>
-        <p class="note">🎯 目標：2026/01-12 累積 300 點，解鎖 2027/03 韓國五天四夜雙人遊。</p>
-    </div>
-
-    <div class="card">
-        <h2><span class="badge">第四重</span> 階梯式百萬獎勵金</h2>
-        <p>當月團隊總 PV 首次達成門檻，領取一次性大紅包：</p>
-        <table>
-            <tr><td>1-7代首達 100 萬</td><td class="val">$40,000</td></tr>
-            <tr><td>首次累積達 500 萬</td><td class="val">$50,000</td></tr>
-            <tr><td>首次累積達 1,000 萬</td><td class="val">$100,000</td></tr>
-            <tr><td>首次累積達 5,000 萬</td><td class="val">$500,000</td></tr>
-            <tr><td>首次累積達 1 億元</td><td class="val">$1,000,000</td></tr>
-        </table>
-        <div class="note" style="color: var(--cyan); border: 1px solid #333; padding: 8px; margin-top: 10px;">
-            ⚠️ 核心條件：當月「二代消費達 3 萬」且「三代消費達 5 萬」方可計入獎勵累積。
+    <div class="brand-card">
+        <div class="brand-header">
+            <h3>🛒 強大品牌力 = 您的競爭力</h3>
+            <p style="font-size: 12px; color: #777; margin: 5px 0;">免推銷！賣的是您本來就在用的民生用品</p>
         </div>
-        <p class="note">* 獎金將預扣所得稅 10% 及二代健保 2.11%。</p>
+
+        <div class="brand-category">
+            <div class="category-title">🧃 暢銷飲品系列</div>
+            <div class="brand-tags">
+                <span class="tag">可口可樂</span><span class="tag">雪碧</span><span class="tag">黑松沙士</span>
+                <span class="tag">麥香奶茶/紅茶</span><span class="tag">立頓原味奶茶</span><span class="tag">舒跑</span>
+                <span class="tag">波蜜果菜汁</span><span class="tag">健酪</span><span class="tag">泰山冰鎮/水果茶</span>
+            </div>
+        </div>
+
+        <div class="brand-category">
+            <div class="category-title">🍪 國民零食甜點</div>
+            <div class="brand-tags">
+                <span class="tag">義美小泡芙</span><span class="tag">可樂果</span><span class="tag">新貴派</span>
+                <span class="tag">卡辣姆久</span><span class="tag">樂事洋芋片</span><span class="tag">多力多滋</span>
+                <span class="tag">旺旺仙貝/雪餅</span><span class="tag">森永牛奶糖</span><span class="tag">喜年來蛋捲/金牛角</span>
+            </div>
+        </div>
+
+        <div class="brand-category">
+            <div class="category-title">🍜 廚房美味專家</div>
+            <div class="brand-tags">
+                <span class="tag highlight-tag">金蘭醬油 (純釀造)</span><span class="tag">維力炸醬麵</span>
+                <span class="tag">味味A排骨雞麵</span><span class="tag">統一肉燥麵</span><span class="tag">味王牛肉麵</span>
+                <span class="tag">素飄香</span><span class="tag">新屋芋香米</span>
+            </div>
+        </div>
+
+        <div class="brand-category">
+            <div class="category-title">🧴 居家洗劑與衛生</div>
+            <div class="brand-tags">
+                <span class="tag">黑人超氟牙膏</span><span class="tag">好來全亮白</span><span class="tag">舒酸定</span>
+                <span class="tag">高露潔</span><span class="tag">花仙子芳香噴霧</span><span class="tag">威拂魔撢</span>
+            </div>
+        </div>
+
+        <p style="text-align: center; font-size: 12px; color: #d32f2f; font-weight: bold; margin-top: 15px;">
+            ✅ 價格透明比照大賣場，消費 100% 抵扣，再賺 4% 回饋！
+        </p>
     </div>
 
     <div class="card">
-        <h2><span class="badge">第五重</span> 無限 4% 回饋金</h2>
-        <p>真正實現被動收入，推薦的 1～7 層內總消費金額 4% 回饋。</p>
-        <div class="formula">收益 = 七代總消費 × 4%</div>
-        <table style="text-align: center; background: #222;">
-            <tr style="color: var(--gold);"><td>代數</td><td>人數預估</td><td>產生獎金</td></tr>
-            <tr><td>1代(自己)</td><td>1</td><td>$60</td></tr>
-            <tr><td>2代</td><td>9</td><td>$540</td></tr>
-            <tr><td>7代累計</td><td>800+</td><td>$48,000+</td></tr>
-        </table>
-        <p class="note">✅ 無人數上限、無獎金上限、月收入百萬不是夢。</p>
+        <h2 style="color: var(--cyan); font-size: 16px;">💰 被動收入公式</h2>
+        <div class="formula">月收益 = 7代內總消費 × 4%</div>
+        <p style="font-size: 13px; color: #ccc;">當您的團隊朋友在喝麥香、吃小泡芙、用黑人牙膏時，您的獎金就在自動產生。</p>
     </div>
 
-    <button onclick="window.close();" class="btn-m">確認並返回 LINE</button>
+    <div class="card">
+        <h2 style="color: var(--cyan); font-size: 16px;">🛫 韓國雙人旅遊積分</h2>
+        <p style="font-size: 13px;">1-3代會員，單帳號月消費滿 <span style="color:var(--gold)">1500元</span> 即可累積 1 點。<br>
+        🎯 年度累積 300 點，直接抱走韓國 5 天 4 夜雙人遊！</p>
+    </div>
+
+    <button onclick="window.close();" class="btn-m">我看懂了！開始創建數位分身</button>
 
     <div style="text-align: center; color: #555; font-size: 11px; padding-bottom: 20px;">
         AI 生活小秘書 · 全方位數位輔助<br>
