@@ -2,64 +2,157 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🏡 修繕清單 ✕ 夢想計畫</title>
     <style>
         :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; }
-        body { background-color: var(--black); color: #ffffff; font-family: 'PingFang TC', sans-serif; margin: 0; padding: 15px; }
-        .container { max-width: 600px; margin: 0 auto; }
-        .section-title { color: var(--gold); border-left: 4px solid var(--gold); padding-left: 10px; margin: 25px 0 10px; font-size: 18px; font-weight: bold; }
+        * { box-sizing: border-box; } /* 關鍵：防止內容撐破螢幕 */
         
-        /* 累積收益卡片 */
-        .bonus-card { background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid #d4af3744; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
-        .bonus-label { font-size: 13px; color: #888; margin-bottom: 5px; }
-        .bonus-value { font-size: 32px; color: var(--gold); font-weight: bold; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        body { 
+            background-color: var(--black); 
+            color: #ffffff; 
+            font-family: -apple-system, 'PingFang TC', "Heiti TC", sans-serif; 
+            margin: 0; 
+            padding: 12px; /* 稍微縮小邊距增加空間 */
+            line-height: 1.4;
+        }
 
+        .container { max-width: 100%; margin: 0 auto; }
+
+        /* 累積收益卡片 */
+        .bonus-card { 
+            background: linear-gradient(145deg, #1a1a1a, #000); 
+            border: 1px solid rgba(212, 175, 55, 0.3); 
+            padding: 15px; 
+            border-radius: 12px; 
+            text-align: center; 
+            margin-bottom: 15px; 
+        }
+        .bonus-label { font-size: 13px; color: #888; margin-bottom: 5px; }
+        .bonus-value { font-size: 28px; color: var(--gold); font-weight: bold; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+
+        .section-title { 
+            color: var(--gold); 
+            border-left: 4px solid var(--gold); 
+            padding-left: 10px; 
+            margin: 20px 0 10px; 
+            font-size: 17px; 
+            font-weight: bold; 
+        }
+        
         /* 修繕區域 */
         .repair-box { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; }
-        .input-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+        
+        /* 輸入群組在手機上優化為垂直排列 */
+        .input-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
         .input-row { display: flex; gap: 8px; }
-        input { background: #000; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; font-size: 14px; outline: none; flex: 1; }
+        
+        input { 
+            background: #000; 
+            border: 1px solid #444; 
+            color: #fff; 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-size: 16px; /* 關鍵：設為16px防止iOS自動放大螢幕 */
+            outline: none; 
+            width: 100%;
+        }
         input:focus { border-color: var(--gold); }
-        .btn-save { background: var(--gold); color: #000; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; white-space: nowrap; }
         
-        /* 修繕項目與策略話語 */
-        .repair-item { display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #222; }
-        .strategy-note { background: rgba(0, 255, 255, 0.05); border: 1px dashed var(--cyan); padding: 12px; border-radius: 8px; font-size: 13px; color: #ccc; margin-top: 15px; line-height: 1.6; }
+        .btn-save { 
+            background: var(--gold); 
+            color: #000; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            width: 100%; /* 手機版按鈕全寬更好點 */
+        }
         
-        /* 第二階段 4 格夢想版 */
-        .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;}
-        .dream-item { position: relative; border-radius: 10px; overflow: hidden; height: 100px; display: flex; align-items: flex-end; background-size: cover; background-position: center; border: 1px solid #333; }
-        .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 11px; padding: 4px 0; color: var(--gold); text-align: center; font-weight: bold; }
+        /* 修繕項目列表 */
+        .repair-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: #1a1a1a; 
+            padding: 12px; 
+            border-radius: 8px; 
+            margin-bottom: 8px; 
+            border: 1px solid #222; 
+        }
+        .repair-info { display: flex; align-items: center; gap: 8px; flex: 1; }
+        .repair-name { font-size: 14px; color: #eee; }
         
-        /* 進度條與按鈕 */
-        .progress-bar-bg { background: #222; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 8px; }
-        .progress-bar-fill { background: linear-gradient(90deg, #D4AF37, #FFD700); height: 100%; width: 0%; transition: width 2s ease; }
-        .btn-lobby { display: block; width: 100%; padding: 15px; background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000; text-align: center; text-decoration: none; border-radius: 30px; font-size: 15px; font-weight: bold; margin-top: 20px; }
-        .footer { text-align: center; font-size: 11px; color: #555; margin: 30px 0; }
+        .strategy-note { 
+            background: rgba(0, 255, 255, 0.05); 
+            border: 1px dashed var(--cyan); 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-size: 13px; 
+            color: #ccc; 
+            margin-top: 15px; 
+            line-height: 1.6; 
+        }
+        
+        /* 夢想版 4 格網格 */
+        .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;}
+        .dream-item { 
+            position: relative; 
+            border-radius: 10px; 
+            overflow: hidden; 
+            aspect-ratio: 4 / 3; /* 使用比例取代固定高度 */
+            display: flex; 
+            align-items: flex-end; 
+            background-size: cover; 
+            background-position: center; 
+            border: 1px solid #333; 
+        }
+        .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 11px; padding: 5px 0; color: var(--gold); text-align: center; }
+        
+        /* 進度條 */
+        .progress-bar-bg { background: #222; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 8px; }
+        .progress-bar-fill { background: linear-gradient(90deg, #D4AF37, #FFD700); height: 100%; width: 0%; transition: width 1.5s ease-in-out; }
+        
+        .btn-lobby { 
+            display: block; 
+            width: 100%; 
+            padding: 15px; 
+            background: linear-gradient(90deg, #D4AF37, #B8860B); 
+            color: #000; 
+            text-align: center; 
+            text-decoration: none; 
+            border-radius: 30px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            margin-top: 20px; 
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+        .footer { text-align: center; font-size: 11px; color: #555; margin: 40px 0 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div style="text-align: center; padding: 10px 0;"><h1 style="color: var(--gold); margin: 0; font-size: 20px; letter-spacing: 2px;">🏡 修繕清單 ✕ 夢想計畫</h1></div>
+    <div style="text-align: center; padding: 10px 0;">
+        <h1 style="color: var(--gold); margin: 0; font-size: 20px; letter-spacing: 2px;">🏡 修繕清單 ✕ 夢想計畫</h1>
+    </div>
 
     <div class="bonus-card">
         <div class="bonus-label">目前累積數位收益</div>
-        <div class="bonus-value" id="val_totalIncome">NT$ 50</div>
+        <div class="bonus-value" id="val_totalIncome">NT$ 0</div>
         <div style="color: #666; font-size: 11px; margin-top: 5px;">
-            包含 <span style="color: var(--gold);">樂瑞註冊贊助金 $50</span>、4%分潤、推薦獎勵
+            包含 <span style="color: var(--gold);">註冊贊助金 $50</span>、4%分潤、推薦獎勵
         </div>
     </div>
 
-    <div class="section-title">🔧 第一階段：根基修復 · 具象化修繕</div>
+    <div class="section-title">🔧 第一階段：根基修復</div>
     <div class="repair-box">
-        <div style="font-size: 12px; color: #888; margin-bottom: 10px;">「先穩定生活的根基，才能構築未來的宮殿」</div>
         <div class="input-group">
-            <input type="text" id="repairInput" placeholder="輸入需要修繕的環境項目...">
+            <input type="text" id="repairInput" placeholder="環境修繕項目 (例：更換沙發)">
             <div class="input-row">
-                <input type="number" id="costInput" placeholder="預估預算 (NT$)">
-                <button class="btn-save" id="saveBtn" onclick="addRepair()">紀錄目標</button>
+                <input type="number" id="costInput" placeholder="預算 (NT$)">
+                <button class="btn-save" id="saveBtn" onclick="addRepair()" style="flex: 0.6;">紀錄</button>
             </div>
         </div>
 
@@ -71,13 +164,12 @@
 
         <div class="strategy-note">
             ✨ <strong style="color: var(--cyan);">領袖增值路徑：</strong><br>
-            在不影響生活開銷、不提撥現有薪水的情況下，只需透過<strong>分享本系統</strong>與<strong>購買日常用品</strong>，即可創造持續性的消費增值。讓每一筆原本該花的錢，都精準回流成為修復家園的助力！
+            只需透過分享系統與日常消費，即可創造持續性增值。讓每一筆錢，都回流成為修復家園的助力！
         </div>
     </div>
 
-    <div class="section-title">🌟 第二階段：卓越人生 · 高階夢想物</div>
+    <div class="section-title">🌟 第二階段：卓越人生</div>
     <div class="repair-box">
-        <div style="font-size: 12px; color: #888; margin-bottom: 10px;">「跨越生存需求，進入高端數位生活的豐盛領域」</div>
         <div class="dream-grid">
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300');"><div class="dream-overlay">尊爵極致別墅</div></div>
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300');"><div class="dream-overlay">頂級奢華座駕</div></div>
@@ -85,8 +177,8 @@
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=300');"><div class="dream-overlay">永續財富自由</div></div>
         </div>
         <div style="font-size: 13px;">
-            <div style="display: flex; justify-content: space-between;">
-                <span style="color: var(--gold);">🛫 2027 跨國激勵旅遊進度</span>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <span style="color: var(--gold);">🛫 2027 激勵旅遊進度</span>
                 <span style="color: var(--cyan);"><span id="travel_pts">0</span> / 300 點</span>
             </div>
             <div class="progress-bar-bg"><div id="travel_bar" class="progress-bar-fill"></div></div>
@@ -94,7 +186,11 @@
     </div>
 
     <a href="javascript:void(0);" onclick="goToLobby()" class="btn-lobby">🚀 回到數位生活大廳</a>
-    <div class="footer"><p>AI 生活小秘書 · 全方位數位輔助 認證</p><p>提示回目錄大廳請輸入 M</p></div>
+    
+    <div class="footer">
+        <p>AI 生活小秘書 · 全方位數位輔助 認證</p>
+        <p>提示回目錄大廳請輸入 M</p>
+    </div>
 </div>
 
 <script>
@@ -110,7 +206,9 @@
             if (data.status === "success") {
                 document.getElementById('val_totalIncome').innerText = "NT$ " + (data.totalIncome || 0).toLocaleString();
                 document.getElementById('travel_pts').innerText = data.travelPts || 0;
-                setTimeout(() => { document.getElementById('travel_bar').style.width = Math.min((data.travelPts/300)*100, 100) + "%"; }, 500);
+                setTimeout(() => { 
+                    document.getElementById('travel_bar').style.width = Math.min((data.travelPts/300)*100, 100) + "%"; 
+                }, 300);
                 
                 const list = document.getElementById('repairList');
                 list.innerHTML = "";
@@ -123,11 +221,11 @@
                         const div = document.createElement('div');
                         div.className = 'repair-item';
                         div.innerHTML = `
-                            <div>
-                                <input type="checkbox" ${item.status==='done'?'checked':''} disabled style="margin-right:8px;">
-                                <span style="${item.status==='done'?'text-decoration:line-through; color:#666;':''}">${item.content}</span>
+                            <div class="repair-info">
+                                <input type="checkbox" ${item.status==='done'?'checked':''} disabled style="width:18px; height:18px;">
+                                <span class="repair-name" style="${item.status==='done'?'text-decoration:line-through; color:#666;':''}">${item.content}</span>
                             </div>
-                            <span style="color: var(--gold); font-size: 13px; font-weight:bold;">$${cost.toLocaleString()}</span>
+                            <span style="color: var(--gold); font-size: 14px; font-weight:bold;">$${cost.toLocaleString()}</span>
                         `;
                         list.appendChild(div);
                     });
@@ -142,15 +240,18 @@
         const cost = document.getElementById('costInput');
         if (!input.value.trim() || !uid) return;
 
-        document.getElementById('saveBtn').innerText = "...";
+        const btn = document.getElementById('saveBtn');
+        btn.innerText = "...";
+        btn.disabled = true;
+        
         try {
-            // 發送到 GAS 儲存，注意 action 名稱為 saveRepair
             await fetch(`${GAS_URL}?action=saveRepair&uid=${uid}&content=${encodeURIComponent(input.value)}&cost=${cost.value || 0}`);
             input.value = ""; cost.value = "";
         } catch (err) { console.error("儲存錯誤", err); }
         
-        document.getElementById('saveBtn').innerText = "紀錄目標";
-        fetchData(); // 重新整理清單
+        btn.innerText = "紀錄";
+        btn.disabled = false;
+        fetchData(); 
     }
 
     function goToLobby() { window.location.href = LOBBY_BASE + "Lobby.html?uid=" + uid; }
