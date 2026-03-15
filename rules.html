@@ -1,84 +1,21 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 生活小秘書 · 強迫致富中心</title>
-    <style>
-        :root { --gold: #D4AF37; --black: #000000; --cyan: #00FFFF; --pink: #FF69B4; --green: #39FF14; }
-        body { background-color: var(--black); color: #ffffff; font-family: -apple-system, sans-serif; margin: 0; padding: 15px; }
-        .container { max-width: 500px; margin: 0 auto; }
-        
-        /* 核心態度：強調搬移預算 */
-        .manifesto { 
-            background: linear-gradient(135deg, var(--gold), #8B6508); 
-            color: #000; padding: 25px; border-radius: 20px; text-align: center; margin-bottom: 25px; 
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-        }
-        .manifesto h2 { margin: 0; font-size: 26px; font-weight: 900; }
-        .manifesto p { font-size: 16px; font-weight: bold; margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.2); padding-top: 10px; }
-
-        /* 算帳區塊 */
-        .math-card { border: 2px solid var(--pink); border-radius: 15px; padding: 20px; margin-bottom: 25px; background: rgba(255, 105, 180, 0.05); }
-        .math-line { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; border-bottom: 1px solid #333; padding-bottom: 8px; }
-        .val-plus { color: var(--pink); font-weight: bold; }
-        .val-minus { color: var(--green); font-weight: bold; }
-
-        /* 夢想倍增區 */
-        .vision-card { border-left: 5px solid var(--cyan); background: #111; padding: 20px; border-radius: 0 15px 15px 0; margin-bottom: 25px; }
-        
-        .btn-m { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            width: 100%; padding: 20px 0; background: linear-gradient(90deg, var(--gold), #B8860B); 
-            color: #000 !important; text-decoration: none; font-weight: 900; border-radius: 50px; 
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); margin: 20px 0; 
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="manifesto">
-        <h2>這不是「多花錢」</h2>
-        <p>而是把「本來就要花的錢」<br>換個地方買，讓你賺大錢！</p>
-    </div>
-
-    <div class="math-card">
-        <h3 style="color: var(--pink); text-align: center; margin-top: 0;">🧮 聰明消費算給你聽</h3>
-        <div class="math-line"><span>家庭必備品月預算</span><span class="val-plus">$1,500</span></div>
-        <div class="math-line"><span>註冊立刻現領</span><span class="val-minus">- $50</span></div>
-        <div class="math-line"><span>首購現金回饋</span><span class="val-minus">- $60</span></div>
-        <div class="math-line"><span>分享一家首購獎金</span><span class="val-minus">- $159</span></div>
-        <div style="text-align: right; margin-top: 10px;">
-            <span style="font-size: 14px; color: #888;">首購成本降至：</span>
-            <span style="font-size: 24px; color: var(--cyan); font-weight: 900;">$1,231</span>
+<div class="vision-card" style="border: 2px solid var(--gold); background: rgba(212, 175, 55, 0.1); border-radius: 15px; padding: 20px; margin-bottom: 25px;">
+        <h3 style="color: var(--gold); text-align: center; margin-top: 0;">🚀 財富不設限 ‧ 收入無天花板</h3>
+        <p style="font-size: 14px; text-align: center; color: #eee;">
+            我們不限制您賺取更多財富的可能！<br>
+            如果您想賺更多、想更快達成 <b>2027 韓國旅遊</b>：
+        </p>
+        <div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; border: 1px dashed var(--gold); text-align: center;">
+            <p style="font-size: 16px; margin: 0; font-weight: bold; color: var(--cyan);">
+                「只要多介紹幾個家庭，<br>將消費額度分配到樂瑞即可！」
+            </p>
         </div>
-        <div style="text-align: center; background: var(--green); color: #000; border-radius: 5px; margin-top: 15px; font-weight: 900; padding: 5px;">
-            🔥 全台最狂：日用品現打 82 折！
-        </div>
-    </div>
-
-    <div class="vision-card">
-        <h3 style="color: var(--cyan); margin-top: 0;">💰 強迫致富 ‧ 終身回饋</h3>
-        <p style="font-size: 14px; color: #ccc;">只要教會同事鄰居「換個牌子買」，<br>他們一輩子的消費，公司都分利給你：</p>
-        <ul style="color: #fff; line-height: 2; font-size: 15px;">
-            <li>每一家消費，你都領 <span class="highlight-gold">$60</span></li>
-            <li>鎖定 <span class="highlight-gold">7 代分潤</span>，絕不跳線</li>
-            <li>目標月入 <span class="highlight-pink">10 萬 ~ 100 萬</span></li>
-        </ul>
-        <p style="color: var(--green); font-weight: bold; font-size: 13px; text-align: center;">🚀 AI 爆裂行銷術將全自動幫你達成！</p>
+        <p style="font-size: 13px; color: #888; margin-top: 10px; text-align: center;">
+            每增加一個消費家庭，您的七代 4% 分潤就會呈指數級倍增。<br>
+            這是一個<b>多勞多得、科技助攻</b>的完美舞台！
+        </p>
     </div>
 
     <a href="您的註冊連結" class="btn-m">
-        <span style="font-size: 22px;">🔥 接受強迫致富 ‧ 點我註冊</span>
-        <span style="font-size: 14px; margin-top: 4px;">領取 $50 啟動金 ‧ 衝刺韓國旅遊</span>
+        <span style="font-size: 22px;">🔥 啟動無限收入 ‧ 點我註冊</span>
+        <span style="font-size: 14px; margin-top: 4px;">強迫致富 ‧ 讓 AI 幫你搬移全球利潤</span>
     </a>
-
-    <div style="text-align: center; color: #555; font-size: 11px; padding-bottom: 40px;">
-        <p>樂瑞官方認證代碼 · AI 生活小秘書 支援</p>
-        <p>© 2026 數位代號戰隊 ‧ 提示回目錄請輸入 M</p>
-    </div>
-</div>
-
-</body>
-</html>
