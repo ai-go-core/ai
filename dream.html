@@ -6,33 +6,30 @@
     <title>🏡 修繕清單 ✕ 夢想計畫</title>
     <style>
         :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; }
-        body { background-color: var(--black); color: #ffffff; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; margin: 0; padding: 15px; line-height: 1.5; }
+        body { background-color: var(--black); color: #ffffff; font-family: 'PingFang TC', sans-serif; margin: 0; padding: 15px; }
         .container { max-width: 600px; margin: 0 auto; }
         .section-title { color: var(--gold); border-left: 4px solid var(--gold); padding-left: 10px; margin: 25px 0 10px; font-size: 18px; font-weight: bold; }
         .repair-box { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; }
-        .input-group { display: flex; gap: 8px; margin-bottom: 15px; }
-        input[type="text"] { flex: 1; background: #000; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; font-size: 14px; outline: none; }
-        input[type="text"]:focus { border-color: var(--gold); }
-        .btn-save { background: var(--gold); color: #000; border: none; padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-save:active { transform: scale(0.95); }
-        .repair-item { display: flex; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #222; }
-        .bonus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .bonus-card { background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); border: 1px solid #d4af3744; padding: 15px; border-radius: 12px; text-align: center; }
-        .bonus-label { font-size: 11px; color: #888; margin-bottom: 5px; letter-spacing: 1px; }
-        .bonus-value { font-size: 18px; color: var(--gold); font-weight: bold; }
-        .dream-container { background: #111; border-radius: 12px; padding: 15px; text-align: center; border: 1px solid #222; }
-        .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;}
-        .dream-item { position: relative; border-radius: 10px; overflow: hidden; height: 110px; display: flex; align-items: flex-end; background-size: cover; background-position: center; border: 1px solid #333; }
-        .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 12px; padding: 6px 0; color: var(--gold); font-weight: bold; }
-        .progress-container { background: #000; padding: 15px; border-radius: 10px; border: 1px solid #333; }
-        .progress-bar-bg { background: #222; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 8px; }
-        .progress-bar-fill { background: linear-gradient(90deg, #D4AF37, #FFD700); height: 100%; width: 0%; transition: width 2s cubic-bezier(0.1, 0, 0.3, 1); }
+        .input-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+        .input-row { display: flex; gap: 8px; }
+        input { background: #000; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; font-size: 14px; outline: none; }
+        input:focus { border-color: var(--gold); }
+        .btn-save { background: var(--gold); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
         
-        /* 底部導航按鈕 */
-        .nav-group { margin-top: 30px; display: flex; flex-direction: column; gap: 10px; }
-        .btn-lobby { display: block; width: 100%; padding: 15px; background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000; text-align: center; text-decoration: none; border-radius: 30px; font-size: 15px; font-weight: bold; border: none; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
-        .btn-close { display: block; width: 100%; padding: 12px; background: #222; color: #888; text-align: center; text-decoration: none; border-radius: 30px; font-size: 13px; border: 1px solid #333; }
+        /* 指引話語樣式 */
+        .strategy-note { background: rgba(0, 255, 255, 0.05); border: 1px dashed var(--cyan); padding: 12px; border-radius: 8px; font-size: 13px; color: #ccc; margin-top: 15px; line-height: 1.6; }
         
+        .repair-item { display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #222; }
+        .bonus-card { background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid #d4af3744; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
+        .bonus-label { font-size: 13px; color: #888; margin-bottom: 5px; }
+        .bonus-value { font-size: 28px; color: var(--gold); font-weight: bold; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        
+        .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;}
+        .dream-item { position: relative; border-radius: 10px; overflow: hidden; height: 100px; display: flex; align-items: flex-end; background-size: cover; background-position: center; border: 1px solid #333; }
+        .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 11px; padding: 4px 0; color: var(--gold); text-align: center; }
+        .progress-bar-bg { background: #222; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 8px; }
+        .progress-bar-fill { background: linear-gradient(90deg, #D4AF37, #FFD700); height: 100%; width: 0%; transition: width 2s ease; }
+        .btn-lobby { display: block; width: 100%; padding: 15px; background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000; text-align: center; text-decoration: none; border-radius: 30px; font-size: 15px; font-weight: bold; margin-top: 20px; }
         .footer { text-align: center; font-size: 11px; color: #555; margin: 30px 0; }
     </style>
 </head>
@@ -41,54 +38,54 @@
 <div class="container">
     <div style="text-align: center; padding: 10px 0;"><h1 style="color: var(--gold); margin: 0; font-size: 20px; letter-spacing: 2px;">🏡 修繕清單 ✕ 夢想計畫</h1></div>
 
-    <div class="section-title">🔧 第一階段：解決眼前問題</div>
-    <div class="repair-box">
-        <div class="input-group">
-            <input type="text" id="repairInput" placeholder="輸入急需解決的生活問題...">
-            <button class="btn-save" id="saveBtn" onclick="addRepair()">紀錄</button>
-        </div>
-        <div id="repairList"></div>
+    <div class="bonus-card">
+        <div class="bonus-label">目前累積數位收益</div>
+        <div class="bonus-value" id="val_totalIncome">NT$ 0</div>
     </div>
 
-    <div class="section-title">💰 解決問題的工具 (實時資產)</div>
-    <div class="bonus-grid">
-        <div class="bonus-card"><div class="bonus-label">4% 1-7代獎金</div><div class="bonus-value" id="val_bonus4">NT$ 0</div></div>
-        <div class="bonus-card"><div class="bonus-label">二代首購獎金</div><div class="bonus-value" id="val_bonus99">NT$ 0</div></div>
-        <div class="bonus-card"><div class="bonus-label">百萬領袖紅包</div><div class="bonus-value">審核中</div></div>
-        <div class="bonus-card"><div class="bonus-label">消費增值金</div><div class="bonus-value" id="val_added">NT$ 0</div></div>
+    <div class="section-title">🔧 第一階段：具象化修繕需求</div>
+    <div class="repair-box">
+        <div class="input-group">
+            <input type="text" id="repairInput" placeholder="需要修繕的項目 (如: 屋頂漏水)">
+            <div class="input-row">
+                <input type="number" id="costInput" placeholder="預估費用 (NT$)" style="flex: 1;">
+                <button class="btn-save" id="saveBtn" onclick="addRepair()" style="flex: 0.5;">加入清單</button>
+            </div>
+        </div>
+
+        <div id="repairList"></div>
+
+        <div style="margin-top: 15px; text-align: right; color: var(--gold); font-size: 14px; font-weight: bold;">
+            修繕總需求：<span id="totalNeed">NT$ 0</span>
+        </div>
+
+        <div class="strategy-note">
+            ✨ <strong style="color: var(--cyan);">領袖策略：</strong><br>
+            在不影響生活開銷、不提撥現有薪水的情況下，只需透過<strong>分享本系統</strong>與<strong>購買日常用品</strong>，即可創造持續性的消費增值。讓每一筆原本該花的錢，都變成修繕家園的助力！
+        </div>
     </div>
 
     <div class="section-title">🌟 第二階段：實現未來夢想</div>
-    <div class="dream-container">
-        <p style="color:var(--cyan); font-size:14px; font-weight:bold; margin-bottom: 15px;">「先解決眼前問題，才能實現未來夢想」</p>
+    <div class="repair-box">
         <div class="dream-grid">
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300');"><div class="dream-overlay">尊爵別墅</div></div>
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300');"><div class="dream-overlay">頂級豪車</div></div>
-            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=300');"><div class="dream-overlay">2027 韓國 5天4夜</div></div>
-            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=300');"><div class="dream-overlay">財富自由</div></div>
         </div>
-
-        <div class="progress-container">
-            <div style="display: flex; justify-content: space-between; font-size: 13px;">
-                <span style="color: var(--gold); font-weight: bold;">🛫 2027 韓國雙人遊進度</span>
-                <span style="color: var(--cyan); font-weight: bold;"><span id="travel_pts">0</span> / 300 點</span>
+        <div style="font-size: 13px;">
+            <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--gold);">🛫 2027 韓國雙人遊</span>
+                <span style="color: var(--cyan);"><span id="travel_pts">0</span> / 300 點</span>
             </div>
             <div class="progress-bar-bg"><div id="travel_bar" class="progress-bar-fill"></div></div>
         </div>
     </div>
 
-    <div class="nav-group">
-        <a href="javascript:void(0);" onclick="goToLobby()" class="btn-lobby">🚀 回到數位生活大廳</a>
-        <a href="javascript:window.close();" class="btn-close">關閉視窗</a>
-    </div>
-
+    <a href="javascript:void(0);" onclick="goToLobby()" class="btn-lobby">🚀 回到數位生活大廳</a>
     <div class="footer"><p>AI 生活小秘書 · 全方位數位輔助 認證</p><p>提示回目錄大廳請輸入 M</p></div>
 </div>
 
 <script>
-    // ⚠️ 請確保此處填寫正確的 GAS 部署網址
-    const GAS_URL = "您的_GAS_部署網址"; 
-    // ⚠️ 基底網址，對應您的定義檔入口
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec"; 
     const LOBBY_BASE = "https://ai-go-core.github.io/ai/"; 
     const uid = new URLSearchParams(window.location.search).get('uid');
 
@@ -98,46 +95,48 @@
             const res = await fetch(`${GAS_URL}?action=getUserDreamData&uid=${uid}`);
             const data = await res.json();
             if (data.status === "success") {
-                document.getElementById('val_bonus4').innerText = "NT$ " + (data.bonus4 || 0).toLocaleString();
-                document.getElementById('val_bonus99').innerText = "NT$ " + (data.bonus99 || 0).toLocaleString();
-                document.getElementById('val_added').innerText = "NT$ " + (data.addedBonus || 0).toLocaleString();
+                document.getElementById('val_totalIncome').innerText = "NT$ " + (data.totalIncome || 0).toLocaleString();
                 document.getElementById('travel_pts').innerText = data.travelPts;
                 setTimeout(() => { document.getElementById('travel_bar').style.width = Math.min((data.travelPts/300)*100, 100) + "%"; }, 500);
                 
                 const list = document.getElementById('repairList');
                 list.innerHTML = "";
+                let sumNeed = 0;
+                
                 if (data.repairs && data.repairs.length > 0) {
                     data.repairs.forEach(item => {
+                        const cost = parseInt(item.cost || 0);
+                        sumNeed += cost;
                         const div = document.createElement('div');
                         div.className = 'repair-item';
-                        const isDone = item.status === 'done';
-                        div.innerHTML = `<input type="checkbox" ${isDone?'checked':''} disabled style="margin-right:10px;"> 
-                                         <span style="${isDone?'text-decoration:line-through; color:#666;':''}">${item.content}</span>`;
+                        div.innerHTML = `
+                            <div>
+                                <input type="checkbox" ${item.status==='done'?'checked':''} disabled style="margin-right:8px;">
+                                <span style="${item.status==='done'?'text-decoration:line-through; color:#666;':''}">${item.content}</span>
+                            </div>
+                            <span style="color: var(--gold); font-size: 13px;">$${cost.toLocaleString()}</span>
+                        `;
                         list.appendChild(div);
                     });
-                } else {
-                    list.innerHTML = `<p style="text-align:center; color:#444; font-size:12px;">尚無紀錄，請先新增修繕項目。</p>`;
                 }
+                document.getElementById('totalNeed').innerText = "NT$ " + sumNeed.toLocaleString();
             }
-        } catch (e) { console.error("數據同步錯誤:", e); }
+        } catch (e) { console.error("同步失敗", e); }
     }
 
     async function addRepair() {
         const input = document.getElementById('repairInput');
+        const cost = document.getElementById('costInput');
         if (!input.value.trim() || !uid) return;
+
         document.getElementById('saveBtn').innerText = "...";
-        try {
-            await fetch(`${GAS_URL}?action=saveRepair&uid=${uid}&content=${encodeURIComponent(input.value)}`);
-            input.value = "";
-            await fetchData();
-        } finally { document.getElementById('saveBtn').innerText = "紀錄"; }
+        await fetch(`${GAS_URL}?action=saveRepair&uid=${uid}&content=${encodeURIComponent(input.value)}&cost=${cost.value || 0}`);
+        input.value = ""; cost.value = "";
+        document.getElementById('saveBtn').innerText = "加入清單";
+        fetchData();
     }
 
-    function goToLobby() {
-        // 帶著 UID 回到大廳以維持身份同步
-        window.location.href = LOBBY_BASE + "Lobby.html?uid=" + uid;
-    }
-
+    function goToLobby() { window.location.href = LOBBY_BASE + "Lobby.html?uid=" + uid; }
     window.onload = fetchData;
 </script>
 </body>
