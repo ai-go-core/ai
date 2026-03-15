@@ -1,35 +1,163 @@
-<div class="section-title">🌟 第二階段：實現未來夢想</div>
-<div class="dream-container">
-    <p class="slogan">「先解決眼前問題，才能實現未來夢想」</p>
-    <div class="dream-grid">
-        <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300');">
-            <div class="dream-overlay">尊爵別墅</div>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏡 修繕清單 + 夢想板計畫</title>
+    <style>
+        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; }
+        body { background-color: var(--black); color: #ffffff; font-family: 'PingFang TC', sans-serif; margin: 0; padding: 15px; line-height: 1.5; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .section-title { color: var(--gold); border-left: 4px solid var(--gold); padding-left: 10px; margin: 25px 0 10px; font-size: 18px; font-weight: bold; }
+        
+        /* 修繕清單區塊 */
+        .repair-box { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; }
+        .input-group { display: flex; gap: 8px; margin-bottom: 15px; }
+        input[type="text"] { flex: 1; background: #000; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; font-size: 14px; }
+        .btn-save { background: var(--gold); color: #000; border: none; padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .repair-item { display: flex; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #222; }
+        .checkbox { margin-right: 12px; transform: scale(1.2); }
+
+        /* 獎金盤點區 (資產數據掛鉤) */
+        .bonus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .bonus-card { background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); border: 1px solid #d4af3744; padding: 15px; border-radius: 12px; text-align: center; }
+        .bonus-label { font-size: 11px; color: #888; margin-bottom: 5px; letter-spacing: 1px; }
+        .bonus-value { font-size: 18px; color: var(--gold); font-weight: bold; }
+
+        /* 夢想板區塊 */
+        .dream-container { background: #111; border-radius: 12px; padding: 15px; text-align: center; border: 1px solid #222; }
+        .slogan { font-size: 14px; color: var(--cyan); margin: 10px 0 20px; font-weight: bold; letter-spacing: 1px; }
+        .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .dream-item { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid #333; height: 110px; display: flex; align-items: flex-end; background-size: cover; background-position: center; }
+        .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 12px; padding: 6px 0; color: var(--gold); font-weight: bold; }
+
+        /* 旅遊進度條 */
+        .progress-container { margin-top: 20px; background: #000; padding: 15px; border-radius: 10px; border: 1px solid #333; }
+        .progress-bar-bg { background: #222; height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #444; margin-top: 8px; }
+        .progress-bar-fill { background: linear-gradient(90deg, #D4AF37, #FFD700); height: 100%; width: 0%; transition: width 2s ease-in-out; }
+
+        .btn-back { display: block; width: 100%; padding: 15px; background: #222; color: #aaa; text-align: center; text-decoration: none; border-radius: 30px; margin-top: 30px; font-size: 14px; border: 1px solid #333; }
+        .footer { text-align: center; font-size: 11px; color: #555; margin: 30px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div style="text-align: center; padding: 10px 0;">
+        <h1 style="color: var(--gold); margin: 0; font-size: 20px; letter-spacing: 2px;">🏡 修繕清單 ✕ 夢想計畫</h1>
+    </div>
+
+    <div class="section-title">🔧 第一階段：解決眼前問題</div>
+    <div class="repair-box">
+        <div class="input-group">
+            <input type="text" id="repairInput" placeholder="輸入急需解決的生活問題...">
+            <button class="btn-save" onclick="addRepair()">紀錄</button>
         </div>
-        <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300');">
-            <div class="dream-overlay">頂級豪車</div>
-        </div>
-        <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=300');">
-            <div class="dream-overlay">2027 韓國 5天4夜</div>
-        </div>
-        <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=300');">
-            <div class="dream-overlay">財富自由</div>
+        <div id="repairList">
+            <div class="repair-item"><input type="checkbox" class="checkbox"> <span style="font-size: 14px;">規劃數位資產配置</span></div>
         </div>
     </div>
 
-    <div style="margin-top: 20px; background: #000; padding: 15px; border-radius: 10px; border: 1px solid #333;">
-        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;">
-            <span style="color: var(--gold); font-weight: bold;">🛫 2027 韓國雙人遊進度</span>
-            <span style="color: var(--cyan);"><span id="travel_pts">0</span> / 300 點</span>
+    <div class="section-title">💰 解決問題的工具 (即時數據)</div>
+    <div class="bonus-grid">
+        <div class="bonus-card">
+            <div class="bonus-label">4% 1-7代獎金</div>
+            <div class="bonus-value" id="val_bonus4">查詢中...</div>
         </div>
-        <div style="background: #222; height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #444;">
-            <div id="travel_bar" style="background: linear-gradient(90deg, #D4AF37, #FFD700); height: 100%; width: 0%; transition: width 1.5s ease-in-out;"></div>
+        <div class="bonus-card">
+            <div class="bonus-label">二代首購獎 ($99/人)</div>
+            <div class="bonus-value" id="val_bonus99">查詢中...</div>
         </div>
-        <p style="font-size: 11px; color: #888; margin-top: 8px; text-align: left;">
-            ※ 本人及 1-3 代成員月消滿 1500 PV 各得 1 點。
+        <div class="bonus-card">
+            <div class="bonus-label">百萬領袖紅包</div>
+            <div class="bonus-value" id="val_leader">審核中</div>
+        </div>
+        <div class="bonus-card">
+            <div class="bonus-label">消費增值金</div>
+            <div class="bonus-value" id="val_added">查詢中...</div>
+        </div>
+    </div>
+
+    <div class="section-title">🌟 第二階段：實現未來夢夢想</div>
+    <div class="dream-container">
+        <p class="slogan">「先解決眼前問題，才能實現未來夢想」</p>
+        <div class="dream-grid">
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300');"><div class="dream-overlay">尊爵別墅</div></div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300');"><div class="dream-overlay">頂級豪車</div></div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=300');"><div class="dream-overlay">2027 韓國 5天4夜</div></div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=300');"><div class="dream-overlay">財富自由</div></div>
+        </div>
+
+        <div class="progress-container">
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;">
+                <span style="color: var(--gold); font-weight: bold;">🛫 2027 韓國雙人遊進度</span>
+                <span style="color: var(--cyan);"><span id="travel_pts">0</span> / 300 點</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div id="travel_bar" class="progress-bar-fill"></div>
+            </div>
+            <p style="font-size: 11px; color: #888; margin-top: 8px; text-align: left;">※ 本人及 1-3 代成員月消滿 1500 PV 各得 1 點。</p>
+        </div>
+
+        <p style="font-size: 12px; color: var(--gold); margin-top: 15px; background: #1a1a1a; padding: 10px; border-radius: 5px; border-left: 3px solid var(--gold);">
+            📢 特別企劃：帶一位親友跟我們免費玩韓國！
         </p>
     </div>
 
-    <p style="font-size: 12px; color: var(--gold); margin-top: 15px; background: #1a1a1a; padding: 10px; border-radius: 5px; border-left: 3px solid var(--gold);">
-        📢 特別企劃：帶一位親友跟我們免費玩韓國！
-    </p>
+    <a href="javascript:window.close();" class="btn-back">返回數位總部控制台</a>
+
+    <div class="footer">
+        <p>AI 生活小秘書 · 全方位數位輔助 系統監控</p>
+        <p>提示回目錄大廳請輸入 M</p>
+    </div>
 </div>
+
+<script>
+    // --- 📡 數據對接腳本 ---
+    async function fetchUserData() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const uid = urlParams.get('uid'); // 從 URL 獲取 LINE UID
+        if (!uid) return;
+
+        // ⚠️ 這裡的 URL 需替換為您的 GAS 部署網址
+        const GAS_WEB_APP_URL = "您的_GAS_部署網址";
+
+        try {
+            const response = await fetch(`${GAS_WEB_APP_URL}?action=getUserDreamData&uid=${uid}`);
+            const data = await response.json();
+
+            if (data.status === "success") {
+                // 更新獎金數值
+                document.getElementById('val_bonus4').innerText = "NT$ " + data.bonus4;
+                document.getElementById('val_bonus99').innerText = "NT$ " + data.bonus99;
+                document.getElementById('val_added').innerText = "NT$ " + data.addedBonus;
+                
+                // 更新旅遊進度
+                const pts = data.travelPts || 0;
+                document.getElementById('travel_pts').innerText = pts;
+                const percent = Math.min((pts / 300) * 100, 100);
+                setTimeout(() => {
+                    document.getElementById('travel_bar').style.width = percent + "%";
+                }, 500);
+            }
+        } catch (error) {
+            console.error("數據同步失敗:", error);
+        }
+    }
+
+    // 頁面加載後執行同步
+    window.onload = fetchUserData;
+
+    function addRepair() {
+        const input = document.getElementById('repairInput');
+        const list = document.getElementById('repairList');
+        if (input.value.trim() === "") return;
+        const div = document.createElement('div');
+        div.className = 'repair-item';
+        div.innerHTML = `<input type="checkbox" class="checkbox"> <span style="font-size: 14px;">${input.value}</span>`;
+        list.insertBefore(div, list.firstChild);
+        input.value = "";
+    }
+</script>
+</body>
+</html>
