@@ -5,183 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🏡 修繕清單 + 夢想板計畫</title>
     <style>
-        :root {
-            --gold: #D4AF37;
-            --black: #0a0a0a;
-            --dark-gray: #1a1a1a;
-            --cyan: #00FFFF;
-            --green: #00FF00;
-        }
+        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; }
+        body { background-color: var(--black); color: #ffffff; font-family: 'PingFang TC', sans-serif; margin: 0; padding: 15px; line-height: 1.5; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .section-title { color: var(--gold); border-left: 4px solid var(--gold); padding-left: 10px; margin: 25px 0 10px; font-size: 18px; font-weight: bold; }
+        
+        /* 修繕清單區塊 */
+        .repair-box { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; }
+        .input-group { display: flex; gap: 8px; margin-bottom: 15px; }
+        input[type="text"] { flex: 1; background: #000; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; font-size: 14px; }
+        input[type="text"]:focus { border-color: var(--gold); outline: none; }
+        .btn-save { background: var(--gold); color: #000; border: none; padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .repair-item { display: flex; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #222; }
+        .repair-item.done { border-left: 4px solid var(--green); opacity: 0.8; }
+        .checkbox { margin-right: 12px; transform: scale(1.2); }
 
-        body {
-            background-color: var(--black);
-            color: #ffffff;
-            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
+        /* 中段獎金盤點區 */
+        .bonus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .bonus-card { background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); border: 1px solid #d4af3744; padding: 15px; border-radius: 12px; text-align: center; }
+        .bonus-label { font-size: 11px; color: #888; margin-bottom: 5px; letter-spacing: 1px; }
+        .bonus-value { font-size: 18px; color: var(--gold); font-weight: bold; }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        /* 夢想板區塊 */
+        .dream-container { background: #111; border-radius: 12px; padding: 15px; text-align: center; border: 1px solid #222; }
+        .slogan { font-size: 14px; color: var(--cyan); margin: 10px 0 20px; font-weight: bold; letter-spacing: 1px; }
+        .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .dream-item { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid #333; height: 110px; display: flex; align-items: flex-end; background-size: cover; background-position: center; filter: grayscale(40%); }
+        .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 12px; padding: 6px 0; color: var(--gold); font-weight: bold; }
 
-        .header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 2px solid var(--gold);
-        }
-
-        .asset-card {
-            background: linear-gradient(145deg, #222, #000);
-            border: 1px solid var(--gold);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .asset-val {
-            font-size: 28px;
-            color: var(--gold);
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .progress-section {
-            background: var(--dark-gray);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .progress-item {
-            margin-bottom: 15px;
-        }
-
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .bar-bg {
-            background: #333;
-            height: 10px;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            background: var(--gold);
-            height: 100%;
-            width: 0%; /* 之後可透過 JS 根據數據動態填入 */
-            transition: width 1s ease-in-out;
-        }
-
-        .repair-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .repair-item {
-            background: #111;
-            border: 1px solid #333;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-
-        .repair-icon {
-            font-size: 24px;
-            margin-right: 15px;
-        }
-
-        .btn-action {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: var(--gold);
-            color: #000;
-            text-align: center;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 30px;
-            margin-top: 20px;
-        }
-
-        .footer {
-            text-align: center;
-            font-size: 12px;
-            color: #666;
-            margin-top: 40px;
-        }
+        .btn-back { display: block; width: 100%; padding: 15px; background: #222; color: #aaa; text-align: center; text-decoration: none; border-radius: 30px; margin-top: 30px; font-size: 14px; border: 1px solid #333; }
+        .footer { text-align: center; font-size: 11px; color: #555; margin: 30px 0; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-            <h1 style="color: var(--gold); margin: 0;">🏡 夢想板計畫</h1>
-            <p style="color: var(--cyan); font-size: 14px;">數位分身修繕與資產盤點</p>
-        </div>
+<div class="container">
+    <div style="text-align: center; padding: 10px 0;">
+        <h1 style="color: var(--gold); margin: 0; font-size: 20px; letter-spacing: 2px;">🏡 修繕清單 ✕ 夢想計畫</h1>
+    </div>
 
-        <div class="asset-card">
-            <p style="margin: 0; color: #888;">當前算力資產儲備</p>
-            <div class="asset-val" id="scBalance">正在連線系統...</div>
-            <div style="color: var(--green); font-size: 13px;">SC 數位能量已鎖定</div>
+    <div class="section-title">🔧 第一階段：解決眼前問題</div>
+    <div class="repair-box">
+        <div class="input-group">
+            <input type="text" id="repairInput" placeholder="輸入目前急需解決的問題...">
+            <button class="btn-save" onclick="addRepair()">紀錄</button>
         </div>
-
-        <div class="progress-section">
-            <h3 style="margin-top: 0; color: var(--gold);">🛠️ 數位分身修繕進度</h3>
-            
-            <div class="progress-item">
-                <div class="progress-label"><span>基礎能量核心</span><span>85%</span></div>
-                <div class="bar-bg"><div class="bar-fill" style="width: 85%;"></div></div>
+        <div id="repairList">
+            <div class="repair-item done">
+                <input type="checkbox" class="checkbox" checked disabled>
+                <span style="font-size: 14px;">設定數位分身資產帳戶</span>
             </div>
-
-            <div class="progress-item">
-                <div class="progress-label"><span>七代分潤鏈結</span><span>40%</span></div>
-                <div class="bar-bg"><div class="bar-fill" style="width: 40%; background: var(--cyan);"></div></div>
-            </div>
-        </div>
-
-        <h3 style="color: var(--gold);">🎯 2026 願景清單</h3>
-        <ul class="repair-list">
-            <li class="repair-item">
-                <div class="repair-icon">🛫</div>
-                <div>
-                    <div style="font-weight: bold;">環球旅遊資格</div>
-                    <div style="font-size: 12px; color: #888;">需累計 300 點旅遊積分</div>
-                </div>
-            </li>
-            <li class="repair-item">
-                <div class="repair-icon">💰</div>
-                <div>
-                    <div style="font-weight: bold;">百萬領袖紅包</div>
-                    <div style="font-size: 12px; color: #888;">解鎖進度：二代 PV 達標中</div>
-                </div>
-            </li>
-        </ul>
-
-        <a href="javascript:window.close();" class="btn-action">返回數位總部</a>
-
-        <div class="footer">
-            <p>AI 生活小秘書 · 全方位數位輔助 系統監控</p>
-            <p>提示回目錄大廳請輸入 M</p>
         </div>
     </div>
 
-    <script>
-        // 模擬數據或從網址參數抓取 (例如 dream.html?sc=10000)
-        const urlParams = new URLSearchParams(window.location.search);
-        const sc = urlParams.get('sc') || "查詢中...";
-        if(document.getElementById('scBalance')) {
-            document.getElementById('scBalance').innerText = sc + " SC";
-        }
-    </script>
+    <div class="section-title">💰 解決問題的工具 (獎金盤點)</div>
+    <div class="bonus-grid">
+        <div class="bonus-card">
+            <div class="bonus-label">4% 1-7代獎金</div>
+            <div class="bonus-value">$0</div>
+        </div>
+        <div class="bonus-card">
+            <div class="bonus-label">二代首購獎 ($99/人)</div>
+            <div class="bonus-value">$0</div>
+        </div>
+        <div class="bonus-card">
+            <div class="bonus-label">百萬領袖獎金</div>
+            <div class="bonus-value">審核中</div>
+        </div>
+        <div class="bonus-card">
+            <div class="bonus-label">紅包贊助金</div>
+            <div class="bonus-value">$0</div>
+        </div>
+    </div>
+
+    <div class="section-title">🌟 第二階段：實現未來夢想</div>
+    <div class="dream-container">
+        <p class="slogan">「先解決眼前問題，才能實現未來夢想」</p>
+        <div class="dream-grid">
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300');">
+                <div class="dream-overlay">尊爵別墅</div>
+            </div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300');">
+                <div class="dream-overlay">頂級豪車</div>
+            </div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=300');">
+                <div class="dream-overlay">2027 韓國 5天4夜</div>
+            </div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=300');">
+                <div class="dream-overlay">財富自由</div>
+            </div>
+        </div>
+        <p style="font-size: 12px; color: var(--gold); margin-top: 15px; background: #222; padding: 10px; border-radius: 5px;">
+            📢 2027 特別企劃：帶一位親友跟我們免費玩韓國！
+        </p>
+    </div>
+
+    <a href="javascript:window.close();" class="btn-back">返回數位總部控制台</a>
+
+    <div class="footer">
+        <p>AI 生活小秘書 · 全方位數位輔助 認證</p>
+        <p>提示回目錄大廳請輸入 M</p>
+    </div>
+</div>
+
+<script>
+    function addRepair() {
+        const input = document.getElementById('repairInput');
+        const list = document.getElementById('repairList');
+        if (input.value.trim() === "") return;
+
+        const div = document.createElement('div');
+        div.className = 'repair-item';
+        div.innerHTML = `<input type="checkbox" class="checkbox"> <span style="font-size: 14px;">${input.value}</span>`;
+        
+        list.insertBefore(div, list.firstChild);
+        input.value = "";
+    }
+</script>
+
 </body>
 </html>
