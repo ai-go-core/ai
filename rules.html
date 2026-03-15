@@ -1,38 +1,90 @@
-<style>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI 生活小秘書 · 樂瑞財富與旅遊全書</title>
+    <style>
+        :root { --gold: #D4AF37; --black: #000000; --dark-gray: #121212; --cyan: #00FFFF; --pink: #FF69B4; --green: #39FF14; }
+        body { background-color: var(--black); color: #ffffff; font-family: -apple-system, sans-serif; margin: 0; padding: 15px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        
+        /* 強化：五免承諾區塊 (不再看不見) */
         .zero-risk { 
-            background: rgba(0, 255, 255, 0.05); /* 青色透明背景 */
-            border: 2px solid var(--cyan); /* 青色邊框 */
-            border-radius: 12px; 
-            padding: 18px; 
-            margin-bottom: 20px; 
-            text-align: center; 
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); 
+            background: rgba(0, 255, 255, 0.1); 
+            border: 2px solid var(--cyan); 
+            border-radius: 15px; 
+            padding: 20px; 
+            margin: 20px 0; 
+            text-align: center;
         }
-        .zero-risk-title { 
-            color: var(--cyan); /* 標題改為青色 */
-            margin: 0 0 12px; 
-            font-size: 18px; 
-            font-weight: bold; 
-            text-shadow: 0 0 5px var(--cyan); 
+        .zero-risk-title { color: var(--cyan); font-size: 22px; font-weight: 900; margin-bottom: 10px; }
+        .highlight-gold { color: var(--gold); font-weight: bold; }
+        .highlight-pink { color: var(--pink); font-weight: bold; }
+
+        /* 韓國旅遊區塊 */
+        .korea-card { 
+            background: linear-gradient(135deg, #D4AF37, #8B6508); 
+            color: #000; padding: 20px; border-radius: 15px; text-align: center; margin: 20px 0;
         }
-        .zero-risk p { 
-            font-size: 14px; 
-            color: #fff; 
-            margin: 0; 
-            line-height: 1.8; 
+
+        /* AI 爆裂區塊 */
+        .ai-burst-box { 
+            border-left: 5px solid var(--pink); 
+            background: var(--dark-gray); 
+            padding: 15px; margin: 20px 0; border-radius: 0 15px 15px 0;
         }
-        .zero-risk-highlight { 
-            color: var(--gold); /* 關鍵字改為黃色 */
-            font-weight: bold; 
+
+        /* 按鈕：兩行式優化 */
+        .btn-m { 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 100%; padding: 18px 0; background: linear-gradient(90deg, var(--gold), #B8860B);
+            color: #000 !important; text-decoration: none; font-weight: 900; border-radius: 50px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); margin: 30px 0;
         }
     </style>
+</head>
+<body>
 
+<div class="container">
     <div class="zero-risk">
-        <h3 class="zero-risk-title">🚫 真正的五免承諾 ‧ 零風險致富</h3>
-        <p>
-            <span class="zero-risk-highlight">免</span>入會費 ‧ <span class="zero-risk-highlight">免</span>年費 ‧ <span class="zero-risk-highlight">免</span>囤貨 ‧ <span class="zero-risk-highlight">免</span>扛貨 ‧ <span class="zero-risk-highlight">免</span>推銷
-        </p>
-        <p style="margin-top: 15px; color: #eee; font-size: 16px;">
-            「註冊領 <span class="zero-risk-highlight">$50</span> 啟動金，現在就是致富起點！」
+        <div class="zero-risk-title">🚫 真正的五免承諾</div>
+        <p style="font-size: 16px; line-height: 1.8;">
+            <span class="highlight-gold">免</span>入會費 ‧ <span class="highlight-gold">免</span>年費 ‧ <span class="highlight-gold">免</span>囤貨<br>
+            <span class="highlight-gold">免</span>扛貨 ‧ <span class="highlight-gold">免</span>推銷<br>
+            <span style="font-size: 18px; display: block; margin-top: 10px;">註冊即領 <span class="highlight-pink">$50</span> 購物金</span>
         </p>
     </div>
+
+    <div class="ai-burst-box">
+        <h3 style="color: var(--cyan); margin-top: 0;">🚀 AI 財富爆裂術</h3>
+        <p style="font-size: 14px; color: #ccc;">不用再擔心找不到人！</p>
+        <ul style="color: #fff; padding-left: 20px; font-size: 15px;">
+            <li><span class="highlight-pink">自動推薦：</span>推薦朋友消費即贈 <span class="highlight-pink">$99</span></li>
+            <li><span class="highlight-cyan">數位分身：</span>24H 鎖定七代 <span class="highlight-gold">4%</span> 獎金</li>
+            <li><span class="highlight-green">快速裂變：</span>月入百萬不是夢</li>
+        </ul>
+    </div>
+
+    <div class="korea-card">
+        <h2 style="margin: 0;">✈️ 2027 韓國雙人旅遊</h2>
+        <p style="font-size: 14px; font-weight: bold; margin: 10px 0;">公司免費招待 ‧ 五天四夜奢華行</p>
+        <div style="background: rgba(255,255,255,0.2); padding: 10px; border-radius: 10px; font-size: 13px;">
+            累積 <span style="font-size: 20px;">300</span> 點即可達成！<br>
+            (1-3代會員消費 $1500 = 1點)
+        </div>
+    </div>
+
+    <a href="您的註冊連結" class="btn-m">
+        <span style="font-size: 22px;">🔥 立即免費註冊領 $50</span>
+        <span style="font-size: 14px; margin-top: 4px;">啟動 AI 財富爆裂術 ‧ 一起拚韓國旅遊</span>
+    </a>
+
+    <div style="text-align: center; color: #555; font-size: 11px; padding-bottom: 40px;">
+        <p>樂瑞購物官方合作 · AI 生活小秘書 支援</p>
+        <p>提示回目錄大廳請輸入 M</p>
+    </div>
+</div>
+
+</body>
+</html>
