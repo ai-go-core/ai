@@ -3,49 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>樂瑞 2026 獎勵全書 · AI 數位總部</title>
+    <title>樂瑞 2026 獎勵全書 · 價值覺醒</title>
     <style>
-        :root { --gold: #D4AF37; --black: #000000; --dark-gray: #111111; --cyan: #00FFFF; --green: #39FF14; --white: #ffffff; }
+        :root { --gold: #D4AF37; --black: #000000; --dark-gray: #111111; --cyan: #00FFFF; --pink: #FF69B4; --green: #39FF14; --white: #ffffff; }
         html, body { background-color: var(--black) !important; color: var(--white) !important; margin: 0; padding: 0; }
         body { font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.6; }
         .container { max-width: 480px; margin: 0 auto; padding: 20px; box-sizing: border-box; }
         
-        /* 標題區 */
-        .header-section { text-align: center; padding: 30px 0 20px; }
-        .header-section h1 { color: var(--gold); margin: 0; font-size: 28px; letter-spacing: 2px; }
-        .header-section p { color: #888; font-size: 14px; margin-top: 5px; }
+        /* 標題與開場 */
+        .header-section { text-align: center; padding: 35px 0 25px; }
+        .header-section h1 { color: var(--gold); margin: 0; font-size: 28px; font-weight: 900; }
+        .manifesto { background: linear-gradient(135deg, #1a1a1a, #000); border: 1px solid #333; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 25px; }
+        .manifesto h2 { margin: 0; font-size: 24px; color: var(--white); }
+        .manifesto p { margin-top: 10px; font-size: 15px; color: var(--gold); font-weight: bold; }
 
         /* 通用卡片設計 */
-        .card { background: var(--dark-gray); border: 1px solid #222; border-radius: 15px; padding: 20px; margin-bottom: 20px; position: relative; overflow: hidden; }
-        .card h2 { font-size: 18px; margin-top: 0; color: var(--white); display: flex; align-items: center; }
-        .badge { background: var(--gold); color: #000; font-size: 12px; padding: 2px 8px; border-radius: 4px; margin-right: 10px; }
+        .card { background: var(--dark-gray); border: 1px solid #222; border-radius: 15px; padding: 22px; margin-bottom: 25px; position: relative; }
+        .card h3 { font-size: 18px; margin-top: 0; letter-spacing: 1px; }
 
-        /* 品牌展示網格 */
+        /* 品牌搬移網格 */
         .brand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
-        .brand-item { background: #1a1a1a; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align: center; font-size: 13px; }
-        .brand-item span { color: #777; font-size: 11px; display: block; margin-top: 3px; }
-        .brand-tag { color: var(--cyan); font-size: 12px; font-weight: bold; margin-bottom: 5px; display: block; }
+        .brand-item { background: #1a1a1a; border: 1px solid #333; padding: 12px; border-radius: 10px; font-size: 12px; line-height: 1.4; }
+        .brand-item b { color: var(--cyan); display: block; margin-bottom: 4px; font-size: 14px; }
 
-        /* 收益公式區 */
-        .formula-box { background: rgba(0, 255, 255, 0.05); border: 1px dashed var(--cyan); border-radius: 10px; padding: 15px; text-align: center; margin: 15px 0; }
-        .formula-text { font-family: 'Courier New', monospace; font-size: 16px; color: var(--cyan); font-weight: bold; }
+        /* 精算行樣式 */
+        .math-line { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #222; font-size: 15px; }
+        .val-minus { color: var(--pink); font-weight: bold; }
 
         /* 利益清單樣式 */
         .benefit-row { display: flex; margin-bottom: 15px; align-items: flex-start; }
         .benefit-icon { color: var(--gold); font-weight: 900; margin-right: 12px; font-size: 18px; }
-        .benefit-body b { color: var(--gold); font-size: 15px; display: block; }
-        .benefit-body p { margin: 2px 0; font-size: 13px; color: #aaa; }
-
-        /* 算式強調 */
-        .math-highlight { background: linear-gradient(90deg, transparent, rgba(57, 255, 20, 0.1), transparent); border-top: 1px solid #333; border-bottom: 1px solid #333; padding: 20px 0; text-align: center; }
-        .math-highlight b { font-size: 28px; color: var(--green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.3); }
+        .benefit-body b { color: var(--white); font-size: 15px; display: block; }
+        .benefit-body p { margin: 2px 0; font-size: 13px; color: #888; }
 
         /* 尊榮按鈕 */
         .btn-gold { 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            width: 100%; padding: 18px 0; background: linear-gradient(135deg, #D4AF37 0%, #8A6D3B 100%); 
-            color: #000 !important; text-decoration: none; font-weight: bold; border-radius: 50px; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4); margin: 30px 0; border: none; transition: 0.3s;
+            width: 100%; padding: 20px 0; background: linear-gradient(135deg, #D4AF37 0%, #8A6D3B 100%); 
+            color: #000 !important; text-decoration: none; font-weight: 900; border-radius: 50px; 
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3); margin: 30px 0; border: none;
         }
 
         .footer { text-align: center; color: #444; font-size: 11px; padding: 40px 0; border-top: 1px solid #222; }
@@ -57,72 +53,76 @@
     
     <div class="header-section">
         <h1>🏛️ 樂瑞 2026 獎勵全書</h1>
-        <p>把「消費」變「收入」的最後一塊拼圖</p>
     </div>
 
-    <div class="card" style="border-top: 2px solid var(--cyan);">
-        <span class="brand-tag">為什麼選樂瑞？</span>
-        <h2>賣的都是您「認識」的商品</h2>
-        <p style="font-size: 13px; color: #ccc;">不用改變生活習慣，只是換個地方買。各大廠直送，價格透明，正品保證。</p>
+    <div class="manifesto">
+        <h2>這不是「多花錢」</h2>
+        <p>而是把「原本就要花的錢」<br>換到樂瑞消費，讓你賺大錢！</p>
+    </div>
+
+    <div class="card" style="border-top: 3px solid var(--cyan);">
+        <h3 style="color: var(--cyan); text-align: center;">🛒 預算分配‧日用搬移清單</h3>
+        <p style="font-size: 13px; text-align: center; color: #ccc; margin-bottom: 15px;">名牌有保障，買您原本就在用的牌子</p>
         
         <div class="brand-grid">
-            <div class="brand-item">🧴 黑人牙膏<span>天天必用</span></div>
-            <div class="brand-item">🧃 麥香系列<span>從小喝到大</span></div>
-            <div class="brand-item">🧂 金蘭醬油<span>廚房必備</span></div>
-            <div class="brand-item">🍪 義美/旺旺<span>國民零食</span></div>
+            <div class="brand-item"><b>名牌日用</b>黑人牙膏、泰山、萬家香、五月花</div>
+            <div class="brand-item"><b>快速即食</b>維力炸醬麵、義美、華元零食</div>
+            <div class="brand-item"><b>健康管理</b>各類大廠保健食品、機能飲品</div>
+            <div class="brand-item"><b>居家生活</b>洗沐用品、廚房清潔、家電</div>
         </div>
-        <p style="font-size: 11px; color: var(--green); text-align: center; margin: 0;">✅ 廠價直供 ✅ 宅配到府 ✅ 購物抵扣</p>
+        
+        <div style="background: rgba(0, 255, 255, 0.05); padding: 12px; border-radius: 10px; text-align: center; border: 1px dashed var(--cyan);">
+            <span style="font-size: 14px; color: var(--white);">註冊即領 <span style="color:var(--pink); font-weight:900;">$50</span> 購物金</span><br>
+            <span style="font-size: 12px; color: var(--cyan);">宅配到府，直接對接大廠利潤</span>
+        </div>
+    </div>
+
+    <div class="card" style="border-top: 3px solid var(--pink);">
+        <h3 style="color: var(--pink); text-align: center;">🧮 算給你聽：強迫致富</h3>
+        <div class="math-line"><span>家庭月預算搬移</span><span>$1,500</span></div>
+        <div class="math-line"><span>註冊與首購回饋</span><span class="val-minus">- $110</span></div>
+        <div class="math-line"><span>分享 5 位戰友首購獎金</span><span class="val-minus">- $795</span></div>
+        <div style="text-align: right; margin-top: 15px;">
+            <span style="font-size: 14px; color: #aaa;">首購成本降至：</span>
+            <span style="font-size: 28px; color: var(--green); font-weight: 900;">$595 (約39折)</span>
+        </div>
+        <p style="text-align: center; color: var(--gold); font-size: 13px; font-weight: bold; margin-top: 15px;">
+            每一家消費都回饋你 $60 ‧ 七代月領 18 萬
+        </p>
     </div>
 
     <div class="card">
-        <h2><span class="badge">核心</span> 七代 4% 分潤</h2>
-        <div class="formula-box">
-            <div class="formula-text">收益 = 七代內總 PV × 4%</div>
-        </div>
-        <p style="font-size: 13px; color: #bbb;">在樂瑞，本人即為第一代。只要有人刷牙、洗澡、喝飲料，您就有錢領。累積人數越多，收益無上限。</p>
-    </div>
-
-    <div class="card" style="border-left: 3px solid var(--gold);">
-        <h2 style="color: var(--gold);">啟動 1,500PV 最大權益</h2>
-        
+        <h3 style="color: var(--white);"><span style="color:var(--gold);">★</span> 啟動 1,500PV 最大權益</h3>
         <div class="benefit-row">
             <div class="benefit-icon">01</div>
             <div class="benefit-body">
-                <b>現金回饋獎勵</b>
-                <p>自我回饋 4% = $60 立即入帳。</p>
+                <b>現金立即返還 4%</b>
+                <p>本人即是第一代，每筆消費皆有感回饋。</p>
             </div>
         </div>
-
         <div class="benefit-row">
             <div class="benefit-icon">02</div>
             <div class="benefit-body">
                 <b>2027 韓國尊榮之旅</b>
-                <p>取得旅遊點數，累積滿額招待雙人遊。</p>
+                <p>累積點數，戰隊招待雙人海外遊。</p>
             </div>
         </div>
-
         <div class="benefit-row">
             <div class="benefit-icon">03</div>
             <div class="benefit-body">
-                <b>數位工具全授權</b>
-                <p>啟動「AI 生活小秘書」與 W1-W7 武器庫。</p>
+                <b>AI 數位工具全授權</b>
+                <p>包含「創建數位分身」與 W1-W7 武器庫。</p>
             </div>
         </div>
     </div>
 
-    <div class="math-highlight">
-        <p style="margin:0 0 5px; font-size: 14px; color: #888;">隨著二代裂變完成，月回饋可達</p>
-        <b>$2,295 / 每月</b><br>
-        <span style="color: var(--cyan); font-size: 13px;">輕鬆實現消費免單，開啟正向循環。</span>
-    </div>
-
-    <p style="text-align: center; font-size: 12px; color: #555; margin-top: 25px;">
-        引路領袖：<span id="refDisplay" style="color: var(--gold);">識別中...</span>
+    <p style="text-align: center; font-size: 12px; color: #555;">
+        引路領袖：<span id="refDisplay" style="color: var(--gold); font-weight: bold;">領航員識別中...</span>
     </p>
 
     <a id="regBtn" href="#" class="btn-gold">
-        <span style="font-size: 20px;">立即註冊 · 開啟價值</span>
-        <span style="font-size: 12px; margin-top: 4px; opacity: 0.9;">領取 $50 並啟動數位輔助系統</span>
+        <span style="font-size: 22px;">立即註冊 · 日常消費拿利潤</span>
+        <span style="font-size: 12px; margin-top: 4px; opacity: 0.9;">領取 $50 並啟動數位收益系統</span>
     </a>
 
     <div class="footer">
@@ -134,7 +134,7 @@
 <script>
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
-        const refId = urlParams.get('ref') || '全方位數位領袖';
+        const refId = urlParams.get('ref') || '數位領袖';
         document.getElementById('refDisplay').innerText = refId;
         const regBtn = document.getElementById('regBtn');
         regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId;
