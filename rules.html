@@ -17,16 +17,21 @@
         .teaser-section p { font-size: 16px; margin: 10px 0; }
         .highlight-text { color: var(--cyan); font-weight: bold; }
 
-        /* 修繕清單樣式 */
-        .stock-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
-        .stock-table th { background: #222; color: var(--gold); padding: 10px; text-align: left; }
-        .stock-table td { border-bottom: 1px solid #222; padding: 10px; }
-        .ai-tag { background: #004422; color: var(--green); padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+        /* 品牌對比清單樣式 */
+        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; background: #1a1a1a; border-radius: 10px; overflow: hidden; }
+        .comparison-table th { background: #222; color: var(--gold); padding: 12px; text-align: center; border: 1px solid #333; }
+        .comparison-table td { border: 1px solid #333; padding: 12px; text-align: center; }
+        .vs-tag { color: var(--pink); font-weight: bold; }
 
         /* 夢想板樣式 */
         .dream-board { background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); border-radius: 15px; padding: 20px; border: 1px solid #333; }
         .dream-item { display: flex; align-items: center; margin-bottom: 15px; }
         .dream-icon { font-size: 24px; margin-right: 15px; }
+
+        /* 品牌搬移網格 */
+        .brand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+        .brand-item { background: #1a1a1a; border: 1px solid #333; padding: 12px; border-radius: 10px; font-size: 12px; line-height: 1.4; }
+        .brand-item b { color: var(--cyan); display: block; margin-bottom: 4px; font-size: 14px; }
 
         .card { background: var(--dark-gray); border: 1px solid #222; border-radius: 15px; padding: 22px; margin-bottom: 25px; }
         .btn-gold { 
@@ -52,19 +57,46 @@
         <p style="font-weight: bold; color: var(--gold); border-top: 1px solid #333; padding-top: 10px;">靠分享日用品支出，實現無痛致富！</p>
     </div>
 
-    <div class="card" style="border-left: 4px solid var(--cyan);">
-        <h3 style="color: var(--cyan); margin-bottom: 5px;">📉 數位標的 · 修繕清單 (去重版)</h3>
-        <p style="font-size: 12px; color: #888;">AI 鐵血防衛系統已自動過濾重複標的</p>
-        <table class="stock-table">
+    <div class="card" style="border-left: 4px solid var(--pink);">
+        <h3 style="color: var(--pink); margin-bottom: 5px;">⚖️ 聰明消費 · 價值對比</h3>
+        <p style="font-size: 12px; color: #888;">為何聰明的領袖都選擇「品牌搬家」？</p>
+        <table class="comparison-table">
             <thead>
-                <tr><th>標的</th><th>現價</th><th>AI 決策理由</th></tr>
+                <tr>
+                    <th style="width: 45%;">一般傳銷品牌</th>
+                    <th class="vs-tag">VS</th>
+                    <th style="width: 45%; color: var(--cyan);">樂瑞國民品牌</th>
+                </tr>
             </thead>
             <tbody>
-                <tr><td>2489 瑞軒</td><td>19.2</td><td><span class="ai-tag">🚀 強勢擴張</span> 帶量突破</td></tr>
-                <tr><td>3501 維熹</td><td>72.1</td><td><span class="ai-tag">🟠 攻擊點火</span> 回測支撐</td></tr>
-                <tr><td>...其餘 8 支</td><td colspan="2" style="text-align: center; color: #555;">(請回 LINE 輸入 VIP888 獲取)</td></tr>
+                <tr>
+                    <td>價格昂貴需轉手</td>
+                    <td class="vs-tag">💰</td>
+                    <td><b style="color:var(--green)">國民價</b> 官網直購</td>
+                </tr>
+                <tr>
+                    <td>需囤貨或入會費</td>
+                    <td class="vs-tag">🚫</td>
+                    <td><b style="color:var(--green)">免手續費</b> 免年費</td>
+                </tr>
+                <tr>
+                    <td>推銷壓力大</td>
+                    <td class="vs-tag">📢</td>
+                    <td><b style="color:var(--green)">日常分享</b> 無壓力</td>
+                </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="card" style="border-top: 3px solid var(--cyan);">
+        <h3 style="color: var(--cyan); text-align: center;">🛒 預算分配‧日用採購清單</h3>
+        <p style="font-size: 13px; text-align: center; color: #ccc; margin-bottom: 15px;">名牌有保障，買您原本就在用的牌子</p>
+        <div class="brand-grid">
+            <div class="brand-item"><b>名牌日用</b>黑人牙膏、泰山、萬家香</div>
+            <div class="brand-item"><b>快速即食</b>維力炸醬麵、義美、華元零食</div>
+            <div class="brand-item"><b>健康管理</b>各類大廠保健食品、機能飲品</div>
+            <div class="brand-item"><b>居家生活</b>洗沐用品、廚房清潔、家電</div>
+        </div>
     </div>
 
     <div class="card" style="border-top: 1px solid var(--gold);">
@@ -81,6 +113,10 @@
             <div class="dream-item">
                 <div class="dream-icon">🔒</div>
                 <div><b>SC 能量提現自由</b><p style="font-size: 12px; color: #888; margin:0;">數位帝國裂變，達成月入 18 萬遠景。</p></div>
+            </div>
+            <div class="dream-item">
+                <div class="dream-icon">📱</div>
+                <div><b>AI 數位分身授權</b><p style="font-size: 12px; color: #888; margin:0;">全自動行銷系統，24小時為您尋找戰友。</p></div>
             </div>
         </div>
     </div>
@@ -106,7 +142,6 @@
         const refId = urlParams.get('ref') || '數位領袖';
         document.getElementById('refDisplay').innerText = refId;
         const regBtn = document.getElementById('regBtn');
-        // 假設註冊導向您的引導頁或樂瑞官網
         regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId + "&action=register";
     };
 </script>
