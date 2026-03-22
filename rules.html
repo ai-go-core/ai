@@ -17,16 +17,10 @@
         .teaser-section p { font-size: 16px; margin: 10px 0; }
         .highlight-text { color: var(--cyan); font-weight: bold; }
 
-        /* 修繕清單樣式 */
-        .stock-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
-        .stock-table th { background: #222; color: var(--gold); padding: 10px; text-align: left; }
-        .stock-table td { border-bottom: 1px solid #222; padding: 10px; }
-        .ai-tag { background: #004422; color: var(--green); padding: 2px 6px; border-radius: 4px; font-size: 11px; }
-
         /* 夢想板樣式 */
         .dream-board { background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); border-radius: 15px; padding: 20px; border: 1px solid #333; }
-        .dream-item { display: flex; align-items: center; margin-bottom: 15px; }
-        .dream-icon { font-size: 24px; margin-right: 15px; }
+        .dream-item { display: flex; align-items: center; margin-bottom: 20px; }
+        .dream-icon { font-size: 28px; margin-right: 15px; min-width: 40px; text-align: center; }
 
         .card { background: var(--dark-gray); border: 1px solid #222; border-radius: 15px; padding: 22px; margin-bottom: 25px; }
         .btn-gold { 
@@ -52,37 +46,31 @@
         <p style="font-weight: bold; color: var(--gold); border-top: 1px solid #333; padding-top: 10px;">靠分享日用品支出，實現無痛致富！</p>
     </div>
 
-    <div class="card" style="border-left: 4px solid var(--cyan);">
-        <h3 style="color: var(--cyan); margin-bottom: 5px;">📉 數位標的 · 修繕清單 (去重版)</h3>
-        <p style="font-size: 12px; color: #888;">AI 鐵血防衛系統已自動過濾重複標的</p>
-        <table class="stock-table">
-            <thead>
-                <tr><th>標的</th><th>現價</th><th>AI 決策理由</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>2489 瑞軒</td><td>19.2</td><td><span class="ai-tag">🚀 強勢擴張</span> 帶量突破</td></tr>
-                <tr><td>3501 維熹</td><td>72.1</td><td><span class="ai-tag">🟠 攻擊點火</span> 回測支撐</td></tr>
-                <tr><td>...其餘 8 支</td><td colspan="2" style="text-align: center; color: #555;">(請回 LINE 輸入 VIP888 獲取)</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="card" style="border-top: 1px solid var(--gold);">
-        <h3 style="color: var(--gold); text-align: center;">🏡 2026-2027 數位夢想板</h3>
+    <div class="card" style="border-top: 2px solid var(--gold);">
+        <h3 style="color: var(--gold); text-align: center; margin-bottom: 20px; letter-spacing: 2px;">🏡 2026-2027 數位夢想藍圖</h3>
         <div class="dream-board">
             <div class="dream-item">
+                <div class="dream-icon">🧧</div>
+                <div><b>註冊即贈 $50 購物金</b><p style="font-size: 12px; color: #888; margin:0;">封測期間加碼 character eggs，現領現折。</p></div>
+            </div>
+            <div class="dream-item">
                 <div class="dream-icon">💰</div>
-                <div><b>消費全額扣抵</b><p style="font-size: 12px; color: #888; margin:0;">日常支出由系統買單，實現零成本生活。</p></div>
+                <div><b>消費全額扣抵 · 零元生活</b><p style="font-size: 12px; color: #888; margin:0;">日常支出由系統自動買單，支出變收入。</p></div>
             </div>
             <div class="dream-item">
                 <div class="dream-icon">🛫</div>
-                <div><b>2027 韓國免費雙人遊</b><p style="font-size: 12px; color: #888; margin:0;">累積旅遊點數，招待尊榮海外假期。</p></div>
+                <div><b>2027 韓國 5 天 4 夜雙人遊</b><p style="font-size: 12px; color: #888; margin:0;">累積旅遊點數，招待尊榮海外假期。</p></div>
             </div>
             <div class="dream-item">
-                <div class="dream-icon">🔒</div>
-                <div><b>SC 能量提現自由</b><p style="font-size: 12px; color: #888; margin:0;">數位帝國裂變，達成月入 18 萬遠景。</p></div>
+                <div class="dream-icon">🔓</div>
+                <div><b>SC 能量提現自由</b><p style="font-size: 12px; color: #888; margin:0;">滿 100 即可提領，達成月入 18 萬遠景。</p></div>
             </div>
         </div>
+    </div>
+
+    <div class="card" style="background: rgba(0,255,255,0.02); border: 1px dashed #333; text-align: center;">
+        <p style="font-size: 14px; margin: 0;">免入會費 | 免年費 | 免送貨 | 免收錢</p>
+        <p style="font-size: 14px; margin: 5px 0 0 0; color: var(--cyan);">✨ 分享好友即享 $99/人 推薦獎勵 ✨</p>
     </div>
 
     <p style="text-align: center; font-size: 12px; color: #555;">
@@ -90,12 +78,12 @@
     </p>
 
     <a id="regBtn" href="#" class="btn-gold">
-        <span style="font-size: 22px;">立即註冊 · 拿 $50 並啟動</span>
-        <span style="font-size: 12px; margin-top: 4px; opacity: 0.9;">看完網站立即報名，開啟無痛收入</span>
+        <span style="font-size: 22px;">立即註冊 · 啟動數位分身</span>
+        <span style="font-size: 12px; margin-top: 4px; opacity: 0.9;">限時免費加入，開啟無痛收入</span>
     </a>
 
     <div class="footer">
-        <p>AI 生活小秘書 · 全方位數位輔助 認證</p>
+        <p>AI 生活小秘書 · 全方位數位輔助 認證系統</p>
         <p>© 2026 創建數位分身 · 提示回目錄請輸入 M</p>
     </div>
 </div>
@@ -106,7 +94,7 @@
         const refId = urlParams.get('ref') || '數位領袖';
         document.getElementById('refDisplay').innerText = refId;
         const regBtn = document.getElementById('regBtn');
-        // 假設註冊導向您的引導頁或樂瑞官網
+        // 導向至您的主系統註冊動作
         regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId + "&action=register";
     };
 </script>
