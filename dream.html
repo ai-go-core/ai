@@ -1,217 +1,33 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 生活小秘書 · 全方位數位輔助</title>
-    <style>
-        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; --red: #FF4444; }
-        * { box-sizing: border-box; } 
-        body { background-color: var(--black); color: #ffffff; font-family: -apple-system, 'PingFang TC', sans-serif; margin: 0; padding: 12px; line-height: 1.4; }
-        .container { max-width: 600px; margin: 0 auto; }
-        
-        .header { text-align: center; padding: 15px 0; border-bottom: 1px solid #333; }
-        .section-title { color: var(--gold); border-left: 4px solid var(--gold); padding-left: 10px; margin: 25px 0 10px; font-size: 17px; font-weight: bold; }
-        .box-card { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; margin-bottom: 15px; }
+// 取得屬性設定
+var props = PropertiesService.getScriptProperties();
+var PRODUCT_DB_ID = props.getProperty('PRODUCT_DB_ID') || "";
 
-        .stage-tag { background: var(--gold); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-right: 5px; }
+function doGet(e) {
+  try {
+    // 1. 開啟試算表與指定分頁
+    var ss = SpreadsheetApp.openById(PRODUCT_DB_ID);
+    var sheet = ss.getSheetByName("Products"); // 請確保分頁名稱正確
+    
+    // 2. 取得所有資料 (假設第一列是標題)
+    var data = sheet.getDataRange().getValues();
+    var headers = data.shift(); // 移除並取得標題列
+    
+    // 3. 將資料轉換為 JSON 物件陣列
+    var jsonOutput = data.map(function(row) {
+      var obj = {};
+      headers.forEach(function(header, index) {
+        // 對應欄位：Category, Name, PV, Link, Tag
+        obj[header.toLowerCase()] = row[index]; 
+      });
+      return obj;
+    });
 
-        /* --- 第 1 階段：分類選單樣式 --- */
-        .category-item { margin-bottom: 8px; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
-        .category-btn { width: 100%; background: #1a1a1a; border: none; padding: 12px 15px; color: #eee; text-align: left; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
-        .category-btn:hover { background: #252525; }
-        .category-btn::after { content: '＋'; color: var(--gold); }
-        .category-btn.active::after { content: '－'; }
-        
-        .product-list { display: none; background: #0a0a0a; padding: 5px 0; border-top: 1px solid #222; }
-        .product-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; border-bottom: 1px solid #1a1a1a; text-decoration: none; color: #bbb; font-size: 13px; }
-        .product-item:last-child { border-bottom: none; }
-        .product-item span { color: var(--gold); font-size: 11px; }
-
-        /* --- 第 2 階段：修繕樣式 --- */
-        .repair-input-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
-        .input-row { display: flex; gap: 8px; }
-        input { background: #000; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; font-size: 14px; width: 100%; }
-        .btn-add { background: var(--gold); color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        
-        .repair-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #1a1a1a; border-radius: 8px; margin-bottom: 8px; border: 1px solid #222; }
-        .repair-name { font-weight: bold; color: #fff; }
-        .repair-cost { color: var(--gold); font-size: 13px; margin-left: 10px; }
-        .btn-del { color: var(--red); background: none; border: none; font-size: 18px; cursor: pointer; }
-        
-        .summary-box { text-align: right; margin-top: 15px; padding-top: 10px; border-top: 1px dotted #444; }
-        .total-amount { color: var(--cyan); font-size: 20px; font-weight: bold; }
-
-        /* 試算表樣式 */
-        .calc-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
-        .calc-table td { padding: 6px; border-bottom: 1px solid #222; }
-
-        /* 第 3 階段：夢想網格 */
-        .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .dream-item { position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3; background-size: cover; display: flex; align-items: flex-end; border: 1px solid #333; }
-        .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 11px; padding: 5px 0; color: var(--gold); text-align: center; }
-
-        .btn-lobby { display: block; width: 100%; padding: 15px; background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000; text-align: center; text-decoration: none; border-radius: 30px; font-size: 16px; font-weight: bold; margin-top: 25px; }
-        .footer { text-align: center; font-size: 11px; color: #555; margin: 40px 0 20px; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="header">
-        <h1 style="color: var(--gold); margin: 0; font-size: 20px;">AI 生活小秘書</h1>
-        <div id="user_id" style="color: var(--cyan); font-size: 14px; margin-top: 5px;">數位代號：同步中...</div>
-    </div>
-
-    <!-- 收益試算 -->
-    <div class="section-title">📊 數位資產 ✕ 7代 4% 收益試算</div>
-    <div class="box-card">
-        <div class="input-row" style="margin-bottom: 15px;">
-            <div style="flex:1">
-                <label style="font-size: 11px; color: #888;">每代招募人數</label>
-                <input type="number" id="refCount" value="5" oninput="calc()">
-            </div>
-            <div style="flex:1">
-                <label style="font-size: 11px; color: #888;">月消費 (PV)</label>
-                <input type="number" id="pvVal" value="1000" oninput="calc()">
-            </div>
-        </div>
-        <table class="calc-table" id="calcTable"></table>
-        <div style="text-align: right; color: var(--gold); font-size: 18px; font-weight: bold; margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
-            預計每月獎勵：<span id="monthTotal">$ 0</span>
-        </div>
-    </div>
-
-    <!-- 第 1 階段 -->
-    <div class="section-title"><span class="stage-tag">第 1 階段</span> 日用開支 ✕ 零成本</div>
-    <div class="box-card">
-        <p style="font-size: 13px; color: #888; margin-bottom: 12px; text-align: center;">點擊分類查看可透過獎金抵扣的商品：</p>
-        
-        <div class="category-item">
-            <button class="category-btn" onclick="toggleCategory(this)">🧼 居家清潔系列</button>
-            <div class="product-list">
-                <a href="https://www.lerich.com.tw/" target="_blank" class="product-item">樂瑞 3效洗衣精 <span>熱銷品</span></a>
-                <a href="https://www.lerich.com.tw/" target="_blank" class="product-item">樂瑞 濃縮洗碗精 <span>環保標章</span></a>
-                <a href="https://www.lerich.com.tw/" target="_blank" class="product-item">多功能除臭噴霧 <span>防護必備</span></a>
-            </div>
-        </div>
-
-        <div class="category-item">
-            <button class="category-btn" onclick="toggleCategory(this)">🛀 個人洗沐系列</button>
-            <div class="product-list">
-                <a href="https://www.lerich.com.tw/" target="_blank" class="product-item">艾草招財沐浴露 <span>人氣王</span></a>
-                <a href="https://www.lerich.com.tw/" target="_blank" class="product-item">葉綠素深層洗髮精 <span>清爽型</span></a>
-                <a href="https://www.lerich.com.tw/" target="_blank" class="product-item">胺基酸保濕潔顏霜 <span>溫和修護</span></a>
-            </div>
-        </div>
-
-        <div class="category-item">
-            <button class="category-btn" onclick="toggleCategory(this)">🧻 生活百科百貨</button>
-            <div class="product-list">
-                <a href="https://www.lerich.com.tw/" target="_blank" class="product-item">樂瑞抽取式衛生紙 <span>消耗品首選</span></a>
-                <a href="https://www.lerich.com.tw/" target="_blank" class="product-item">竹炭健康牙刷 <span>日常換新</span></a>
-                <a href="https://www.lerich.com.tw/" target="_blank" class="product-item">超細纖維吸水毛巾 <span>舒適柔軟</span></a>
-            </div>
-        </div>
-        
-        <div style="margin-top: 15px; color: var(--green); font-size: 11px; text-align: center; background: #002200; padding: 8px; border-radius: 6px;">
-            達成目標：獎金全額抵扣，每月省下 3,000~5,000 元薪水支出
-        </div>
-    </div>
-
-    <!-- 第 2 階段 -->
-    <div class="section-title"><span class="stage-tag">第 2 階段</span> 環境修繕 ✕ 換全新</div>
-    <div class="box-card">
-        <div class="repair-input-group">
-            <input type="text" id="itemName" placeholder="修繕項目 (例：更換沙發)">
-            <div class="input-row">
-                <input type="number" id="itemCost" placeholder="預算 (NT$)">
-                <button class="btn-add" onclick="addItem()">登錄</button>
-            </div>
-        </div>
-        <div id="repairList">
-            <div class="repair-item">
-                <div class="repair-info">
-                    <span class="repair-name">更換一級能效冷氣</span>
-                    <span class="repair-cost">$ 35,000</span>
-                </div>
-                <button class="btn-del" onclick="this.parentElement.remove(); updateTotal();">×</button>
-            </div>
-        </div>
-        <div class="summary-box">
-            <span style="color:#888; font-size:13px;">修繕所需總獎金：</span>
-            <span class="total-amount" id="totalNeed">$ 35,000</span>
-        </div>
-    </div>
-
-    <!-- 第 3 階段 -->
-    <div class="section-title"><span class="stage-tag">第 3 階段</span> 卓越人生 ✕ 夢實現</div>
-    <div class="box-card">
-        <div class="dream-grid">
-            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400');"><div class="dream-overlay">尊爵極致別墅</div></div>
-            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400');"><div class="dream-overlay">頂級座駕</div></div>
-            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400');"><div class="dream-overlay">寰宇深度之旅</div></div>
-            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400');"><div class="dream-overlay">永續財富自由</div></div>
-        </div>
-    </div>
-
-    <a href="#" class="btn-lobby">🚀 回到數位大廳 (M)</a>
-
-    <div class="footer">
-        <p>AI 生活小秘書 · 全方位數位輔助</p>
-        <p>提示回目錄大廳請輸入 M</p>
-    </div>
-</div>
-
-<script>
-    function toggleCategory(btn) {
-        btn.classList.toggle('active');
-        const list = btn.nextElementSibling;
-        list.style.display = list.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function addItem() {
-        const name = document.getElementById('itemName').value;
-        const cost = document.getElementById('itemCost').value;
-        if (!name || !cost) return;
-        const list = document.getElementById('repairList');
-        const item = document.createElement('div');
-        item.className = 'repair-item';
-        item.innerHTML = `<div class="repair-info"><span class="repair-name">${name}</span><span class="repair-cost">$ ${parseInt(cost).toLocaleString()}</span></div><button class="btn-del" onclick="this.parentElement.remove(); updateTotal();">×</button>`;
-        list.appendChild(item);
-        document.getElementById('itemName').value = '';
-        document.getElementById('itemCost').value = '';
-        updateTotal();
-    }
-
-    function updateTotal() {
-        const costs = document.querySelectorAll('.repair-cost');
-        let total = 0;
-        costs.forEach(c => { total += parseInt(c.innerText.replace(/[^0-9]/g, '')); });
-        document.getElementById('totalNeed').innerText = '$ ' + total.toLocaleString();
-    }
-
-    function calc() {
-        const ref = parseInt(document.getElementById('refCount').value) || 0;
-        const pv = parseInt(document.getElementById('pvVal').value) || 0;
-        const table = document.getElementById('calcTable');
-        let total = 0; let people = 1; let html = "";
-        for (let i = 1; i <= 7; i++) {
-            if (i > 1) people *= ref;
-            let profit = (people * pv * 0.04);
-            total += profit;
-            html += `<tr><td>第 ${i} 代 ${i===1?'(本人)':''}</td><td>${people.toLocaleString()} 人</td><td style="text-align:right; color:var(--green);">$ ${Math.floor(profit).toLocaleString()}</td></tr>`;
-        }
-        table.innerHTML = html;
-        document.getElementById('monthTotal').innerText = '$ ' + Math.floor(total).toLocaleString();
-    }
-
-    window.onload = () => {
-        calc();
-        const urlParams = new URLSearchParams(window.location.search);
-        document.getElementById('user_id').innerText = "數位代號：" + (urlParams.get('uid') || "領袖-001");
-    };
-</script>
-
-</body>
-</html>
+    // 4. 回傳 JSON 格式，並允許跨網域存取 (CORS)
+    return ContentService.createTextOutput(JSON.stringify(jsonOutput))
+      .setMimeType(ContentService.MimeType.JSON);
+      
+  } catch (f) {
+    return ContentService.createTextOutput(JSON.stringify({ "error": f.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
