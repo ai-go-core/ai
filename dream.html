@@ -23,174 +23,169 @@
         .user-name-tag { color: var(--cyan); font-weight: bold; font-size: 16px; text-shadow: 0 0 5px rgba(0, 255, 255, 0.3); }
         .user-welcome { color: #888; font-size: 12px; margin-right: 4px; }
 
-        /* 分類按鈕 */
-        .category-menu {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-            overflow-x: auto;
-            padding: 5px 0;
-            scrollbar-width: none;
-        }
-        .category-menu::-webkit-scrollbar { display: none; }
-        .category-btn {
-            background: #1a1a1a;
-            border: 1px solid #444;
-            color: #888;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 13px;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .category-btn.active {
-            border-color: var(--gold);
-            color: var(--gold);
-            background: rgba(212, 175, 55, 0.1);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
-        }
-
-        /* 補給清單卡片 */
         .stock-box { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; margin-bottom: 20px; }
-        .stock-item { 
-            display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; 
-            background: #1a1a1a; padding: 12px; border-radius: 8px; border: 1px solid #222;
-        }
-        .stock-check { width: 18px; height: 18px; margin-top: 3px; cursor: pointer; accent-color: var(--gold); }
+        .stock-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 15px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #222; }
+        .stock-check { width: 18px; height: 18px; margin-top: 3px; cursor: pointer; }
         .stock-info { flex: 1; }
         .stock-name { font-size: 14px; margin-bottom: 6px; display: flex; justify-content: space-between; }
-        .stock-bar-bg { background: #222; height: 6px; border-radius: 3px; overflow: hidden; }
-        .stock-bar-fill { height: 100%; transition: width 0.8s ease-in-out; }
+        .stock-bar-bg { background: #222; height: 8px; border-radius: 4px; overflow: hidden; }
+        .stock-bar-fill { height: 100%; transition: width 0.5s; }
         .btn-buy { 
             background: transparent; border: 1px solid var(--gold); color: var(--gold); 
-            padding: 4px 12px; border-radius: 15px; font-size: 11px; text-decoration: none;
-            transition: 0.3s; white-space: nowrap; align-self: center; margin-left: 5px;
+            padding: 5px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;
+            transition: 0.3s; white-space: nowrap; align-self: center;
         }
         .btn-buy:hover { background: var(--gold); color: #000; }
-        .item-checked { text-decoration: line-through; color: #555 !important; opacity: 0.5; }
+        .item-checked { text-decoration: line-through; color: #666 !important; }
 
-        /* 通用樣式 */
-        .section-title { color: var(--gold); border-left: 4px solid var(--gold); padding-left: 10px; margin: 20px 0 10px; font-size: 17px; font-weight: bold; }
-        .bonus-card { background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid rgba(212, 175, 55, 0.3); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
-        .bonus-value { font-size: 28px; color: var(--gold); font-weight: bold; }
-        .btn-lobby { display: block; width: 100%; padding: 15px; background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000; text-align: center; text-decoration: none; border-radius: 30px; font-size: 16px; font-weight: bold; margin-top: 20px; }
+        .bonus-card { 
+            background: linear-gradient(145deg, #1a1a1a, #000); 
+            border: 1px solid rgba(212, 175, 55, 0.3); 
+            padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 15px; 
+        }
+        .bonus-label { font-size: 13px; color: #888; margin-bottom: 5px; }
+        .bonus-value { font-size: 28px; color: var(--gold); font-weight: bold; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+
+        .section-title { 
+            color: var(--gold); border-left: 4px solid var(--gold); padding-left: 10px; 
+            margin: 20px 0 10px; font-size: 17px; font-weight: bold; 
+        }
+        
+        .repair-box { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; }
+        
+        .input-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+        .input-row { display: flex; gap: 8px; }
+        input { 
+            background: #000; border: 1px solid #444; color: #fff; padding: 12px; 
+            border-radius: 8px; font-size: 16px; outline: none; width: 100%;
+        }
+        input:focus { border-color: var(--gold); }
+        .btn-save { background: var(--gold); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
+        
+        .repair-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: #1a1a1a; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #222; 
+        }
+        .repair-info { display: flex; align-items: center; gap: 8px; flex: 1; }
+        .repair-name { font-size: 14px; color: #eee; }
+        .checked-text { text-decoration: line-through; color: #666 !important; }
+        
+        .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;}
+        .dream-item { position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 3; display: flex; align-items: flex-end; background-size: cover; background-position: center; border: 1px solid #333; }
+        .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 11px; padding: 5px 0; color: var(--gold); text-align: center; }
+        
+        .progress-bar-bg { background: #222; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 8px; }
+        .progress-bar-fill { background: linear-gradient(90deg, #D4AF37, #FFD700); height: 100%; width: 0%; transition: width 1.5s ease-in-out; }
+        
+        .btn-lobby { display: block; width: 100%; padding: 15px; background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000; text-align: center; text-decoration: none; border-radius: 30px; font-size: 16px; font-weight: bold; margin-top: 20px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
         .footer { text-align: center; font-size: 11px; color: #555; margin: 40px 0 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div style="text-align: center; padding: 10px 0;">
+    <div style="text-align: center; padding: 10px 0 5px;">
         <h1 style="color: var(--gold); margin: 0; font-size: 20px; letter-spacing: 2px;">🏡 全方位數位生活</h1>
     </div>
 
     <div class="user-header">
-        <span class="user-welcome">領袖：</span><span id="user_nickname" class="user-name-tag">載入中...</span>
+        <span class="user-welcome">領袖：</span><span id="user_nickname" class="user-name-tag">數據同步中...</span>
     </div>
 
     <div class="section-title">🛒 零階段：日常補給清單</div>
-    
-    <div class="category-menu">
-        <button class="category-btn active" onclick="filterStock('all', this)">全部</button>
-        <button class="category-btn" onclick="filterStock('kitchen', this)">廚房用品</button>
-        <button class="category-btn" onclick="filterStock('bathroom', this)">浴室用品</button>
-        <button class="category-btn" onclick="filterStock('living', this)">生活用品</button>
-    </div>
-
     <div class="stock-box">
         <div id="stockList">
-            <!-- 廚房用品系列 -->
-            <div class="stock-item" data-cat="kitchen">
+            <div class="stock-item">
                 <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
                 <div class="stock-info">
-                    <div class="stock-name"><span>洗碗精/洗潔劑</span><span style="color:var(--red)">15%</span></div>
-                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 15%; background: var(--red);"></div></div>
-                </div>
-                <a href="https://www.lerich.com.tw" class="btn-buy">補貨</a>
-            </div>
-            <div class="stock-item" data-cat="kitchen">
-                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
-                <div class="stock-info">
-                    <div class="stock-name"><span>廚房紙巾</span><span style="color:var(--gold)">40%</span></div>
-                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 40%; background: var(--gold);"></div></div>
-                </div>
-                <a href="https://www.lerich.com.tw" class="btn-buy">補貨</a>
-            </div>
-            <div class="stock-item" data-cat="kitchen">
-                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
-                <div class="stock-info">
-                    <div class="stock-name"><span>保鮮膜/鋁箔紙</span><span style="color:var(--green)">80%</span></div>
-                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 80%; background: var(--green);"></div></div>
-                </div>
-                <a href="https://www.lerich.com.tw" class="btn-buy">備貨</a>
-            </div>
-            <div class="stock-item" data-cat="kitchen">
-                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
-                <div class="stock-info">
-                    <div class="stock-name"><span>菜瓜布/鋼絲球</span><span style="color:var(--green)">100%</span></div>
-                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 100%; background: var(--green);"></div></div>
-                </div>
-                <a href="https://www.lerich.com.tw" class="btn-buy">備貨</a>
-            </div>
-
-            <!-- 浴室用品系列 -->
-            <div class="stock-item" data-cat="bathroom">
-                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
-                <div class="stock-info">
-                    <div class="stock-name"><span>洗髮精/沐浴乳</span><span style="color:var(--gold)">45%</span></div>
-                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 45%; background: var(--gold);"></div></div>
-                </div>
-                <a href="https://www.lerich.com.tw" class="btn-buy">補貨</a>
-            </div>
-            <div class="stock-item" data-cat="bathroom">
-                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
-                <div class="stock-info">
-                    <div class="stock-name"><span>牙膏/漱口水</span><span style="color:var(--red)">20%</span></div>
+                    <div class="stock-name"><span class="name-label">洗衣精 (樂瑞嚴選)</span><span style="color:var(--red)">20%</span></div>
                     <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 20%; background: var(--red);"></div></div>
                 </div>
-                <a href="https://www.lerich.com.tw" class="btn-buy">補貨</a>
+                <a href="https://www.lerich.com.tw/index.php/shop/product" target="_blank" class="btn-buy">補貨</a>
             </div>
-            <div class="stock-item" data-cat="bathroom">
+            <div class="stock-item">
                 <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
                 <div class="stock-info">
-                    <div class="stock-name"><span>浴廁清潔劑</span><span style="color:var(--gold)">30%</span></div>
-                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 30%; background: var(--gold);"></div></div>
-                </div>
-                <a href="https://www.lerich.com.tw" class="btn-buy">補貨</a>
-            </div>
-
-            <!-- 生活用品系列 -->
-            <div class="stock-item" data-cat="living">
-                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
-                <div class="stock-info">
-                    <div class="stock-name"><span>抽取式衛生紙</span><span style="color:var(--red)">10%</span></div>
-                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 10%; background: var(--red);"></div></div>
-                </div>
-                <a href="https://www.lerich.com.tw" class="btn-buy">急補</a>
-            </div>
-            <div class="stock-item" data-cat="living">
-                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
-                <div class="stock-info">
-                    <div class="stock-name"><span>洗衣精/柔軟精</span><span style="color:var(--gold)">50%</span></div>
+                    <div class="stock-name"><span class="name-label">牙膏/漱口水/牙刷</span><span style="color:var(--gold)">50%</span></div>
                     <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 50%; background: var(--gold);"></div></div>
                 </div>
-                <a href="https://www.lerich.com.tw" class="btn-buy">補貨</a>
+                <a href="https://www.lerich.com.tw/index.php/shop/product" target="_blank" class="btn-buy">補貨</a>
             </div>
-            <div class="stock-item" data-cat="living">
+        </div>
+    </div>
+
+    <div class="section-title">⚡ 數位基建：小家電</div>
+    <div class="stock-box">
+        <div id="applianceList">
+            <div class="stock-item">
                 <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
                 <div class="stock-info">
-                    <div class="stock-name"><span>垃圾袋 (大/中/小)</span><span style="color:var(--green)">90%</span></div>
-                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 90%; background: var(--green);"></div></div>
+                    <div class="stock-name"><span class="name-label">A46 免運蛋蒸鍋小蛋煲</span><span style="color:var(--gold)">新加入</span></div>
                 </div>
-                <a href="https://www.lerich.com.tw" class="btn-buy">備貨</a>
+                <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/46" target="_blank" class="btn-buy">查看</a>
+            </div>
+            <div class="stock-item">
+                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
+                <div class="stock-info">
+                    <div class="stock-name"><span class="name-label">A08 優惠音波電動牙刷</span><span style="color:var(--gold)">新加入</span></div>
+                </div>
+                <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/8" target="_blank" class="btn-buy">查看</a>
+            </div>
+            <div class="stock-item">
+                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
+                <div class="stock-info">
+                    <div class="stock-name"><span class="name-label">A14 智能恆溫暖杯墊</span><span style="color:var(--gold)">新加入</span></div>
+                </div>
+                <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/14" target="_blank" class="btn-buy">查看</a>
+            </div>
+            <div class="stock-item">
+                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
+                <div class="stock-info">
+                    <div class="stock-name"><span class="name-label">A13 全固態防爆行動電源</span><span style="color:var(--gold)">新加入</span></div>
+                </div>
+                <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/13" target="_blank" class="btn-buy">查看</a>
             </div>
         </div>
     </div>
 
     <div class="bonus-card">
-        <div style="font-size: 13px; color: #888; margin-bottom: 5px;">目前累積數位收益</div>
+        <div class="bonus-label">目前累積數位收益</div>
         <div class="bonus-value" id="val_totalIncome">NT$ 0</div>
+        <div style="color: #666; font-size: 11px; margin-top: 5px;">
+            包含 <span style="color: var(--gold);">註冊贊助金 $50</span>、4%分潤、推薦獎勵
+        </div>
+    </div>
+
+    <div class="section-title">🔧 第一階段：根基修復</div>
+    <div class="repair-box">
+        <div class="input-group">
+            <input type="text" id="repairInput" placeholder="環境修繕項目 (例：更換沙發)">
+            <div class="input-row">
+                <input type="number" id="costInput" placeholder="預算 (NT$)">
+                <button class="btn-save" id="saveBtn" onclick="addRepair()" style="flex: 0.6;">紀錄</button>
+            </div>
+        </div>
+        <div id="repairList"></div>
+        <div style="margin-top: 15px; text-align: right; color: var(--gold); font-size: 14px; font-weight: bold;">
+            需求資金：<span id="totalNeed">NT$ 0</span>
+        </div>
+    </div>
+
+    <div class="section-title">🌟 第二階段：卓越人生</div>
+    <div class="repair-box">
+        <div class="dream-grid">
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300');"><div class="dream-overlay">尊爵極致別墅</div></div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300');"><div class="dream-overlay">頂級座駕</div></div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=300');"><div class="dream-overlay">寰宇深度之旅</div></div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=300');"><div class="dream-overlay">永續財富自由</div></div>
+        </div>
+        <div style="font-size: 13px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <span style="color: var(--gold);">🛫 2027 激勵旅遊進度</span>
+                <span style="color: var(--cyan);"><span id="travel_pts">0</span> / 300 點</span>
+            </div>
+            <div class="progress-bar-bg"><div id="travel_bar" class="progress-bar-fill"></div></div>
+        </div>
     </div>
 
     <a href="javascript:void(0);" onclick="goToLobby()" class="btn-lobby">🚀 回到數位生活大廳</a>
@@ -203,43 +198,111 @@
 
 <script>
     const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec"; 
+    const LOBBY_BASE = "https://ai-go-core.github.io/ai/"; 
     const uid = new URLSearchParams(window.location.search).get('uid');
 
-    function filterStock(category, btn) {
-        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const items = document.querySelectorAll('.stock-item');
-        items.forEach(item => {
-            if (category === 'all' || item.getAttribute('data-cat') === category) {
-                item.style.display = 'flex';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
-
     function toggleItem(checkbox) {
-        const itemInfo = checkbox.closest('.stock-item').querySelector('.stock-info');
+        const parent = checkbox.closest('.stock-item');
+        const label = parent.querySelector('.name-label');
         if (checkbox.checked) {
-            itemInfo.classList.add('item-checked');
+            label.classList.add('item-checked');
+            parent.style.opacity = "0.6";
         } else {
-            itemInfo.classList.remove('item-checked');
+            label.classList.remove('item-checked');
+            parent.style.opacity = "1";
         }
     }
 
     async function fetchData() {
-        if (!uid) return;
+        if (!uid) {
+            document.getElementById('user_nickname').innerText = "未登錄領袖";
+            return;
+        }
         try {
             const response = await fetch(`${GAS_URL}?action=getUserDreamData&uid=${uid}`);
             const data = await response.json();
+            
             if (data.status === "success") {
                 document.getElementById('user_nickname').innerText = data.userName || "領袖";
                 document.getElementById('val_totalIncome').innerText = "NT$ " + (Number(data.totalIncome) || 0).toLocaleString();
+                document.getElementById('travel_pts').innerText = data.travelPts || 0;
+                
+                const progressPercent = Math.min((data.travelPts / 300) * 100, 100);
+                setTimeout(() => { 
+                    document.getElementById('travel_bar').style.width = progressPercent + "%"; 
+                }, 300);
+                
+                renderRepairList(data.repairs);
             }
-        } catch (e) { console.error("同步失敗", e); }
+        } catch (e) { 
+            console.error("同步失敗", e); 
+            document.getElementById('user_nickname').innerText = "連線中斷";
+        }
     }
 
-    function goToLobby() { window.location.href = "https://ai-go-core.github.io/ai/Lobby.html?uid=" + uid; }
+    function renderRepairList(repairs) {
+        const listContainer = document.getElementById('repairList');
+        listContainer.innerHTML = "";
+        let totalCost = 0;
+        
+        if (repairs && repairs.length > 0) {
+            repairs.forEach(item => {
+                const cost = parseInt(item.cost || 0);
+                totalCost += cost;
+                const div = document.createElement('div');
+                div.className = 'repair-item';
+                const isDone = (item.status === 'completed');
+                
+                div.innerHTML = `
+                    <div class="repair-info">
+                        <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleStatus(${item.row})" style="width:18px; height:18px;">
+                        <span class="repair-name ${isDone ? 'checked-text' : ''}">${item.content}</span>
+                    </div>
+                    <span style="color: var(--gold); font-size: 14px; font-weight:bold;">$${cost.toLocaleString()}</span>
+                `;
+                listContainer.appendChild(div);
+            });
+        }
+        document.getElementById('totalNeed').innerText = "NT$ " + totalCost.toLocaleString();
+    }
+
+    async function addRepair() {
+        const input = document.getElementById('repairInput');
+        const costInput = document.getElementById('costInput');
+        if (!input.value.trim() || !uid) return;
+
+        const btn = document.getElementById('saveBtn');
+        btn.innerText = "⏳";
+        btn.disabled = true;
+        
+        try {
+            const apiCall = `${GAS_URL}?action=saveRepair&uid=${uid}&content=${encodeURIComponent(input.value)}&cost=${costInput.value || 0}`;
+            await fetch(apiCall);
+            input.value = ""; 
+            costInput.value = "";
+            await fetchData(); 
+        } catch (err) { 
+            console.error("儲存失敗", err); 
+        } finally {
+            btn.innerText = "紀錄";
+            btn.disabled = false;
+        }
+    }
+
+    async function toggleStatus(row) {
+        if (!row) return;
+        try {
+            await fetch(`${GAS_URL}?action=toggleRepair&row=${row}`);
+            fetchData();
+        } catch (err) {
+            console.error("更新狀態失敗", err);
+        }
+    }
+
+    function goToLobby() { 
+        window.location.href = LOBBY_BASE + "Lobby.html?uid=" + uid; 
+    }
+
     window.onload = fetchData;
 </script>
 </body>
