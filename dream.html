@@ -24,9 +24,38 @@
         .user-name-tag { color: var(--cyan); font-weight: bold; font-size: 16px; text-shadow: 0 0 5px rgba(0, 255, 255, 0.3); }
         .user-welcome { color: #888; font-size: 12px; margin-right: 4px; }
 
-        /* --- 家庭用品存量表 (優化勾選版) --- */
+        /* --- 分類選單按鈕 --- */
+        .category-menu {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        .category-btn {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            color: #888;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .category-btn.active {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        /* --- 家庭用品存量表 --- */
         .stock-box { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; margin-bottom: 20px; }
-        .stock-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 15px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #222; }
+        .stock-item { 
+            display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; 
+            background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #222;
+        }
         .stock-check { width: 18px; height: 18px; margin-top: 3px; cursor: pointer; }
         .stock-info { flex: 1; }
         .stock-name { font-size: 14px; margin-bottom: 6px; display: flex; justify-content: space-between; }
@@ -57,6 +86,15 @@
         
         .repair-box { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; }
         
+        /* 修繕紀錄 */
+        .repair-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: #1a1a1a; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #222; 
+        }
+        .repair-info { display: flex; align-items: center; gap: 8px; flex: 1; }
+        .repair-name { font-size: 14px; color: #eee; }
+        .checked-text { text-decoration: line-through; color: #666 !important; }
+        
         /* 修繕輸入區 */
         .input-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
         .input-row { display: flex; gap: 8px; }
@@ -66,24 +104,11 @@
         }
         input:focus { border-color: var(--gold); }
         .btn-save { background: var(--gold); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
-        
-        .repair-item { 
-            display: flex; justify-content: space-between; align-items: center; 
-            background: #1a1a1a; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #222; 
-        }
-        .repair-info { display: flex; align-items: center; gap: 8px; flex: 1; }
-        .repair-name { font-size: 14px; color: #eee; }
-        .checked-text { text-decoration: line-through; color: #666 !important; }
-        
-        /* 策略筆記 */
-        .strategy-note { background: rgba(0, 255, 255, 0.05); border: 1px dashed var(--cyan); padding: 12px; border-radius: 8px; font-size: 13px; color: #ccc; margin-top: 15px; line-height: 1.6; }
-        
-        /* 夢想格 */
+
+        /* 夢想格與旅遊 */
         .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;}
         .dream-item { position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 3; display: flex; align-items: flex-end; background-size: cover; background-position: center; border: 1px solid #333; }
         .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 11px; padding: 5px 0; color: var(--gold); text-align: center; }
-        
-        /* 旅遊進度條 */
         .progress-bar-bg { background: #222; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 8px; }
         .progress-bar-fill { background: linear-gradient(90deg, #D4AF37, #FFD700); height: 100%; width: 0%; transition: width 1.5s ease-in-out; }
         
@@ -102,48 +127,62 @@
         <span class="user-welcome">領袖：</span><span id="user_nickname" class="user-name-tag">數據同步中...</span>
     </div>
 
-    <!-- 🌟 第一優先：家庭用品存量管理 (含勾選) -->
+    <!-- 🌟 家庭用品存量管理 (含分類按鈕) -->
     <div class="section-title">🛒 零階段：日常補給清單</div>
+    
+    <!-- 分類按鈕選單 -->
+    <div class="category-menu">
+        <button class="category-btn active" onclick="filterStock('all', this)">全部</button>
+        <button class="category-btn" onclick="filterStock('kitchen', this)">廚房用品</button>
+        <button class="category-btn" onclick="filterStock('bathroom', this)">浴室用品</button>
+        <button class="category-btn" onclick="filterStock('living', this)">生活用品</button>
+    </div>
+
     <div class="stock-box">
         <div id="stockList">
-            <!-- 洗衣精 -->
-            <div class="stock-item">
+            <!-- 浴室用品範例 -->
+            <div class="stock-item" data-cat="bathroom">
                 <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
                 <div class="stock-info">
-                    <div class="stock-name"><span class="name-label">洗衣精 (樂瑞嚴選)</span><span style="color:var(--red)">20%</span></div>
-                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 20%; background: var(--red);"></div></div>
-                </div>
-                <a href="https://www.lerich.com.tw/index.php/shop/product" target="_blank" class="btn-buy">補貨</a>
-            </div>
-            <!-- 牙膏 -->
-            <div class="stock-item">
-                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
-                <div class="stock-info">
-                    <div class="stock-name"><span class="name-label">牙膏/漱口水/牙刷</span><span style="color:var(--gold)">50%</span></div>
+                    <div class="stock-name"><span class="name-label">牙膏/漱口水 (浴室)</span><span style="color:var(--gold)">50%</span></div>
                     <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 50%; background: var(--gold);"></div></div>
                 </div>
-                <a href="https://www.lerich.com.tw/index.php/shop/product" target="_blank" class="btn-buy">補貨</a>
+                <a href="https://www.lerich.com.tw" target="_blank" class="btn-buy">補貨</a>
             </div>
-            <!-- 衛生紙 -->
-            <div class="stock-item">
+            <!-- 生活用品範例 -->
+            <div class="stock-item" data-cat="living">
                 <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
                 <div class="stock-info">
-                    <div class="stock-name"><span class="name-label">高品質抽取衛生紙</span><span style="color:var(--green)">90%</span></div>
+                    <div class="stock-name"><span class="name-label">洗衣精 (生活)</span><span style="color:var(--red)">20%</span></div>
+                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 20%; background: var(--red);"></div></div>
+                </div>
+                <a href="https://www.lerich.com.tw" target="_blank" class="btn-buy">補貨</a>
+            </div>
+            <!-- 生活用品範例 -->
+            <div class="stock-item" data-cat="living">
+                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
+                <div class="stock-info">
+                    <div class="stock-name"><span class="name-label">抽取式衛生紙 (生活)</span><span style="color:var(--green)">90%</span></div>
                     <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 90%; background: var(--green);"></div></div>
                 </div>
-                <a href="https://www.lerich.com.tw/index.php/shop/product" target="_blank" class="btn-buy">備貨</a>
+                <a href="https://www.lerich.com.tw" target="_blank" class="btn-buy">備貨</a>
+            </div>
+            <!-- 廚房用品範例 -->
+            <div class="stock-item" data-cat="kitchen">
+                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
+                <div class="stock-info">
+                    <div class="stock-name"><span class="name-label">洗碗精 (廚房)</span><span style="color:var(--red)">15%</span></div>
+                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 15%; background: var(--red);"></div></div>
+                </div>
+                <a href="https://www.lerich.com.tw" target="_blank" class="btn-buy">補貨</a>
             </div>
         </div>
-        <p style="font-size: 11px; color: #666; margin-top: 5px; text-align: center;">勾選代表已檢查或已排程購買</p>
     </div>
 
     <!-- 收益卡片 -->
     <div class="bonus-card">
         <div class="bonus-label">目前累積數位收益</div>
         <div class="bonus-value" id="val_totalIncome">NT$ 0</div>
-        <div style="color: #666; font-size: 11px; margin-top: 5px;">
-            包含 <span style="color: var(--gold);">註冊贊助金 $50</span>、4%分潤、推薦獎勵
-        </div>
     </div>
 
     <!-- 🔧 第一階段：修繕 -->
@@ -168,12 +207,10 @@
         <div class="dream-grid">
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300');"><div class="dream-overlay">尊爵極致別墅</div></div>
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300');"><div class="dream-overlay">頂級座駕</div></div>
-            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=300');"><div class="dream-overlay">寰宇深度之旅</div></div>
-            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=300');"><div class="dream-overlay">永續財富自由</div></div>
         </div>
-        <div style="font-size: 13px;">
+        <div style="font-size: 13px; margin-top:10px;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                <span style="color: var(--gold);">🛫 2027 激勵旅遊進度</span>
+                <span style="color: var(--gold);">🛫 激勵旅遊進度</span>
                 <span style="color: var(--cyan);"><span id="travel_pts">0</span> / 300 點</span>
             </div>
             <div class="progress-bar-bg"><div id="travel_bar" class="progress-bar-fill"></div></div>
@@ -190,112 +227,70 @@
 
 <script>
     const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec"; 
-    const LOBBY_BASE = "https://ai-go-core.github.io/ai/"; 
     const uid = new URLSearchParams(window.location.search).get('uid');
 
-    // 切換家庭用品勾選狀態
+    // 分類篩選邏輯
+    function filterStock(category, btn) {
+        // 更新按鈕狀態
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // 篩選細項
+        const items = document.querySelectorAll('.stock-item');
+        items.forEach(item => {
+            if (category === 'all' || item.getAttribute('data-cat') === category) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    // 勾選邏輯
     function toggleItem(checkbox) {
-        const parent = checkbox.closest('.stock-item');
-        const label = parent.querySelector('.name-label');
+        const label = checkbox.closest('.stock-item').querySelector('.name-label');
         if (checkbox.checked) {
             label.classList.add('item-checked');
-            parent.style.opacity = "0.6";
+            checkbox.closest('.stock-item').style.opacity = "0.6";
         } else {
             label.classList.remove('item-checked');
-            parent.style.opacity = "1";
+            checkbox.closest('.stock-item').style.opacity = "1";
         }
     }
 
     async function fetchData() {
-        if (!uid) {
-            document.getElementById('user_nickname').innerText = "未登錄領袖";
-            return;
-        }
+        if (!uid) return;
         try {
             const response = await fetch(`${GAS_URL}?action=getUserDreamData&uid=${uid}`);
             const data = await response.json();
-            
             if (data.status === "success") {
                 document.getElementById('user_nickname').innerText = data.userName || "領袖";
                 document.getElementById('val_totalIncome').innerText = "NT$ " + (Number(data.totalIncome) || 0).toLocaleString();
                 document.getElementById('travel_pts').innerText = data.travelPts || 0;
-                
                 const progressPercent = Math.min((data.travelPts / 300) * 100, 100);
-                setTimeout(() => { 
-                    document.getElementById('travel_bar').style.width = progressPercent + "%"; 
-                }, 300);
-                
+                setTimeout(() => { document.getElementById('travel_bar').style.width = progressPercent + "%"; }, 300);
                 renderRepairList(data.repairs);
             }
-        } catch (e) { 
-            console.error("同步失敗", e); 
-            document.getElementById('user_nickname').innerText = "連線中斷";
-        }
+        } catch (e) { console.error("同步失敗", e); }
     }
 
     function renderRepairList(repairs) {
         const listContainer = document.getElementById('repairList');
         listContainer.innerHTML = "";
         let totalCost = 0;
-        
-        if (repairs && repairs.length > 0) {
+        if (repairs) {
             repairs.forEach(item => {
-                const cost = parseInt(item.cost || 0);
-                totalCost += cost;
+                totalCost += parseInt(item.cost || 0);
                 const div = document.createElement('div');
                 div.className = 'repair-item';
-                const isDone = (item.status === 'completed');
-                
-                div.innerHTML = `
-                    <div class="repair-info">
-                        <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleStatus(${item.row})" style="width:18px; height:18px;">
-                        <span class="repair-name ${isDone ? 'checked-text' : ''}">${item.content}</span>
-                    </div>
-                    <span style="color: var(--gold); font-size: 14px; font-weight:bold;">$${cost.toLocaleString()}</span>
-                `;
+                div.innerHTML = `<div class="repair-info"><span class="repair-name">${item.content}</span></div><span style="color:var(--gold);">$${parseInt(item.cost).toLocaleString()}</span>`;
                 listContainer.appendChild(div);
             });
         }
         document.getElementById('totalNeed').innerText = "NT$ " + totalCost.toLocaleString();
     }
 
-    async function addRepair() {
-        const input = document.getElementById('repairInput');
-        const costInput = document.getElementById('costInput');
-        if (!input.value.trim() || !uid) return;
-
-        const btn = document.getElementById('saveBtn');
-        btn.innerText = "⏳";
-        btn.disabled = true;
-        
-        try {
-            const apiCall = `${GAS_URL}?action=saveRepair&uid=${uid}&content=${encodeURIComponent(input.value)}&cost=${costInput.value || 0}`;
-            await fetch(apiCall);
-            input.value = ""; 
-            costInput.value = "";
-            await fetchData(); 
-        } catch (err) { 
-            console.error("儲存失敗", err); 
-        } finally {
-            btn.innerText = "紀錄";
-            btn.disabled = false;
-        }
-    }
-
-    async function toggleStatus(row) {
-        if (!row) return;
-        try {
-            await fetch(`${GAS_URL}?action=toggleRepair&row=${row}`);
-            fetchData();
-        } catch (err) {
-            console.error("更新狀態失敗", err);
-        }
-    }
-
-    function goToLobby() { 
-        window.location.href = LOBBY_BASE + "Lobby.html?uid=" + uid; 
-    }
-
+    function goToLobby() { window.location.href = "https://ai-go-core.github.io/ai/Lobby.html?uid=" + uid; }
     window.onload = fetchData;
 </script>
 </body>
