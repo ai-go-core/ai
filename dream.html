@@ -5,120 +5,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI 生活小秘書 · 全方位數位輔助</title>
     <style>
-        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; }
+        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; --red: #FF4444; }
         * { box-sizing: border-box; } 
-        body { background-color: var(--black); color: #ffffff; font-family: -apple-system, 'PingFang TC', sans-serif; margin: 0; padding: 12px; }
+        body { background-color: var(--black); color: #ffffff; font-family: -apple-system, 'PingFang TC', sans-serif; margin: 0; padding: 12px; line-height: 1.4; }
         .container { max-width: 600px; margin: 0 auto; }
-        .header { text-align: center; padding: 20px 0; border-bottom: 1px solid var(--gold); margin-bottom: 20px; }
-        .user-tag { color: var(--cyan); font-weight: bold; font-size: 1.1em; }
         
-        /* 獎金試算區 */
-        .card { background: var(--dark-gray); border: 1px solid #333; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
-        .calc-input { display: flex; gap: 10px; margin-bottom: 15px; }
-        input { background: #000; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 6px; width: 100%; }
-        .calc-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        /* 標題與標籤 */
+        .header { text-align: center; padding: 15px 0; }
+        .user-tag { color: var(--cyan); font-weight: bold; font-size: 16px; }
+        .section-title { color: var(--gold); border-left: 4px solid var(--gold); padding-left: 10px; margin: 25px 0 10px; font-size: 17px; font-weight: bold; }
+        
+        /* 通用卡片樣式 */
+        .box-card { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; margin-bottom: 15px; }
+        
+        /* 7代 4% 收益試算 */
+        .calc-input-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        input { background: #000; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; font-size: 16px; width: 100%; }
+        .calc-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
         .calc-table th { color: #888; text-align: left; padding: 8px; border-bottom: 1px solid #333; }
         .calc-table td { padding: 8px; border-bottom: 1px solid #222; }
-        .highlight { color: var(--gold); font-weight: bold; }
+        .total-highlight { color: var(--gold); font-size: 18px; font-weight: bold; text-align: right; margin-top: 10px; }
 
-        /* 宣傳文案區 (W1) */
-        .promo-box { background: linear-gradient(145deg, #1a1a1a, #000); border-left: 4px solid var(--gold); padding: 15px; margin: 20px 0; }
-        .promo-title { color: var(--gold); font-weight: bold; margin-bottom: 10px; display: block; }
+        /* 第二階段：夢想網格 */
+        .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        .dream-item { position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 3; display: flex; align-items: flex-end; background-size: cover; background-position: center; border: 1px solid #333; }
+        .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 11px; padding: 5px 0; color: var(--gold); text-align: center; }
         
-        .btn-action { display: block; width: 100%; padding: 15px; background: var(--gold); color: #000; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px; }
-        .footer { text-align: center; font-size: 11px; color: #555; margin-top: 40px; border-top: 1px solid #222; padding-top: 20px; }
+        /* 進度條 */
+        .progress-bg { background: #222; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 8px; }
+        .progress-fill { background: linear-gradient(90deg, #D4AF37, #FFD700); height: 100%; width: 0%; transition: width 1.5s ease-in-out; }
+
+        .btn-lobby { display: block; width: 100%; padding: 15px; background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000; text-align: center; text-decoration: none; border-radius: 30px; font-size: 16px; font-weight: bold; margin-top: 20px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        .footer { text-align: center; font-size: 11px; color: #555; margin: 40px 0 20px; border-top: 1px solid #222; padding-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1 style="color: var(--gold); margin: 0;">AI 生活小秘書</h1>
-        <p style="font-size: 12px; color: #888;">全方位數位輔助系統</p>
+        <h1 style="color: var(--gold); margin: 0; font-size: 20px; letter-spacing: 2px;">🏡 全方位數位生活</h1>
+        <div style="margin-top: 10px;">
+            <span style="color: #888; font-size: 12px;">領袖：</span>
+            <span id="user_nickname" class="user-tag">創建數位分身中...</span>
+        </div>
     </div>
 
-    <div style="margin-bottom: 20px; text-align: center;">
-        <span style="color: #888;">建立數位分身：</span>
-        <span class="user-tag" id="user_id">數位代號同步中...</span>
-    </div>
-
-    <!-- 7代 4% 收益試算 -->
-    <div class="section-title" style="color: var(--gold); margin-bottom: 10px; font-weight: bold;">📊 7代 4% 收益試算 (本人為第1代)</div>
-    <div class="card">
-        <div class="calc-input">
-            <div>
+    <div class="section-title">📊 數位資產 ✕ 4% 收益試算</div>
+    <div class="box-card">
+        <div class="calc-input-row">
+            <div style="flex:1">
                 <label style="font-size: 11px; color: #888;">每代招募人數</label>
-                <input type="number" id="input_ref" value="5" oninput="runCalc()">
+                <input type="number" id="ref_count" value="5" oninput="updateCalc()">
             </div>
-            <div>
+            <div style="flex:1">
                 <label style="font-size: 11px; color: #888;">月消費 (PV)</label>
-                <input type="number" id="input_pv" value="1000" oninput="runCalc()">
+                <input type="number" id="pv_val" value="1000" oninput="updateCalc()">
             </div>
         </div>
         <table class="calc-table">
             <thead>
                 <tr><th>代數</th><th>總人數</th><th>4% 收益 (NT$)</th></tr>
             </thead>
-            <tbody id="res_body"></tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2" style="text-align: right; font-weight: bold;">每月預計收入：</td>
-                    <td id="total_inc" class="highlight" style="font-size: 16px;">$ 0</td>
-                </tr>
-            </tfoot>
+            <tbody id="calc_body"></tbody>
         </table>
+        <div class="total-highlight">每月總收益：<span id="total_sum">$ 0</span></div>
     </div>
 
-    <!-- 武器庫 W1 文案區 -->
-    <div class="promo-box">
-        <span class="promo-title">✨ 限時封測福利：創建數位分身</span>
-        <p style="font-size: 14px; line-height: 1.6;">
-            親愛的領袖您好！誠摯邀請您加入我們。現在加入 **免費註冊**，即享 **免費使用超級 AI 工具**！<br><br>
-            🎁 封測期間系統贈送 **角色彩蛋**<br>
-            💰 加碼贈送 **50元購物金**<br>
-            🤝 每推薦一人再領 **99元獎勵金**<br><br>
-            🌟 **更多好康：**<br>
-            免費出國旅遊機會、免運費產品、**無入會費、無年費、不需送貨、不需收錢、不需配對**。消費全額抵扣，滿 100 即可提現！
-        </p>
-        <a href="#" class="btn-action">立即領取免費會員</a>
+    <div class="section-title">🔧 第一階段：根基修復</div>
+    <div class="box-card">
+        <div id="repairList" style="font-size: 14px; color: #ccc;">(環境修繕項目同步中...)</div>
     </div>
 
-    <a href="#" class="btn-action" style="background: transparent; border: 1px solid var(--gold); color: var(--gold);">🚀 返回目錄大廳 (M)</a>
+    <div class="section-title">🌟 第二階段：卓越人生</div>
+    <div class="box-card">
+        <div class="dream-grid">
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400');">
+                <div class="dream-overlay">尊爵極致別墅</div>
+            </div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400');">
+                <div class="dream-overlay">頂級座駕</div>
+            </div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400');">
+                <div class="dream-overlay">寰宇深度之旅</div>
+            </div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400');">
+                <div class="dream-overlay">永續財富自由</div>
+            </div>
+        </div>
+        <div style="font-size: 13px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <span style="color: var(--gold);">🛫 2027 激勵旅遊進度</span>
+                <span style="color: var(--cyan);"><span id="pts_val">0</span> / 300 點</span>
+            </div>
+            <div class="progress-bg"><div id="pts_bar" class="progress-fill"></div></div>
+        </div>
+    </div>
 
+    <a href="javascript:void(0);" onclick="location.reload();" class="btn-lobby">🚀 刷新同步數據 (M)</a>
+    
     <div class="footer">
-        <p>© 2026 AI 生活小秘書 · 全方位數位輔助</p>
+        <p>AI 生活小秘書 · 全方位數位輔助 認證</p>
         <p>提示回目錄大廳請輸入 M</p>
     </div>
 </div>
 
 <script>
-    function runCalc() {
-        const ref = parseInt(document.getElementById('input_ref').value) || 0;
-        const pv = parseInt(document.getElementById('input_pv').value) || 0;
-        const body = document.getElementById('res_body');
+    function updateCalc() {
+        const ref = parseInt(document.getElementById('ref_count').value) || 0;
+        const pv = parseInt(document.getElementById('pv_val').value) || 0;
+        const body = document.getElementById('calc_body');
         let total = 0;
-        let currentPeople = 1; // 第一代為本人
+        let people = 1; // 第一代為本人
         let html = "";
 
         for (let i = 1; i <= 7; i++) {
-            if (i > 1) currentPeople *= ref;
-            let bonus = currentPeople * pv * 0.04;
-            total += bonus;
+            if (i > 1) people *= ref;
+            let profit = people * pv * 0.04;
+            total += profit;
             html += `<tr>
                 <td>第 ${i} 代 ${i===1?'(本人)':''}</td>
-                <td>${currentPeople.toLocaleString()} 人</td>
-                <td style="color: var(--green);">$ ${Math.floor(bonus).toLocaleString()}</td>
+                <td>${people.toLocaleString()} 人</td>
+                <td style="color: var(--green);">$ ${Math.floor(profit).toLocaleString()}</td>
             </tr>`;
         }
         body.innerHTML = html;
-        document.getElementById('total_inc').innerText = "$ " + Math.floor(total).toLocaleString();
+        document.getElementById('total_sum').innerText = "$ " + Math.floor(total).toLocaleString();
     }
 
     window.onload = () => {
-        runCalc();
-        // 模擬獲取 UID
-        const urlParams = new URLSearchParams(window.location.search);
-        document.getElementById('user_id').innerText = urlParams.get('uid') || "數位代號-001";
+        updateCalc();
+        // 模擬進度條動畫
+        setTimeout(() => {
+            document.getElementById('pts_bar').style.width = "45%"; // 範例進度
+            document.getElementById('pts_val').innerText = "135";
+        }, 500);
+        
+        const params = new URLSearchParams(window.location.search);
+        document.getElementById('user_nickname').innerText = params.get('uid') || "數位代號-領袖";
     };
 </script>
 </body>
