@@ -23,16 +23,27 @@
         .user-name-tag { color: var(--cyan); font-weight: bold; font-size: 16px; text-shadow: 0 0 5px rgba(0, 255, 255, 0.3); }
         .user-welcome { color: #888; font-size: 12px; margin-right: 4px; }
 
-        .stock-box { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; margin-bottom: 20px; }
-        .stock-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 15px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #222; }
+        /* --- 摺疊選單樣式 --- */
+        .category-group { margin-bottom: 10px; border: 1px solid #333; border-radius: 8px; overflow: hidden; }
+        .category-header { 
+            background: #222; padding: 12px 15px; cursor: pointer; 
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 15px; font-weight: bold; color: var(--gold);
+        }
+        .category-header:after { content: '▼'; font-size: 10px; color: #666; transition: 0.3s; }
+        .category-header.active:after { transform: rotate(180deg); }
+        .category-content { display: none; padding: 10px; background: #111; }
+        .category-content.active { display: block; }
+
+        .stock-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #222; }
         .stock-check { width: 18px; height: 18px; margin-top: 3px; cursor: pointer; }
         .stock-info { flex: 1; }
-        .stock-name { font-size: 14px; margin-bottom: 6px; display: flex; justify-content: space-between; }
-        .stock-bar-bg { background: #222; height: 8px; border-radius: 4px; overflow: hidden; }
+        .stock-name { font-size: 13px; margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .stock-bar-bg { background: #222; height: 6px; border-radius: 3px; overflow: hidden; }
         .stock-bar-fill { height: 100%; transition: width 0.5s; }
         .btn-buy { 
             background: transparent; border: 1px solid var(--gold); color: var(--gold); 
-            padding: 5px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;
+            padding: 4px 10px; border-radius: 20px; font-size: 11px; text-decoration: none;
             transition: 0.3s; white-space: nowrap; align-self: center;
         }
         .btn-buy:hover { background: var(--gold); color: #000; }
@@ -93,57 +104,81 @@
     </div>
 
     <div class="section-title">🛒 零階段：日常補給清單</div>
-    <div class="stock-box">
-        <div id="stockList">
+    
+    <div class="category-group">
+        <div class="category-header" onclick="toggleCategory(this)">廚房浴室相關用品</div>
+        <div class="category-content">
             <div class="stock-item">
                 <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
                 <div class="stock-info">
-                    <div class="stock-name"><span class="name-label">洗衣精 (樂瑞嚴選)</span><span style="color:var(--red)">20%</span></div>
+                    <div class="stock-name"><span class="name-label">樂瑞 3效洗衣精</span><span>20%</span></div>
                     <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 20%; background: var(--red);"></div></div>
                 </div>
-                <a href="https://www.lerich.com.tw/index.php/shop/product" target="_blank" class="btn-buy">補貨</a>
+                <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/1" target="_blank" class="btn-buy">補貨</a>
             </div>
             <div class="stock-item">
                 <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
                 <div class="stock-info">
-                    <div class="stock-name"><span class="name-label">牙膏/漱口水/牙刷</span><span style="color:var(--gold)">50%</span></div>
+                    <div class="stock-name"><span class="name-label">樂瑞 抗菌洗碗精</span><span>50%</span></div>
                     <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 50%; background: var(--gold);"></div></div>
                 </div>
-                <a href="https://www.lerich.com.tw/index.php/shop/product" target="_blank" class="btn-buy">補貨</a>
+                <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/16" target="_blank" class="btn-buy">補貨</a>
             </div>
         </div>
     </div>
 
-    <div class="section-title">⚡ 數位基建：小家電</div>
-    <div class="stock-box">
-        <div id="applianceList">
+    <div class="category-group">
+        <div class="category-header" onclick="toggleCategory(this)">生活用品</div>
+        <div class="category-content">
             <div class="stock-item">
                 <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
                 <div class="stock-info">
-                    <div class="stock-name"><span class="name-label">A46 免運蛋蒸鍋小蛋煲</span><span style="color:var(--gold)">新加入</span></div>
+                    <div class="stock-name"><span class="name-label">樂瑞 抽取式衛生紙</span><span>90%</span></div>
+                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 90%; background: var(--green);"></div></div>
+                </div>
+                <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/11" target="_blank" class="btn-buy">備貨</a>
+            </div>
+            <div class="stock-item">
+                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
+                <div class="stock-info">
+                    <div class="stock-name"><span class="name-label">樂瑞 草本牙膏</span><span>40%</span></div>
+                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 40%; background: var(--gold);"></div></div>
+                </div>
+                <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/2" target="_blank" class="btn-buy">補貨</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-group">
+        <div class="category-header" onclick="toggleCategory(this)">小家電</div>
+        <div class="category-content">
+            <div class="stock-item">
+                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
+                <div class="stock-info">
+                    <div class="stock-name"><span class="name-label">免運蛋蒸鍋小蛋煲</span><span>⚡新加入</span></div>
                 </div>
                 <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/46" target="_blank" class="btn-buy">查看</a>
             </div>
             <div class="stock-item">
                 <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
                 <div class="stock-info">
-                    <div class="stock-name"><span class="name-label">A08 優惠音波電動牙刷</span><span style="color:var(--gold)">新加入</span></div>
-                </div>
-                <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/8" target="_blank" class="btn-buy">查看</a>
-            </div>
-            <div class="stock-item">
-                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
-                <div class="stock-info">
-                    <div class="stock-name"><span class="name-label">A14 智能恆溫暖杯墊</span><span style="color:var(--gold)">新加入</span></div>
+                    <div class="stock-name"><span class="name-label">智能恆溫暖杯墊</span><span>⚡新加入</span></div>
                 </div>
                 <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/14" target="_blank" class="btn-buy">查看</a>
             </div>
+        </div>
+    </div>
+
+    <div class="category-group">
+        <div class="category-header" onclick="toggleCategory(this)">零食飲料</div>
+        <div class="category-content">
             <div class="stock-item">
                 <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
                 <div class="stock-info">
-                    <div class="stock-name"><span class="name-label">A13 全固態防爆行動電源</span><span style="color:var(--gold)">新加入</span></div>
+                    <div class="stock-name"><span class="name-label">樂瑞 咖啡/奶茶</span><span>60%</span></div>
+                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 60%; background: var(--green);"></div></div>
                 </div>
-                <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/13" target="_blank" class="btn-buy">查看</a>
+                <a href="https://www.lerich.com.tw/index.php/shop/product" target="_blank" class="btn-buy">補貨</a>
             </div>
         </div>
     </div>
@@ -200,6 +235,13 @@
     const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec"; 
     const LOBBY_BASE = "https://ai-go-core.github.io/ai/"; 
     const uid = new URLSearchParams(window.location.search).get('uid');
+
+    // 摺疊選單切換
+    function toggleCategory(header) {
+        header.classList.toggle('active');
+        const content = header.nextElementSibling;
+        content.classList.toggle('active');
+    }
 
     function toggleItem(checkbox) {
         const parent = checkbox.closest('.stock-item');
