@@ -3,330 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🏡 全方位數位生活 · 修繕 ✕ 夢想 ✕ 補給</title>
+    <title>AI 生活小秘書 · 全方位數位輔助</title>
     <style>
-        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; --red: #FF4444; }
+        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; }
         * { box-sizing: border-box; } 
-        
-        body { 
-            background-color: var(--black); 
-            color: #ffffff; 
-            font-family: -apple-system, 'PingFang TC', "Heiti TC", sans-serif; 
-            margin: 0; 
-            padding: 12px; 
-            line-height: 1.4;
-        }
-
+        body { background-color: var(--black); color: #ffffff; font-family: -apple-system, 'PingFang TC', sans-serif; margin: 0; padding: 12px; }
         .container { max-width: 600px; margin: 0 auto; }
-
-        .user-header { text-align: center; padding: 10px 0 5px; }
-        .user-name-tag { color: var(--cyan); font-weight: bold; font-size: 16px; text-shadow: 0 0 5px rgba(0, 255, 255, 0.3); }
-        .user-welcome { color: #888; font-size: 12px; margin-right: 4px; }
-
-        /* --- 摺疊選單樣式 --- */
-        .category-group { margin-bottom: 10px; border: 1px solid #333; border-radius: 8px; overflow: hidden; }
-        .category-header { 
-            background: #222; padding: 12px 15px; cursor: pointer; 
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 15px; font-weight: bold; color: var(--gold);
-        }
-        .category-header:after { content: '▼'; font-size: 10px; color: #666; transition: 0.3s; }
-        .category-header.active:after { transform: rotate(180deg); }
-        .category-content { display: none; padding: 10px; background: #111; }
-        .category-content.active { display: block; }
-
-        .stock-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #222; }
-        .stock-check { width: 18px; height: 18px; margin-top: 3px; cursor: pointer; }
-        .stock-info { flex: 1; }
-        .stock-name { font-size: 13px; margin-bottom: 6px; display: flex; justify-content: space-between; }
-        .stock-bar-bg { background: #222; height: 6px; border-radius: 3px; overflow: hidden; }
-        .stock-bar-fill { height: 100%; transition: width 0.5s; }
-        .btn-buy { 
-            background: transparent; border: 1px solid var(--gold); color: var(--gold); 
-            padding: 4px 10px; border-radius: 20px; font-size: 11px; text-decoration: none;
-            transition: 0.3s; white-space: nowrap; align-self: center;
-        }
-        .btn-buy:hover { background: var(--gold); color: #000; }
-        .item-checked { text-decoration: line-through; color: #666 !important; }
-
-        .bonus-card { 
-            background: linear-gradient(145deg, #1a1a1a, #000); 
-            border: 1px solid rgba(212, 175, 55, 0.3); 
-            padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 15px; 
-        }
-        .bonus-label { font-size: 13px; color: #888; margin-bottom: 5px; }
-        .bonus-value { font-size: 28px; color: var(--gold); font-weight: bold; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
-
-        .section-title { 
-            color: var(--gold); border-left: 4px solid var(--gold); padding-left: 10px; 
-            margin: 20px 0 10px; font-size: 17px; font-weight: bold; 
-        }
+        .header { text-align: center; padding: 20px 0; border-bottom: 1px solid var(--gold); margin-bottom: 20px; }
+        .user-tag { color: var(--cyan); font-weight: bold; font-size: 1.1em; }
         
-        .repair-box { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; margin-bottom: 15px; }
-        
-        .input-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-        .input-row { display: flex; gap: 8px; }
-        input { 
-            background: #000; border: 1px solid #444; color: #fff; padding: 12px; 
-            border-radius: 8px; font-size: 16px; outline: none; width: 100%;
-        }
-        input:focus { border-color: var(--gold); }
-        .btn-save { background: var(--gold); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
-        
-        /* 試算表樣式 */
-        .calc-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
-        .calc-table th { color: #888; font-weight: normal; text-align: left; padding: 8px 4px; border-bottom: 1px solid #333; }
-        .calc-table td { padding: 8px 4px; border-bottom: 1px solid #222; }
-        .total-row { color: var(--cyan); font-weight: bold; font-size: 14px; }
+        /* 獎金試算區 */
+        .card { background: var(--dark-gray); border: 1px solid #333; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+        .calc-input { display: flex; gap: 10px; margin-bottom: 15px; }
+        input { background: #000; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 6px; width: 100%; }
+        .calc-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .calc-table th { color: #888; text-align: left; padding: 8px; border-bottom: 1px solid #333; }
+        .calc-table td { padding: 8px; border-bottom: 1px solid #222; }
+        .highlight { color: var(--gold); font-weight: bold; }
 
-        .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;}
-        .dream-item { position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 3; display: flex; align-items: flex-end; background-size: cover; background-position: center; border: 1px solid #333; }
-        .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 11px; padding: 5px 0; color: var(--gold); text-align: center; }
+        /* 宣傳文案區 (W1) */
+        .promo-box { background: linear-gradient(145deg, #1a1a1a, #000); border-left: 4px solid var(--gold); padding: 15px; margin: 20px 0; }
+        .promo-title { color: var(--gold); font-weight: bold; margin-bottom: 10px; display: block; }
         
-        .progress-bar-bg { background: #222; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 8px; }
-        .progress-bar-fill { background: linear-gradient(90deg, #D4AF37, #FFD700); height: 100%; width: 0%; transition: width 1.5s ease-in-out; }
-        
-        .btn-lobby { display: block; width: 100%; padding: 15px; background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000; text-align: center; text-decoration: none; border-radius: 30px; font-size: 16px; font-weight: bold; margin-top: 20px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
-        .footer { text-align: center; font-size: 11px; color: #555; margin: 40px 0 20px; }
+        .btn-action { display: block; width: 100%; padding: 15px; background: var(--gold); color: #000; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px; }
+        .footer { text-align: center; font-size: 11px; color: #555; margin-top: 40px; border-top: 1px solid #222; padding-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div style="text-align: center; padding: 10px 0 5px;">
-        <h1 style="color: var(--gold); margin: 0; font-size: 20px; letter-spacing: 2px;">🏡 全方位數位生活</h1>
+    <div class="header">
+        <h1 style="color: var(--gold); margin: 0;">AI 生活小秘書</h1>
+        <p style="font-size: 12px; color: #888;">全方位數位輔助系統</p>
     </div>
 
-    <div class="user-header">
-        <span class="user-welcome">領袖：</span><span id="user_nickname" class="user-name-tag">數據同步中...</span>
+    <div style="margin-bottom: 20px; text-align: center;">
+        <span style="color: #888;">建立數位分身：</span>
+        <span class="user-tag" id="user_id">數位代號同步中...</span>
     </div>
 
-    <!-- 收益試算區塊 -->
-    <div class="section-title">📊 數位資產 ✕ 4% 收益試算</div>
-    <div class="repair-box">
-        <div class="input-group">
-            <div class="input-row">
-                <div style="flex:1">
-                    <label style="font-size: 11px; color: #888;">預計每代招募人數</label>
-                    <input type="number" id="calc_referrals" value="5" oninput="calculateBonus()">
-                </div>
-                <div style="flex:1">
-                    <label style="font-size: 11px; color: #888;">每人每月消費 (PV)</label>
-                    <input type="number" id="calc_pv" value="1000" oninput="calculateBonus()">
-                </div>
+    <!-- 7代 4% 收益試算 -->
+    <div class="section-title" style="color: var(--gold); margin-bottom: 10px; font-weight: bold;">📊 7代 4% 收益試算 (本人為第1代)</div>
+    <div class="card">
+        <div class="calc-input">
+            <div>
+                <label style="font-size: 11px; color: #888;">每代招募人數</label>
+                <input type="number" id="input_ref" value="5" oninput="runCalc()">
+            </div>
+            <div>
+                <label style="font-size: 11px; color: #888;">月消費 (PV)</label>
+                <input type="number" id="input_pv" value="1000" oninput="runCalc()">
             </div>
         </div>
-        
         <table class="calc-table">
             <thead>
-                <tr>
-                    <th>代數標籤</th>
-                    <th>總人數</th>
-                    <th>您的 4% 收益</th>
-                </tr>
+                <tr><th>代數</th><th>總人數</th><th>4% 收益 (NT$)</th></tr>
             </thead>
-            <tbody id="bonus_body">
-                <!-- 由 JS 動態生成 -->
-            </tbody>
+            <tbody id="res_body"></tbody>
             <tfoot>
-                <tr class="total-row">
-                    <td colspan="2" style="text-align: right; padding-right: 15px;">每月預計總被動收入：</td>
-                    <td id="total_passive_income" style="color: var(--gold);">$ 0</td>
+                <tr>
+                    <td colspan="2" style="text-align: right; font-weight: bold;">每月預計收入：</td>
+                    <td id="total_inc" class="highlight" style="font-size: 16px;">$ 0</td>
                 </tr>
             </tfoot>
         </table>
-        <p style="font-size: 10px; color: #555; margin-top: 10px;">※ 本試算依據 7 代 4% 分潤規則，您為第 1 代(本人)。</p>
     </div>
 
-    <div class="section-title">🛒 零階段：日常補給清單</div>
-    <!-- (補給清單內容保持不變，此處略過以節省空間) -->
-    <div class="category-group">
-        <div class="category-header" onclick="toggleCategory(this)">熱門補給商品</div>
-        <div class="category-content active">
-            <div class="stock-item">
-                <input type="checkbox" class="stock-check" onchange="toggleItem(this)">
-                <div class="stock-info">
-                    <div class="stock-name"><span class="name-label">樂瑞 3效洗衣精</span><span>20%</span></div>
-                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 20%; background: var(--red);"></div></div>
-                </div>
-                <a href="https://www.lerich.com.tw/index.php/shop/product/detail/id/1" target="_blank" class="btn-buy">補貨</a>
-            </div>
-            <!-- ... 其他商品 ... -->
-        </div>
+    <!-- 武器庫 W1 文案區 -->
+    <div class="promo-box">
+        <span class="promo-title">✨ 限時封測福利：創建數位分身</span>
+        <p style="font-size: 14px; line-height: 1.6;">
+            親愛的領袖您好！誠摯邀請您加入我們。現在加入 **免費註冊**，即享 **免費使用超級 AI 工具**！<br><br>
+            🎁 封測期間系統贈送 **角色彩蛋**<br>
+            💰 加碼贈送 **50元購物金**<br>
+            🤝 每推薦一人再領 **99元獎勵金**<br><br>
+            🌟 **更多好康：**<br>
+            免費出國旅遊機會、免運費產品、**無入會費、無年費、不需送貨、不需收錢、不需配對**。消費全額抵扣，滿 100 即可提現！
+        </p>
+        <a href="#" class="btn-action">立即領取免費會員</a>
     </div>
 
-    <div class="bonus-card">
-        <div class="bonus-label">目前實質數位收益</div>
-        <div class="bonus-value" id="val_totalIncome">NT$ 0</div>
-        <div style="color: #666; font-size: 11px; margin-top: 5px;">
-            包含 <span style="color: var(--gold);">註冊贊助金 $50</span>、實績分潤、推薦獎勵
-        </div>
-    </div>
+    <a href="#" class="btn-action" style="background: transparent; border: 1px solid var(--gold); color: var(--gold);">🚀 返回目錄大廳 (M)</a>
 
-    <div class="section-title">🔧 第一階段：根基修復</div>
-    <div class="repair-box">
-        <div class="input-group">
-            <input type="text" id="repairInput" placeholder="環境修繕項目 (例：更換沙發)">
-            <div class="input-row">
-                <input type="number" id="costInput" placeholder="預算 (NT$)">
-                <button class="btn-save" id="saveBtn" onclick="addRepair()" style="flex: 0.6;">紀錄</button>
-            </div>
-        </div>
-        <div id="repairList"></div>
-        <div style="margin-top: 15px; text-align: right; color: var(--gold); font-size: 14px; font-weight: bold;">
-            修繕所需資金：<span id="totalNeed">NT$ 0</span>
-        </div>
-    </div>
-
-    <a href="javascript:void(0);" onclick="goToLobby()" class="btn-lobby">🚀 回到數位生活大廳</a>
-    
     <div class="footer">
-        <p>AI 生活小秘書 · 全方位數位輔助 認證</p>
+        <p>© 2026 AI 生活小秘書 · 全方位數位輔助</p>
         <p>提示回目錄大廳請輸入 M</p>
     </div>
 </div>
 
 <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec"; 
-    const LOBBY_BASE = "https://ai-go-core.github.io/ai/"; 
-    const uid = new URLSearchParams(window.location.search).get('uid');
-
-    // --- 4% 獎金試算邏輯 ---
-    function calculateBonus() {
-        const referrals = parseInt(document.getElementById('calc_referrals').value) || 0;
-        const pvPerPerson = parseInt(document.getElementById('calc_pv').value) || 0;
-        const bonusBody = document.getElementById('bonus_body');
-        
-        let totalPassive = 0;
+    function runCalc() {
+        const ref = parseInt(document.getElementById('input_ref').value) || 0;
+        const pv = parseInt(document.getElementById('input_pv').value) || 0;
+        const body = document.getElementById('res_body');
+        let total = 0;
+        let currentPeople = 1; // 第一代為本人
         let html = "";
-        let currentGenerationCount = 1; // 第一代(本人)
 
         for (let i = 1; i <= 7; i++) {
-            if (i > 1) {
-                currentGenerationCount *= referrals;
-            }
-            
-            const genPV = currentGenerationCount * pvPerPerson;
-            const genBonus = genPV * 0.04;
-            totalPassive += genBonus;
-
-            html += `
-                <tr>
-                    <td>第 ${i} 代 ${i === 1 ? '(本人)' : ''}</td>
-                    <td>${currentGenerationCount.toLocaleString()} 人</td>
-                    <td style="color: ${genBonus > 0 ? '#00FF00' : '#888'}">$ ${Math.floor(genBonus).toLocaleString()}</td>
-                </tr>
-            `;
+            if (i > 1) currentPeople *= ref;
+            let bonus = currentPeople * pv * 0.04;
+            total += bonus;
+            html += `<tr>
+                <td>第 ${i} 代 ${i===1?'(本人)':''}</td>
+                <td>${currentPeople.toLocaleString()} 人</td>
+                <td style="color: var(--green);">$ ${Math.floor(bonus).toLocaleString()}</td>
+            </tr>`;
         }
-
-        bonusBody.innerHTML = html;
-        document.getElementById('total_passive_income').innerText = "$ " + Math.floor(totalPassive).toLocaleString();
-    }
-
-    function toggleCategory(header) {
-        header.classList.toggle('active');
-        const content = header.nextElementSibling;
-        content.classList.toggle('active');
-    }
-
-    function toggleItem(checkbox) {
-        const parent = checkbox.closest('.stock-item');
-        const label = parent.querySelector('.name-label');
-        if (checkbox.checked) {
-            label.classList.add('item-checked');
-            parent.style.opacity = "0.6";
-        } else {
-            label.classList.remove('item-checked');
-            parent.style.opacity = "1";
-        }
-    }
-
-    async function fetchData() {
-        if (!uid) {
-            document.getElementById('user_nickname').innerText = "未登錄領袖";
-            return;
-        }
-        try {
-            const response = await fetch(`${GAS_URL}?action=getUserDreamData&uid=${uid}`);
-            const data = await response.json();
-            
-            if (data.status === "success") {
-                document.getElementById('user_nickname').innerText = data.userName || "領袖";
-                document.getElementById('val_totalIncome').innerText = "NT$ " + (Number(data.totalIncome) || 0).toLocaleString();
-                renderRepairList(data.repairs);
-            }
-        } catch (e) { 
-            console.error("同步失敗", e); 
-            document.getElementById('user_nickname').innerText = "連線中斷";
-        }
-    }
-
-    function renderRepairList(repairs) {
-        const listContainer = document.getElementById('repairList');
-        listContainer.innerHTML = "";
-        let totalCost = 0;
-        
-        if (repairs && repairs.length > 0) {
-            repairs.forEach(item => {
-                const cost = parseInt(item.cost || 0);
-                totalCost += cost;
-                const div = document.createElement('div');
-                div.className = 'repair-item';
-                const isDone = (item.status === 'completed');
-                
-                div.innerHTML = `
-                    <div class="repair-info">
-                        <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleStatus(${item.row})" style="width:18px; height:18px;">
-                        <span class="repair-name ${isDone ? 'checked-text' : ''}">${item.content}</span>
-                    </div>
-                    <span style="color: var(--gold); font-size: 14px; font-weight:bold;">$${cost.toLocaleString()}</span>
-                `;
-                listContainer.appendChild(div);
-            });
-        }
-        document.getElementById('totalNeed').innerText = "NT$ " + totalCost.toLocaleString();
-    }
-
-    async function addRepair() {
-        const input = document.getElementById('repairInput');
-        const costInput = document.getElementById('costInput');
-        if (!input.value.trim() || !uid) return;
-
-        const btn = document.getElementById('saveBtn');
-        btn.innerText = "⏳";
-        btn.disabled = true;
-        
-        try {
-            const apiCall = `${GAS_URL}?action=saveRepair&uid=${uid}&content=${encodeURIComponent(input.value)}&cost=${costInput.value || 0}`;
-            await fetch(apiCall);
-            input.value = ""; 
-            costInput.value = "";
-            await fetchData(); 
-        } catch (err) { 
-            console.error("儲存失敗", err); 
-        } finally {
-            btn.innerText = "紀錄";
-            btn.disabled = false;
-        }
-    }
-
-    async function toggleStatus(row) {
-        if (!row) return;
-        try {
-            await fetch(`${GAS_URL}?action=toggleRepair&row=${row}`);
-            fetchData();
-        } catch (err) {
-            console.error("更新狀態失敗", err);
-        }
-    }
-
-    function goToLobby() { 
-        window.location.href = LOBBY_BASE + "Lobby.html?uid=" + uid; 
+        body.innerHTML = html;
+        document.getElementById('total_inc').innerText = "$ " + Math.floor(total).toLocaleString();
     }
 
     window.onload = () => {
-        fetchData();
-        calculateBonus(); // 初始化試算表
+        runCalc();
+        // 模擬獲取 UID
+        const urlParams = new URLSearchParams(window.location.search);
+        document.getElementById('user_id').innerText = urlParams.get('uid') || "數位代號-001";
     };
 </script>
 </body>
