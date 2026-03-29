@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🏡 修繕清單 ✕ 夢想計畫</title>
+    <title>🏡 全方位數位生活 · 修繕 ✕ 夢想 ✕ 補給</title>
     <style>
-        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; }
+        :root { --gold: #D4AF37; --black: #0a0a0a; --dark-gray: #1a1a1a; --cyan: #00FFFF; --green: #00FF00; --red: #FF4444; }
         * { box-sizing: border-box; } 
         
         body { 
@@ -19,10 +19,24 @@
 
         .container { max-width: 100%; margin: 0 auto; }
 
-        /* 領袖稱呼區 */
+        /* 標題與領袖稱呼 */
         .user-header { text-align: center; padding: 10px 0 5px; }
         .user-name-tag { color: var(--cyan); font-weight: bold; font-size: 16px; text-shadow: 0 0 5px rgba(0, 255, 255, 0.3); }
         .user-welcome { color: #888; font-size: 12px; margin-right: 4px; }
+
+        /* --- 新增：家庭用品存量表 --- */
+        .stock-box { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; margin-bottom: 20px; }
+        .stock-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .stock-info { flex: 1; margin-right: 15px; }
+        .stock-name { font-size: 14px; margin-bottom: 4px; display: flex; justify-content: space-between; }
+        .stock-bar-bg { background: #222; height: 8px; border-radius: 4px; overflow: hidden; }
+        .stock-bar-fill { height: 100%; transition: width 0.5s; }
+        .btn-buy { 
+            background: transparent; border: 1px solid var(--gold); color: var(--gold); 
+            padding: 5px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn-buy:hover { background: var(--gold); color: #000; }
 
         /* 累積收益卡片 */
         .bonus-card { 
@@ -36,6 +50,7 @@
         .bonus-label { font-size: 13px; color: #888; margin-bottom: 5px; }
         .bonus-value { font-size: 28px; color: var(--gold); font-weight: bold; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
 
+        /* 標題樣式 */
         .section-title { 
             color: var(--gold); 
             border-left: 4px solid var(--gold); 
@@ -47,86 +62,52 @@
         
         .repair-box { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; }
         
+        /* 輸入控制 */
         .input-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
         .input-row { display: flex; gap: 8px; }
-        
         input { 
-            background: #000; 
-            border: 1px solid #444; 
-            color: #fff; 
-            padding: 12px; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            outline: none; 
-            width: 100%;
+            background: #000; border: 1px solid #444; color: #fff; padding: 12px; 
+            border-radius: 8px; font-size: 16px; outline: none; width: 100%;
         }
         input:focus { border-color: var(--gold); }
         
         .btn-save { 
-            background: var(--gold); 
-            color: #000; 
-            border: none; 
-            padding: 12px; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            width: 100%; 
+            background: var(--gold); color: #000; border: none; padding: 12px; 
+            border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; 
         }
         
         .repair-item { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            background: #1a1a1a; 
-            padding: 12px; 
-            border-radius: 8px; 
-            margin-bottom: 8px; 
-            border: 1px solid #222; 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: #1a1a1a; padding: 12px; border-radius: 8px; 
+            margin-bottom: 8px; border: 1px solid #222; 
         }
         .repair-info { display: flex; align-items: center; gap: 8px; flex: 1; }
         .repair-name { font-size: 14px; color: #eee; }
         .checked-text { text-decoration: line-through; color: #666 !important; }
         
         .strategy-note { 
-            background: rgba(0, 255, 255, 0.05); 
-            border: 1px dashed var(--cyan); 
-            padding: 12px; 
-            border-radius: 8px; 
-            font-size: 13px; 
-            color: #ccc; 
-            margin-top: 15px; 
-            line-height: 1.6; 
+            background: rgba(0, 255, 255, 0.05); border: 1px dashed var(--cyan); 
+            padding: 12px; border-radius: 8px; font-size: 13px; color: #ccc; 
+            margin-top: 15px; line-height: 1.6; 
         }
         
+        /* 夢想格 */
         .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;}
         .dream-item { 
-            position: relative; 
-            border-radius: 10px; 
-            overflow: hidden; 
-            aspect-ratio: 4 / 3; 
-            display: flex; 
-            align-items: flex-end; 
-            background-size: cover; 
-            background-position: center; 
-            border: 1px solid #333; 
+            position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 3; 
+            display: flex; align-items: flex-end; background-size: cover; background-position: center; border: 1px solid #333; 
         }
         .dream-overlay { width: 100%; background: rgba(0,0,0,0.8); font-size: 11px; padding: 5px 0; color: var(--gold); text-align: center; }
         
+        /* 進度條 */
         .progress-bar-bg { background: #222; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 8px; }
         .progress-bar-fill { background: linear-gradient(90deg, #D4AF37, #FFD700); height: 100%; width: 0%; transition: width 1.5s ease-in-out; }
         
         .btn-lobby { 
-            display: block; 
-            width: 100%; 
-            padding: 15px; 
-            background: linear-gradient(90deg, #D4AF37, #B8860B); 
-            color: #000; 
-            text-align: center; 
-            text-decoration: none; 
-            border-radius: 30px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            margin-top: 20px; 
+            display: block; width: 100%; padding: 15px; 
+            background: linear-gradient(90deg, #D4AF37, #B8860B); color: #000; 
+            text-align: center; text-decoration: none; border-radius: 30px; 
+            font-size: 16px; font-weight: bold; margin-top: 20px; 
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
         .footer { text-align: center; font-size: 11px; color: #555; margin: 40px 0 20px; }
@@ -136,13 +117,44 @@
 
 <div class="container">
     <div style="text-align: center; padding: 10px 0 5px;">
-        <h1 style="color: var(--gold); margin: 0; font-size: 20px; letter-spacing: 2px;">🏡 修繕清單 ✕ 夢想計畫</h1>
+        <h1 style="color: var(--gold); margin: 0; font-size: 20px; letter-spacing: 2px;">🏡 全方位數位生活</h1>
     </div>
 
     <div class="user-header">
         <span class="user-welcome">領袖：</span><span id="user_nickname" class="user-name-tag">數據同步中...</span>
     </div>
 
+    <!-- 🌟 新增：日常補給站 (最上面) -->
+    <div class="section-title">🛒 零階段：日常補給站</div>
+    <div class="stock-box">
+        <div id="stockList">
+            <!-- 這裡預設幾個範例，未來可由 GAS 動態載入 -->
+            <div class="stock-item">
+                <div class="stock-info">
+                    <div class="stock-name"><span>洗衣精 (樂瑞嚴選)</span><span style="color:var(--red)">剩餘 20%</span></div>
+                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 20%; background: var(--red);"></div></div>
+                </div>
+                <a href="https://www.lerich.com.tw/index.php/shop/product" target="_blank" class="btn-buy">立即補貨</a>
+            </div>
+            <div class="stock-item">
+                <div class="stock-info">
+                    <div class="stock-name"><span>牙膏/漱口水</span><span style="color:var(--gold)">剩餘 50%</span></div>
+                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 50%; background: var(--gold);"></div></div>
+                </div>
+                <a href="https://www.lerich.com.tw/index.php/shop/product" target="_blank" class="btn-buy">立即補貨</a>
+            </div>
+            <div class="stock-item">
+                <div class="stock-info">
+                    <div class="stock-name"><span>高品質衛生紙</span><span style="color:var(--green)">剩餘 90%</span></div>
+                    <div class="stock-bar-bg"><div class="stock-bar-fill" style="width: 90%; background: var(--green);"></div></div>
+                </div>
+                <a href="https://www.lerich.com.tw/index.php/shop/product" target="_blank" class="btn-buy">預備採購</a>
+            </div>
+        </div>
+        <p style="font-size: 11px; color: #666; margin-top: 10px; text-align: center;">※ 消耗性物資自動提醒，讓您的生活永不斷貨</p>
+    </div>
+
+    <!-- 收益卡片 -->
     <div class="bonus-card">
         <div class="bonus-label">目前累積數位收益</div>
         <div class="bonus-value" id="val_totalIncome">NT$ 0</div>
@@ -151,6 +163,7 @@
         </div>
     </div>
 
+    <!-- 原有修繕內容 -->
     <div class="section-title">🔧 第一階段：根基修復</div>
     <div class="repair-box">
         <div class="input-group">
@@ -160,24 +173,22 @@
                 <button class="btn-save" id="saveBtn" onclick="addRepair()" style="flex: 0.6;">紀錄</button>
             </div>
         </div>
-
         <div id="repairList"></div>
-
         <div style="margin-top: 15px; text-align: right; color: var(--gold); font-size: 14px; font-weight: bold;">
             修繕總需求資金：<span id="totalNeed">NT$ 0</span>
         </div>
-
         <div class="strategy-note">
             ✨ <strong style="color: var(--cyan);">領袖增值路徑：</strong><br>
-            透過 AI 系統自動化推薦與 SC 能量積累，每一筆數位分潤都將直接注入修繕資金庫，實現 100% 夢想自動化。
+            每一筆在商城的日常消費，都將轉化為 SC 能量回饋，幫助您加速完成下方的修繕與夢想計畫。
         </div>
     </div>
 
+    <!-- 原有夢想內容 -->
     <div class="section-title">🌟 第二階段：卓越人生</div>
     <div class="repair-box">
         <div class="dream-grid">
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300');"><div class="dream-overlay">尊爵極致別墅</div></div>
-            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300');"><div class="dream-overlay">頂頂座駕</div></div>
+            <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300');"><div class="dream-overlay">頂級座駕</div></div>
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=300');"><div class="dream-overlay">寰宇深度之旅</div></div>
             <div class="dream-item" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=300');"><div class="dream-overlay">永續財富自由</div></div>
         </div>
@@ -204,9 +215,6 @@
     const LOBBY_BASE = "https://ai-go-core.github.io/ai/"; 
     const uid = new URLSearchParams(window.location.search).get('uid');
 
-    /**
-     * 從後端獲取領袖數據與修繕清單
-     */
     async function fetchData() {
         if (!uid) {
             document.getElementById('user_nickname').innerText = "未登錄領袖";
@@ -217,18 +225,15 @@
             const data = await response.json();
             
             if (data.status === "success") {
-                // 更新領袖基礎資訊
                 document.getElementById('user_nickname').innerText = data.userName || "領袖";
                 document.getElementById('val_totalIncome').innerText = "NT$ " + (Number(data.totalIncome) || 0).toLocaleString();
                 document.getElementById('travel_pts').innerText = data.travelPts || 0;
                 
-                // 動態進度條更新
                 const progressPercent = Math.min((data.travelPts / 300) * 100, 100);
                 setTimeout(() => { 
                     document.getElementById('travel_bar').style.width = progressPercent + "%"; 
                 }, 300);
                 
-                // 渲染修繕清單
                 renderRepairList(data.repairs);
             }
         } catch (e) { 
@@ -237,9 +242,6 @@
         }
     }
 
-    /**
-     * 渲染清單 DOM
-     */
     function renderRepairList(repairs) {
         const listContainer = document.getElementById('repairList');
         listContainer.innerHTML = "";
@@ -267,9 +269,6 @@
         document.getElementById('totalNeed').innerText = "NT$ " + totalCost.toLocaleString();
     }
 
-    /**
-     * 新增修繕項目
-     */
     async function addRepair() {
         const input = document.getElementById('repairInput');
         const costInput = document.getElementById('costInput');
@@ -284,7 +283,7 @@
             await fetch(apiCall);
             input.value = ""; 
             costInput.value = "";
-            await fetchData(); // 重新整理
+            await fetchData(); 
         } catch (err) { 
             console.error("儲存失敗", err); 
         } finally {
@@ -293,9 +292,6 @@
         }
     }
 
-    /**
-     * 狀態切換持久化
-     */
     async function toggleStatus(row) {
         if (!row) return;
         try {
