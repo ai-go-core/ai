@@ -46,41 +46,53 @@
 <script>
     function getIdentity() {
         const params = new URLSearchParams(window.location.search);
-        let id = params.get('ref') || params.get('id');
-        let name = params.get('name');
+        // ref 代表「當前登入者」的 LINE ID (F欄)
+        // p 代表「推薦人」的 LINE ID (選填，用於聯繫客服)
+        let ref = params.get('ref') || localStorage.getItem('user_line_id');
+        let name = params.get('name') || localStorage.getItem('user_nickname');
+        let parent = params.get('p') || localStorage.getItem('parent_line_id');
 
-        if (id && id !== 'undefined') {
-            localStorage.setItem('user_line_id', id);
+        if (ref && ref !== 'undefined') {
+            localStorage.setItem('user_line_id', ref);
             if(name) localStorage.setItem('user_nickname', name);
-            return { id: id, name: name || "" };
+            if(parent) localStorage.setItem('parent_line_id', parent);
+            return { id: ref, name: name || "", parent: parent || "vvvip.tw" };
         }
         return { 
-            id: localStorage.getItem('user_line_id') || 'Guest',
-            name: localStorage.getItem('user_nickname') || ""
+            id: 'Guest',
+            name: "",
+            parent: "vvvip.tw"
         };
     }
 
     const user = getIdentity();
-    // 抬頭顯示：優先顯示外號 (數位代號)，沒外號才顯 ID
     const display = user.name ? decodeURIComponent(user.name) : user.id;
     document.getElementById('leader-badge').innerText = `👑 歡迎領袖：${display}`;
 
     function nav(target) {
         if(user.id === 'Guest') {
-            alert('⚠️ 無法偵測領袖識別碼，請從 LINE 重新進入。');
+            alert('⚠️ 偵測不到識別碼，請從 LINE 菜單重新進入。');
             return;
         }
+
+        // 基本路徑設定
+        const baseUrl = 'https://ai-go-core.github.io/ai/';
         const urls = {
-            'Sponsorship': 'https://ai-go-core.github.io/ai/Sponsorship.html',
-            'PV': 'https://ai-go-core.github.io/ai/PV_Report.html',
-            'Tools': 'https://ai-go-core.github.io/ai/Tools.html',
-            'Assets': 'https://ai-go-core.github.io/ai/Assets.html',
-            'Support': 'https://line.me/ti/p/~' + user.id
+            'Sponsorship': baseUrl + 'Sponsorship.html',
+            'PV': baseUrl + 'PV_Report.html',
+            'Tools': baseUrl + 'Tools.html',
+            'Assets': baseUrl + 'Assets.html',
+            'Support': 'https://line.me/ti/p/~' + user.parent // 聯繫的是「引路人」而非自己
         };
+
         if (urls[target]) {
-            // 跳轉絕對帶入 LINE ID (ref)
-            const sep = urls[target].includes('?') ? '&' : '?';
-            window.location.href = urls[target] + sep + "ref=" + encodeURIComponent(user.id);
+            if (target === 'Support') {
+                window.location.href = urls[target];
+            } else {
+                // 自動帶入當前用戶 ID，確保下級頁面能抓到資料
+                const sep = urls[target].includes('?') ? '&' : '?';
+                window.location.href = urls[target] + sep + "ref=" + encodeURIComponent(user.id);
+            }
         }
     }
 </script>
