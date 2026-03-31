@@ -75,7 +75,7 @@
     // 1. 抓取網址參數
     const params = new URLSearchParams(window.location.search);
     const userId = params.get('ref'); 
-    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec'; // 重要：請填入您的 GAS Web App URL
+    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec'; 
 
     document.getElementById('display-id').innerText = userId || '未識別';
 
@@ -87,20 +87,18 @@
         }
 
         try {
-            // 注意：GAS 需支援 getReferrerDataById 邏輯並回傳 JSON
             const response = await fetch(`${GAS_API_URL}?action=getAssets&uid=${userId}`);
             const data = await response.json();
 
             if (data) {
                 // 動態更新數值
-                animateValue("sc-balance", 0, data.scBalance, 1000);
+                animateValue("sc-balance", 0, data.scBalance, 1500); // SC 能量動畫稍慢一點增加儀式感
                 animateValue("total-income", 0, data.income, 1000, "$ ");
                 animateValue("team-count", 0, data.teamTotal, 1000);
                 animateValue("travel-points", 0, data.travel, 1000);
             }
         } catch (error) {
             console.error("資料讀取失敗", error);
-            // 測試用模擬數據 (若 API 尚未佈署)
             document.getElementById('sc-balance').innerText = "連線中...";
         } finally {
             document.getElementById('loader').style.opacity = '0';
@@ -108,17 +106,49 @@
         }
     }
 
-    // 數字滾動動畫效果
+    // --- 中文單位轉換邏輯 ---
+    function formatToChinese(num) {
+        if (num === 0) return "0";
+        const yi = Math.floor(num / 100000000);
+        const wan = Math.floor((num % 100000000) / 10000);
+        const remaining = num % 10000;
+
+        let result = "";
+        if (yi > 0) result += yi + " 億 ";
+        if (wan > 0) result += wan.toLocaleString() + " 萬 ";
+        if (remaining > 0 || result === "") result += remaining.toLocaleString();
+        
+        return result.trim();
+    }
+
+    // 數字滾動動畫效果 (整合中文單位與千分位)
     function animateValue(id, start, end, duration, prefix = "") {
         const obj = document.getElementById(id);
         const range = end - start;
         let startTime = null;
+
         const step = (timestamp) => {
             if (!startTime) startTime = timestamp;
             const progress = Math.min((timestamp - startTime) / duration, 1);
             const current = Math.floor(progress * range + start);
-            obj.innerHTML = prefix + current.toLocaleString() + (id === 'sc-balance' ? '<span class="unit">SC</span>' : (id === 'team-count' ? '<span class="unit">人</span>' : ''));
-            if (progress < 1) window.requestAnimationFrame(step);
+
+            if (id === "sc-balance") {
+                // SC 能量使用「億、萬、千」格式
+                obj.innerHTML = formatToChinese(current) + '<span class="unit">SC</span>';
+            } else if (id === "total-income") {
+                // 收益保留千分位格式
+                obj.innerHTML = prefix + current.toLocaleString();
+            } else if (id === "team-count") {
+                // 人數保留千分位格式
+                obj.innerHTML = current.toLocaleString() + '<span class="unit">人</span>';
+            } else {
+                // 旅遊積點
+                obj.innerHTML = current.toLocaleString() + '<span class="unit">pts</span>';
+            }
+
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
         };
         window.requestAnimationFrame(step);
     }
