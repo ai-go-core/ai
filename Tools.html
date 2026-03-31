@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>AI 生活小秘書 | 數位資源庫</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --gold: #D4AF37; --gold-light: #FFD700; --bg: #050505; --card-bg: #1a1a1a; }
+        body { font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 500px; }
+        
+        .header { text-align: center; margin-bottom: 25px; border-bottom: 1px solid var(--gold); padding-bottom: 15px; }
+        .header h1 { font-size: 1.6em; color: var(--gold); margin: 0; letter-spacing: 2px; }
+        .user-info { font-size: 0.85em; color: #888; margin-top: 8px; }
+
+        .copy-card { background: var(--card-bg); border: 1px solid #333; border-radius: 15px; padding: 20px; margin-bottom: 25px; position: relative; display: none; } /* 預設隱藏，有資料才顯示 */
+        .copy-tag { position: absolute; top: -12px; left: 20px; background: var(--gold); color: #000; padding: 2px 12px; border-radius: 5px; font-size: 0.75em; font-weight: bold; }
+        .copy-title { font-size: 1.1em; color: var(--gold-light); margin-bottom: 15px; display: flex; align-items: center; }
+        .copy-title i { margin-right: 10px; }
+        
+        .content-box { background: #000; border: 1px dashed #444; padding: 15px; font-size: 0.95em; line-height: 1.6; color: #ccc; border-radius: 8px; white-space: pre-wrap; margin-bottom: 15px; }
+        
+        .copy-btn { width: 100%; padding: 12px; background: linear-gradient(135deg, #D4AF37, #8A6D3B); border: none; color: #000; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .copy-btn:active { transform: scale(0.98); opacity: 0.8; }
+
+        .loading-text { text-align: center; color: var(--gold); margin: 20px; }
+        .footer { text-align: center; font-size: 0.75em; color: #555; margin-top: 30px; }
+        .back-btn { color: var(--gold); text-decoration: none; font-size: 0.9em; margin-top: 20px; display: inline-block; }
+        
+        #toast { visibility: hidden; min-width: 200px; background-color: var(--gold); color: #000; text-align: center; border-radius: 50px; padding: 10px; position: fixed; z-index: 1; bottom: 30px; font-weight: bold; }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>⚔️ 數位資源庫</h1>
+        <div class="user-info">當前領袖編號：<span id="user-id" style="color:var(--gold-light)">---</span></div>
+    </div>
+
+    <div id="loading" class="loading-text"><i class="fas fa-sync fa-spin"></i> 正在從雲端同步武器庫...</div>
+
+    <!-- 動態生成容器 -->
+    <div id="tools-container"></div>
+
+    <center><a href="javascript:history.back()" class="back-btn">← 返回數位大廳</a></center>
+    
+    <div class="footer">AI 生活小秘書 · 全方位數位輔助 © 2026</div>
+</div>
+
+<div id="toast">✅ 文案已複製到剪貼簿</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get('ref') || 'Guest';
+    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec'; 
+    const botID = "@641zpzus"; // 👈 請填入您的 LINE 官方帳號 ID
+
+    document.getElementById('user-id').innerText = userId;
+
+    // 核心功能：從 GAS 抓取雲端文案
+    async function fetchTools() {
+        try {
+            const response = await fetch(`${GAS_API_URL}?action=getToolContent`);
+            const data = await response.json();
+            
+            const container = document.getElementById('tools-container');
+            document.getElementById('loading').style.display = 'none';
+
+            // 遍歷所有雲端文案 (w1, w2, w3...)
+            Object.keys(data).forEach((key, index) => {
+                const item = data[key];
+                const card = document.createElement('div');
+                card.className = 'copy-card';
+                card.style.display = 'block';
+
+                // 處理文案內容中的變數
+                let processedBody = item.body
+                    .replace(/USER_ID/g, userId)
+                    .replace(/@您的機器人ID/g, botID);
+
+                card.innerHTML = `
+                    <div class="copy-tag">數位武器 ${key.toUpperCase()}</div>
+                    <div class="copy-title"><i class="fas fa-file-alt"></i> ${item.title}</div>
+                    <div class="content-box" id="content-${key}">${processedBody}</div>
+                    <button class="copy-btn" onclick="copyText('content-${key}')">
+                        <i class="far fa-copy"></i> 複製專屬文案
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+
+        } catch (error) {
+            console.error("抓取失敗:", error);
+            document.getElementById('loading').innerText = "❌ 雲端同步失敗，請檢查網路。";
+        }
+    }
+
+    function copyText(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            showToast();
+        });
+    }
+
+    function showToast() {
+        const x = document.getElementById("toast");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    }
+
+    window.onload = fetchTools;
+</script>
+
+</body>
+</html>
