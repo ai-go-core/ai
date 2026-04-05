@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <title>AI 生活小秘書 | 數位資源庫</title>
+    <title>AI 生活小秘書 | 數位武器庫</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --gold: #D4AF37; --gold-light: #FFD700; --bg: #050505; --card-bg: #1a1a1a; }
@@ -14,61 +14,63 @@
         .header h1 { font-size: 1.6em; color: var(--gold); margin: 0; letter-spacing: 2px; }
         .user-info { font-size: 0.85em; color: #888; margin-top: 8px; }
 
-        /* 修正 1: 保持文案斷行與對齊 */
-        .copy-card { background: var(--card-bg); border: 1px solid #333; border-radius: 15px; padding: 20px; margin-bottom: 25px; position: relative; }
+        .copy-card { background: var(--card-bg); border: 1px solid #333; border-radius: 15px; padding: 20px; margin-bottom: 25px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .copy-tag { position: absolute; top: -12px; left: 20px; background: var(--gold); color: #000; padding: 2px 12px; border-radius: 5px; font-size: 0.75em; font-weight: bold; }
         .copy-title { font-size: 1.1em; color: var(--gold-light); margin-bottom: 12px; display: flex; align-items: center; font-weight: bold; }
         
+        /* 核心修正：保持斷行並優化閱讀感 */
         .content-box { 
             background: #000; 
             border: 1px dashed #444; 
-            padding: 15px; 
+            padding: 18px; 
             font-size: 0.95em; 
-            line-height: 1.6; 
-            color: #ccc; 
+            line-height: 1.7; 
+            color: #eee; 
             border-radius: 8px; 
-            white-space: pre-wrap; /* 重要：保持斷行 */
-            word-break: break-all;
+            white-space: pre-wrap; /* 保持雲端文案的原始換行 */
+            word-wrap: break-word;
             margin-bottom: 15px; 
             text-align: left;
         }
         
         .copy-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #D4AF37, #8A6D3B); border: none; color: #000; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; font-size: 1em; }
-        .copy-btn:active { transform: scale(0.98); opacity: 0.8; }
+        .copy-btn:active { transform: scale(0.96); opacity: 0.9; }
         .copy-btn i { margin-right: 8px; }
 
         .loading-text { text-align: center; color: var(--gold); margin: 20px; }
         .footer { text-align: center; font-size: 0.75em; color: #555; margin-top: 30px; }
-        .back-btn { color: var(--gold); text-decoration: none; font-size: 0.9em; margin-top: 20px; display: inline-block; }
+        .back-btn { color: var(--gold); text-decoration: none; font-size: 0.9em; margin-top: 20px; display: inline-block; padding: 10px 20px; border: 1px solid var(--gold); border-radius: 50px; }
         
-        #toast { visibility: hidden; min-width: 220px; background-color: var(--gold); color: #000; text-align: center; border-radius: 50px; padding: 12px; position: fixed; z-index: 1; bottom: 30px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        #toast { visibility: hidden; min-width: 220px; background-color: #28a745; color: #fff; text-align: center; border-radius: 50px; padding: 12px; position: fixed; z-index: 999; bottom: 50px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
-        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 50px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 50px; opacity: 1;} to {bottom: 0; opacity: 0;} }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>⚔️ 數位資源庫</h1>
-        <div class="user-info">當前領袖編號：<span id="user-id" style="color:var(--gold-light)">---</span></div>
+        <h1>⚔️ 數位武器庫</h1>
+        <div class="user-info">所屬領袖代號：<span id="user-id" style="color:var(--gold-light)">---</span></div>
     </div>
 
-    <div id="loading" class="loading-text"><i class="fas fa-sync fa-spin"></i> 正在從雲端同步最新武器...</div>
+    <div id="loading" class="loading-text"><i class="fas fa-sync fa-spin"></i> 正在同步最新數位武裝...</div>
     <div id="tools-container"></div>
 
-    <center><a href="javascript:history.back()" class="back-btn">← 返回數位大廳</a></center>
+    <center><a href="javascript:history.back()" class="back-btn">← 返回大廳</a></center>
     <div class="footer">AI 生活小秘書 · 全方位數位輔助 © 2026</div>
 </div>
 
-<div id="toast">✅ 文案內容已複製成功</div>
+<div id="toast">✅ 全文複製成功！立即去發佈吧</div>
 
 <script>
     const params = new URLSearchParams(window.location.search);
     const userId = params.get('ref') || 'Guest';
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec'; 
-    const botID = "@641zpzus"; 
+    
+    // 【升級】使用您的 LIFF 跳轉連結，確保追蹤功能啟動
+    const liffBaseUrl = "https://liff.line.me/2008866908-jrsCWB9J"; 
 
     document.getElementById('user-id').innerText = userId;
 
@@ -84,42 +86,50 @@
                 const card = document.createElement('div');
                 card.className = 'copy-card';
 
-                // 修正 3: 自動產生帶有參數的推廣連結
-                const promoLink = `https://line.me/ti/p/${botID}?ref=${userId}`;
+                // 自動產生帶有個人參數的追蹤連結
+                const trackingLink = `${liffBaseUrl}?ref=${userId}`;
                 
-                // 修正 1: 處理換行並結合文案與網址
-                let finalContent = item.body
-                    .replace(/USER_ID/g, userId)
-                    .replace(/@您的機器人ID/g, botID);
+                // 處理換行：直接使用 template literal 保持格式
+                let finalBody = item.body.replace(/USER_ID/g, userId);
                 
-                // 將網址附加在最後
-                finalContent += `\n\n立即點擊開啟數位分身：\n${promoLink}`;
+                // 組合全文：文案 + 追蹤連結
+                const fullCopyText = `${finalBody}\n\n立即開啟數位分身：\n${trackingLink}`;
 
                 card.innerHTML = `
-                    <div class="copy-tag">數位武器 ${key.toUpperCase()}</div>
-                    <div class="copy-title"><i class="fas fa-fire"></i> ${item.title}</div>
-                    <div class="content-box" id="content-${key}">${finalContent}</div>
-                    <button class="copy-btn" onclick="copyText('content-${key}')">
-                        <i class="far fa-copy"></i> 複製專屬文案
+                    <div class="copy-tag">代號 ${key.toUpperCase()}</div>
+                    <div class="copy-title"><i class="fas fa-bolt"></i> ${item.title}</div>
+                    <div class="content-box" id="content-${key}">${fullCopyText}</div>
+                    <button class="copy-btn" onclick="copyToClipboard('content-${key}')">
+                        <i class="far fa-copy"></i> 一鍵複製全文
                     </button>
                 `;
                 container.appendChild(card);
             });
         } catch (error) {
-            document.getElementById('loading').innerHTML = "❌ 同步失敗，請確認部署網址。";
+            document.getElementById('loading').innerHTML = "❌ 同步失敗，請確認 GAS 部署權限。";
         }
     }
 
-    // 修正 2: 精準複製內容框中的文字，避開標題
-    function copyText(elementId) {
+    // 強化版一鍵複製
+    function copyToClipboard(elementId) {
         const text = document.getElementById(elementId).innerText;
-        const el = document.createElement('textarea');
-        el.value = text;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-        showToast();
+        
+        // 優先使用 navigator.clipboard (最現代且支援度高)
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(() => showToast());
+        } else {
+            // 備用方案：傳統 textarea 方法
+            const el = document.createElement('textarea');
+            el.value = text;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            showToast();
+        }
     }
 
     function showToast() {
