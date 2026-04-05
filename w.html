@@ -50,65 +50,60 @@
     </div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        
-        // 1. 抓取參數：ref (推薦人) 與 src (文案編號)
-        const refID = params.get('ref') || 'AI生活小秘書';
-        const srcID = params.get('src') || 'W1';
-        
-        // 2. 文案庫設定
-        const library = {
-            "W10": { title: "解鎖在 AI 系統的", highlight: "第一筆收益分潤", sub: "新夥伴首次加入，100% 回饋計畫" },
-            "W20": { title: "啟動您的專屬", highlight: "AI 數位分身", sub: "讓科技為您 24 小時全自動招募" }
-        };
+    const params = new URLSearchParams(window.location.search);
+    
+    // 1. 抓取並清理參數
+    const rawRef = params.get('ref') || 'System';
+    const refID = decodeURIComponent(rawRef).replace(/\s/g, ''); // 清除空格
+    const srcID = params.get('src') || 'W10';
+    
+    // 2. 文案庫設定
+    const library = {
+        "W10": { title: "解鎖在 AI 系統的", highlight: "第一筆收益分潤", sub: "新夥伴首次加入，100% 回饋計畫" },
+        "W20": { title: "啟動您的專屬", highlight: "AI 數位分身", sub: "讓科技為您 24 小時全自動招募" }
+    };
 
-        // 應用文案
-        const activeContent = library[srcID] || library["W10"];
-        document.getElementById('content-title').innerText = activeContent.title;
-        document.getElementById('content-highlight').innerText = activeContent.highlight;
-        document.getElementById('content-sub').innerText = activeContent.sub;
+    const activeContent = library[srcID] || library["W10"];
+    document.getElementById('content-title').innerText = activeContent.title;
+    document.getElementById('content-highlight').innerText = activeContent.highlight;
+    document.getElementById('content-sub').innerText = activeContent.sub;
 
-        // 3. 設定跳轉目標 (LIFF 連結 + 推薦人參數)
-        // 新版：使用 liff.state 格式，這能確保加入好友時參數不遺失
-const liffID = "2008866908-jrsCWB9J"; 
-const target = `https://liff.line.me/${liffID}?ref=${encodeURIComponent(refID)}&src=${srcID}`;
-        const jumpBtn = document.getElementById('jumpBtn');
-        jumpBtn.href = target;
+    // 3. 設定跳轉目標 (LINE 原生協議)
+    const LINE_OFFICIAL_ID = "@641zpzus"; 
+    const target = `https://line.me/R/ti/p/${LINE_OFFICIAL_ID}?ref=${refID}&utm_source=${srcID}`;
 
-        // 4. 智慧返回鍵攔截
-        let timeLeft = 30;
-        let isStopped = false;
+    const jumpBtn = document.getElementById('jumpBtn');
+    jumpBtn.href = target;
 
-        if (window.history && window.history.pushState) {
-            window.history.pushState('stop', null, null);
-            window.onpopstate = () => { stopTimer(); };
+    // 4. 倒數邏輯
+    let timeLeft = 30;
+    let isStopped = false;
+
+    // 攔截返回鍵：使用者按返回時停止自動跳轉，留住流量
+    if (window.history && window.history.pushState) {
+        window.history.pushState('stop', null, null);
+        window.onpopstate = () => { isStopped = true; };
+    }
+
+    const interval = setInterval(() => {
+        if (isStopped) return;
+        timeLeft--;
+        document.getElementById('timer').innerText = timeLeft;
+        document.getElementById('bar').style.transform = `scaleX(${timeLeft / 30})`;
+
+        if (timeLeft <= 0) {
+            clearInterval(interval);
+            window.location.assign(target);
         }
+    }, 1000);
 
-        window.addEventListener('pageshow', (e) => {
-            if (e.persisted) stopTimer();
-        });
-
-        function stopTimer() {
-            isStopped = true;
-            timeLeft = 999;
-            document.getElementById('timer').innerText = "驗證已完成";
-            document.getElementById('bar').style.opacity = "0.2";
-        }
-
-        // 5. 自動倒數
-        const interval = setInterval(() => {
-            if (isStopped) return;
-            timeLeft--;
-            document.getElementById('timer').innerText = timeLeft;
-            document.getElementById('bar').style.transform = `scaleX(${timeLeft / 30})`;
-
-            if (timeLeft <= 0) {
-                clearInterval(interval);
-                window.location.assign(target);
-            }
-        }, 1000);
-
-        jumpBtn.onclick = () => { isStopped = true; };
-    </script>
+    // 手動點擊立即跳轉並停止計時
+    jumpBtn.onclick = (e) => {
+        isStopped = true;
+        // 確保手動點擊能立刻觸發
+        window.location.href = target;
+        return false;
+    };
+</script>
 </body>
 </html>
