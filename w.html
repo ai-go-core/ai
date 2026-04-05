@@ -72,36 +72,28 @@
 
     let totalTime = 30; 
     let timeLeft = totalTime;
-    let isLocked = false; // 鎖定狀態，防止返回後重複跳轉
+    let isRedirecting = false;
 
-    // --- 核心升級：歷史紀錄狀態監控 ---
-    // 透過 sessionStorage 紀錄這一次開啟是否已經跳轉過
-    const sessionKey = "redirected_" + window.location.search;
-    
-    function checkStatus() {
-        if (sessionStorage.getItem(sessionKey)) {
-            isLocked = true;
+    // --- 【核心修正】歷史堆疊攔截器 ---
+    // 進入頁面時，先塞入一個虛擬的歷史紀錄點
+    if (window.history && window.history.pushState) {
+        window.history.pushState('forward', null, './W.html' + window.location.search);
+        
+        // 監聽「返回」動作
+        window.onpopstate = function () {
+            // 當用戶按下返回鍵，會觸發這裡
+            isRedirecting = true; // 鎖定跳轉
             timeLeft = 999;
             timerText.innerText = "驗證已完成";
             bar.style.opacity = "0.2";
             bar.style.transform = "scaleX(1)";
-            return true;
-        }
-        return false;
+            console.log("攔截返回動作成功");
+        };
     }
 
-    // 初始檢查
-    checkStatus();
-
-    // 監聽 pageshow (處理手機返回鍵)
-    window.addEventListener('pageshow', function(event) {
-        if (event.persisted || checkStatus()) {
-            isLocked = true;
-        }
-    });
-
+    // 定時器
     const interval = setInterval(() => {
-        if (isLocked) return;
+        if (isRedirecting) return;
 
         timeLeft--;
         timerText.innerText = timeLeft;
@@ -110,26 +102,21 @@
         bar.style.transform = `scaleX(${scale})`;
 
         if (timeLeft <= 0) {
+            clearInterval(interval);
             doRedirect();
         }
     }, 1000);
 
     function doRedirect() {
-        if (isLocked) return;
-        isLocked = true;
-        clearInterval(interval);
-        
-        // 跳轉前在 Session 留下記錄，證明這頁「跳轉過」
-        sessionStorage.setItem(sessionKey, "true");
-        
-        // 使用 assign 確保歷史紀錄存在
+        if (isRedirecting) return;
+        isRedirecting = true;
+        // 使用 location.assign 確保這是一次正式的導航，並在歷史中留下痕跡
         window.location.assign(target);
     }
 
-    // 手動點擊也標記為已跳轉
+    // 手動點擊
     jumpBtn.addEventListener('click', (e) => {
-        sessionStorage.setItem(sessionKey, "true");
-        isLocked = true;
+        isRedirecting = true;
     });
 </script>
 </body>
