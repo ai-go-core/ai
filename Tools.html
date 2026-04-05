@@ -65,7 +65,6 @@
 
 <script>
     const params = new URLSearchParams(window.location.search);
-    // 預設代號：AI 生活小秘書
     const userId = params.get('ref') || 'AI 生活小秘書';
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec'; 
     const liffBaseUrl = "https://liff.line.me/2008866908-jrsCWB9J"; 
@@ -84,22 +83,21 @@
                 const card = document.createElement('div');
                 card.className = 'copy-card';
 
-                // 進行 URL 編碼確保連結完整性
-                const safeRef = encodeURIComponent(userId);
-                const trackingLink = `${liffBaseUrl}?ref=${safeRef}`;
+                // 修正：連結不再過度編碼，確保在 LINE 顯示為完整藍色連結
+                const trackingLink = `${liffBaseUrl}?ref=${userId}`;
                 
-                // 1. 取得雲端原始文案並替換 ID
-                let finalBody = item.body.replace(/USER_ID/g, userId);
+                // 1. 取得主體文案並替換變數
+                let mainBody = item.body.replace(/USER_ID/g, userId);
                 
-                // 2. 組合全文：主文案 (內含標題) + 底部連結區塊
-                // 移除了重複的 "🔥 最強福利總攻" 字樣
-                const fullText = `${finalBody}\n\n立即開啟數位分身：\n${trackingLink}`;
+                // 2. 核心修正：將所有紅框內容合併為一個字串
+                // 包含：主文案 + 換行 + 連結標題 + 實際連結
+                const fullTextToCopy = `${mainBody}\n\n立即開啟數位分身：\n${trackingLink}`;
 
                 card.innerHTML = `
                     <div class="copy-tag">代號 ${key.toUpperCase()}</div>
                     <div class="copy-title"><i class="fas fa-bolt"></i> ${item.title}</div>
                     
-                    <div class="content-box" id="content-${key}">${fullText}</div>
+                    <div class="content-box" id="content-${key}">${fullTextToCopy}</div>
                     
                     <button class="copy-btn" onclick="copyToClipboard('content-${key}')">
                         <i class="far fa-copy"></i> 一鍵複製全文內容
@@ -108,16 +106,18 @@
                 container.appendChild(card);
             });
         } catch (error) {
-            document.getElementById('loading').innerHTML = "❌ 同步失敗，請確認 GAS 部署權限。";
+            document.getElementById('loading').innerHTML = "❌ 同步失敗，請檢查網路或權限。";
         }
     }
 
     function copyToClipboard(elementId) {
         const text = document.getElementById(elementId).innerText;
         
+        // 現代瀏覽器複製邏輯
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(text).then(() => showToast());
         } else {
+            // 傳統備援方案
             const el = document.createElement('textarea');
             el.value = text;
             el.setAttribute('readonly', '');
