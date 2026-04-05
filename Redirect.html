@@ -2,46 +2,46 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>正在認證數位身分...</title>
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> </title> <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <style>
+        /* 全黑背景，移除所有視覺元素 */
+        body { background: #000000; margin: 0; padding: 0; height: 100vh; overflow: hidden; }
+    </style>
 </head>
 <body>
-    <div style="text-align: center; margin-top: 50px; font-family: sans-serif;">
-        <p>數位身分認證中，請稍候...</p>
-    </div>
-
     <script>
         async function main() {
             try {
-                // 1. 初始化 LIFF
+                // 1. 初始化 LIFF (使用您的追蹤跳板 ID)
                 await liff.init({ liffId: "2008866908-jrsCWB9J" }); 
 
                 if (!liff.isLoggedIn()) {
-                    liff.login(); 
+                    // 若未登入，靜默引導至登入 (會保持 ref 參數)
+                    liff.login({ redirectUri: window.location.href }); 
                 } else {
                     const profile = await liff.getProfile();
                     const newUserId = profile.userId;
 
+                    // 2. 自動識別網址中的推薦人變數 (如 ref=jack197775)
                     const params = new URLSearchParams(window.location.search);
                     const referrerId = params.get('ref') || '系統總部';
 
-                    // 2. 【核心技術】發送 API 給 GAS (加入 no-cors 確保順利執行)
+                    // 3. 發射 API 給 GAS 進行關係鎖定 (背景執行)
                     const gasApi = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
                     
-                    // 使用 fetch 但不等待回應（背景執行），直接進行跳轉
-                    fetch(`${gasApi}?action=bindReferrer&uid=${newUserId}&ref=${referrerId}`, {
+                    fetch(`${gasApi}?action=bindReferrer&uid=${newUserId}&ref=${referrerId}&t=${Date.now()}`, {
                         mode: 'no-cors'
                     });
 
-                    // 3. 延遲一小段時間確保請求發出後，自動跳轉
+                    // 4. 閃電跳轉：僅保留 100ms 確保請求發出
                     setTimeout(() => {
-                        window.location.href = "https://line.me/ti/p/@641zpzus";
-                    }, 500);
+                        window.location.replace("https://line.me/ti/p/@641zpzus");
+                    }, 100); 
                 }
             } catch (err) {
-                console.error("LIFF Error:", err);
-                // 發生錯誤時仍嘗試引導至 LINE
-                window.location.href = "https://line.me/ti/p/@641zpzus";
+                // 遇錯立馬進入 LINE@，不留痕跡
+                window.location.replace("https://line.me/ti/p/@641zpzus");
             }
         }
         main();
