@@ -60,41 +60,55 @@
     </div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const uid = params.get('uid') || 'AI 生活小秘書';
-        const target = `https://liff.line.me/2008866908-jrsCWB9J?ref=${encodeURIComponent(uid)}`;
-        document.getElementById('jumpBtn').href = target;
+    const params = new URLSearchParams(window.location.search);
+    const uid = params.get('uid') || 'AI 生活小秘書';
+    // 您的專屬 LIFF 推廣連結
+    const target = `https://liff.line.me/2008866908-jrsCWB9J?ref=${encodeURIComponent(uid)}`;
+    
+    const jumpBtn = document.getElementById('jumpBtn');
+    const timerText = document.getElementById('timer');
+    const bar = document.getElementById('bar');
+    
+    jumpBtn.href = target;
 
-        let totalTime = 30;
-        let timeLeft = totalTime;
-        let isRedirecting = false;
+    let totalTime = 30; 
+    let timeLeft = totalTime;
+    let stopTimer = false;
 
-        const timerText = document.getElementById('timer');
-        const bar = document.getElementById('bar');
+    // --- 關鍵：智慧返回偵測系統 ---
+    // 透過 PageTransitionEvent 偵測用戶是否是按「返回鍵」回來的
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+            // 偵測到是「返回」行為，立即永久切斷自動跳轉
+            stopTimer = true;
+            timeLeft = 999; 
+            timerText.innerText = "驗證已完成";
+            bar.style.opacity = "0.2";
+            console.log("偵測到返回動作，自動跳轉已禁用。");
+        }
+    });
 
-        // 智慧返回檢測
-        window.onpageshow = function(event) {
-            if (event.persisted) {
-                timeLeft = 9999;
-                timerText.innerText = "已讀取";
-                bar.style.opacity = "0.3";
-            }
-        };
+    const interval = setInterval(() => {
+        if (stopTimer) return; // 停止邏輯
 
-        const interval = setInterval(() => {
-            if (timeLeft > totalTime) return;
-            timeLeft--;
-            timerText.innerText = timeLeft;
-            bar.style.transform = `scaleX(${timeLeft / totalTime})`;
+        timeLeft--;
+        timerText.innerText = timeLeft;
+        
+        // 進度條同步縮減
+        const scale = timeLeft / totalTime;
+        bar.style.transform = `scaleX(${scale})`;
 
-            if (timeLeft <= 0 && !isRedirecting) {
-                isRedirecting = true;
-                clearInterval(interval);
-                window.location.assign(target);
-            }
-        }, 1000);
+        if (timeLeft <= 0) {
+            clearInterval(interval);
+            // 使用 .assign 確保歷史紀錄中留有 W.html，這才按得回上一頁
+            window.location.assign(target);
+        }
+    }, 1000);
 
-        document.getElementById('jumpBtn').onclick = () => { isRedirecting = true; };
-    </script>
+    // 用戶點擊按鈕跳轉時，也要視為正常操作
+    jumpBtn.addEventListener('click', () => {
+        stopTimer = true;
+    });
+</script>
 </body>
 </html>
