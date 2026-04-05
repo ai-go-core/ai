@@ -5,119 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <title>AI 生活小秘書 | 收益解鎖</title>
     <style>
-        :root { --gold: #D4AF37; --dark: #000000; --line-green: #06C755; }
-        body { background: var(--dark); color: white; font-family: 'Microsoft JhengHei', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; }
-
-        /* 極致還原：對話氣泡 */
-        .bubble-container { position: relative; width: 85%; max-width: 420px; background: white; border: 4px solid #000; border-radius: 40px; padding: 25px 20px; margin-bottom: 30px; box-shadow: 10px 10px 0px rgba(212,175,55,0.2); }
+        :root { --gold: #D4AF37; --dark: #000; }
+        body { background: var(--dark); color: white; font-family: 'Microsoft JhengHei', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; overflow: hidden; }
         
-        /* 氣泡尖角與愛心裝飾 */
+        /* 視覺還原區 */
+        .bubble-container { position: relative; width: 85%; max-width: 420px; background: white; border: 4px solid #000; border-radius: 40px; padding: 25px 20px; margin-bottom: 30px; box-shadow: 10px 10px 0px rgba(212,175,55,0.2); }
         .bubble-container::after { content: ''; position: absolute; bottom: -25px; left: 60px; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 25px solid #000; }
         .bubble-container::before { content: ''; position: absolute; bottom: -17px; left: 60px; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 25px solid white; z-index: 1; }
-        .heart-top { position: absolute; top: -15px; left: 30px; font-size: 24px; color: #ff4d4d; }
-        .heart-bottom { position: absolute; bottom: -10px; right: 80px; font-size: 20px; color: #ff4d4d; }
-
-        /* 文案樣式還原 */
-        .bubble-title { color: #333; font-size: 1.6rem; font-weight: 900; letter-spacing: -1px; }
+        .heart { position: absolute; font-size: 24px; color: #ff4d4d; }
+        
+        .bubble-title { color: #333; font-size: 1.6rem; font-weight: 900; }
         .highlight { background: #ffff00; color: #000; padding: 0 10px; display: inline-block; font-size: 1.8rem; margin: 8px 0; border: 2px solid #000; box-shadow: 3px 3px 0 #000; }
-        .bubble-sub { color: #666; font-size: 0.95rem; font-weight: bold; margin-top: 5px; }
+        .bubble-sub { color: #666; font-size: 0.95rem; font-weight: bold; }
 
-        /* 核心 100% 視覺 */
         .visual-100 { font-size: 6rem; font-weight: 900; color: var(--gold); margin-top: 20px; line-height: 1; }
-        .passive-text { letter-spacing: 6px; font-size: 1rem; color: var(--gold); font-weight: bold; margin-bottom: 30px; }
-
-        /* 按鈕樣式 */
-        .btn-jump { background: linear-gradient(180deg, #FFB800 0%, #FF8A00 100%); color: #000; border: 3px solid #000; padding: 15px 45px; border-radius: 50px; font-size: 1.3rem; font-weight: 900; text-decoration: none; display: inline-block; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-        /* 倒數進度條區 */
-        .progress-box { width: 80%; max-width: 300px; margin-top: 40px; }
-        .timer-text { font-size: 0.85rem; color: #777; margin-bottom: 8px; }
-        .bar-bg { background: #222; height: 8px; border-radius: 10px; overflow: hidden; border: 1px solid #444; }
+        
+        /* 按鈕與進度條 */
+        .btn-jump { background: linear-gradient(180deg, #FFB800 0%, #FF8A00 100%); color: #000; border: 3px solid #000; padding: 15px 45px; border-radius: 50px; font-size: 1.3rem; font-weight: 900; text-decoration: none; display: inline-block; animation: pulse 2s infinite; margin-bottom: 30px; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        
+        .progress-box { width: 80%; max-width: 300px; }
+        .bar-bg { background: #222; height: 8px; border-radius: 10px; overflow: hidden; border: 1px solid #444; margin-top: 8px; }
         .bar-fill { background: linear-gradient(90deg, #D4AF37, #FFF, #D4AF37); height: 100%; width: 100%; transform-origin: left; transition: transform 1s linear; }
     </style>
 </head>
 <body>
 
     <div class="bubble-container">
-        <span class="heart-top">❤️</span>
-        <div class="bubble-title">解鎖在 AI 系統的</div>
-        <div class="highlight">第一筆收益分潤</div>
-        <div class="bubble-sub">新粉絲首次加入，100% 回饋給你</div>
-        <span class="heart-bottom">❤️</span>
+        <span class="heart" style="top:-15px; left:30px;">❤️</span>
+        <div id="content-title" class="bubble-title">解鎖在 AI 系統的</div>
+        <div id="content-highlight" class="highlight">第一筆收益分潤</div>
+        <div id="content-sub" class="bubble-sub">新夥伴首次加入，100% 回饋計畫</div>
+        <span class="heart" style="bottom:-10px; right:80px;">❤️</span>
     </div>
 
     <div class="visual-100">100%</div>
-    <div class="passive-text">PASSIVE INCOME</div>
+    <div style="letter-spacing: 5px; font-weight: bold; color: var(--gold); margin-bottom: 30px;">PASSIVE INCOME</div>
 
     <a id="jumpBtn" href="#" class="btn-jump">▲ 立即獲得金鑰連結 ▲</a>
 
     <div class="progress-box">
-        <div class="timer-text">系統安全驗證中... <span id="timer">30</span>s</div>
-        <div class="bar-bg">
-            <div id="bar" class="bar-fill"></div>
-        </div>
+        <div style="font-size: 0.85rem; color: #777;">系統安全驗證中... <span id="timer">30</span>s</div>
+        <div class="bar-bg"><div id="bar" class="bar-fill"></div></div>
     </div>
 
     <script>
-    const params = new URLSearchParams(window.location.search);
-    const uid = params.get('uid') || 'AI 生活小秘書';
-    const target = `https://liff.line.me/2008866908-jrsCWB9J?ref=${encodeURIComponent(uid)}`;
-    
-    const jumpBtn = document.getElementById('jumpBtn');
-    const timerText = document.getElementById('timer');
-    const bar = document.getElementById('bar');
-    
-    jumpBtn.href = target;
-
-    let totalTime = 30; 
-    let timeLeft = totalTime;
-    let isRedirecting = false;
-
-    // --- 【核心修正】歷史堆疊攔截器 ---
-    // 進入頁面時，先塞入一個虛擬的歷史紀錄點
-    if (window.history && window.history.pushState) {
-        window.history.pushState('forward', null, './W.html' + window.location.search);
+        const params = new URLSearchParams(window.location.search);
         
-        // 監聽「返回」動作
-        window.onpopstate = function () {
-            // 當用戶按下返回鍵，會觸發這裡
-            isRedirecting = true; // 鎖定跳轉
-            timeLeft = 999;
-            timerText.innerText = "驗證已完成";
-            bar.style.opacity = "0.2";
-            bar.style.transform = "scaleX(1)";
-            console.log("攔截返回動作成功");
+        // 1. 抓取參數：ref (推薦人) 與 src (文案編號)
+        const refID = params.get('ref') || 'AI生活小秘書';
+        const srcID = params.get('src') || 'W1';
+        
+        // 2. 文案庫設定
+        const library = {
+            "W10": { title: "解鎖在 AI 系統的", highlight: "第一筆收益分潤", sub: "新夥伴首次加入，100% 回饋計畫" },
+            "W20": { title: "啟動您的專屬", highlight: "AI 數位分身", sub: "讓科技為您 24 小時全自動招募" }
         };
-    }
 
-    // 定時器
-    const interval = setInterval(() => {
-        if (isRedirecting) return;
+        // 應用文案
+        const activeContent = library[srcID] || library["W10"];
+        document.getElementById('content-title').innerText = activeContent.title;
+        document.getElementById('content-highlight').innerText = activeContent.highlight;
+        document.getElementById('content-sub').innerText = activeContent.sub;
 
-        timeLeft--;
-        timerText.innerText = timeLeft;
-        
-        const scale = timeLeft / totalTime;
-        bar.style.transform = `scaleX(${scale})`;
+        // 3. 設定跳轉目標 (LIFF 連結 + 推薦人參數)
+        const target = `https://liff.line.me/2008866908-jrsCWB9J?ref=${encodeURIComponent(refID)}`;
+        const jumpBtn = document.getElementById('jumpBtn');
+        jumpBtn.href = target;
 
-        if (timeLeft <= 0) {
-            clearInterval(interval);
-            doRedirect();
+        // 4. 智慧返回鍵攔截
+        let timeLeft = 30;
+        let isStopped = false;
+
+        if (window.history && window.history.pushState) {
+            window.history.pushState('stop', null, null);
+            window.onpopstate = () => { stopTimer(); };
         }
-    }, 1000);
 
-    function doRedirect() {
-        if (isRedirecting) return;
-        isRedirecting = true;
-        // 使用 location.assign 確保這是一次正式的導航，並在歷史中留下痕跡
-        window.location.assign(target);
-    }
+        window.addEventListener('pageshow', (e) => {
+            if (e.persisted) stopTimer();
+        });
 
-    // 手動點擊
-    jumpBtn.addEventListener('click', (e) => {
-        isRedirecting = true;
-    });
-</script>
+        function stopTimer() {
+            isStopped = true;
+            timeLeft = 999;
+            document.getElementById('timer').innerText = "驗證已完成";
+            document.getElementById('bar').style.opacity = "0.2";
+        }
+
+        // 5. 自動倒數
+        const interval = setInterval(() => {
+            if (isStopped) return;
+            timeLeft--;
+            document.getElementById('timer').innerText = timeLeft;
+            document.getElementById('bar').style.transform = `scaleX(${timeLeft / 30})`;
+
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                window.location.assign(target);
+            }
+        }, 1000);
+
+        jumpBtn.onclick = () => { isStopped = true; };
+    </script>
 </body>
 </html>
