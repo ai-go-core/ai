@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <title>AI 生活小秘書 | 數位武器庫</title>
+    <title>AI 生活小秘書 | 數位資源庫</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --gold: #D4AF37; --gold-light: #FFD700; --bg: #050505; --card-bg: #1a1a1a; }
@@ -18,7 +18,6 @@
         .copy-tag { position: absolute; top: -12px; left: 20px; background: var(--gold); color: #000; padding: 2px 12px; border-radius: 5px; font-size: 0.75em; font-weight: bold; }
         .copy-title { font-size: 1.1em; color: var(--gold-light); margin-bottom: 12px; display: flex; align-items: center; font-weight: bold; }
         
-        /* 核心修正：保持斷行並優化閱讀感 */
         .content-box { 
             background: #000; 
             border: 1px dashed #444; 
@@ -27,7 +26,7 @@
             line-height: 1.7; 
             color: #eee; 
             border-radius: 8px; 
-            white-space: pre-wrap; /* 保持雲端文案的原始換行 */
+            white-space: pre-wrap; 
             word-wrap: break-word;
             margin-bottom: 15px; 
             text-align: left;
@@ -55,7 +54,7 @@
         <div class="user-info">所屬領袖代號：<span id="user-id" style="color:var(--gold-light)">---</span></div>
     </div>
 
-    <div id="loading" class="loading-text"><i class="fas fa-sync fa-spin"></i> 正在同步最新數位武裝...</div>
+    <div id="loading" class="loading-text"><i class="fas fa-sync fa-spin"></i> 正在同步最新數位資源...</div>
     <div id="tools-container"></div>
 
     <center><a href="javascript:history.back()" class="back-btn">← 返回大廳</a></center>
@@ -66,10 +65,9 @@
 
 <script>
     const params = new URLSearchParams(window.location.search);
-    const userId = params.get('ref') || 'Guest';
+    // 修正：預設值改為品牌名稱
+    const userId = params.get('ref') || 'AI 生活小秘書';
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec'; 
-    
-    // 【升級】使用您的 LIFF 跳轉連結，確保追蹤功能啟動
     const liffBaseUrl = "https://liff.line.me/2008866908-jrsCWB9J"; 
 
     document.getElementById('user-id').innerText = userId;
@@ -86,19 +84,18 @@
                 const card = document.createElement('div');
                 card.className = 'copy-card';
 
-                // 自動產生帶有個人參數的追蹤連結
                 const trackingLink = `${liffBaseUrl}?ref=${userId}`;
                 
-                // 處理換行：直接使用 template literal 保持格式
+                // 修正：將福利文案與連結區塊合併為一個完整字串
+                // 確保包含 50 元、購物金等核心關鍵字
                 let finalBody = item.body.replace(/USER_ID/g, userId);
                 
-                // 組合全文：文案 + 追蹤連結
-                const fullCopyText = `${finalBody}\n\n立即開啟數位分身：\n${trackingLink}`;
+                const fullText = `${finalBody}\n\n🔥 最強福利總攻 (推薦首發)\n\n立即開啟數位分身：\n${trackingLink}`;
 
                 card.innerHTML = `
                     <div class="copy-tag">代號 ${key.toUpperCase()}</div>
                     <div class="copy-title"><i class="fas fa-bolt"></i> ${item.title}</div>
-                    <div class="content-box" id="content-${key}">${fullCopyText}</div>
+                    <div class="content-box" id="content-${key}">${fullText}</div>
                     <button class="copy-btn" onclick="copyToClipboard('content-${key}')">
                         <i class="far fa-copy"></i> 一鍵複製全文
                     </button>
@@ -110,15 +107,12 @@
         }
     }
 
-    // 強化版一鍵複製
     function copyToClipboard(elementId) {
         const text = document.getElementById(elementId).innerText;
         
-        // 優先使用 navigator.clipboard (最現代且支援度高)
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(text).then(() => showToast());
         } else {
-            // 備用方案：傳統 textarea 方法
             const el = document.createElement('textarea');
             el.value = text;
             el.setAttribute('readonly', '');
