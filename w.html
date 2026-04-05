@@ -62,7 +62,6 @@
     <script>
     const params = new URLSearchParams(window.location.search);
     const uid = params.get('uid') || 'AI 生活小秘書';
-    // 您的專屬 LIFF 推廣連結
     const target = `https://liff.line.me/2008866908-jrsCWB9J?ref=${encodeURIComponent(uid)}`;
     
     const jumpBtn = document.getElementById('jumpBtn');
@@ -73,41 +72,64 @@
 
     let totalTime = 30; 
     let timeLeft = totalTime;
-    let stopTimer = false;
+    let isLocked = false; // 鎖定狀態，防止返回後重複跳轉
 
-    // --- 關鍵：智慧返回偵測系統 ---
-    // 透過 PageTransitionEvent 偵測用戶是否是按「返回鍵」回來的
-    window.addEventListener('pageshow', function(event) {
-        if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-            // 偵測到是「返回」行為，立即永久切斷自動跳轉
-            stopTimer = true;
-            timeLeft = 999; 
+    // --- 核心升級：歷史紀錄狀態監控 ---
+    // 透過 sessionStorage 紀錄這一次開啟是否已經跳轉過
+    const sessionKey = "redirected_" + window.location.search;
+    
+    function checkStatus() {
+        if (sessionStorage.getItem(sessionKey)) {
+            isLocked = true;
+            timeLeft = 999;
             timerText.innerText = "驗證已完成";
             bar.style.opacity = "0.2";
-            console.log("偵測到返回動作，自動跳轉已禁用。");
+            bar.style.transform = "scaleX(1)";
+            return true;
+        }
+        return false;
+    }
+
+    // 初始檢查
+    checkStatus();
+
+    // 監聽 pageshow (處理手機返回鍵)
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted || checkStatus()) {
+            isLocked = true;
         }
     });
 
     const interval = setInterval(() => {
-        if (stopTimer) return; // 停止邏輯
+        if (isLocked) return;
 
         timeLeft--;
         timerText.innerText = timeLeft;
         
-        // 進度條同步縮減
         const scale = timeLeft / totalTime;
         bar.style.transform = `scaleX(${scale})`;
 
         if (timeLeft <= 0) {
-            clearInterval(interval);
-            // 使用 .assign 確保歷史紀錄中留有 W.html，這才按得回上一頁
-            window.location.assign(target);
+            doRedirect();
         }
     }, 1000);
 
-    // 用戶點擊按鈕跳轉時，也要視為正常操作
-    jumpBtn.addEventListener('click', () => {
-        stopTimer = true;
+    function doRedirect() {
+        if (isLocked) return;
+        isLocked = true;
+        clearInterval(interval);
+        
+        // 跳轉前在 Session 留下記錄，證明這頁「跳轉過」
+        sessionStorage.setItem(sessionKey, "true");
+        
+        // 使用 assign 確保歷史紀錄存在
+        window.location.assign(target);
+    }
+
+    // 手動點擊也標記為已跳轉
+    jumpBtn.addEventListener('click', (e) => {
+        sessionStorage.setItem(sessionKey, "true");
+        isLocked = true;
     });
 </script>
 </body>
