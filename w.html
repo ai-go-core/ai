@@ -66,34 +66,52 @@
     </div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const uid = params.get('uid') || 'AI 生活小秘書';
-        // 目標連結
-        const target = `https://liff.line.me/2008866908-jrsCWB9J?ref=${encodeURIComponent(uid)}`;
-        
-        // 設定按鈕連結
-        document.getElementById('jumpBtn').href = target;
+    const params = new URLSearchParams(window.location.search);
+    const uid = params.get('uid') || 'AI 生活小秘書';
+    const target = `https://liff.line.me/2008866908-jrsCWB9J?ref=${encodeURIComponent(uid)}`;
+    
+    document.getElementById('jumpBtn').href = target;
 
-        // 設定 30 秒倒數
-        let totalTime = 30; 
-        let timeLeft = totalTime;
-        
-        const timerText = document.getElementById('timer');
-        const bar = document.getElementById('bar');
+    let totalTime = 30; 
+    let timeLeft = totalTime;
+    let isRedirecting = false; // 防止重複跳轉標記
+    
+    const timerText = document.getElementById('timer');
+    const bar = document.getElementById('bar');
 
-        const interval = setInterval(() => {
-            timeLeft--;
-            timerText.innerText = timeLeft;
+    // 核心功能：檢查是否是「按返回鍵」回來的
+    // 如果是返回回來的，我們暫停自動倒數，讓用戶可以慢慢看
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            // event.persisted 為 true 代表是從快取（返回鍵）載入的
+            timeLeft = 999; // 實質上停止自動倒數
+            timerText.innerText = "已暫停";
+            bar.style.display = "none"; 
+        }
+    };
+
+    const interval = setInterval(() => {
+        if (timeLeft > totalTime) return; // 如果已暫停則不執行
+
+        timeLeft--;
+        timerText.innerText = timeLeft;
+        
+        const scale = timeLeft / totalTime;
+        bar.style.transform = `scaleX(${scale})`;
+
+        if (timeLeft <= 0 && !isRedirecting) {
+            isRedirecting = true;
+            clearInterval(interval);
             
-            // 進度條比例計算
-            const scale = timeLeft / totalTime;
-            bar.style.transform = `scaleX(${scale})`;
+            // 使用 window.location.assign 確保歷史紀錄被正確保留
+            window.location.assign(target);
+        }
+    }, 1000);
 
-            if (timeLeft <= 0) {
-                clearInterval(interval);
-                window.location.href = target;
-            }
-        }, 1000);
-    </script>
+    // 點擊按鈕時也標記為正在跳轉
+    document.getElementById('jumpBtn').onclick = function() {
+        isRedirecting = true;
+    };
+</script>
 </body>
 </html>
