@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>正在認證數位身分...</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 50px; font-family: sans-serif;">
+        <p>數位身分認證中，請稍候...</p>
+    </div>
+
+    <script>
+        async function main() {
+            try {
+                // 1. 初始化 LIFF
+                await liff.init({ liffId: "2008866908-jrsCWB9J" }); 
+
+                if (!liff.isLoggedIn()) {
+                    liff.login(); 
+                } else {
+                    const profile = await liff.getProfile();
+                    const newUserId = profile.userId;
+
+                    const params = new URLSearchParams(window.location.search);
+                    const referrerId = params.get('ref') || '系統總部';
+
+                    // 2. 【核心技術】發送 API 給 GAS (加入 no-cors 確保順利執行)
+                    const gasApi = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
+                    
+                    // 使用 fetch 但不等待回應（背景執行），直接進行跳轉
+                    fetch(`${gasApi}?action=bindReferrer&uid=${newUserId}&ref=${referrerId}`, {
+                        mode: 'no-cors'
+                    });
+
+                    // 3. 延遲一小段時間確保請求發出後，自動跳轉
+                    setTimeout(() => {
+                        window.location.href = "https://line.me/ti/p/@641zpzus";
+                    }, 500);
+                }
+            } catch (err) {
+                console.error("LIFF Error:", err);
+                // 發生錯誤時仍嘗試引導至 LINE
+                window.location.href = "https://line.me/ti/p/@641zpzus";
+            }
+        }
+        main();
+    </script>
+</body>
+</html>
