@@ -69,7 +69,9 @@
         document.getElementById('content-sub').innerText = activeContent.sub;
 
         // 3. 設定跳轉目標 (LIFF 連結 + 推薦人參數)
-        const target = `https://liff.line.me/2008866908-jrsCWB9J?ref=${encodeURIComponent(refID)}`;
+        // 新版：使用 liff.state 格式，這能確保加入好友時參數不遺失
+const liffID = "2008866908-jrsCWB9J"; 
+const target = `https://liff.line.me/${liffID}?ref=${encodeURIComponent(refID)}&src=${srcID}`;
         const jumpBtn = document.getElementById('jumpBtn');
         jumpBtn.href = target;
 
