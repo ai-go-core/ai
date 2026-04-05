@@ -69,9 +69,12 @@
     document.getElementById('content-sub').innerText = activeContent.sub;
 
     // 3. 設定跳轉目標 (LINE 原生協議)
-    const LINE_OFFICIAL_ID = "@641zpzus"; 
-    const target = `https://line.me/R/ti/p/${LINE_OFFICIAL_ID}?ref=${refID}&utm_source=${srcID}`;
+    // 3. 設定跳轉目標 (使用 LINE 官方特定的參數路徑)
+const LINE_OFFICIAL_ID = "641zpzus"; // 不加 @
 
+// 使用 /oaMessage/ 或是原生協議來強化參數傳遞
+const target = `https://line.me/R/oaMessage/@${LINE_OFFICIAL_ID}/?ref=${refID}`;
+// 或者維持原樣，但在 GAS 端加入「字串暴力掃描」(見下文)
     const jumpBtn = document.getElementById('jumpBtn');
     jumpBtn.href = target;
 
