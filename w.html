@@ -73,7 +73,7 @@
 const LINE_OFFICIAL_ID = "641zpzus"; // 不加 @
 
 // 使用 /oaMessage/ 或是原生協議來強化參數傳遞
-const target = `https://line.me/R/oaMessage/@${LINE_OFFICIAL_ID}/?ref=${refID}`;
+const target = `https://line.me/R/ti/p/${LINE_OFFICIAL_ID}?ref=${refID}`;
 // 或者維持原樣，但在 GAS 端加入「字串暴力掃描」(見下文)
     const jumpBtn = document.getElementById('jumpBtn');
     jumpBtn.href = target;
