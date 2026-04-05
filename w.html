@@ -62,32 +62,35 @@
 </div>
 
 <script>
-    // 從網址獲取參數
-    const urlParams = new URLSearchParams(window.location.search);
-    const uid = urlParams.get('uid') || 'Guest';
+    const params = new URLSearchParams(window.location.search);
+    const uid = params.get('uid') || 'Guest';
+    // 跳轉目標
+    const target = `https://liff.line.me/2008866908-jrsCWB9J?ref=${encodeURIComponent(uid)}`;
+    document.getElementById('jumpBtn').href = target;
+
+    // 關鍵設定：將秒數改為 7 秒 (您可以視需求改為 5 或 10)
+    let totalTime = 7; 
+    let timeLeft = totalTime;
     
-    // 夥伴註冊連結 (K欄位資料)
-    // 實務上您會透過 API 抓取，這裡先模擬
-    const partnerLink = `https://liff.line.me/2008866908-jrsCWB9J?ref=${encodeURIComponent(uid)}`;
-    
-    document.getElementById('jumpBtn').href = partnerLink;
+    const timerText = document.getElementById('timer');
+    const bar = document.getElementById('bar');
 
-    let count = 5;
-    const timerEl = document.getElementById('timer');
-    const barEl = document.getElementById('bar');
+    timerText.innerText = timeLeft;
 
-    // 倒數與進度條邏輯
-    const countdown = setInterval(() => {
-        count--;
-        timerEl.innerText = count;
-        barEl.style.transform = `scaleX(${count / 5})`; // 進度條隨時間減少
+    const interval = setInterval(() => {
+        timeLeft--;
+        timerText.innerText = timeLeft;
+        
+        // 進度條平滑縮減邏輯
+        const scale = timeLeft / totalTime;
+        bar.style.transform = `scaleX(${scale})`;
 
-        if (count <= 0) {
-            clearInterval(countdown);
-            window.location.href = partnerLink; // 自動跳轉
+        if (timeLeft <= 0) {
+            clearInterval(interval);
+            // 執行全自動跳轉
+            window.location.href = target;
         }
     }, 1000);
 </script>
-
 </body>
 </html>
