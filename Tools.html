@@ -65,6 +65,7 @@
 
 <script>
     const params = new URLSearchParams(window.location.search);
+    // 預設代號：AI 生活小秘書
     const userId = params.get('ref') || 'AI 生活小秘書';
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec'; 
     const liffBaseUrl = "https://liff.line.me/2008866908-jrsCWB9J"; 
@@ -83,22 +84,25 @@
                 const card = document.createElement('div');
                 card.className = 'copy-card';
 
-                // 修正：針對中文名稱進行 URL 編碼，避免連結失效
+                // 進行 URL 編碼確保連結完整性
                 const safeRef = encodeURIComponent(userId);
                 const trackingLink = `${liffBaseUrl}?ref=${safeRef}`;
                 
-                // 修正：直接使用雲端原始文案，不再手動重複添加標題
+                // 1. 取得雲端原始文案並替換 ID
                 let finalBody = item.body.replace(/USER_ID/g, userId);
                 
-                // 組合全文：文案 + 連結區（只保留必要的標註）
+                // 2. 組合全文：主文案 (內含標題) + 底部連結區塊
+                // 移除了重複的 "🔥 最強福利總攻" 字樣
                 const fullText = `${finalBody}\n\n立即開啟數位分身：\n${trackingLink}`;
 
                 card.innerHTML = `
                     <div class="copy-tag">代號 ${key.toUpperCase()}</div>
                     <div class="copy-title"><i class="fas fa-bolt"></i> ${item.title}</div>
+                    
                     <div class="content-box" id="content-${key}">${fullText}</div>
+                    
                     <button class="copy-btn" onclick="copyToClipboard('content-${key}')">
-                        <i class="far fa-copy"></i> 一鍵複製全文
+                        <i class="far fa-copy"></i> 一鍵複製全文內容
                     </button>
                 `;
                 container.appendChild(card);
