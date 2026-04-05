@@ -3,44 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> </title> <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <title>&#8205;</title> <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
-        /* 全黑背景，移除所有視覺元素 */
-        body { background: #000000; margin: 0; padding: 0; height: 100vh; overflow: hidden; }
+        /* 強制全黑背景，隱藏滾動條，確保視覺純淨 */
+        html, body { 
+            background: #000000 !important; 
+            margin: 0; 
+            padding: 0; 
+            width: 100vw;
+            height: 100vh; 
+            overflow: hidden;
+            -webkit-user-select: none;
+        }
     </style>
 </head>
 <body>
     <script>
         async function main() {
             try {
-                // 1. 初始化 LIFF (使用您的追蹤跳板 ID)
+                // 1. 初始化 LIFF
                 await liff.init({ liffId: "2008866908-jrsCWB9J" }); 
 
                 if (!liff.isLoggedIn()) {
-                    // 若未登入，靜默引導至登入 (會保持 ref 參數)
                     liff.login({ redirectUri: window.location.href }); 
                 } else {
                     const profile = await liff.getProfile();
-                    const newUserId = profile.userId;
-
-                    // 2. 自動識別網址中的推薦人變數 (如 ref=jack197775)
                     const params = new URLSearchParams(window.location.search);
                     const referrerId = params.get('ref') || '系統總部';
 
-                    // 3. 發射 API 給 GAS 進行關係鎖定 (背景執行)
+                    // 2. 背景發送 API 請求給 GAS
                     const gasApi = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
                     
-                    fetch(`${gasApi}?action=bindReferrer&uid=${newUserId}&ref=${referrerId}&t=${Date.now()}`, {
+                    fetch(`${gasApi}?action=bindReferrer&uid=${profile.userId}&ref=${referrerId}&t=${Date.now()}`, {
                         mode: 'no-cors'
                     });
 
-                    // 4. 閃電跳轉：僅保留 100ms 確保請求發出
+                    // 3. 物理極限跳轉 (50-100ms 觸發)
                     setTimeout(() => {
                         window.location.replace("https://line.me/ti/p/@641zpzus");
-                    }, 100); 
+                    }, 50); 
                 }
             } catch (err) {
-                // 遇錯立馬進入 LINE@，不留痕跡
                 window.location.replace("https://line.me/ti/p/@641zpzus");
             }
         }
