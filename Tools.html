@@ -50,7 +50,7 @@
 
 <div class="container">
     <div class="header">
-        <h1>⚔️ 數位武器庫</h1>
+        <h1>☆ 數位資源庫</h1>
         <div class="user-info">所屬領袖代號：<span id="user-id" style="color:var(--gold-light)">---</span></div>
     </div>
 
@@ -65,7 +65,6 @@
 
 <script>
     const params = new URLSearchParams(window.location.search);
-    // 修正：預設值改為品牌名稱
     const userId = params.get('ref') || 'AI 生活小秘書';
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec'; 
     const liffBaseUrl = "https://liff.line.me/2008866908-jrsCWB9J"; 
@@ -84,13 +83,15 @@
                 const card = document.createElement('div');
                 card.className = 'copy-card';
 
-                const trackingLink = `${liffBaseUrl}?ref=${userId}`;
+                // 修正：針對中文名稱進行 URL 編碼，避免連結失效
+                const safeRef = encodeURIComponent(userId);
+                const trackingLink = `${liffBaseUrl}?ref=${safeRef}`;
                 
-                // 修正：將福利文案與連結區塊合併為一個完整字串
-                // 確保包含 50 元、購物金等核心關鍵字
+                // 修正：直接使用雲端原始文案，不再手動重複添加標題
                 let finalBody = item.body.replace(/USER_ID/g, userId);
                 
-                const fullText = `${finalBody}\n\n🔥 最強福利總攻 (推薦首發)\n\n立即開啟數位分身：\n${trackingLink}`;
+                // 組合全文：文案 + 連結區（只保留必要的標註）
+                const fullText = `${finalBody}\n\n立即開啟數位分身：\n${trackingLink}`;
 
                 card.innerHTML = `
                     <div class="copy-tag">代號 ${key.toUpperCase()}</div>
@@ -134,6 +135,5 @@
 
     window.onload = fetchTools;
 </script>
-
 </body>
 </html>
