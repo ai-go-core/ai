@@ -1,53 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html style="background:#000">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>&#8205;</title> <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-    <style>
-        /* 強制全黑背景，隱藏滾動條，確保視覺純淨 */
-        html, body { 
-            background: #000000 !important; 
-            margin: 0; 
-            padding: 0; 
-            width: 100vw;
-            height: 100vh; 
-            overflow: hidden;
-            -webkit-user-select: none;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>&#8205;</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <style>body{background:#000;margin:0;padding:0;overflow:hidden;height:100vh}</style>
 </head>
 <body>
-    <script>
-        async function main() {
-            try {
-                // 1. 初始化 LIFF
-                await liff.init({ liffId: "2008866908-jrsCWB9J" }); 
-
-                if (!liff.isLoggedIn()) {
-                    liff.login({ redirectUri: window.location.href }); 
-                } else {
-                    const profile = await liff.getProfile();
-                    const params = new URLSearchParams(window.location.search);
-                    const referrerId = params.get('ref') || '系統總部';
-
-                    // 2. 背景發送 API 請求給 GAS
-                    const gasApi = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
-                    
-                    fetch(`${gasApi}?action=bindReferrer&uid=${profile.userId}&ref=${referrerId}&t=${Date.now()}`, {
-                        mode: 'no-cors'
-                    });
-
-                    // 3. 物理極限跳轉 (50-100ms 觸發)
-                    setTimeout(() => {
-                        window.location.replace("https://line.me/ti/p/@641zpzus");
-                    }, 50); 
-                }
-            } catch (err) {
-                window.location.replace("https://line.me/ti/p/@641zpzus");
+<script>
+async function main(){
+    try{
+        await liff.init({liffId:"2008866908-jrsCWB9J"});
+        if(!liff.isLoggedIn()){
+            liff.login({redirectUri:window.location.href});
+        }else{
+            const p = await liff.getProfile();
+            const r = new URLSearchParams(window.location.search).get('ref')||'系統總部';
+            const api = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
+            
+            // 使用更輕量的背景傳送方式
+            const url = api+"?action=bindReferrer&uid="+p.userId+"&ref="+r+"&t="+Date.now();
+            if(navigator.sendBeacon){
+                navigator.sendBeacon(url);
+            }else{
+                fetch(url,{mode:'no-cors'});
             }
+
+            // 物理極限：幾乎不等待，發出請求後立即切換
+            window.location.replace("https://line.me/ti/p/@641zpzus");
         }
-        main();
-    </script>
+    }catch(e){
+        window.location.replace("https://line.me/ti/p/@641zpzus");
+    }
+}
+main();
+</script>
 </body>
 </html>
