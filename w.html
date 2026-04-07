@@ -13,13 +13,14 @@
         .bubble-container::before { content: ''; position: absolute; bottom: -17px; left: 60px; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 25px solid white; z-index: 1; }
         .heart { position: absolute; font-size: 24px; color: #ff4d4d; }
         
-        .bubble-title { color: #333; font-size: 1.6rem; font-weight: 900; }
+        .bubble-title { color: #333; font-size: 1.4rem; font-weight: 900; line-height: 1.4; }
         .highlight { background: #ffff00; color: #000; padding: 0 10px; display: inline-block; font-size: 1.8rem; margin: 8px 0; border: 2px solid #000; box-shadow: 3px 3px 0 #000; }
-        .bubble-sub { color: #666; font-size: 0.95rem; font-weight: bold; }
+        .bubble-extra { color: #d63031; font-size: 1.1rem; font-weight: 900; margin: 5px 0; }
+        .bubble-sub { color: #666; font-size: 0.85rem; font-weight: bold; line-height: 1.5; margin-top: 5px; }
 
         .visual-100 { font-size: 6rem; font-weight: 900; color: var(--gold); margin-top: 20px; line-height: 1; }
         
-        .btn-jump { background: linear-gradient(180deg, #FFB800 0%, #FF8A00 100%); color: #000; border: 3px solid #000; padding: 15px 45px; border-radius: 50px; font-size: 1.3rem; font-weight: 900; text-decoration: none; display: inline-block; animation: pulse 2s infinite; margin-bottom: 30px; cursor: pointer; }
+        .btn-jump { background: linear-gradient(180deg, #FFB800 0%, #FF8A00 100%); color: #000; border: 3px solid #000; padding: 15px 35px; border-radius: 50px; font-size: 1.3rem; font-weight: 900; text-decoration: none; display: inline-block; animation: pulse 2s infinite; margin-bottom: 30px; cursor: pointer; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         
         .progress-box { width: 80%; max-width: 300px; }
@@ -33,6 +34,7 @@
         <span class="heart" style="top:-15px; left:30px;">❤️</span>
         <div id="content-title" class="bubble-title">載入中...</div>
         <div id="content-highlight" class="highlight">請稍候</div>
+        <div id="content-extra" class="bubble-extra"></div>
         <div id="content-sub" class="bubble-sub">系統正在安全驗證</div>
         <span class="heart" style="bottom:-10px; right:80px;">❤️</span>
     </div>
@@ -40,36 +42,42 @@
     <div class="visual-100">100%</div>
     <div style="letter-spacing: 5px; font-weight: bold; color: var(--gold); margin-bottom: 30px;">PASSIVE INCOME</div>
 
-    <a id="jumpBtn" class="btn-jump">▲ 立即獲得金鑰連結 ▲</a>
+    <a id="jumpBtn" class="btn-jump">▲ 立即獲得專屬連結 ▲</a>
 
     <div class="progress-box">
-        <div style="font-size: 0.85rem; color: #777;">系統安全驗證中... <span id="timer">30</span>s</div>
+        <div style="font-size: 0.85rem; color: #777;">自動跳轉倒數計時....<span id="timer">30</span>S</div>
         <div class="bar-bg"><div id="bar" class="bar-fill"></div></div>
     </div>
 
     <script>
-        // 1. 初始化參數
         const params = new URLSearchParams(window.location.search);
         const refID = params.get('ref') || 'System';
         const srcID = params.get('src') || 'W10';
         
-        // 2. 文案庫設定
         const library = {
-            "W10": { title: "解鎖在 AI 系統的", highlight: "第一筆收益分潤", sub: "新夥伴首次加入，100% 回饋計畫" },
-            "W20": { title: "啟動您的專屬", highlight: "AI 數位分身", sub: "讓科技為您 24 小時全自動招募" }
+            "W10": { 
+                title: "解鎖讓家庭日用品開銷", 
+                highlight: "變成 創收式消費", 
+                extra: "日用消費賺現金 買啥都賺錢",
+                sub: "免年費．註冊送50元購物金‧推薦朋友消費再送99元" 
+            },
+            "W20": { 
+                title: "啟動您的專屬", 
+                highlight: "AI 數位分身", 
+                extra: "24 小時全自動招募系統",
+                sub: "科技為您工作，讓收入持續自動翻倍" 
+            }
         };
 
-        // 3. 渲染內容
         const activeContent = library[srcID] || library["W10"];
         document.getElementById('content-title').innerText = activeContent.title;
         document.getElementById('content-highlight').innerText = activeContent.highlight;
+        document.getElementById('content-extra').innerText = activeContent.extra;
         document.getElementById('content-sub').innerText = activeContent.sub;
 
-        // 4. 設定跳轉路徑 (導向 rules.html)
         const targetUrl = `https://ai-go-core.github.io/ai/rules.html?ref=${encodeURIComponent(refID)}&src=${encodeURIComponent(srcID)}`;
         const jumpBtn = document.getElementById('jumpBtn');
 
-        // 5. 倒數計時與自動跳轉
         let timeLeft = 30;
         let isStopped = false;
 
@@ -85,14 +93,12 @@
             }
         }, 1000);
 
-        // 6. 手動點擊事件
         jumpBtn.addEventListener('click', function(e) {
             e.preventDefault();
             isStopped = true;
             window.location.href = targetUrl;
         });
 
-        // 7. 防止使用者按返回鍵流失流量
         if (window.history && window.history.pushState) {
             window.history.pushState('forward', null, null);
             window.onpopstate = function() {
