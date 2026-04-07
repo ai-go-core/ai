@@ -1,49 +1,105 @@
-<script>
-    const params = new URLSearchParams(window.location.search);
-    
-    // 1. 抓取並清理參數
-    const rawRef = params.get('ref') || 'System';
-    const refID = decodeURIComponent(rawRef).replace(/\s/g, ''); // 清除空格
-    const srcID = params.get('src') || 'W10';
-    
-    // 2. 文案庫設定 (維持您的原本設定)
-    const library = {
-        "W10": { title: "解鎖在 AI 系統的", highlight: "第一筆收益分潤", sub: "新夥伴首次加入，100% 回饋計畫" },
-        "W20": { title: "啟動您的專屬", highlight: "AI 數位分身", sub: "讓科技為您 24 小時全自動招募" }
-    };
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>AI 生活小秘書 | 收益解鎖</title>
+    <style>
+        :root { --gold: #D4AF37; --dark: #000; }
+        body { background: var(--dark); color: white; font-family: 'Microsoft JhengHei', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; overflow: hidden; }
+        
+        .bubble-container { position: relative; width: 85%; max-width: 420px; background: white; border: 4px solid #000; border-radius: 40px; padding: 25px 20px; margin-bottom: 30px; box-shadow: 10px 10px 0px rgba(212,175,55,0.2); }
+        .bubble-container::after { content: ''; position: absolute; bottom: -25px; left: 60px; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 25px solid #000; }
+        .bubble-container::before { content: ''; position: absolute; bottom: -17px; left: 60px; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 25px solid white; z-index: 1; }
+        .heart { position: absolute; font-size: 24px; color: #ff4d4d; }
+        
+        .bubble-title { color: #333; font-size: 1.6rem; font-weight: 900; }
+        .highlight { background: #ffff00; color: #000; padding: 0 10px; display: inline-block; font-size: 1.8rem; margin: 8px 0; border: 2px solid #000; box-shadow: 3px 3px 0 #000; }
+        .bubble-sub { color: #666; font-size: 0.95rem; font-weight: bold; }
 
-    const activeContent = library[srcID] || library["W10"];
-    document.getElementById('content-title').innerText = activeContent.title;
-    document.getElementById('content-highlight').innerText = activeContent.highlight;
-    document.getElementById('content-sub').innerText = activeContent.sub;
+        .visual-100 { font-size: 6rem; font-weight: 900; color: var(--gold); margin-top: 20px; line-height: 1; }
+        
+        .btn-jump { background: linear-gradient(180deg, #FFB800 0%, #FF8A00 100%); color: #000; border: 3px solid #000; padding: 15px 45px; border-radius: 50px; font-size: 1.3rem; font-weight: 900; text-decoration: none; display: inline-block; animation: pulse 2s infinite; margin-bottom: 30px; cursor: pointer; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        
+        .progress-box { width: 80%; max-width: 300px; }
+        .bar-bg { background: #222; height: 8px; border-radius: 10px; overflow: hidden; border: 1px solid #444; margin-top: 8px; }
+        .bar-fill { background: linear-gradient(90deg, #D4AF37, #FFF, #D4AF37); height: 100%; width: 100%; transform-origin: left; transition: transform 1s linear; }
+    </style>
+</head>
+<body>
 
-    // 3. 設定跳轉目標：導向規則說明頁
-    // 將流量從原本的 LINE@ 轉向到 rules.html，並帶上推薦人 ID
-    const target = `https://ai-go-core.github.io/ai/rules.html?ref=${refID}&src=${srcID}`;
-    
-    const jumpBtn = document.getElementById('jumpBtn');
-    jumpBtn.href = target;
+    <div class="bubble-container">
+        <span class="heart" style="top:-15px; left:30px;">❤️</span>
+        <div id="content-title" class="bubble-title">載入中...</div>
+        <div id="content-highlight" class="highlight">請稍候</div>
+        <div id="content-sub" class="bubble-sub">系統正在安全驗證</div>
+        <span class="heart" style="bottom:-10px; right:80px;">❤️</span>
+    </div>
 
-    // 4. 倒數邏輯 (與原本一致)
-    let timeLeft = 30;
-    let isStopped = false;
+    <div class="visual-100">100%</div>
+    <div style="letter-spacing: 5px; font-weight: bold; color: var(--gold); margin-bottom: 30px;">PASSIVE INCOME</div>
 
-    const interval = setInterval(() => {
-        if (isStopped) return;
-        timeLeft--;
-        document.getElementById('timer').innerText = timeLeft;
-        document.getElementById('bar').style.transform = `scaleX(${timeLeft / 30})`;
+    <a id="jumpBtn" class="btn-jump">▲ 立即獲得金鑰連結 ▲</a>
 
-        if (timeLeft <= 0) {
-            clearInterval(interval);
-            window.location.assign(target);
+    <div class="progress-box">
+        <div style="font-size: 0.85rem; color: #777;">系統安全驗證中... <span id="timer">30</span>s</div>
+        <div class="bar-bg"><div id="bar" class="bar-fill"></div></div>
+    </div>
+
+    <script>
+        // 1. 初始化參數
+        const params = new URLSearchParams(window.location.search);
+        const refID = params.get('ref') || 'System';
+        const srcID = params.get('src') || 'W10';
+        
+        // 2. 文案庫設定
+        const library = {
+            "W10": { title: "解鎖在 AI 系統的", highlight: "第一筆收益分潤", sub: "新夥伴首次加入，100% 回饋計畫" },
+            "W20": { title: "啟動您的專屬", highlight: "AI 數位分身", sub: "讓科技為您 24 小時全自動招募" }
+        };
+
+        // 3. 渲染內容
+        const activeContent = library[srcID] || library["W10"];
+        document.getElementById('content-title').innerText = activeContent.title;
+        document.getElementById('content-highlight').innerText = activeContent.highlight;
+        document.getElementById('content-sub').innerText = activeContent.sub;
+
+        // 4. 設定跳轉路徑 (導向 rules.html)
+        const targetUrl = `https://ai-go-core.github.io/ai/rules.html?ref=${encodeURIComponent(refID)}&src=${encodeURIComponent(srcID)}`;
+        const jumpBtn = document.getElementById('jumpBtn');
+
+        // 5. 倒數計時與自動跳轉
+        let timeLeft = 30;
+        let isStopped = false;
+
+        const countdown = setInterval(() => {
+            if (isStopped) return;
+            timeLeft--;
+            document.getElementById('timer').innerText = timeLeft;
+            document.getElementById('bar').style.transform = `scaleX(${timeLeft / 30})`;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                window.location.href = targetUrl;
+            }
+        }, 1000);
+
+        // 6. 手動點擊事件
+        jumpBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            isStopped = true;
+            window.location.href = targetUrl;
+        });
+
+        // 7. 防止使用者按返回鍵流失流量
+        if (window.history && window.history.pushState) {
+            window.history.pushState('forward', null, null);
+            window.onpopstate = function() {
+                isStopped = true;
+                window.history.pushState('forward', null, null);
+            };
         }
-    }, 1000);
-
-    // 手動點擊立即跳轉
-    jumpBtn.onclick = (e) => {
-        isStopped = true;
-        window.location.href = target;
-        return false;
-    };
-</script>
+    </script>
+</body>
+</html>
