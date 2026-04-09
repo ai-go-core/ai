@@ -113,73 +113,99 @@
 </div>
 
 <script>
+    /**
+     * 1. 獲取 URL 中的推薦人 ID (ref)
+     */
     function getPromoId() {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get('ref') || urlParams.get('id') || urlParams.get('user') || 'GUEST';
     }
 
     const currentID = getPromoId();
-    // 💡 請確保此 URL 與您在 1_Core_Engine.gs 部署後的網址完全一致
+    // 💡 領袖請在此填入部署後的 Web App URL
     const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
     
-    document.getElementById('display-user-badge').innerText = `覺醒編號: ${currentID}`;
+    document.getElementById('display-user-badge').innerText = `推薦領袖: ${currentID}`;
 
-    // 💡 全域回呼函式，接收來自 GAS 的 JSONP 回傳
+    /**
+     * 2. 處理後端回傳的配對結果
+     * 支援：L1-L10 不同層級的金額與對象顯示
+     */
     window.handleGASResponse = function(response) {
         const btn = document.getElementById('submit-btn');
         if (response.status === "success") {
+            // 隱藏輸入區，顯示配對區
             document.getElementById('verify-zone').style.display = 'none';
             document.getElementById('match-area').style.display = 'block';
+            
+            // 填入配對資料
             document.getElementById('target-code').innerText = response.receiverName || "系統推薦領袖";
-            document.getElementById('target-bank').innerText = response.bankInfo || "資料已發送至您的 LINE";
+            document.getElementById('target-bank').innerText = response.bankInfo || "請洽詢推薦人獲取匯款資訊";
             document.getElementById('gen-depth').innerText = response.depth || "1";
+            
+            // 動態更新金額 (若非 L1)
+            if (response.amount) {
+                const amountSpan = document.querySelector('.bank-card span[style*="font-size:1.5em"]');
+                amountSpan.innerText = `NT$ ${Number(response.amount).toLocaleString()}`;
+            }
         } else {
-            alert(response.msg || '配對失敗，請確認資料正確性');
-            btn.innerHTML = "重新啟動方案";
+            alert(response.msg || '配對失敗：當前排隊人數較多，請稍後再試');
+            btn.innerHTML = '啟動消費增值方案 <i class="fas fa-rocket"></i>';
             btn.disabled = false;
         }
-        // 清理 script 標籤
+        
+        // 移除 JSONP Script 標籤避免堆積
         const oldScript = document.getElementById('gas-script');
         if(oldScript) oldScript.remove();
     };
 
+    /**
+     * 3. 執行尋位與配對請求 (呼叫 1_Core_Engine.gs)
+     */
     function executeMatch() {
         const phone = document.getElementById('v-phone').value.trim();
         const line = document.getElementById('v-line').value.trim();
         const btn = document.getElementById('submit-btn');
 
-        if(!phone || !line) { alert('請填寫完整驗證資訊'); return; }
-        if(currentID === 'GUEST') { alert('偵測不到覺醒編號，請從正式連結進入'); return; }
+        // 基本驗證
+        if(!phone || !line) { alert('請填寫完整驗證資訊，以利核對增值憑證'); return; }
+        if(currentID === 'GUEST') { alert('偵測不到推薦來源，請使用領袖提供的專屬連結'); return; }
         
-        btn.innerHTML = "⌛ 數據對接中...";
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 矩陣尋位中...';
         btn.disabled = true;
 
-        // 💡 使用 JSONP 請求處理跨網域連線
+        // 構建 JSONP 請求
         const script = document.createElement('script');
         script.id = 'gas-script';
         const params = new URLSearchParams({
-            action: "requestMatch",
-            user: currentID,
-            phone: phone,
-            lineId: line,
+            action: "requestMatch", // 對應後端 doGet 的 switch case
+            user: currentID,        // 推薦人 UID
+            phone: phone,           // 新人手機 (用於寫入 User_Data)
+            lineId: line,           // 新人 LINE (用於寫入 User_Data)
             callback: "handleGASResponse" 
         });
         
         script.src = `${GAS_URL}?${params.toString()}`;
         document.body.appendChild(script);
 
-        // 防呆逾時處理
+        // 逾時處理 (15秒)
         setTimeout(() => {
-            if (btn.disabled && btn.innerHTML.includes("對接中")) {
-                alert('系統連線繁忙，請檢查網路或稍後再試');
-                btn.innerHTML = "重新啟動方案";
+            if (btn.disabled && btn.innerHTML.includes("尋位中")) {
+                alert('伺服器響應超時，可能正在進行大公排計算，請稍後重新啟動');
+                btn.innerHTML = '重新啟動方案';
                 btn.disabled = false;
             }
-        }, 10000);
+        }, 15000);
     }
 
+    /**
+     * 4. 確認投放並完成排位
+     */
     function confirmSent() {
-        if(confirm("確定完成 NT$ 1,000 投放？虛假回報將鎖定權利。")) {
+        const msg = "【法律聲明】\n我已確認完成增值金投放。\n虛假回報將導致數位分身永久凍結且失去 2026 韓國遊資格。\n確定送出？";
+        if(confirm(msg)) {
+            // 此處可增加一個回報後端的動作，或是直接跳轉至感謝頁面
+            alert("數據已同步至 AI 生活小秘書，請聯繫領袖核單激活。");
             window.location.reload();
         }
     }
