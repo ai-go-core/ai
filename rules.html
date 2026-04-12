@@ -3,38 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>樂瑞 2026 獎勵全書 · 價值覺醒</title>
+    <title>樂瑞 2026 消費者價值覺醒</title>
     <style>
-        :root { --gold: #D4AF37; --black: #000000; --dark-gray: #111111; --cyan: #00FFFF; --pink: #FF69B4; --green: #39FF14; --white: #ffffff; }
-        html, body { background-color: var(--black) !important; color: var(--white) !important; margin: 0; padding: 0; }
-        body { font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.6; }
-        .container { max-width: 480px; margin: 0 auto; padding: 20px; box-sizing: border-box; }
-        
-        /* 好奇心開場 */
-        .teaser-section { border: 2px solid var(--gold); border-radius: 20px; padding: 25px; margin-bottom: 30px; background: rgba(212, 175, 55, 0.05); position: relative; overflow: hidden; }
-        .teaser-section::after { content: '?'; position: absolute; right: -10px; top: -20px; font-size: 150px; color: rgba(212, 175, 55, 0.03); font-weight: 900; }
-        .teaser-section h2 { color: var(--gold); font-size: 20px; margin-top: 0; }
-        .teaser-section p { font-size: 16px; margin: 10px 0; }
-        .highlight-text { color: var(--cyan); font-weight: bold; }
+    :root { --gold: #D4AF37; --black: #000000; --dark-gray: #111111; --cyan: #00FFFF; --pink: #FF69B4; --green: #39FF14; --white: #ffffff; }
+    html, body { background-color: var(--black) !important; color: var(--white) !important; margin: 0; padding: 0; }
+    body { font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif; line-height: 1.5; }
+    .container { max-width: 480px; margin: 0 auto; padding: 15px; box-sizing: border-box; }
+    
+    /* 好奇心開場 */
+    .teaser-section { border: 2px solid var(--gold); border-radius: 20px; padding: 20px; margin-bottom: 20px; background: rgba(212, 175, 55, 0.05); position: relative; overflow: hidden; }
+    .teaser-section::after { content: '?'; position: absolute; right: -10px; top: -20px; font-size: 150px; color: rgba(212, 175, 55, 0.03); font-weight: 900; }
+    .teaser-section h2 { color: var(--gold); font-size: 19px; margin-top: 0; margin-bottom: 10px; }
+    .teaser-section p { font-size: 15px; margin: 8px 0; line-height: 1.4; }
+    .highlight-text { color: var(--cyan); font-weight: bold; }
 
-        /* 價值清單樣式 */
-        .benefit-board { background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); border-radius: 15px; padding: 20px; border: 1px solid #333; }
-        .benefit-item { display: flex; align-items: flex-start; margin-bottom: 15px; border-bottom: 1px solid #222; padding-bottom: 12px; }
-        .benefit-item:last-child { border-bottom: none; margin-bottom: 0; }
-        .benefit-num { color: var(--gold); font-weight: bold; margin-right: 12px; min-width: 25px; font-size: 18px; }
-        .benefit-text { font-size: 14px; color: #eee; flex: 1; }
+    /* 價值清單樣式 - 緊湊優化版 */
+    .benefit-board { background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); border-radius: 12px; padding: 15px; border: 1px solid #333; }
+    .benefit-item { display: flex; align-items: flex-start; margin-bottom: 8px; border-bottom: 1px solid #222; padding-bottom: 8px; }
+    .benefit-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .benefit-num { color: var(--gold); font-weight: bold; margin-right: 10px; min-width: 22px; font-size: 16px; }
+    .benefit-text { font-size: 14px; color: #eee; flex: 1; line-height: 1.35; } /* 縮小文字行高 */
 
-        .card { background: var(--dark-gray); border: 1px solid #222; border-radius: 15px; padding: 22px; margin-bottom: 25px; }
-        .btn-gold { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            width: 100%; padding: 20px 0; background: linear-gradient(135deg, #D4AF37 0%, #8A6D3B 100%); 
-            color: #000 !important; text-decoration: none; font-weight: 900; border-radius: 50px; 
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4); margin: 30px 0; border: none;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        .footer { text-align: center; color: #444; font-size: 11px; padding: 40px 0; border-top: 1px solid #222; }
-    </style>
+    .card { background: var(--dark-gray); border: 1px solid #222; border-radius: 15px; padding: 18px; margin-bottom: 20px; }
+    .btn-gold { 
+        display: flex; flex-direction: column; align-items: center; justify-content: center; 
+        width: 100%; padding: 18px 0; background: linear-gradient(135deg, #D4AF37 0%, #8A6D3B 100%); 
+        color: #000 !important; text-decoration: none; font-weight: 900; border-radius: 50px; 
+        box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3); margin: 20px 0; border: none;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+    .footer { text-align: center; color: #444; font-size: 11px; padding: 30px 0; border-top: 1px solid #222; }
+</style>
 </head>
 <body>
 
@@ -96,7 +96,7 @@
 
     <div class="card" style="background: rgba(0,255,255,0.02); border: 1px dashed #333; text-align: center;">
         <p style="font-size: 14px; margin: 0;">免入會費 | 免年費 | 免送貨 | 免收錢</p>
-        <p style="font-size: 14px; margin: 5px 0 0 0; color: var(--cyan);">✨ 分享好友即享 $99/人 推薦獎勵 ✨</p>
+        <p style="font-size: 14px; margin: 5px 0 0 0; color: var(--cyan);">✨ 每成功推薦一人完成首購，再領 99 元 推薦獎金。 ✨</p>
     </div>
 
     <p style="text-align: center; font-size: 12px; color: #555;">
