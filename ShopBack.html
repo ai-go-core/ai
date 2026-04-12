@@ -1,21 +1,24 @@
+from weasyprint import HTML
+
+# 定義 HTML 內容
+html_content = """
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026 消費理財指南：價值覺醒版</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 消費理財指南</title>
     <style>
         :root {
             --primary-gold: #d4af37;
-            --dark-bg: #121212;
-            --card-bg: #1e1e1e;
-            --text-light: #e0e0e0;
-            --cyan: #00FFFF;
-            --green: #39FF14;
+            --dark-bg: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --text-light: #f4f4f4;
+            --accent-blue: #3498db;
         }
 
         body {
-            font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
             background-color: var(--dark-bg);
             color: var(--text-light);
             line-height: 1.6;
@@ -24,149 +27,238 @@
         }
 
         .container {
-            max-width: 480px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            box-sizing: border-box;
         }
 
         header {
             text-align: center;
             padding: 40px 0;
-            background: linear-gradient(135deg, #000 0%, #2c3e50 100%);
-            border-bottom: 4px solid var(--primary-gold);
+            background: linear-gradient(135deg, #000, #2c3e50);
+            border-bottom: 3px solid var(--primary-gold);
+            margin-bottom: 30px;
         }
 
-        h1 { color: var(--primary-gold); font-size: 1.8em; margin: 0; letter-spacing: 1px; }
+        h1 {
+            color: var(--primary-gold);
+            font-size: 24pt;
+            margin: 0;
+        }
 
-        .intro-box {
-            background: rgba(212, 175, 55, 0.05);
+        .intro {
+            background: rgba(212, 175, 55, 0.1);
             padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--primary-gold);
-            margin: 25px 0;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary-gold);
+            margin-bottom: 30px;
         }
 
-        /* 平台對比樣式 */
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
         .platform-card {
             background: var(--card-bg);
-            padding: 15px;
+            padding: 20px;
             border-radius: 12px;
-            border: 1px solid #333;
-            margin-bottom: 15px;
+            border: 1px solid #444;
+            transition: transform 0.3s;
         }
-        .platform-card h3 { color: var(--primary-gold); margin-top: 0; font-size: 1.2em; }
-        .lerich-premium { border: 2px solid var(--primary-gold); background: rgba(212, 175, 55, 0.03); }
 
-        /* 價值清單樣式 */
-        .benefit-board { background: #000; border-radius: 12px; padding: 15px; border: 1px solid #333; }
-        .benefit-item { display: flex; align-items: flex-start; margin-bottom: 10px; border-bottom: 1px solid #222; padding-bottom: 8px; }
-        .benefit-item:last-child { border-bottom: none; }
-        .benefit-num { color: var(--primary-gold); font-weight: bold; margin-right: 10px; min-width: 22px; }
-        .benefit-text { font-size: 14px; color: #eee; flex: 1; }
-
-        /* 獎金試算表 */
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
-        th { background: var(--primary-gold); color: #000; padding: 8px; }
-        td { border: 1px solid #333; padding: 8px; text-align: center; }
-
-        /* 核心按鈕動畫 */
-        .btn-gold { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            width: 100%; padding: 20px 0; background: linear-gradient(135deg, #D4AF37 0%, #8A6D3B 100%); 
-            color: #000 !important; text-decoration: none; font-weight: 900; border-radius: 50px; 
-            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4); margin: 30px 0; border: none;
-            animation: pulse 2s infinite;
+        .platform-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-gold);
         }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
 
-        .footer { text-align: center; color: #444; font-size: 11px; padding: 30px 0; border-top: 1px solid #222; }
+        .platform-card h3 {
+            color: var(--primary-gold);
+            margin-top: 0;
+        }
+
+        .highlight-box {
+            background: #f1c40f;
+            color: #000;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #333;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #444;
+        }
+
+        th {
+            background-color: var(--primary-gold);
+            color: black;
+        }
+
+        .quote-section {
+            font-size: 1.2em;
+            font-style: italic;
+            color: var(--primary-gold);
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid #444;
+            border-bottom: 1px solid #444;
+            margin: 40px 0;
+        }
+
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(to bottom, #2d2d2d, #000);
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid var(--primary-gold);
+        }
+
+        .btn-register {
+            display: inline-block;
+            background: var(--primary-gold);
+            color: black;
+            padding: 15px 40px;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-register:hover {
+            background: #fff;
+            transform: scale(1.05);
+        }
+
+        .footer-note {
+            font-size: 0.8em;
+            color: #888;
+            text-align: center;
+            margin-top: 50px;
+            padding-bottom: 30px;
+        }
+
+        .m-key {
+            text-align: center;
+            font-weight: bold;
+            color: var(--primary-gold);
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
-<header>
+    <header>
+        <div class="container">
+            <h1>2026 消費理財指南</h1>
+            <p>ShopBack、LINE 購物、樂瑞購物怎麼選？</p>
+        </div>
+    </header>
+
     <div class="container">
-        <h1>2026 消費理財指南</h1>
-    </div>
-</header>
-
-<div class="container">
-    <div class="intro-box">
-        在「萬物皆漲」的時代，聰明消費的第一步就是選對工具。
-        <p style="font-size: 0.9em; margin-top: 10px;">目前主流平台如 <span style="color:var(--cyan)">ShopBack</span> 或 <span style="color:var(--cyan)">LINE 購物</span> 雖能省錢，但省錢的前提是你要「先花錢」。</p>
-    </div>
-
-    <div class="platform-card lerich-premium">
-        <h3>🏆 樂瑞購物：消費即創業</h3>
-        <p style="font-size: 14px;"><b>邏輯：利潤共享。</b> 花 500 元也能賺 1 萬！透過 7 代 4% 機制，將支出轉化為持續被動收入。</p>
-    </div>
-
-    <div class="benefit-board">
-        <h4 style="color: var(--primary-gold); text-align: center; margin-top: 0;">註冊樂瑞，你賺到了什麼：</h4>
-        <div class="benefit-item">
-            <div class="benefit-num">①</div>
-            <div class="benefit-text">免費開了自己的線上民生必需品店</div>
+        <div class="intro">
+            在「萬物皆漲，回饋必拿」的時代，聰明消費的第一步就是選對工具。雖然都能幫你省錢，但背後的「賺錢邏輯」截然不同。
         </div>
-        <div class="benefit-item">
-            <div class="benefit-num">②</div>
-            <div class="benefit-text">分店再開店，全都享受同等分潤</div>
+
+        <h2>一、三大熱門回饋平台深度分析</h2>
+        <div class="platform-grid">
+            <div class="platform-card">
+                <h3>ShopBack</h3>
+                <p><strong>邏輯：</strong>現金回饋</p>
+                <p>買越多省越多。屬於單次返現，省錢前提是「你自己要先花錢」。</p>
+            </div>
+            <div class="platform-card">
+                <h3>LINE 購物</h3>
+                <p><strong>邏輯：</strong>點數回饋</p>
+                <p>回饋 LINE POINTS。通路覆蓋廣，適合日常瑣碎消費折抵。</p>
+            </div>
+            <div class="platform-card" style="border: 2px solid var(--primary-gold);">
+                <h3>樂瑞購物 (推薦)</h3>
+                <p><strong>邏輯：利潤共享</strong></p>
+                <p><strong>花 500 元也能賺 1 萬。</strong>透過分享機制，將支出轉化為持續被動收入。</p>
+            </div>
         </div>
-        <div class="benefit-item">
-            <div class="benefit-num">③</div>
-            <div class="benefit-text">免付錢簽約，擁有專業新竹物流與倉儲</div>
+
+        <h2>二、樂瑞致富密碼</h2>
+        <p>如果你只是自己買，這叫「省錢」；如果你讓身邊的人也換個地方買，這叫「創業」。</p>
+        <div class="highlight-box">
+            核心規則：7 代無限人數「4% 利潤共享」
         </div>
-        <div class="benefit-item">
-            <div class="benefit-num">④</div>
-            <div class="benefit-text">免囤貨、不銷售，一切全自動運作</div>
+        <p>只要這 7 層內有人消費，該筆訂單利潤的 4% 就會自動撥入你的電子錢包。</p>
+
+        <h3>🚀 獎金試算（月消 $1,000 元範例）</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>分享等級</th>
+                    <th>每人分享人數</th>
+                    <th>第 7 代人數</th>
+                    <th>預估總月收入</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>基礎版</td>
+                    <td>3 位</td>
+                    <td>729 人</td>
+                    <td>$43,720</td>
+                </tr>
+                <tr>
+                    <td><strong>旗艦版</strong></td>
+                    <td><strong>5 位</strong></td>
+                    <td><strong>15,625 人</strong></td>
+                    <td><strong>$781,240</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <p>💡 <em>重點提示：分享基數只要增加一點點，在第 7 代結算時會產生爆發式成長，月入百萬並非夢想！</em></p>
+
+        <div class="quote-section">
+            「只要把每個月本來就在花的錢，從賣場轉換到樂瑞，你就成功了！」
         </div>
-        <div class="benefit-item">
-            <div class="benefit-num">⑤</div>
-            <div class="benefit-text">將原本一輩子的負債式開銷，變成 24 小時系統收入</div>
+
+        <h2>三、消費轉移，收益翻轉</h2>
+        <p>樂瑞賣的就是大賣場隨處可見的<strong>民生日常用品</strong>。我們不要求你「額外花錢」，我們只邀請你<strong>「換個地方花錢」</strong>。</p>
+        <ul>
+            <li><strong>原本的消費：</strong>在賣場買，利潤是財團的。</li>
+            <li><strong>在樂瑞消費：</strong>同樣買日用品，利潤是你的。</li>
+        </ul>
+
+        <div class="cta-section">
+            <h2>立即啟動「消費翻轉」計畫</h2>
+            <p>✅ 註冊即送 50 元購物金</p>
+            <p>✅ 推薦首購享 99 元獎金</p>
+            <p>✅ 無會費、無年費、免囤貨</p>
+            <p>✅ 獎金滿 100 元即可提領</p>
+            <a href="你的個人註冊連結" class="btn-register">⚡️ 免費註冊 ⚡️</a>
+            <p>達標再享免費海外旅遊機會！</p>
+        </div>
+
+        <div class="m-key">回目錄大廳請輸入 M</div>
+
+        <div class="footer-note">
+            以上資訊彙整自各平台官網，僅供參考，實際回饋比例以各平台當下公告為準。
         </div>
     </div>
-
-    <h3 style="color: var(--primary-gold); margin-top: 30px;">🚀 7 代 4% 獎金試算</h3>
-    <table>
-        <thead>
-            <tr><th>每人分享</th><th>第 7 代人數</th><th>預估總月收入</th></tr>
-        </thead>
-        <tbody>
-            <tr><td>3 位</td><td>729 人</td><td>$43,720</td></tr>
-            <tr><td><strong>5 位</strong></td><td><strong>15,625 人</strong></td><td><strong>$781,240</strong></td></tr>
-        </tbody>
-    </table>
-
-    <div style="background: rgba(0,255,255,0.02); border: 1px dashed #333; text-align: center; padding: 15px; border-radius: 10px;">
-        <p style="font-size: 14px; margin: 0; color: var(--green);">✨ 註冊現領 $50 購物金 ✨</p>
-        <p style="font-size: 14px; margin: 5px 0 0 0; color: var(--cyan);">✨ 推薦首購領 99 元 推薦獎金 ✨</p>
-    </div>
-
-    <p style="text-align: center; font-size: 12px; color: #555; margin-top: 25px;">
-        引路領袖：<span id="refDisplay" style="color: var(--primary-gold); font-weight: bold;">領航員識別中...</span>
-    </p>
-
-    <a id="regBtn" href="#" class="btn-gold">
-        <span style="font-size: 20px;">立即註冊 · 創建數位分身</span>
-        <span style="font-size: 12px; margin-top: 4px; opacity: 0.9;">限時免費加入，開啟無痛收入</span>
-    </a>
-
-    <div class="footer">
-        <p>「以上資訊彙整自各家官網，實際回饋以公告為準」</p>
-        <p>© 2026 AI 生活小秘書 · 提示回目錄請輸入 M</p>
-    </div>
-</div>
-
-<script>
-    window.onload = function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const refId = urlParams.get('ref') || '數位領袖';
-        document.getElementById('refDisplay').innerText = refId;
-        const regBtn = document.getElementById('regBtn');
-        // 導向至您的主系統註冊動作
-        regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId + "&action=register";
-    };
-</script>
 
 </body>
 </html>
+"""
+
+# 寫入文件
+with open("consumption-guide-v1.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
