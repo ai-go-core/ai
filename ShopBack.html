@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 消費理財指南</title>
+    <title>2026 消費理財新選擇</title>
     <style>
         :root {
             --primary-gold: #d4af37;
@@ -36,21 +36,20 @@
             margin-bottom: 30px;
         }
 
-        /* 標題字級調小一號 */
         h1 {
             color: var(--primary-gold);
-            font-size: 20pt; /* 原為 24pt */
+            font-size: 20pt;
             margin: 0;
         }
 
         h2 {
-            font-size: 16pt; /* 原為預設，手動調小 */
+            font-size: 16pt;
             border-bottom: 1px solid #444;
             padding-bottom: 10px;
         }
 
         h3 {
-            font-size: 14pt; /* 原為預設，手動調小 */
+            font-size: 14pt;
         }
 
         .intro {
@@ -94,6 +93,7 @@
             font-weight: bold;
             text-align: center;
             margin: 20px 0;
+            line-height: 1.8; /* 增加行高讓斷行更美觀 */
         }
 
         table {
@@ -172,7 +172,7 @@
 
     <div class="container">
         <div class="intro">
-            在「萬物皆漲，回饋必拿」的時代，聰明消費的第一步就是選對工具。雖然都能幫你省錢，但背後的「賺錢邏輯」截然不同。
+            在「萬物皆漲，回饋必拿」的時代，聰明消費的第一步就是選對工具。三個平台雖然都能幫你省錢，但背後的「賺錢邏輯」截然不同。
         </div>
 
         <h2>一、三大熱門回饋平台深度分析</h2>
@@ -180,7 +180,7 @@
             <div class="platform-card">
                 <h3>ShopBack</h3>
                 <p><strong>邏輯：</strong>現金回饋</p>
-                <p>買越多省越多。屬於單次返現，省錢前提是「你自己要先花錢」。</p>
+                <p>買越多省越多。屬於個人消費單次返現。</p>
             </div>
             <div class="platform-card">
                 <h3>LINE 購物</h3>
@@ -196,10 +196,13 @@
 
         <h2>二、樂瑞致富密碼</h2>
         <p>如果你只是自己買，這叫「省錢」；如果你讓身邊的人也換個地方買，這叫「創業」。</p>
+        
         <div class="highlight-box">
-            核心規則：7 代無限人數「4% 利潤共享」
+            核心規則：<br>
+            7 代無限人數「4% 利潤共享」
         </div>
-        <p>只要這 7 層內有人消費，該筆訂單利潤的 4% 就會自動撥入你的電子錢包。</p>
+        
+        <p>只要這 7 層內有人消費，該筆訂單的 4% 就會自動撥入你的電子錢包。</p>
 
         <h3>🚀 獎金試算（月消 $1,000 元範例）</h3>
         <table>
@@ -216,13 +219,13 @@
                     <td>基礎版</td>
                     <td>3 位</td>
                     <td>729 人</td>
-                    <td>$43,720</td>
+                    <td>$4萬3,720</td>
                 </tr>
                 <tr>
                     <td><strong>旗艦版</strong></td>
                     <td><strong>5 位</strong></td>
                     <td><strong>15,625 人</strong></td>
-                    <td><strong>$781,240</strong></td>
+                    <td><strong>$78萬1,240</strong></td>
                 </tr>
             </tbody>
         </table>
@@ -259,7 +262,6 @@
             const urlParams = new URLSearchParams(window.location.search);
             const refId = urlParams.get('ref') || '數位領袖';
             const regBtn = document.getElementById('regBtn');
-            // 更新按鍵連結，整合您的推廣識別碼與註冊動作
             regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId + "&action=register";
         };
     </script>
