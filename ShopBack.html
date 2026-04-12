@@ -1,7 +1,4 @@
-from weasyprint import HTML
 
-# 定義 HTML 內容
-html_content = """
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -164,8 +161,8 @@ html_content = """
 
     <header>
         <div class="container">
-            <h1>2026 消費理財指南</h1>
-            <p>ShopBack、LINE 購物、樂瑞購物怎麼選？</p>
+            <h1>2026消費理財新選擇</h1>
+            <p>ShopBack、LINE 購物、樂瑞購物</p>
         </div>
     </header>
 
@@ -228,7 +225,7 @@ html_content = """
         <p>💡 <em>重點提示：分享基數只要增加一點點，在第 7 代結算時會產生爆發式成長，月入百萬並非夢想！</em></p>
 
         <div class="quote-section">
-            「只要把每個月本來就在花的錢，從賣場轉換到樂瑞，你就成功了！」
+            「只要把每個月本來就在花的錢，從賣場轉換到樂瑞，你就在成功路上了！」
         </div>
 
         <h2>三、消費轉移，收益翻轉</h2>
@@ -244,11 +241,9 @@ html_content = """
             <p>✅ 推薦首購享 99 元獎金</p>
             <p>✅ 無會費、無年費、免囤貨</p>
             <p>✅ 獎金滿 100 元即可提領</p>
-            <a id="regBtn" href="#" class="btn-register">⚡️ 免費註冊 ⚡️</a>
+            <a id="regBtn" href="#" class="btn-register">⚡️免費註冊⚡️</a>
             <p>達標再享免費海外旅遊機會！</p>
         </div>
-
-        <div class="m-key">回目錄大廳請輸入 M</div>
 
         <div class="footer-note">
             以上資訊彙整自各平台官網，僅供參考，實際回饋比例以各平台當下公告為準。
@@ -267,8 +262,4 @@ html_content = """
 
 </body>
 </html>
-"""
 
-# 寫入文件
-with open("ShopBack.html", "w", encoding="utf-8") as f:
-    f.write(html_content)
