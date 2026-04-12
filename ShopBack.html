@@ -232,7 +232,7 @@ html_content = """
         </div>
 
         <h2>三、消費轉移，收益翻轉</h2>
-        <p>樂瑞賣的就是大賣場隨處可見的<strong>民生日常用品</strong>。我們不要求你「額外花錢」，我們只邀請你<strong>「換個地方花錢」</strong>。</p>
+        <p>樂瑞賣的就是大賣場隨處可見的<strong>民生日常用品</strong>。我們不要求你「額外花錢」，我們只邀請你**「換個地方花錢」**。</p>
         <ul>
             <li><strong>原本的消費：</strong>在賣場買，利潤是財團的。</li>
             <li><strong>在樂瑞消費：</strong>同樣買日用品，利潤是你的。</li>
@@ -244,7 +244,7 @@ html_content = """
             <p>✅ 推薦首購享 99 元獎金</p>
             <p>✅ 無會費、無年費、免囤貨</p>
             <p>✅ 獎金滿 100 元即可提領</p>
-            <a href="你的個人註冊連結" class="btn-register">⚡️ 免費註冊 ⚡️</a>
+            <a id="regBtn" href="#" class="btn-register">⚡️ 免費註冊 ⚡️</a>
             <p>達標再享免費海外旅遊機會！</p>
         </div>
 
@@ -255,10 +255,20 @@ html_content = """
         </div>
     </div>
 
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refId = urlParams.get('ref') || '數位領袖';
+            const regBtn = document.getElementById('regBtn');
+            // 更新按鍵連結，整合您的推廣識別碼與註冊動作
+            regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId + "&action=register";
+        };
+    </script>
+
 </body>
 </html>
 """
 
 # 寫入文件
-with open("consumption-guide-v1.html", "w", encoding="utf-8") as f:
+with open("ShopBack.html", "w", encoding="utf-8") as f:
     f.write(html_content)
