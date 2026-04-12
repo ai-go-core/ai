@@ -138,6 +138,52 @@
             font-style: italic;
         }
 
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-item {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .input-item label {
+            display: block;
+            font-size: 0.85em;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+
+        .input-item input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #111;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        .btn-calc {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-gold);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-calc:hover {
+            background: #fff;
+        }
+
         .cta-section {
             text-align: center;
             background: linear-gradient(to bottom, #2d2d2d, #000);
@@ -242,6 +288,31 @@
             💡 重點提示：試算結果僅供參考，並非一定達成，亦可能因您的積極推廣而更快達成、收入更高！
         </div>
 
+        <div class="insight-section" style="border-style: solid; background: #2a2a2a;">
+            <h4>✍️ 自行試算您的獲利目標</h4>
+            <p style="font-size: 0.9em; color: #ccc; margin-bottom: 20px;">輸入您預計分享的人數與夥伴平均消費額，看看 7 代倍增的力量：</p>
+            
+            <div class="input-group">
+                <div class="input-item">
+                    <label>每人平均月消 ($)</label>
+                    <input type="number" id="userSpend" value="1000" step="100">
+                </div>
+                <div class="input-item">
+                    <label>每人分享人數 (複製倍數)</label>
+                    <input type="number" id="userRefer" value="3" step="1">
+                </div>
+            </div>
+            
+            <button class="btn-calc" onclick="calculateIncome()">立即計算 7 代複利成果</button>
+            
+            <div id="calcResult" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #444;">
+                <div style="font-size: 1.1em; color: #fff;">預估總人數：<span id="resTotalPeople" style="color:var(--primary-gold)">3,279</span> 人</div>
+                <div style="font-size: 1.5em; color: var(--primary-gold); font-weight: bold; margin-top: 5px;">
+                    預估總月入：$<span id="resTotalIncome">131,160</span>
+                </div>
+            </div>
+        </div>
+
         <h2>三、消費轉移，收益翻轉</h2>
         <ul>
             <li><strong>原本的消費：</strong>在賣場買，利潤是財團的。</li>
@@ -274,11 +345,33 @@
     </div>
 
     <script>
+        function calculateIncome() {
+            const spend = parseFloat(document.getElementById('userSpend').value) || 0;
+            const r = parseFloat(document.getElementById('userRefer').value) || 0;
+            
+            // 計算 1-7 代總人數 (等比級數公式: r^1 + r^2 + ... + r^7)
+            // 若 r=1 則總人數為 7，若 r>1 使用級數公式 a(r^n - 1)/(r - 1)
+            let totalPeople = 0;
+            if (r === 1) {
+                totalPeople = 7;
+            } else {
+                totalPeople = r * (Math.pow(r, 7) - 1) / (r - 1);
+            }
+            
+            const totalIncome = totalPeople * spend * 0.04;
+            
+            document.getElementById('resTotalPeople').innerText = Math.floor(totalPeople).toLocaleString();
+            document.getElementById('resTotalIncome').innerText = Math.floor(totalIncome).toLocaleString();
+        }
+
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const refId = urlParams.get('ref') || '數位領袖';
             const regBtn = document.getElementById('regBtn');
             regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId + "&action=register";
+            
+            // 初始化計算一次
+            calculateIncome();
         };
     </script>
 
