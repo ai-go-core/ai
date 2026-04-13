@@ -308,20 +308,31 @@
         }
 
         window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const refId = urlParams.get('ref') || '數位領袖';
+    const urlParams = new URLSearchParams(window.location.search);
+    const refId = urlParams.get('ref') || '數位領袖';
 
-            const regBtn = document.getElementById('regBtn');
-            if(regBtn) regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId + "&action=register";
-            
-            const lineLink = document.getElementById('lineLink');
-            if (lineLink) {
-                // 請將 @您的LINE帳號 替換為真正的 ID
-                const lineOaId = "@您的LINE帳號"; 
-                lineLink.href = "https://line.me/R/oaMessage/" + lineOaId + "/?ref=" + refId;
-            }
-            calculateIncome();
-        };
+    // 1. 更新註冊連結
+    const regBtn = document.getElementById('regBtn');
+    if(regBtn) regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId + "&action=register";
+    
+    // 2. 優化 LINE 連結邏輯
+    const lineLink = document.getElementById('lineLink');
+    if (lineLink) {
+        // !!! 請將此處替換為您真正的 LINE ID (包含 @) !!!
+        const lineOaId = "@您的LINE帳號"; 
+        const isLineBrowser = /Line/i.test(navigator.userAgent);
+
+        if (isLineBrowser) {
+            // 如果已經在 LINE 裡面，使用簡單的加好友連結，避免 oaMessage 衝突
+            // 這樣不會報錯，且新人進去後可以手動貼上網址（我們已經有自動複製功能了）
+            lineLink.href = "https://line.me/R/ti/p/" + lineOaId;
+        } else {
+            // 如果在外部瀏覽器（FB/Chrome/Safari），則嘗試自動帶入文字
+            lineLink.href = "https://line.me/R/oaMessage/" + lineOaId + "/?ref=" + refId;
+        }
+    }
+    calculateIncome();
+};
     </script>
 </body>
 </html>
