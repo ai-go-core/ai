@@ -382,10 +382,45 @@ window.onload = function() {
     calculateIncome();
 };
     </script>
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));">
-    <a href="https://lin.ee/xQeVyJj">
-        <img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" height="42" border="0">
+<div class="consult-float-btn">
+    <a href="https://lin.ee/xQeVyJj" id="lineLink">
+        <div class="consult-content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" alt="LINE" width="20">
+            <span>線上諮詢</span>
+        </div>
     </a>
 </div>
+
+<style>
+    .consult-float-btn {
+        position: fixed;
+        bottom: 25px;
+        right: 20px;
+        z-index: 9999;
+        opacity: 0.6; /* 初始半透明 */
+        transition: all 0.3s ease;
+    }
+
+    .consult-content {
+        background-color: #06C755; /* LINE 官方綠 */
+        color: white;
+        padding: 8px 16px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: bold;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .consult-float-btn:hover, .consult-float-btn:active {
+        opacity: 1;
+        transform: translateY(-5px); /* 觸碰時向上微浮 */
+    }
+
+    /* 針對黑金風格的微調：如果想更一致，可將背景改為 linear-gradient(135deg, #D4AF37 0%, #8A6D3B 100%)，文字改黑色 */
+</style>
 </body>
 </html>
