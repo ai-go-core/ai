@@ -36,9 +36,22 @@
             margin-bottom: 30px;
         }
 
-        h1 { color: var(--primary-gold); font-size: 20pt; margin: 0; }
-        h2 { font-size: 16pt; border-bottom: 1px solid #444; padding-bottom: 10px; margin-top: 40px; }
-        h3 { font-size: 14pt; }
+        h1 {
+            color: var(--primary-gold);
+            font-size: 20pt;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 16pt;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+
+        h3 {
+            font-size: 14pt;
+        }
 
         .intro {
             background: rgba(212, 175, 55, 0.1);
@@ -68,7 +81,10 @@
             border-color: var(--primary-gold);
         }
 
-        .platform-card h3 { color: var(--primary-gold); margin-top: 0; }
+        .platform-card h3 {
+            color: var(--primary-gold);
+            margin-top: 0;
+        }
 
         .highlight-box {
             background: #f1c40f;
@@ -89,7 +105,11 @@
             margin: 30px 0;
         }
 
-        .insight-section h4 { color: var(--primary-gold); margin-top: 0; font-size: 1.2em; }
+        .insight-section h4 {
+            color: var(--primary-gold);
+            margin-top: 0;
+            font-size: 1.2em;
+        }
 
         table {
             width: 100%;
@@ -99,25 +119,69 @@
             font-size: 0.95em;
         }
 
-        th, td { padding: 12px; text-align: center; border: 1px solid #444; }
-        th { background-color: var(--primary-gold); color: black; }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #444;
+        }
 
-        .calc-note { font-size: 0.9em; color: #bbb; text-align: center; margin-bottom: 20px; font-style: italic; }
+        th {
+            background-color: var(--primary-gold);
+            color: black;
+        }
 
-        .input-group { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 15px; }
-        .input-item { flex: 1; min-width: 150px; }
-        .input-item label { display: block; font-size: 0.85em; color: #aaa; margin-bottom: 5px; }
+        .calc-note {
+            font-size: 0.9em;
+            color: #bbb;
+            text-align: center;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-item {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .input-item label {
+            display: block;
+            font-size: 0.85em;
+            color: #aaa; margin-bottom: 5px;
+        }
+
         .input-item input {
-            width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #444;
-            background: #111; color: #fff; box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #111;
+            color: #fff;
+            box-sizing: border-box;
         }
 
         .btn-calc {
-            width: 100%; padding: 12px; background: var(--primary-gold);
-            color: #000; border: none; border-radius: 5px; font-weight: bold;
-            font-size: 1em; cursor: pointer; transition: 0.3s;
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-gold);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        .btn-calc:hover { background: #fff; }
+
+        .btn-calc:hover {
+            background: #fff;
+        }
 
         .cta-section {
             text-align: center;
@@ -140,9 +204,20 @@
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
         }
 
-        .btn-register:hover { background: #fff; transform: scale(1.05); }
+        .btn-register:hover {
+            background: #fff;
+            transform: scale(1.05);
+        }
 
-        /* 🚀 懸浮諮詢按鈕與提示容器 */
+        .footer-note {
+            font-size: 0.8em;
+            color: #888;
+            text-align: center;
+            margin-top: 50px;
+            padding-bottom: 30px;
+        }
+
+        /* 🚀 懸浮諮詢按鈕與提示 */
         .consult-float-container {
             position: fixed;
             bottom: 25px;
@@ -167,36 +242,33 @@
             white-space: nowrap;
         }
 
+        .consult-float-container:hover .copy-tip {
+            opacity: 1;
+        }
+
         .consult-float-btn {
             opacity: 0.6;
             transition: all 0.3s ease;
         }
 
-        .consult-float-btn:hover {
+        .consult-float-btn:hover, .consult-float-btn:active {
             opacity: 1;
             transform: translateY(-5px);
-        }
-
-        /* 滑鼠靠近按鈕或容器時顯示提示 */
-        .consult-float-container:hover .copy-tip {
-            opacity: 1;
         }
 
         .consult-content {
             background-color: #06C755;
             color: white;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 50px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 15px;
+            gap: 8px;
+            font-size: 14px;
             font-weight: bold;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.2);
         }
-
-        .footer-note { font-size: 0.8em; color: #888; text-align: center; margin-top: 50px; padding-bottom: 30px; }
     </style>
 </head>
 <body>
@@ -218,22 +290,60 @@
             <div class="platform-card">
                 <h3>ShopBack</h3>
                 <p><strong>邏輯：</strong>現金回饋</p>
-                <p>買越多省越多。</p>
+                <p>買越多省越多。屬於個人消費單次返現。</p>
             </div>
             <div class="platform-card">
                 <h3>LINE 購物</h3>
                 <p><strong>邏輯：</strong>點數回饋</p>
-                <p>適合日常瑣碎消費折抵。</p>
+                <p>回饋 LINE POINTS。通路覆蓋廣，適合日常瑣碎消費折抵。</p>
             </div>
             <div class="platform-card" style="border: 2px solid var(--primary-gold);">
                 <h3>樂瑞購物 (推薦)</h3>
                 <p><strong>邏輯：利潤共享</strong></p>
-                <p><strong>花 500 元也能賺 1 萬。</strong>支出轉化為持續被動收入。</p>
+                <p><strong>花 500 元也能賺 1 萬。</strong>透過分享機制，將支出轉化為持續被動收入。</p>
             </div>
+        </div>
+
+        <h2>二、樂瑞致富密碼</h2>
+        <div class="highlight-box">
+            核心規則：<br>
+            7 代無限人數「4% 利潤共享」
+        </div>
+        <p>只要這 7 層內有人消費，該筆訂單的 4% 就會自動撥入你的電子錢包。</p>
+
+        <h3>🚀 獎金試算（月消 $1,000 元範例）</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>分享等級</th>
+                    <th>每人分享人數</th>
+                    <th>第 7 代人數</th>
+                    <th>預估總月收入</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>基礎版</td>
+                    <td>3 位</td>
+                    <td>729 人</td>
+                    <td>$4萬3,720</td>
+                </tr>
+                <tr>
+                    <td><strong>積極版</strong></td>
+                    <td><strong>5 位</strong></td>
+                    <td><strong>15,625 人</strong></td>
+                    <td><strong>$78萬1,240</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="calc-note">
+            💡 重點提示：試算結果僅供參考，並非一定達成，亦可能因您的積極推廣而更快達成、收入更高！
         </div>
 
         <div class="insight-section" style="border-style: solid; background: #2a2a2a;">
             <h4>✍️ 自行試算您的獲利目標</h4>
+            <p style="font-size: 0.9em; color: #ccc; margin-bottom: 20px;">輸入您預計分享的人數與夥伴平均消費額，看看 7 代倍增的力量：</p>
+            
             <div class="input-group">
                 <div class="input-item">
                     <label>每人平均月消 ($)</label>
@@ -244,7 +354,9 @@
                     <input type="number" id="userRefer" value="4" step="1">
                 </div>
             </div>
+            
             <button class="btn-calc" onclick="calculateIncome()">立即計算 7 代複利成果</button>
+            
             <div id="calcResult" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #444;">
                 <div style="font-size: 1.1em; color: #fff;">預估總人數：<span id="resTotalPeople" style="color:var(--primary-gold)">3,279</span> 人</div>
                 <div style="font-size: 1.5em; color: var(--primary-gold); font-weight: bold; margin-top: 5px;">
@@ -253,14 +365,34 @@
             </div>
         </div>
 
+        <h2>三、消費轉移，收益翻轉</h2>
+        <ul>
+            <li><strong>原本的消費：</strong>在賣場買，利潤是財團的。</li>
+            <li><strong>在樂瑞消費：</strong>同樣買日用品，利潤是你的。</li>
+        </ul>
+
+        <div class="insight-section">
+            <h4>💡 在樂瑞可以賺多久？</h4>
+            <p>只要鄰居.朋友.同學還需要<strong>穿衣、吃飯、洗澡</strong>，這份商機就不會消失。我們賺的不是快錢，而是長遠的<strong>「消費回饋金」</strong>：</p>
+            <ul style="padding-left: 20px;">
+                <li><strong>日用剛需：</strong>不受景氣影響，每個月都會重複回購。</li>
+                <li><strong>複利力量：</strong>隨著組織向下裂變，收入將超越個人勞力。</li>
+                <li><strong>穩定續航：</strong>免年費、免囤貨，讓您的團隊能長久留存。</li>
+            </ul>
+        </div>
+
         <div class="cta-section">
             <h2>立即啟動「消費翻轉」計畫</h2>
-            <p>✅ 註冊即送 50 元購物金 | ✅ 免會費、免年費</p>
+            <p>✅ 註冊即送 50 元購物金</p>
+            <p>✅ 朋友首購再享99元推薦獎金</p>
+            <p>✅ 無會費、無年費、免囤貨</p>
+            <p>✅ 獎金滿 100 元即可提領</p>
             <a id="regBtn" href="#" class="btn-register">免費註冊</a>
             <p>達標再享免費海外旅遊機會！</p>
         </div>
 
         <div class="footer-note">
+            以上資訊彙整自各平台官網，僅供參考，實際回饋比例以各平台當下公告為準。<br>
             AI 生活小秘書 · 全方位數位輔助 認證系統<br>
             提示回目錄請輸入 M
         </div>
@@ -279,7 +411,7 @@
     </div>
 
     <script>
-        // 核心功能：複製當前網址
+        // 核心功能：複製當前網址到剪貼簿
         function copyCurrentUrl() {
             const currentUrl = window.location.href;
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -292,47 +424,47 @@
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
             }
-            // 部分手機瀏覽器跳轉極快，不建議使用 Alert 以免擋住跳轉
         }
 
         function calculateIncome() {
             const spend = parseFloat(document.getElementById('userSpend').value) || 0;
             const r = parseFloat(document.getElementById('userRefer').value) || 0;
             let totalPeople = 0;
-            if (r === 1) { totalPeople = 7; } 
-            else if (r > 1) { totalPeople = (Math.pow(r, 7) - 1) / (r - 1); } 
-            else { totalPeople = 1; }
+            if (r === 1) {
+                totalPeople = 7;
+            } else if (r > 1) {
+                totalPeople = (Math.pow(r, 7) - 1) / (r - 1);
+            } else {
+                totalPeople = 1;
+            }
             const totalIncome = totalPeople * spend * 0.04;
             document.getElementById('resTotalPeople').innerText = Math.floor(totalPeople).toLocaleString();
             document.getElementById('resTotalIncome').innerText = Math.floor(totalIncome).toLocaleString();
         }
 
         window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const refId = urlParams.get('ref') || '數位領袖';
+            const urlParams = new URLSearchParams(window.location.search);
+            const refId = urlParams.get('ref') || '數位領袖';
 
-    // 1. 更新註冊連結
-    const regBtn = document.getElementById('regBtn');
-    if(regBtn) regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId + "&action=register";
-    
-    // 2. 優化 LINE 連結邏輯
-    const lineLink = document.getElementById('lineLink');
-    if (lineLink) {
-        // !!! 請將此處替換為您真正的 LINE ID (包含 @) !!!
-        const lineOaId = "@您的LINE帳號"; 
-        const isLineBrowser = /Line/i.test(navigator.userAgent);
+            const regBtn = document.getElementById('regBtn');
+            if(regBtn) regBtn.href = "https://ai-go-core.github.io/ai/?ref=" + refId + "&action=register";
+            
+            const lineLink = document.getElementById('lineLink');
+            if (lineLink) {
+                // !!! 請將此處替換為您真正的 LINE ID (包含 @) !!!
+                const lineOaId = "@641zpzus"; 
+                const isLineBrowser = /Line/i.test(navigator.userAgent);
 
-        if (isLineBrowser) {
-            // 如果已經在 LINE 裡面，使用簡單的加好友連結，避免 oaMessage 衝突
-            // 這樣不會報錯，且新人進去後可以手動貼上網址（我們已經有自動複製功能了）
-            lineLink.href = "https://line.me/R/ti/p/" + lineOaId;
-        } else {
-            // 如果在外部瀏覽器（FB/Chrome/Safari），則嘗試自動帶入文字
-            lineLink.href = "https://line.me/R/oaMessage/" + lineOaId + "/?ref=" + refId;
-        }
-    }
-    calculateIncome();
-};
+                if (isLineBrowser) {
+                    // 若在 LINE 內開啟，使用加好友連結最穩定
+                    lineLink.href = "https://line.me/R/ti/p/" + lineOaId;
+                } else {
+                    // 若在外部開啟，嘗試自動帶入推薦參數
+                    lineLink.href = "https://line.me/R/oaMessage/" + lineOaId + "/?ref=" + refId;
+                }
+            }
+            calculateIncome();
+        };
     </script>
 </body>
 </html>
