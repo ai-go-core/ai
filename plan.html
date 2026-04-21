@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>AI 生活小秘書 | 2026 消費增值計畫</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { 
+            --gold: #D4AF37; 
+            --gold-light: #FFD700; 
+            --bg: #050505; 
+            --card-bg: #111111;
+            --neon-green: #00ff88; 
+            --neon-blue: #00e5ff; 
+            --neon-red: #ff4444; 
+        }
+        
+        body { font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; background: var(--bg); color: #fff; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 500px; background: rgba(20, 20, 20, 0.98); border: 1px solid var(--gold); border-radius: 24px; padding: 25px; box-sizing: border-box; margin: 15px; box-shadow: 0 0 50px rgba(212, 175, 55, 0.15); }
+        
+        .header { text-align: center; border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 25px; }
+        .value-up { color: var(--neon-green); text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); font-weight: 900; }
+        .id-badge { background: rgba(212, 175, 55, 0.1); color: var(--gold-light); padding: 4px 12px; border-radius: 20px; font-size: 0.75em; border: 1px solid var(--gold); display: inline-block; margin-top: 10px; }
+
+        /* 1500PV 強調區塊 */
+        .gate-status { background: rgba(0, 229, 255, 0.05); border: 1px solid var(--neon-blue); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center; }
+        .gate-status b { color: var(--neon-blue); }
+
+        .section-title { color: var(--gold); font-size: 1.1em; font-weight: bold; margin: 25px 0 12px 0; border-left: 4px solid var(--gold); padding-left: 12px; }
+        
+        .sop-card { background: #1a1a1a; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #333; position: relative; }
+        .sop-card h4 { margin: 0 0 5px 0; color: var(--gold-light); font-size: 1em; }
+        .sop-card p { margin: 0; font-size: 0.85em; color: #aaa; line-height: 1.6; }
+
+        .interactive-zone { background: #000; border: 1px solid var(--gold); border-radius: 20px; padding: 20px; margin-top: 30px; }
+        input { width: 100%; background: #111; border: 1px solid #444; color: #fff; padding: 14px; border-radius: 10px; margin-bottom: 12px; box-sizing: border-box; outline: none; }
+        
+        .btn-main { width: 100%; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 1.1em; border: none; transition: 0.3s; }
+        .btn-gold { background: linear-gradient(135deg, #D4AF37, #FFD700); color: #000; }
+        
+        #match-result { display: none; animation: fadeIn 0.5s; }
+        .info-card { background: #080808; border: 1px solid var(--neon-blue); border-radius: 15px; padding: 18px; margin-top: 15px; position: relative;}
+        
+        .tag { position: absolute; top: 10px; right: 10px; font-size: 0.7em; padding: 2px 8px; border-radius: 4px; }
+        .tag-p2c { background: var(--neon-blue); color: #000; }
+        .tag-p2p { background: var(--gold); color: #000; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .footer { text-align: center; font-size: 0.7em; color: #555; margin-top: 30px; padding: 20px 0; border-top: 1px solid #222; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2 style="margin:0; letter-spacing: 1px;">2026 <span class="value-up">消費增值計畫</span></h2>
+        <div id="ref-badge" class="id-badge">推薦人: 載入中...</div>
+    </div>
+
+    <div class="gate-status">
+        <i class="fas fa-check-double"></i> 啟動條件：<b>樂瑞 1500PV 首購完成</b><br>
+        <small>實質消費為基石，確保計畫長期合法穩健</small>
+    </div>
+
+    <div class="section-title">計畫核心三部曲</div>
+    <div class="sop-card">
+        <h4>Step 1. 消費轉移</h4>
+        <p>將每月家庭必需品開支轉移至樂瑞，達成 1500PV 門檻。</p>
+    </div>
+    <div class="sop-card">
+        <h4>Step 2. 數位媒合</h4>
+        <p>啟動 AI 生活小秘書，系統自動導流並對接贊助關係。</p>
+    </div>
+    <div class="sop-card">
+        <h4>Step 3. 2027 圓夢</h4>
+        <p>累積旅遊積點，免費兌換 2027 韓國五天四夜奢華之旅。</p>
+    </div>
+
+    <div class="section-title">對接終端</div>
+    <div class="interactive-zone">
+        <div id="input-fields">
+            <input type="tel" id="user-phone" placeholder="請輸入手機號碼 (核帳用)">
+            <input type="text" id="user-line" placeholder="請輸入 LINE ID (聯繫用)">
+            <button class="btn-main btn-gold" onclick="startMatch()">啟動計畫對接 <i class="fas fa-bolt"></i></button>
+        </div>
+
+        <div id="match-result">
+            <div class="info-card">
+                <div id="mode-tag" class="tag">模式辨識中</div>
+                <p style="font-size:0.8em; color:var(--gold); margin:0 0 10px 0;">受贊助對象：<span id="target-id" style="color:#fff;">---</span></p>
+                <div id="target-account" style="font-size:1.1em; color:var(--neon-blue); font-family: monospace; font-weight: bold;">帳號同步中...</div>
+                
+                <div id="p2c-notice" style="display:none; margin-top:10px; font-size:0.75em; color:var(--neon-blue);">
+                    <i class="fas fa-file-invoice"></i> 公司帳號：匯款後將開立電子發票
+                </div>
+
+                <div style="margin-top:15px; padding-top:15px; border-top:1px dashed #333;">
+                    <span style="font-size:0.8em; color:#888;">贊助金額：</span>
+                    <span style="font-size:1.4em; color:var(--neon-red); font-weight:900;">NT$ 1,000</span>
+                </div>
+            </div>
+            <button class="btn-main" style="background:var(--neon-green); color:#000; margin-top:20px;" onclick="confirmPaid()">我已完成轉帳 🆗</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        本系統由 AI 生活小秘書提供技術支援<br>
+        © 2026 消費增值聯盟 | 回目錄大廳請輸入 M
+    </div>
+</div>
+
+<script>
+    // 1. 抓取網址中的 ref 參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const refID = urlParams.get('ref') || 'COMPANY';
+    document.getElementById('ref-badge').innerText = `推薦人: ${refID}`;
+
+    function startMatch() {
+        const phone = document.getElementById('user-phone').value;
+        const line = document.getElementById('user-line').value;
+
+        if(!phone || !line) { alert('請填寫完整資訊'); return; }
+
+        // 模擬 GAS 對接邏輯
+        const btn = document.querySelector('.btn-gold');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 矩陣尋位中...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+            document.getElementById('input-fields').style.display = 'none';
+            document.getElementById('match-result').style.display = 'block';
+            
+            // 2. 判斷是否為公司序號 (假設 ref 包含 'jack' 則為個人，其餘範例為公司)
+            const isCompany = !refID.toLowerCase().includes('jack'); 
+            const tag = document.getElementById('mode-tag');
+            
+            if(isCompany) {
+                tag.innerText = "P2C 官方對接";
+                tag.className = "tag tag-p2c";
+                document.getElementById('target-id').innerText = "AI 生活小秘書有限公司";
+                document.getElementById('target-account').innerText = "007 第一銀行\n123-4567-8901";
+                document.getElementById('p2c-notice').style.display = "block";
+            } else {
+                tag.innerText = "P2P 夥伴互助";
+                tag.className = "tag tag-p2p";
+                document.getElementById('target-id').innerText = "夥伴領袖 (" + refID + ")";
+                document.getElementById('target-account').innerText = "822 中國信託\n987-654-32100";
+            }
+        }, 1500);
+    }
+
+    function confirmPaid() {
+        if(confirm("提醒：虛假回報將導致永久停權且失去韓國遊資格。\n確定已完成轉帳？")) {
+            alert("感謝您的參與！請聯繫您的領袖核單。");
+            window.location.reload();
+        }
+    }
+</script>
+
+</body>
+</html>
