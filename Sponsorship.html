@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <title>AI 生活小秘書 | 消費增值實踐終端</title>
+    <title>AI 生活小秘書 | 1500PV 消費增值實踐終端</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
@@ -25,12 +25,13 @@
 
         .section-title { color: var(--gold); font-size: 1.15em; font-weight: bold; margin: 25px 0 12px 0; border-left: 4px solid var(--gold); padding-left: 12px; }
         .content-text { font-size: 0.95em; color: #ccc; line-height: 1.8; text-align: justify; }
-        .quote { background: rgba(212, 175, 55, 0.08); padding: 18px; border-radius: 12px; font-style: italic; font-size: 0.9em; color: var(--gold-light); border: 1px dashed rgba(212, 175, 55, 0.4); margin: 25px 0; text-align: center; }
         
+        /* 1500PV 強調區塊 */
+        .pv-gate { background: rgba(0, 229, 255, 0.1); border: 1px solid var(--neon-blue); padding: 15px; border-radius: 12px; margin: 20px 0; text-align: center; font-size: 0.9em; }
+
         .trilogy-card { background: #1a1a1a; padding: 18px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #333; }
         .trilogy-card h4 { margin: 0 0 8px 0; color: var(--neon-blue); font-size: 1.05em; display: flex; align-items: center; }
         .trilogy-card h4 i { margin-right: 10px; }
-        .trilogy-card p { margin: 0; font-size: 0.88em; color: #aaa; line-height: 1.6; }
 
         .interactive-zone { background: #000; border: 1px solid var(--gold); border-radius: 20px; padding: 25px; margin-top: 40px; }
         input { width: 100%; background: #000; border: 1px solid #444; color: #fff; padding: 16px; border-radius: 12px; margin-bottom: 15px; box-sizing: border-box; outline: none; font-size: 1em; }
@@ -39,6 +40,12 @@
         
         #match-area { display: none; animation: fadeIn 0.6s; }
         .bank-card { background: #080808; border: 1px solid var(--neon-blue); border-radius: 15px; padding: 20px; margin-top: 15px; }
+        
+        /* 模式標籤 */
+        .mode-tag { font-size: 0.7em; padding: 2px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+        .tag-p2c { background: var(--neon-blue); color: #000; }
+        .tag-p2p { background: var(--gold); color: #000; }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .footer { text-align: center; font-size: 0.75em; color: #666; margin-top: 40px; padding-bottom: 30px; border-top: 1px solid #222; padding-top: 25px; }
@@ -48,164 +55,155 @@
 
 <div class="container">
     <div class="header">
-        <h2 style="margin:0; font-weight: 900; letter-spacing: 2px;">數位分身 · <span class="value-up">消費增值</span></h2>
-        <p style="font-size: 0.8em; color: var(--gold); margin-top: 8px;">啟動增值循環 | 讓支出 100% 回流</p>
-        <div id="display-user-badge" class="id-badge">覺醒編號: 偵測中...</div>
+        <h2 style="margin:0; font-weight: 900; letter-spacing: 2px;">數位分身 · <span class="value-up">1500PV 挑戰</span></h2>
+        <p style="font-size: 0.8em; color: var(--gold); margin-top: 8px;">啟動消費轉收益 | 讓支出 100% 回流</p>
+        <div id="display-user-badge" class="id-badge">推薦領袖: 偵測中...</div>
     </div>
 
-    <div class="section-title">經營初衷</div>
-    <div class="content-text">
-        消費不應是資產的終點，而是增值的起點。我們教您將日常採買轉化為「日常消費增值計畫」的核心動能。感恩活動支持實質經營夥伴，讓<b>聰明消費覺醒者</b>經營更穩、獲利更豐。
+    <div class="pv-gate">
+        <i class="fas fa-shield-alt"></i> <b>計畫資格鎖定</b><br>
+        本方案僅限完成樂瑞 <b>1500PV</b> 實質消費之會員參與。<br>
+        <small style="color: var(--neon-blue);">確保實質消費對價，規避非法吸金風險。</small>
     </div>
 
-    <div class="quote">
-        「我們從不推銷，我們只是將『日常消費就能增值』的真實體會，分享給同樣懂生活的你。」
-    </div>
-
-    <div class="section-title">智慧經營三部曲</div>
+    <div class="section-title">經營三部曲</div>
 
     <div class="trilogy-card">
-        <h4><i class="fas fa-list-ul"></i> 1. 即時清單，隨手紀錄</h4>
-        <p>勾選家中的日常必需品。這不是單純的採買，而是將「必要支出」轉化為活躍度憑證。每一份憑證都在為您的數位分身累積動能。</p>
+        <h4><i class="fas fa-shopping-cart"></i> 1. 消費換權利</h4>
+        <p>每月滿足 1500PV 樂瑞必需品消費。這不是支出，而是取得 AI 系統使用權與被贊助資格的入場券。</p>
     </div>
 
     <div class="trilogy-card">
-        <h4><i class="fas fa-layer-group"></i> 2. 憑證參與，位移成長</h4>
-        <p>每達成指定的消費積點 (PV)，即可獲得憑證參與感恩位移。體驗從 1 份憑證延伸至多份的循環喜悅，這是一場基於互助的能量傳播。</p>
+        <h4><i class="fas fa-users-cog"></i> 2. AI 自動媒合</h4>
+        <p>系統根據您的數位代號，自動定位贊助與被贊助對象。P2C 模式下將依法開立電子發票，確保稅務合規。</p>
     </div>
 
     <div class="trilogy-card">
-        <h4><i class="fas fa-plane"></i> 3. 多重回饋，圓夢韓國</h4>
-        <p>維持活躍，不僅能領取經營者支持回饋，更能同步累積 2026 韓國雙人遊點數，將日常生活品質轉化為年度夢想清單。</p>
+        <h4><i class="fas fa-passport"></i> 3. 2027 韓國夢</h4>
+        <p>維持活躍，除獲得夥伴互助金外，更可同步累積 2027 韓國旅遊積點，讓生活品質轉化為圓夢動力。</p>
     </div>
 
-    <div class="section-title">覺醒夥伴 · 啟動對接</div>
+    <div class="section-title">啟動贊助對接</div>
 
     <div class="interactive-zone">
         <div id="verify-zone">
-            <input type="tel" id="v-phone" placeholder="📱 驗證手機 (回饋核帳憑證)">
-            <input type="text" id="v-line" placeholder="💬 LINE ID (接收增值通知)">
-            <button class="btn-main btn-gold" id="submit-btn" onclick="executeMatch()">啟動消費增值方案 <i class="fas fa-rocket"></i></button>
-            <p style="text-align: center; font-size: 0.7em; color: #555; margin-top: 15px;">點擊即認同「消費增值論」覺醒者協議</p>
+            <input type="tel" id="v-phone" placeholder="📱 驗證手機 (核帳憑證使用)">
+            <input type="text" id="v-line" placeholder="💬 LINE ID (接收贊助通知)">
+            <button class="btn-main btn-gold" id="submit-btn" onclick="executeMatch()">啟動 1500PV 互助方案 <i class="fas fa-rocket"></i></button>
+            <p style="text-align: center; font-size: 0.75em; color: #888; margin-top: 15px;">
+                點擊即代表您已完成 1500PV 首購<br>並認同「數位分身互助協議」
+            </p>
         </div>
 
         <div id="match-area">
-            <div style="text-align:center; padding:12px; background:rgba(0,255,136,0.1); color:var(--neon-green); border-radius:10px; margin-bottom:15px; font-weight:bold; border: 1px solid var(--neon-green);">
-                <i class="fas fa-link"></i> 增值種子已播種：G<span id="gen-depth">0</span>
+            <div id="match-status-header" style="text-align:center; padding:12px; background:rgba(0,255,136,0.1); color:var(--neon-green); border-radius:10px; margin-bottom:15px; font-weight:bold; border: 1px solid var(--neon-green);">
+                <i class="fas fa-check-circle"></i> 互助對接成功
             </div>
             <div class="bank-card">
-                <p style="font-size:0.8em; color:var(--gold); margin:0 0 12px 0;">增值對接對象：<span id="target-code" style="color:#fff; font-weight:bold;">---</span></p>
+                <p style="font-size:0.8em; color:var(--gold); margin:0 0 12px 0;">
+                    對接對象：<span id="target-code" style="color:#fff; font-weight:bold;">---</span>
+                    <span id="mode-badge" class="mode-tag">辨識中</span>
+                </p>
                 <div id="target-bank" style="font-size:1.1em; color:var(--neon-blue); font-family: monospace; font-weight: bold; word-break: break-all;">數據同步中...</div>
+                
+                <div id="invoice-notice" style="margin-top:10px; font-size:0.75em; color:var(--neon-blue); display:none;">
+                    <i class="fas fa-file-invoice"></i> 本筆對象為官方公司，將依法開立電子發票。
+                </div>
+
                 <div style="margin-top:20px; padding-top:15px; border-top:1px dashed #333;">
-                    <span style="font-size:0.85em; color:#888;">增值啟動金：</span>
+                    <span style="font-size:0.85em; color:#888;">贊助啟動金：</span>
                     <span style="font-size:1.5em; color:var(--neon-red); font-weight:900;">NT$ 1,000</span>
                 </div>
             </div>
-            <button class="btn-main" style="background:var(--neon-green); color:#000; margin-top:25px;" onclick="confirmSent()">我已完成增值投放 🆗</button>
+            <button class="btn-main" style="background:var(--neon-green); color:#000; margin-top:25px;" onclick="confirmSent()">我已完成贊助投放 🆗</button>
         </div>
     </div>
 
     <div class="footer">
-        讓花掉的錢學會自己回家，這就是消費增值論的終極實踐。<br>
-        AI 生活小秘書 · 全方位數位輔助系統<br>
+        1500PV 消費實踐 ‧ 2027 韓國圓夢計畫<br>
+        AI 生活小秘書 · 合規法人運作系統<br>
         <strong>回目錄大廳請輸入 M</strong>
     </div>
 </div>
 
 <script>
-    /**
-     * 1. 獲取 URL 中的推薦人 ID (ref)
-     */
     function getPromoId() {
         const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('ref') || urlParams.get('id') || urlParams.get('user') || 'GUEST';
+        return urlParams.get('ref') || urlParams.get('id') || 'GUEST';
     }
 
     const currentID = getPromoId();
-    // 💡 領袖請在此填入部署後的 Web App URL
     const GAS_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec";
     
     document.getElementById('display-user-badge').innerText = `推薦領袖: ${currentID}`;
 
-    /**
-     * 2. 處理後端回傳的配對結果
-     * 支援：L1-L10 不同層級的金額與對象顯示
-     */
     window.handleGASResponse = function(response) {
         const btn = document.getElementById('submit-btn');
         if (response.status === "success") {
-            // 隱藏輸入區，顯示配對區
             document.getElementById('verify-zone').style.display = 'none';
             document.getElementById('match-area').style.display = 'block';
             
-            // 填入配對資料
-            document.getElementById('target-code').innerText = response.receiverName || "系統推薦領袖";
-            document.getElementById('target-bank').innerText = response.bankInfo || "請洽詢推薦人獲取匯款資訊";
-            document.getElementById('gen-depth').innerText = response.depth || "1";
+            const isCompany = response.isCompany || false; // 後端需回傳是否為公司
+            const badge = document.getElementById('mode-badge');
+            const invNotice = document.getElementById('invoice-notice');
             
-            // 動態更新金額 (若非 L1)
+            document.getElementById('target-code').innerText = response.receiverName || "系統領袖";
+            document.getElementById('target-bank').innerText = response.bankInfo || "請洽詢推薦人";
+            
+            // 動態切換 P2C / P2P UI
+            if(isCompany) {
+                badge.innerText = "P2C 官方對接";
+                badge.className = "mode-tag tag-p2c";
+                invNotice.style.display = "block";
+            } else {
+                badge.innerText = "P2P 夥伴互助";
+                badge.className = "mode-tag tag-p2p";
+                invNotice.style.display = "none";
+            }
+
             if (response.amount) {
                 const amountSpan = document.querySelector('.bank-card span[style*="font-size:1.5em"]');
                 amountSpan.innerText = `NT$ ${Number(response.amount).toLocaleString()}`;
             }
         } else {
-            alert(response.msg || '配對失敗：當前排隊人數較多，請稍後再試');
-            btn.innerHTML = '啟動消費增值方案 <i class="fas fa-rocket"></i>';
+            alert(response.msg || '尋位失敗');
+            btn.innerHTML = '啟動 1500PV 互助方案 <i class="fas fa-rocket"></i>';
             btn.disabled = false;
         }
         
-        // 移除 JSONP Script 標籤避免堆積
         const oldScript = document.getElementById('gas-script');
         if(oldScript) oldScript.remove();
     };
 
-    /**
-     * 3. 執行尋位與配對請求 (呼叫 1_Core_Engine.gs)
-     */
     function executeMatch() {
         const phone = document.getElementById('v-phone').value.trim();
         const line = document.getElementById('v-line').value.trim();
         const btn = document.getElementById('submit-btn');
 
-        // 基本驗證
-        if(!phone || !line) { alert('請填寫完整驗證資訊，以利核對增值憑證'); return; }
-        if(currentID === 'GUEST') { alert('偵測不到推薦來源，請使用領袖提供的專屬連結'); return; }
+        if(!phone || !line) { alert('請填寫完整驗證資訊'); return; }
+        if(currentID === 'GUEST') { alert('偵測不到推薦來源'); return; }
         
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 矩陣尋位中...';
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 矩陣計算中...';
         btn.disabled = true;
 
-        // 構建 JSONP 請求
         const script = document.createElement('script');
         script.id = 'gas-script';
         const params = new URLSearchParams({
-            action: "requestMatch", // 對應後端 doGet 的 switch case
-            user: currentID,        // 推薦人 UID
-            phone: phone,           // 新人手機 (用於寫入 User_Data)
-            lineId: line,           // 新人 LINE (用於寫入 User_Data)
+            action: "requestMatch",
+            user: currentID,
+            phone: phone,
+            lineId: line,
             callback: "handleGASResponse" 
         });
         
         script.src = `${GAS_URL}?${params.toString()}`;
         document.body.appendChild(script);
-
-        // 逾時處理 (15秒)
-        setTimeout(() => {
-            if (btn.disabled && btn.innerHTML.includes("尋位中")) {
-                alert('伺服器響應超時，可能正在進行大公排計算，請稍後重新啟動');
-                btn.innerHTML = '重新啟動方案';
-                btn.disabled = false;
-            }
-        }, 15000);
     }
 
-    /**
-     * 4. 確認投放並完成排位
-     */
     function confirmSent() {
-        const msg = "【法律聲明】\n我已確認完成增值金投放。\n虛假回報將導致數位分身永久凍結且失去 2026 韓國遊資格。\n確定送出？";
+        const msg = "【法律聲明】\n我已確認完成贊助金投放。\n虛假回報將導致帳號永久凍結且失去 2027 韓國遊資格。\n確定送出？";
         if(confirm(msg)) {
-            // 此處可增加一個回報後端的動作，或是直接跳轉至感謝頁面
-            alert("數據已同步至 AI 生活小秘書，請聯繫領袖核單激活。");
+            alert("數據已同步，請聯繫推薦領袖核單激活 2027 旅遊資格。");
             window.location.reload();
         }
     }
