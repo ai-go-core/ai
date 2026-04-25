@@ -3,40 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>轉換跑道：讓努力更有價值</title>
+    <title>轉換跑道：讓努力更有價值 | 櫻花粉科技版</title>
     <style>
         :root {
-            --tech-blue: #00d4ff;
-            --deep-blue: #001220;
-            --glow-blue: rgba(0, 212, 255, 0.4);
-            --dark-bg: #02060a;
-            --text-gray: #b0c4de;
+            --sakura-pink: #ffb7c5;
+            --tech-pink: #ff69b4;
+            --deep-pink: #2d1b22;
+            --glow-pink: rgba(255, 105, 180, 0.4);
+            --dark-bg: #1a0f13;
+            --text-soft: #ffe4e1;
         }
 
         body {
             background-color: var(--dark-bg);
-            color: var(--text-gray);
+            color: var(--text-soft);
             font-family: 'PingFang TC', "Microsoft JhengHei", sans-serif;
             margin: 0;
             padding: 20px;
             line-height: 1.6;
-            background-image: radial-gradient(circle at 50% 50%, #001f3f 0%, #02060a 100%);
+            background-image: radial-gradient(circle at 50% 50%, #3d1a24 0%, #1a0f13 100%);
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            border: 1px solid var(--tech-blue);
+            border: 1px solid var(--sakura-pink);
             padding: 30px;
-            background-color: rgba(0, 18, 32, 0.8);
-            box-shadow: 0 0 20px var(--glow-blue);
-            border-radius: 12px;
+            background-color: rgba(45, 27, 34, 0.85);
+            box-shadow: 0 0 25px var(--glow-pink);
+            border-radius: 15px;
             backdrop-filter: blur(10px);
         }
 
         header {
             text-align: center;
-            border-bottom: 1px solid var(--tech-blue);
+            border-bottom: 1px solid var(--tech-pink);
             padding-bottom: 25px;
             margin-bottom: 35px;
         }
@@ -45,7 +46,7 @@
             font-size: 1.8rem;
             margin-bottom: 15px;
             color: #ffffff;
-            text-shadow: 0 0 10px var(--tech-blue);
+            text-shadow: 0 0 12px var(--tech-pink);
             line-height: 1.5;
         }
 
@@ -53,32 +54,33 @@
             font-size: 1.1rem;
             color: #ffffff;
             margin-bottom: 10px;
-            background: rgba(0, 212, 255, 0.1);
-            padding: 10px;
+            background: rgba(255, 183, 197, 0.15);
+            padding: 10px 20px;
             display: inline-block;
-            border-radius: 5px;
+            border-radius: 50px;
+            border: 1px solid var(--sakura-pink);
         }
 
         .subtitle {
             font-size: 1rem;
-            color: var(--tech-blue);
+            color: var(--sakura-pink);
             font-weight: bold;
             margin-top: 10px;
         }
 
         .highlight-box {
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 105, 180, 0.05);
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin: 25px 0;
             color: #ffffff;
             text-align: center;
-            border: 1px solid rgba(0, 212, 255, 0.3);
+            border: 1px solid rgba(255, 183, 197, 0.3);
         }
 
         h2 {
             font-size: 1.4rem;
-            border-left: 4px solid var(--tech-blue);
+            border-left: 4px solid var(--tech-pink);
             padding-left: 12px;
             margin-top: 35px;
             color: #ffffff;
@@ -88,58 +90,57 @@
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: rgba(0, 0, 0, 0.3);
             font-size: 0.95rem;
         }
 
         th, td {
-            border: 1px solid #1a3a5a;
+            border: 1px solid #4a2b35;
             padding: 12px;
             text-align: left;
         }
 
-        th {
-            background-color: var(--tech-blue);
-            color: #001220;
-        }
+        th { background-color: var(--tech-pink); color: #ffffff; }
 
         .cta-section {
             text-align: center;
             margin-top: 50px;
             padding: 40px;
-            background: rgba(0, 212, 255, 0.05);
-            border: 1px solid var(--tech-blue);
-            border-radius: 10px;
+            background: rgba(255, 105, 180, 0.08);
+            border: 1px solid var(--tech-pink);
+            border-radius: 15px;
         }
 
         .btn {
             display: inline-block;
-            background-color: var(--tech-blue);
-            color: #000;
-            padding: 15px 40px;
+            background: linear-gradient(135deg, #ffb7c5 0%, #ff69b4 100%);
+            color: #2d1b22;
+            padding: 18px 45px;
             font-weight: bold;
             text-decoration: none;
             border-radius: 50px;
             font-size: 1.3rem;
             margin-top: 20px;
-            box-shadow: 0 0 15px var(--glow-blue);
+            box-shadow: 0 0 20px var(--glow-pink);
             transition: 0.3s;
+            border: none;
+            cursor: pointer;
         }
 
         .btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 30px var(--tech-blue);
+            box-shadow: 0 0 35px var(--tech-pink);
         }
 
         .footer {
             font-size: 0.85rem;
-            opacity: 0.6;
+            opacity: 0.7;
             margin-top: 50px;
             text-align: center;
-            color: var(--text-gray);
+            color: var(--sakura-pink);
         }
 
-        .check-icon { color: #00ff00; margin-right: 5px; }
+        .check-icon { color: #ff69b4; margin-right: 5px; }
     </style>
 </head>
 <body>
@@ -147,14 +148,13 @@
         <header>
             <h1>你努力了很久卻無法取得明顯的進步<br>表示你該轉換跑道了</h1>
             <div class="mission-statement">我們免費提供機會、方法與工具，協助您無痛轉換跑道</div>
-            <div class="subtitle">讓生活開銷變收入 ‧ 簡單好上手的自動化系統</div>
+            <div class="subtitle">讓生活開銷變收入 ‧ 溫暖貼心的自動化系統</div>
         </header>
 
         <div class="highlight-box">
-            <strong>心底的聲音：</strong><br>
-            你是不是每天忙著找人，家裡卻堆滿了不需要的東西？<br>
-            努力不應該這麼累。在這裡，我們只做「本來就在做」的事：<br>
-            <strong>把家裡的日常用品換個地方買，利潤就回流到你口袋。</strong>
+            努力不應該是壓力，成功也可以很優雅。<br>
+            只需將原本就在買的日用品換個地方購買，<br>
+            <strong>利潤就從自己開始，每個人都是自己的第一代。</strong>
         </div>
 
         <h2>🛡️ 為什麼在這裡努力更有感？</h2>
@@ -163,57 +163,79 @@
                 <tr>
                     <th>比較項目</th>
                     <th>傳統傳銷</th>
-                    <th>我們的系統</th>
+                    <th>我們的溫馨系統</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>利潤分配</strong></td>
-                    <td>要爬到高位階才能領得多</td>
-                    <td><strong>自己消費就領 4%，你就是自己的老闆</strong></td>
+                    <td><strong>獲利起始</strong></td>
+                    <td>幫高階領袖累積業績</td>
+                    <td><strong>自己消費領 4%，利潤自己拿</strong></td>
                 </tr>
                 <tr>
-                    <td><strong>買什麼產品</strong></td>
-                    <td>昂貴、不一定每天用的東西</td>
-                    <td><strong>刷牙、洗澡、廚房用的生活必需品</strong></td>
-                </tr>
-                <tr>
-                    <td><strong>為什麼要買</strong></td>
-                    <td>為了維持領獎金的資格</td>
+                    <td><strong>購買動力</strong></td>
+                    <td>為了維持發獎金的資格</td>
                     <td><strong>家裡用完了，本來就要買</strong></td>
                 </tr>
                 <tr>
-                    <td><strong>壓力大小</strong></td>
-                    <td>有每個月領錢的門檻壓力</td>
-                    <td><strong>免年費、免送貨、想領就領</strong></td>
+                    <td><strong>經營壓力</strong></td>
+                    <td>有每月的囤貨壓力</td>
+                    <td><strong>免會費、免送貨、無壓力領取</strong></td>
                 </tr>
                 <tr>
-                    <td><strong>找人方式</strong></td>
-                    <td>消耗人情味，到處求人</td>
-                    <td><strong>電腦系統自動幫你篩選精準夥伴</strong></td>
+                    <td><strong>開發方式</strong></td>
+                    <td>消耗人脈，辛苦說明</td>
+                    <td><strong>AI 生活小秘書 24H 溫柔引流</strong></td>
                 </tr>
             </tbody>
         </table>
 
         <div class="cta-section">
-            <h3 style="color:#fff;">「別再當別人的分母，現在開始為自己累積。」</h3>
-            <p style="color:var(--tech-blue);">我們準備好了工具，就等你來體驗</p>
+            <h3 style="color:#fff;">「別再當別人的分母，現在啟動您的主權。」</h3>
+            <p style="color:var(--sakura-pink);">我們已準備好工具，溫柔迎接您的加入</p>
             
-            <a href="https://ai-go-core.github.io/ai/index.html?ref=jack197775" class="btn">
-                立即啟動 ‧ 免費獲取機會
-            </a>
+            <a id="regBtn" href="#" class="btn">立即啟動 ‧ 開啟新跑道</a>
+            <br><br>
+            <a id="lineLink" href="#" style="color:var(--sakura-pink); text-decoration:underline; font-size:0.9rem;">有疑問？點擊線上諮詢</a>
             
             <div style="margin-top: 25px; font-size: 0.95rem; color: #fff;">
-                <span class="check-icon">✔</span> 贈送 50 元購物金 | 
-                <span class="check-icon">✔</span> 推薦獎勵 99 元/人 | 
-                <span class="check-icon">✔</span> 2027 韓國雙人遊計畫
+                <span class="check-icon">♥</span> 贈送 50 元購物金 | 
+                <span class="check-icon">♥</span> 推薦獎勵 99 元/人 | 
+                <span class="check-icon">♥</span> 2027 韓國雙人遊計畫
             </div>
         </div>
 
         <div class="footer">
-            這是一個輔助大家過好生活的分享平台。我們不強迫、不囤貨。 <br>
-            一切內容以系統核心公告為主。 | 提示：回目錄大廳請輸入 M
+            AI 生活小秘書 · 全方位數位輔助 認證系統<br>
+            最終解釋權歸系統核心所有。 | 提示：回目錄大廳請輸入 M
         </div>
     </div>
+
+    <script>
+        window.onload = function() {
+            // 1. 抓取網址中的推薦人參數
+            const urlParams = new URLSearchParams(window.location.search);
+            const refId = urlParams.get('ref') || 'jack197775'; // 預設為您的 ID
+
+            // 2. 更新「立即啟動」按鈕連結
+            const regBtn = document.getElementById('regBtn');
+            if(regBtn) {
+                regBtn.href = "https://ai-go-core.github.io/ai/index.html?ref=" + refId;
+            }
+
+            // 3. 更新「LINE 諮詢」連結
+            const lineLink = document.getElementById('lineLink');
+            if (lineLink) {
+                const lineOaId = "@641zpzus"; // 您設定的 LINE ID
+                const isLineBrowser = /Line/i.test(navigator.userAgent);
+
+                if (isLineBrowser) {
+                    lineLink.href = "https://line.me/R/ti/p/" + lineOaId;
+                } else {
+                    lineLink.href = "https://line.me/R/oaMessage/" + lineOaId + "/?ref=" + refId;
+                }
+            }
+        };
+    </script>
 </body>
 </html>
