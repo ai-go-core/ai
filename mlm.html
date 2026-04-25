@@ -3,144 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>轉換跑道：讓努力更有價值 | 櫻花粉科技版</title>
+    <title>轉換跑道：讓努力更有價值</title>
     <style>
         :root {
             --sakura-pink: #ffb7c5;
             --tech-pink: #ff69b4;
-            --deep-pink: #2d1b22;
-            --glow-pink: rgba(255, 105, 180, 0.4);
-            --dark-bg: #1a0f13;
-            --text-soft: #ffe4e1;
+            --soft-pink-bg: #fff5f7; /* 輕微的粉色背景，用於區塊區隔 */
+            --text-main: #333333;
+            --text-dark: #000000;
+            --white: #ffffff;
+            --glow-pink: rgba(255, 105, 180, 0.2);
         }
 
         body {
-            background-color: var(--dark-bg);
-            color: var(--text-soft);
+            background-color: var(--white); /* 改為白底 */
+            color: var(--text-main);
             font-family: 'PingFang TC', "Microsoft JhengHei", sans-serif;
             margin: 0;
             padding: 20px;
-            line-height: 1.6;
-            background-image: radial-gradient(circle at 50% 50%, #3d1a24 0%, #1a0f13 100%);
+            line-height: 1.8;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
             border: 1px solid var(--sakura-pink);
-            padding: 30px;
-            background-color: rgba(45, 27, 34, 0.85);
-            box-shadow: 0 0 25px var(--glow-pink);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
+            padding: 40px;
+            background-color: var(--white);
+            box-shadow: 0 10px 30px var(--glow-pink); /* 柔和的粉色陰影 */
+            border-radius: 20px;
         }
 
         header {
             text-align: center;
-            border-bottom: 1px solid var(--tech-pink);
-            padding-bottom: 25px;
-            margin-bottom: 35px;
+            border-bottom: 2px solid var(--tech-pink);
+            padding-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin-bottom: 15px;
-            color: #ffffff;
-            text-shadow: 0 0 12px var(--tech-pink);
-            line-height: 1.5;
+            color: var(--text-dark);
+            line-height: 1.4;
+            letter-spacing: 1px;
         }
 
         .mission-statement {
             font-size: 1.1rem;
-            color: #ffffff;
-            margin-bottom: 10px;
-            background: rgba(255, 183, 197, 0.15);
-            padding: 10px 20px;
+            color: var(--tech-pink); /* 強調文字用粉色 */
+            margin-bottom: 15px;
+            background: var(--soft-pink-bg);
+            padding: 10px 25px;
             display: inline-block;
             border-radius: 50px;
             border: 1px solid var(--sakura-pink);
+            font-weight: bold;
         }
 
         .subtitle {
             font-size: 1rem;
-            color: var(--sakura-pink);
-            font-weight: bold;
+            color: var(--text-main);
+            font-weight: normal;
             margin-top: 10px;
         }
 
         .highlight-box {
-            background-color: rgba(255, 105, 180, 0.05);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 25px 0;
-            color: #ffffff;
+            background-color: var(--soft-pink-bg);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            color: var(--text-main);
             text-align: center;
-            border: 1px solid rgba(255, 183, 197, 0.3);
+            border: 1px solid rgba(255, 183, 197, 0.5);
         }
 
         h2 {
-            font-size: 1.4rem;
-            border-left: 4px solid var(--tech-pink);
-            padding-left: 12px;
-            margin-top: 35px;
-            color: #ffffff;
+            font-size: 1.5rem;
+            border-left: 5px solid var(--tech-pink);
+            padding-left: 15px;
+            margin-top: 45px;
+            color: var(--text-dark);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            background-color: rgba(0, 0, 0, 0.3);
+            margin: 25px 0;
+            background-color: var(--white);
             font-size: 0.95rem;
+            border: 1px solid #eee;
         }
 
         th, td {
-            border: 1px solid #4a2b35;
-            padding: 12px;
+            border: 1px solid #eee;
+            padding: 18px;
             text-align: left;
         }
 
-        th { background-color: var(--tech-pink); color: #ffffff; }
+        th {
+            background-color: var(--soft-pink-bg);
+            color: var(--tech-pink);
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
 
         .cta-section {
             text-align: center;
-            margin-top: 50px;
-            padding: 40px;
-            background: rgba(255, 105, 180, 0.08);
-            border: 1px solid var(--tech-pink);
-            border-radius: 15px;
+            margin-top: 60px;
+            padding: 50px;
+            background-color: var(--soft-pink-bg);
+            border: 1px solid var(--sakura-pink);
+            border-radius: 20px;
+            box-shadow: inset 0 0 20px rgba(255, 183, 197, 0.2);
         }
 
         .btn {
             display: inline-block;
             background: linear-gradient(135deg, #ffb7c5 0%, #ff69b4 100%);
-            color: #2d1b22;
-            padding: 18px 45px;
+            color: var(--white); /* 按鈕文字用白色 */
+            padding: 20px 50px;
             font-weight: bold;
             text-decoration: none;
             border-radius: 50px;
-            font-size: 1.3rem;
-            margin-top: 20px;
-            box-shadow: 0 0 20px var(--glow-pink);
+            font-size: 1.4rem;
+            margin-top: 25px;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
             transition: 0.3s;
             border: none;
             cursor: pointer;
         }
 
         .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 35px var(--tech-pink);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
         }
 
         .footer {
-            font-size: 0.85rem;
-            opacity: 0.7;
-            margin-top: 50px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 60px;
             text-align: center;
-            color: var(--sakura-pink);
+            color: var(--text-main);
+            border-top: 1px solid #eee;
+            padding-top: 25px;
         }
 
-        .check-icon { color: #ff69b4; margin-right: 5px; }
+        .check-icon { color: #ff69b4; margin-right: 8px; font-weight: bold; }
+        .line-link { color: var(--tech-pink); text-decoration: underline; font-size: 0.95rem; display: inline-block; margin-top: 15px;}
     </style>
 </head>
 <body>
@@ -148,13 +161,13 @@
         <header>
             <h1>你努力了很久卻無法取得明顯的進步<br>表示你該轉換跑道了</h1>
             <div class="mission-statement">我們免費提供機會、方法與工具，協助您無痛轉換跑道</div>
-            <div class="subtitle">讓生活開銷變收入 ‧ 溫暖貼心的自動化系統</div>
+            <div class="subtitle">讓生活開銷變收入 ‧ 簡單、自動化的圓夢系統</div>
         </header>
 
         <div class="highlight-box">
             努力不應該是壓力，成功也可以很優雅。<br>
             只需將原本就在買的日用品換個地方購買，<br>
-            <strong>利潤就從自己開始，每個人都是自己的第一代。</strong>
+            <strong>利潤就從自己開始，每個人都是自己的第一代老闆。</strong>
         </div>
 
         <h2>🛡️ 為什麼在這裡努力更有感？</h2>
@@ -162,15 +175,20 @@
             <thead>
                 <tr>
                     <th>比較項目</th>
-                    <th>傳統傳銷</th>
+                    <th>傳統傳銷方式</th>
                     <th>我們的溫馨系統</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>獲利起始</strong></td>
+                    <td><strong>獲利起始點</strong></td>
                     <td>幫高階領袖累積業績</td>
-                    <td><strong>自己消費領 4%，利潤自己拿</strong></td>
+                    <td><strong>自己消費領 4%，獲利自己拿</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>產品類型</strong></td>
+                    <td>特定、非生活必須品</td>
+                    <td><strong>牙刷、沐浴乳、廚房必備消耗品</strong></td>
                 </tr>
                 <tr>
                     <td><strong>購買動力</strong></td>
@@ -185,20 +203,20 @@
                 <tr>
                     <td><strong>開發方式</strong></td>
                     <td>消耗人脈，辛苦說明</td>
-                    <td><strong>AI 生活小秘書 24H 溫柔引流</strong></td>
+                    <td><strong>AI 自動化系統 24H 溫柔引流</strong></td>
                 </tr>
             </tbody>
         </table>
 
         <div class="cta-section">
-            <h3 style="color:#fff;">「別再當別人的分母，現在啟動您的主權。」</h3>
-            <p style="color:var(--sakura-pink);">我們已準備好工具，溫柔迎接您的加入</p>
+            <h2 style="color: var(--text-dark);">「別再當別人的分母，現在啟動您的主權。」</h2>
+            <p style="color: var(--text-main);">我們已準備好所有工具，溫柔迎接您的加入</p>
             
             <a id="regBtn" href="#" class="btn">立即啟動 ‧ 開啟新跑道</a>
-            <br><br>
-            <a id="lineLink" href="#" style="color:var(--sakura-pink); text-decoration:underline; font-size:0.9rem;">有疑問？點擊線上諮詢</a>
+            <br>
+            <a id="lineLink" href="#" class="line-link">有疑问？點擊線上諮詢</a>
             
-            <div style="margin-top: 25px; font-size: 0.95rem; color: #fff;">
+            <div style="margin-top: 30px; font-size: 1rem; color: var(--text-main); font-weight: bold;">
                 <span class="check-icon">♥</span> 贈送 50 元購物金 | 
                 <span class="check-icon">♥</span> 推薦獎勵 99 元/人 | 
                 <span class="check-icon">♥</span> 2027 韓國雙人遊計畫
@@ -206,32 +224,36 @@
         </div>
 
         <div class="footer">
-            AI 生活小秘書 · 全方位數位輔助 認證系統<br>
+            本系統為獨立輔助平台，致力於提升您的生活品質。 <br>
             最終解釋權歸系統核心所有。 | 提示：回目錄大廳請輸入 M
         </div>
     </div>
 
     <script>
         window.onload = function() {
-            // 1. 抓取網址中的推薦人參數
+            // 1. 核心功能：動態抓取網址中的推薦人 ID
             const urlParams = new URLSearchParams(window.location.search);
-            const refId = urlParams.get('ref') || 'jack197775'; // 預設為您的 ID
+            
+            // 2. 提取推薦人 ID (ref)
+            const refId = urlParams.get('ref') || 'jack197775'; // 網址若無則預設為 jack197775
 
-            // 2. 更新「立即啟動」按鈕連結
+            // 3. 動態更新「立即啟動」按鈕的連結
             const regBtn = document.getElementById('regBtn');
             if(regBtn) {
                 regBtn.href = "https://ai-go-core.github.io/ai/index.html?ref=" + refId;
             }
 
-            // 3. 更新「LINE 諮詢」連結
+            // 4. 動態更新「LINE 諮詢」連結，嘗試傳遞推薦代號
             const lineLink = document.getElementById('lineLink');
             if (lineLink) {
                 const lineOaId = "@641zpzus"; // 您設定的 LINE ID
                 const isLineBrowser = /Line/i.test(navigator.userAgent);
 
                 if (isLineBrowser) {
+                    // LINE 內開啟使用最穩定的ti連結
                     lineLink.href = "https://line.me/R/ti/p/" + lineOaId;
                 } else {
+                    // 外部開啟時，嘗試自動帶入推薦參數訊息
                     lineLink.href = "https://line.me/R/oaMessage/" + lineOaId + "/?ref=" + refId;
                 }
             }
