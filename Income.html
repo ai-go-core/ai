@@ -36,9 +36,23 @@
             border-top: 8px solid var(--primary-gold);
         }
 
-        header { text-align: center; margin-bottom: 30px; }
+        header { text-align: center; margin-bottom: 25px; }
         h1 { color: var(--deep-black); font-size: 1.6rem; margin: 0; }
         
+        /* 新增的核心訴求區塊 */
+        .promise-box {
+            background: var(--light-gold);
+            border: 1px solid var(--primary-gold);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.05rem;
+            color: var(--deep-black);
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
         .hero-box {
             background: var(--deep-black);
             color: var(--primary-gold);
@@ -59,13 +73,12 @@
             font-size: 1.2rem;
         }
 
-        /* 獲利路徑設計 */
         .step-container { margin: 20px 0; }
         .step {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 20px;
-            background: var(--light-gold);
+            margin-bottom: 15px;
+            background: #f9f9f9;
             padding: 15px;
             border-radius: 12px;
         }
@@ -83,17 +96,6 @@
             font-weight: bold;
         }
         .step-content b { color: var(--deep-black); display: block; margin-bottom: 4px; }
-
-        /* 複利試算表佈局 */
-        .calc-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 0.9rem;
-        }
-        .calc-table th { background: #eee; padding: 10px; text-align: left; }
-        .calc-table td { padding: 10px; border-bottom: 1px solid #f0f0f0; }
-        .highlight-row { background-color: var(--light-gold); font-weight: bold; }
 
         .cta-btn {
             display: block;
@@ -125,80 +127,58 @@
     <div class="container">
         <header>
             <h1>每月 5 萬被動收入解析</h1>
-            <p>這不只是夢想，而是精確的系統演算</p>
+            <p>啟動生活主權 ‧ 告別無奈加班</p>
         </header>
 
-        <div class="hero-box">
-            <p>您的第一階段目標</p>
-            <h2>NT$ 50,000 / 月</h2>
-            <p>啟動生活主權 ‧ 告別無奈加班</p>
+        <div class="promise-box">
+            我們免費提供機會、方法與工具，<br>
+            <strong>在不影響您現有工作的前提下，</strong><br>
+            協助您每個月多一筆被動收入，<br>
+            加速實現您的夢想。
         </div>
 
-        <h3>📍 這 5 萬元是怎麼來的？</h3>
+        <div class="hero-box">
+            <p>第一階段目標額度</p>
+            <h2>NT$ 50,000 / 月</h2>
+            <p>讓努力變得更有價值</p>
+        </div>
+
+        <h3>📍 收益路徑解析</h3>
         <div class="step-container">
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    <b>簡單的「消費轉移」</b>
-                    將全家人原本就要買的牙刷、沐浴乳、清潔用品，換到我們的平台購買。
+                    <b>日常消費轉移</b>
+                    將原本就在買的民生用品（如牙刷、沐浴乳等）換個地方購買。
                 </div>
             </div>
             <div class="step">
                 <div class="step-num">2</div>
                 <div class="step-content">
-                    <b>自己就是「第一代」</b>
-                    只要自己有消費，立刻領取專屬的 4% 現金回饋，利潤從自己開始。
+                    <b>第一代利潤主權</b>
+                    自己消費即刻領取 4% 獎金回饋，獲利從自己開始。
                 </div>
             </div>
             <div class="step">
                 <div class="step-num">3</div>
                 <div class="step-content">
-                    <b>七代 4% 複利效應</b>
-                    透過 AI 系統自動引流分享，當您的團隊擴張至 7 代內，每一筆民生消費都能為您帶來源源不絕的 4% 獎金。
+                    <b>AI 系統裂變</b>
+                    透過 7 代 4% 獲利分享機制，讓組織複利為您創造持續收入。
                 </div>
             </div>
         </div>
 
-        <h3>📊 收益試算（複利的力量）</h3>
-        <table class="calc-table">
-            <thead>
-                <tr>
-                    <th>階段</th>
-                    <th>組織型態</th>
-                    <th>預估月收入</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>啟動期</td>
-                    <td>個人消費 + 少數分享</td>
-                    <td>數百 ~ 千元</td>
-                </tr>
-                <tr>
-                    <td>成長期</td>
-                    <td>組織複製達 4-5 層</td>
-                    <td>NT$ 10,000+</td>
-                </tr>
-                <tr class="highlight-row">
-                    <td>成熟期</td>
-                    <td>系統化 7 代裂變</td>
-                    <td>NT$ 50,000+</td>
-                </tr>
-            </tbody>
-        </table>
-        <p style="font-size: 0.85rem; color: #888; margin-top: 10px;">* 以上為系統邏輯推算，實際收益視團隊消費積分(PV)而定。</p>
-
-        <a id="regBtn" href="#" class="cta-btn">立即啟動我的被動系統</a>
+        <a id="regBtn" href="#" class="cta-btn">立即啟動 ‧ 領取機會</a>
 
         <div style="text-align:center; margin-top: 20px;">
-            <span class="reward-tag">♥ 50元購物金</span> | 
-            <span class="reward-tag">♥ 99元推薦獎勵</span> | 
-            <span class="reward-tag">♥ 韓國圓夢計畫</span>
+            <span class="reward-tag">♥ 註冊送50元購物金</span> | 
+            <span class="reward-tag">♥ 推薦首購獎金99元</span> | 
+            <span class="reward-tag">♥ 韓國慶功遊活動進行中</span>
         </div>
 
         <div class="footer">
             讓生活開銷變收入 ‧ 簡單、自動化的圓夢系統<br>
-            <strong>提示：回目錄大廳請輸入 M</strong>
+            <strong></strong>
         </div>
     </div>
 
