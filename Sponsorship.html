@@ -201,12 +201,32 @@
     }
 
     function confirmSent() {
-        const msg = "【法律聲明】\n我已確認完成贊助金投放。\n虛假回報將導致帳號永久凍結且失去 2027 韓國遊資格。\n確定送出？";
-        if(confirm(msg)) {
-            alert("數據已同步，請聯繫推薦領袖核單激活 2027 旅遊資格。");
+    const msg = "【法律聲明】\n我已確認完成贊助金投放。\n虛假回報將導致帳號永久凍結。\n確定送出？";
+    
+    if(confirm(msg)) {
+        // 彈出帳戶填寫框
+        const bankInfo = prompt("【重要】請輸入您的收款帳戶，以便未來系統為您媒合領取贊助金：\n(格式範例：822 中國信託 123456789)");
+        
+        if (bankInfo != null && bankInfo.trim() !== "") {
+            // 呼叫 GAS 同步帳戶資料
+            const phone = document.getElementById('v-phone').value;
+            const params = new URLSearchParams({
+                action: "updateUserBank",
+                phone: phone,
+                bank: bankInfo
+            });
+
+            // 以背景執行方式傳送
+            fetch(`${GAS_URL}?${params.toString()}`, { mode: 'no-cors' });
+            
+            alert("數據已同步！您的收款帳號已錄入。\n請聯繫推薦領袖核單，以正式激活資格。");
+            window.location.reload();
+        } else {
+            alert("警告：未填寫收款帳戶將導致系統無法為您派發贊助金！\n請務必連繫推薦領袖手動補錄。");
             window.location.reload();
         }
     }
+}
 </script>
 </body>
 </html>
