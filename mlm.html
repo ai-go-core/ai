@@ -8,7 +8,7 @@
         :root {
             --sakura-pink: #ffb7c5;
             --tech-pink: #ff69b4;
-            --soft-pink-bg: #fff5f7; /* 輕微的粉色背景，用於區塊區隔 */
+            --soft-pink-bg: #fff5f7;
             --text-main: #333333;
             --text-dark: #000000;
             --white: #ffffff;
@@ -16,7 +16,7 @@
         }
 
         body {
-            background-color: var(--white); /* 改為白底 */
+            background-color: var(--white);
             color: var(--text-main);
             font-family: 'PingFang TC', "Microsoft JhengHei", sans-serif;
             margin: 0;
@@ -30,8 +30,8 @@
             border: 1px solid var(--sakura-pink);
             padding: 40px;
             background-color: var(--white);
-            box-shadow: 0 10px 30px var(--glow-pink); /* 柔和的粉色陰影 */
-            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--glow-pink);
+            border-radius: 24px;
         }
 
         header {
@@ -42,16 +42,16 @@
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 15px;
             color: var(--text-dark);
-            line-height: 1.4;
+            line-height: 1.5;
             letter-spacing: 1px;
         }
 
         .mission-statement {
             font-size: 1.1rem;
-            color: var(--tech-pink); /* 強調文字用粉色 */
+            color: var(--tech-pink);
             margin-bottom: 15px;
             background: var(--soft-pink-bg);
             padding: 10px 25px;
@@ -64,7 +64,6 @@
         .subtitle {
             font-size: 1rem;
             color: var(--text-main);
-            font-weight: normal;
             margin-top: 10px;
         }
 
@@ -73,13 +72,12 @@
             padding: 25px;
             border-radius: 12px;
             margin: 30px 0;
-            color: var(--text-main);
             text-align: center;
             border: 1px solid rgba(255, 183, 197, 0.5);
         }
 
         h2 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             border-left: 5px solid var(--tech-pink);
             padding-left: 15px;
             margin-top: 45px;
@@ -92,45 +90,38 @@
             margin: 25px 0;
             background-color: var(--white);
             font-size: 0.95rem;
-            border: 1px solid #eee;
         }
 
         th, td {
             border: 1px solid #eee;
-            padding: 18px;
+            padding: 15px;
             text-align: left;
         }
 
         th {
             background-color: var(--soft-pink-bg);
             color: var(--tech-pink);
-            font-weight: bold;
-        }
-
-        tr:nth-child(even) {
-            background-color: #fafafa;
         }
 
         .cta-section {
             text-align: center;
             margin-top: 60px;
-            padding: 50px;
-            background-color: var(--soft-pink-bg);
+            padding: 40px;
+            background: linear-gradient(to bottom, #ffffff, var(--soft-pink-bg));
             border: 1px solid var(--sakura-pink);
             border-radius: 20px;
-            box-shadow: inset 0 0 20px rgba(255, 183, 197, 0.2);
         }
 
         .btn {
             display: inline-block;
             background: linear-gradient(135deg, #ffb7c5 0%, #ff69b4 100%);
-            color: var(--white); /* 按鈕文字用白色 */
-            padding: 20px 50px;
+            color: var(--white);
+            padding: 18px 45px;
             font-weight: bold;
             text-decoration: none;
             border-radius: 50px;
-            font-size: 1.4rem;
-            margin-top: 25px;
+            font-size: 1.3rem;
+            margin-top: 20px;
             box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
             transition: 0.3s;
             border: none;
@@ -142,18 +133,28 @@
             box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
         }
 
+        .line-link {
+            color: var(--tech-pink);
+            text-decoration: underline;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
         .footer {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             opacity: 0.8;
             margin-top: 60px;
             text-align: center;
-            color: var(--text-main);
             border-top: 1px solid #eee;
             padding-top: 25px;
         }
 
-        .check-icon { color: #ff69b4; margin-right: 8px; font-weight: bold; }
-        .line-link { color: var(--tech-pink); text-decoration: underline; font-size: 0.95rem; display: inline-block; margin-top: 15px;}
+        .reward-tag {
+            color: #ff4d94;
+            font-weight: bold;
+            margin: 0 8px;
+        }
     </style>
 </head>
 <body>
@@ -188,17 +189,17 @@
                 <tr>
                     <td><strong>產品類型</strong></td>
                     <td>特定、非生活必須品</td>
-                    <td><strong>牙刷、沐浴乳、廚房必備消耗品</strong></td>
+                    <td><strong>牙刷、沐浴乳等日常必需品</strong></td>
                 </tr>
                 <tr>
                     <td><strong>購買動力</strong></td>
-                    <td>為了維持發獎金的資格</td>
+                    <td>為了維持領獎資格</td>
                     <td><strong>家裡用完了，本來就要買</strong></td>
                 </tr>
                 <tr>
                     <td><strong>經營壓力</strong></td>
                     <td>有每月的囤貨壓力</td>
-                    <td><strong>免會費、免送貨、無壓力領取</strong></td>
+                    <td><strong>免會費、免囤貨、無壓力領取</strong></td>
                 </tr>
                 <tr>
                     <td><strong>開發方式</strong></td>
@@ -209,53 +210,42 @@
         </table>
 
         <div class="cta-section">
-            <h2 style="color: var(--text-dark);">「別再當別人的分母，現在啟動您的主權。」</h2>
-            <p style="color: var(--text-main);">我們已準備好所有工具，溫柔迎接您的加入</p>
+            <h2 style="border:none; padding:0; margin-bottom:15px;">「別再當別人的分母，現在啟動您的主權。」</h2>
+            <p>我們已準備好所有工具，溫柔迎接您的加入</p>
             
             <a id="regBtn" href="#" class="btn">立即啟動 ‧ 開啟新跑道</a>
             <br>
-            <a id="lineLink" href="#" class="line-link">有疑问？點擊線上諮詢</a>
+            <a id="lineLink" href="#" class="line-link">有疑問？點擊線上諮詢</a>
             
-            <div style="margin-top: 30px; font-size: 1rem; color: var(--text-main); font-weight: bold;">
-                <span class="check-icon">♥</span> 贈送 50 元購物金 | 
-                <span class="check-icon">♥</span> 推薦獎勵 99 元/人 | 
-                <span class="check-icon">♥</span> 2027 韓國雙人遊計畫
+            <div style="margin-top: 25px; font-size: 0.95rem;">
+                <span class="reward-tag">♥ 50 元購物金</span> | 
+                <span class="reward-tag">♥ 99 元推薦獎勵</span> | 
+                <span class="reward-tag">♥ 2027 韓國雙人遊</span>
             </div>
         </div>
 
         <div class="footer">
-            本系統為獨立輔助平台，致力於提升您的生活品質。 <br>
-            最終解釋權歸系統核心所有。 | 提示：回目錄大廳請輸入 M
+            本輔助系統為獨立平台，與第三方官方平台無隸屬關係。 <br>
+            最終解釋權歸系統核心所有。 | <strong>提示：回目錄大廳請輸入 M</strong>
         </div>
     </div>
 
     <script>
         window.onload = function() {
-            // 1. 核心功能：動態抓取網址中的推薦人 ID
             const urlParams = new URLSearchParams(window.location.search);
-            
-            // 2. 提取推薦人 ID (ref)
-            const refId = urlParams.get('ref') || 'jack197775'; // 網址若無則預設為 jack197775
+            const refId = urlParams.get('ref') || 'jack197775'; 
 
-            // 3. 動態更新「立即啟動」按鈕的連結
+            // 更新註冊連結
             const regBtn = document.getElementById('regBtn');
             if(regBtn) {
                 regBtn.href = "https://ai-go-core.github.io/ai/index.html?ref=" + refId;
             }
 
-            // 4. 動態更新「LINE 諮詢」連結，嘗試傳遞推薦代號
+            // 更新 LINE 諮詢連結
             const lineLink = document.getElementById('lineLink');
             if (lineLink) {
-                const lineOaId = "@641zpzus"; // 您設定的 LINE ID
-                const isLineBrowser = /Line/i.test(navigator.userAgent);
-
-                if (isLineBrowser) {
-                    // LINE 內開啟使用最穩定的ti連結
-                    lineLink.href = "https://line.me/R/ti/p/" + lineOaId;
-                } else {
-                    // 外部開啟時，嘗試自動帶入推薦參數訊息
-                    lineLink.href = "https://line.me/R/oaMessage/" + lineOaId + "/?ref=" + refId;
-                }
+                const lineOaId = "@641zpzus"; 
+                lineLink.href = "https://line.me/R/oaMessage/" + lineOaId + "/?轉換跑道諮詢_來源ID_" + refId;
             }
         };
     </script>
