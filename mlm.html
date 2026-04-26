@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <title>轉換跑道：讓努力更有價值</title>
     <style>
         :root {
@@ -12,49 +12,52 @@
             --text-main: #333333;
             --text-dark: #000000;
             --white: #ffffff;
-            --glow-pink: rgba(255, 105, 180, 0.2);
+            --glow-pink: rgba(255, 105, 180, 0.15);
         }
+
+        * { box-sizing: border-box; }
 
         body {
             background-color: var(--white);
             color: var(--text-main);
             font-family: 'PingFang TC', "Microsoft JhengHei", sans-serif;
             margin: 0;
-            padding: 20px;
-            line-height: 1.8;
+            padding: 10px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 800px;
+            width: 100%;
+            max-width: 500px;
             margin: 0 auto;
-            border: 1px solid var(--sakura-pink);
-            padding: 40px;
+            padding: 20px 15px;
             background-color: var(--white);
-            box-shadow: 0 10px 30px var(--glow-pink);
-            border-radius: 24px;
+            box-shadow: 0 5px 20px var(--glow-pink);
+            border-radius: 20px;
         }
 
         header {
             text-align: center;
             border-bottom: 2px solid var(--tech-pink);
-            padding-bottom: 30px;
-            margin-bottom: 40px;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         h1 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+            font-size: 1.5rem;
+            margin: 0 0 15px 0;
             color: var(--text-dark);
-            line-height: 1.5;
-            letter-spacing: 1px;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
         }
 
         .mission-statement {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             color: var(--tech-pink);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             background: var(--soft-pink-bg);
-            padding: 10px 25px;
+            padding: 8px 15px;
             display: inline-block;
             border-radius: 50px;
             border: 1px solid var(--sakura-pink);
@@ -62,75 +65,87 @@
         }
 
         .subtitle {
-            font-size: 1rem;
-            color: var(--text-main);
-            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
         }
 
         .highlight-box {
             background-color: var(--soft-pink-bg);
-            padding: 25px;
-            border-radius: 12px;
-            margin: 30px 0;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
             text-align: center;
-            border: 1px solid rgba(255, 183, 197, 0.5);
+            font-size: 1rem;
+            border: 1px solid rgba(255, 183, 197, 0.4);
         }
 
         h2 {
-            font-size: 1.4rem;
+            font-size: 1.25rem;
             border-left: 5px solid var(--tech-pink);
-            padding-left: 15px;
-            margin-top: 45px;
+            padding-left: 12px;
+            margin: 30px 0 15px 0;
             color: var(--text-dark);
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            background-color: var(--white);
-            font-size: 0.95rem;
-        }
-
-        th, td {
+        /* 手機版比較卡片化佈局 */
+        .comparison-card {
+            background: #fff;
             border: 1px solid #eee;
-            padding: 15px;
-            text-align: left;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
         }
-
-        th {
-            background-color: var(--soft-pink-bg);
+        .comparison-header {
+            background: var(--soft-pink-bg);
+            padding: 10px 15px;
+            font-weight: bold;
             color: var(--tech-pink);
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
         }
+        .comparison-row {
+            display: flex;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            border-bottom: 1px dotted #eee;
+        }
+        .comparison-row:last-child { border-bottom: none; }
+        .label { width: 40%; color: #888; flex-shrink: 0; }
+        .val { width: 60%; font-weight: bold; }
+        .val.highlight { color: var(--tech-pink); }
 
         .cta-section {
             text-align: center;
-            margin-top: 60px;
-            padding: 40px;
+            margin-top: 40px;
+            padding: 30px 15px;
             background: linear-gradient(to bottom, #ffffff, var(--soft-pink-bg));
             border: 1px solid var(--sakura-pink);
             border-radius: 20px;
         }
 
+        .cta-title {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: block;
+        }
+
         .btn {
-            display: inline-block;
+            display: block;
+            width: 100%;
             background: linear-gradient(135deg, #ffb7c5 0%, #ff69b4 100%);
-            color: var(--white);
-            padding: 18px 45px;
+            color: var(--white) !important;
+            padding: 18px 20px;
             font-weight: bold;
             text-decoration: none;
             border-radius: 50px;
-            font-size: 1.3rem;
-            margin-top: 20px;
+            font-size: 1.2rem;
+            margin-top: 15px;
             box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
-            transition: 0.3s;
             border: none;
             cursor: pointer;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
         }
 
         .line-link {
@@ -138,95 +153,102 @@
             text-decoration: underline;
             font-size: 0.95rem;
             display: inline-block;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
-        .footer {
+        .reward-info {
+            margin-top: 20px;
             font-size: 0.85rem;
-            opacity: 0.8;
-            margin-top: 60px;
-            text-align: center;
-            border-top: 1px solid #eee;
-            padding-top: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
         .reward-tag {
             color: #ff4d94;
             font-weight: bold;
-            margin: 0 8px;
+        }
+
+        .footer {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 40px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>你努力了很久卻無法取得明顯的進步<br>表示你該轉換跑道了</h1>
-            <div class="mission-statement">我們免費提供機會、方法與工具，協助您無痛轉換跑道</div>
-            <div class="subtitle">讓生活開銷變收入 ‧ 簡單、自動化的圓夢系統</div>
+            <h1>你努力了很久卻無法進步<br>表示你該轉換跑道了</h1>
+            <div class="mission-statement">免費提供工具與方法，協助無痛轉換</div>
+            <div class="subtitle">讓開銷變收入 ‧ 自動化的圓夢系統</div>
         </header>
 
         <div class="highlight-box">
-            努力不應該是壓力，成功也可以很優雅。<br>
-            只需將原本就在買的日用品換個地方購買，<br>
-            <strong>利潤就從自己開始，每個人都是自己的第一代老闆。</strong>
+            努力不應該是壓力。<br>
+            只需將原本就在買的日用品換個地方，<br>
+            <strong>利潤就從自己開始，<br>每個人都是自己的第一代老闆。</strong>
         </div>
 
         <h2>🛡️ 為什麼在這裡努力更有感？</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>比較項目</th>
-                    <th>傳統傳銷方式</th>
-                    <th>我們的溫馨系統</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>獲利起始點</strong></td>
-                    <td>幫高階領袖累積業績</td>
-                    <td><strong>自己消費領 4%，獲利自己拿</strong></td>
-                </tr>
-                <tr>
-                    <td><strong>產品類型</strong></td>
-                    <td>特定、非生活必須品</td>
-                    <td><strong>牙刷、沐浴乳等日常必需品</strong></td>
-                </tr>
-                <tr>
-                    <td><strong>購買動力</strong></td>
-                    <td>為了維持領獎資格</td>
-                    <td><strong>家裡用完了，本來就要買</strong></td>
-                </tr>
-                <tr>
-                    <td><strong>經營壓力</strong></td>
-                    <td>有每月的囤貨壓力</td>
-                    <td><strong>免會費、免囤貨、無壓力領取</strong></td>
-                </tr>
-                <tr>
-                    <td><strong>開發方式</strong></td>
-                    <td>消耗人脈，辛苦說明</td>
-                    <td><strong>AI 自動化系統 24H 溫柔引流</strong></td>
-                </tr>
-            </tbody>
-        </table>
+        
+        <div class="comparison-card">
+            <div class="comparison-header">獲利起始點</div>
+            <div class="comparison-row">
+                <div class="label">傳統傳銷</div>
+                <div class="val">幫領袖累積業績</div>
+            </div>
+            <div class="comparison-row">
+                <div class="label">溫馨系統</div>
+                <div class="val highlight">自購領 4% 回饋</div>
+            </div>
+        </div>
+
+        <div class="comparison-card">
+            <div class="comparison-header">購買動力</div>
+            <div class="comparison-row">
+                <div class="label">傳統傳銷</div>
+                <div class="val">為了維持發獎金資格</div>
+            </div>
+            <div class="comparison-row">
+                <div class="label">溫馨系統</div>
+                <div class="val highlight">家裡用完，本來就要買</div>
+            </div>
+        </div>
+
+        <div class="comparison-card">
+            <div class="comparison-header">經營開發</div>
+            <div class="comparison-row">
+                <div class="label">傳統傳銷</div>
+                <div class="val">消耗人脈，辛苦說明</div>
+            </div>
+            <div class="comparison-row">
+                <div class="label">溫馨系統</div>
+                <div class="val highlight">AI 系統 24H 自動引流</div>
+            </div>
+        </div>
 
         <div class="cta-section">
-            <h2 style="border:none; padding:0; margin-bottom:15px;">「別再當別人的分母，現在啟動您的主權。」</h2>
-            <p>我們已準備好所有工具，溫柔迎接您的加入</p>
+            <span class="cta-title">「別再當別人的分母，<br>現在啟動您的主權。」</span>
+            <p style="font-size: 0.9rem; margin-bottom: 20px;">我們已準備好所有工具，溫柔迎接您</p>
             
             <a id="regBtn" href="#" class="btn">立即啟動 ‧ 開啟新跑道</a>
-            <br>
             <a id="lineLink" href="#" class="line-link">有疑問？點擊線上諮詢</a>
             
-            <div style="margin-top: 25px; font-size: 0.95rem;">
-                <span class="reward-tag">♥ 50 元購物金</span> | 
-                <span class="reward-tag">♥ 99 元推薦獎勵</span> | 
-                <span class="reward-tag">♥ 2027 韓國雙人遊</span>
+            <div class="reward-info">
+                <div><span class="reward-tag">♥</span> 贈送 50 元購物金</div>
+                <div><span class="reward-tag">♥</span> 推薦獎勵 99 元/人</div>
+                <div><span class="reward-tag">♥</span> 2027 韓國雙人遊計畫</div>
             </div>
         </div>
 
         <div class="footer">
-            本輔助系統為獨立平台，與第三方官方平台無隸屬關係。 <br>
-            最終解釋權歸系統核心所有。 | <strong>提示：回目錄大廳請輸入 M</strong>
+            本輔助系統為獨立平台，與第三方無隸屬關係。<br>
+            最終解釋權歸系統核心所有。<br>
+            <strong>提示：回目錄大廳請輸入 M</strong>
         </div>
     </div>
 
@@ -235,17 +257,15 @@
             const urlParams = new URLSearchParams(window.location.search);
             const refId = urlParams.get('ref') || 'jack197775'; 
 
-            // 更新註冊連結
             const regBtn = document.getElementById('regBtn');
             if(regBtn) {
                 regBtn.href = "https://ai-go-core.github.io/ai/index.html?ref=" + refId;
             }
 
-            // 更新 LINE 諮詢連結
             const lineLink = document.getElementById('lineLink');
             if (lineLink) {
                 const lineOaId = "@641zpzus"; 
-                lineLink.href = "https://line.me/R/oaMessage/" + lineOaId + "/?轉換跑道諮詢_來源ID_" + refId;
+                lineLink.href = "https://line.me/R/oaMessage/" + lineOaId + "/?轉換跑道諮詢_" + refId;
             }
         };
     </script>
