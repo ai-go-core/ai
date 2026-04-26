@@ -36,7 +36,6 @@
             border-top: 8px solid var(--primary-gold);
         }
 
-        /* 網頁主題區塊優化 */
         header { 
             text-align: center; 
             margin-bottom: 25px; 
@@ -44,7 +43,7 @@
         }
         .main-title { 
             color: var(--deep-black); 
-            font-size: 1.35rem; 
+            font-size: 1.3rem; 
             line-height: 1.5;
             font-weight: bold;
             margin: 0;
@@ -74,6 +73,17 @@
             margin: 30px 0 15px 0;
             font-size: 1.2rem;
         }
+
+        /* 管道對比表格樣式 */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+        .comparison-table th { background: #f2f2f2; padding: 10px; text-align: left; border-bottom: 2px solid #ddd; }
+        .comparison-table td { padding: 10px; border-bottom: 1px solid #eee; }
+        .system-row { background: var(--light-gold); font-weight: bold; color: #b8860b; }
 
         .tree-table {
             width: 100%;
@@ -128,10 +138,29 @@
         </header>
 
         <div class="hero-box">
-            <p>第一階段目標額度</p>
-            <h2>NT$ 50,000 / 月</h2>
+            <p>第一階段月收入目標</p>
+            <h2>NT$ 50,000</h2>
             <p>啟動生活主權 ‧ 告別無奈加班</p>
         </div>
+
+        <h3>🔍 同樣賺 5 萬，您的選擇是？</h3>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>管道類型</th>
+                    <th>達成目標所需資產</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>銀行定存 (1.6%)</td><td>約 3,750 萬現金</td></tr>
+                <tr><td>房租收入 (2%)</td><td>約 3,000 萬房產</td></tr>
+                <tr><td>股市配息 (6%)</td><td>約 1,000 萬股票</td></tr>
+                <tr class="system-row">
+                    <td>7 代 4% 系統</td>
+                    <td>834 人消費組織</td>
+                </tr>
+            </tbody>
+        </table>
 
         <h3>📊 為什麼「3 的倍增」就能達成？</h3>
         <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">
@@ -149,10 +178,7 @@
             <tbody>
                 <tr><td>第 1 代</td><td>1 (您)</td><td>1</td></tr>
                 <tr><td>第 2 代</td><td>3</td><td>4</td></tr>
-                <tr><td>第 3 代</td><td>9</td><td>13</td></tr>
-                <tr><td>第 4 代</td><td>27</td><td>40</td></tr>
-                <tr><td>第 5 代</td><td>81</td><td>121</td></tr>
-                <tr><td>第 6 代</td><td>243</td><td>364</td></tr>
+                <tr><td>第 3-6 代</td><td>...複利倍增中...</td><td>364</td></tr>
                 <tr class="highlight-row">
                     <td>第 7 代</td>
                     <td>729</td>
@@ -164,15 +190,15 @@
         <div style="background: #fdfaf0; padding: 15px; border-radius: 12px; margin-top: 15px; font-size: 0.9rem; border-left: 5px solid var(--primary-gold);">
             <strong>獲利推演：</strong><br>
             當平均消費為 1500 PV，每人貢獻 60 元獎金。<br>
-            1,093 人 × 60 元 = <b style="color: #b8860b; font-size: 1.1rem;">$65,580 / 月</b><br>
-            這代表即使只有 80% 的達成率，您依然能穩領 5 萬元。
+            當組織達 834 人，月收即突破 <b>5 萬元</b>。<br>
+            1,093 人時，月收可達 <b style="color: #b8860b; font-size: 1.1rem;">$65,580</b>。
         </div>
 
         <h3>📍 您的成功三部曲</h3>
         <ul style="font-size: 0.9rem; padding-left: 20px; color: #444;">
             <li style="margin-bottom: 10px;"><b>簡單消費轉移：</b> 僅僅是換個品牌買民生必需品。</li>
             <li style="margin-bottom: 10px;"><b>掌握利潤主權：</b> 獲利從自己開始，自購即領 4%。</li>
-            <li style="margin-bottom: 10px;"><b>AI 自動裂變：</b> 讓工具幫您傳遞機會，實現無限4%收入。</li>
+            <li style="margin-bottom: 10px;"><b>AI 自動裂變：</b> 讓工具幫您傳遞機會，實現無限 4% 收入。</li>
         </ul>
 
         <a id="regBtn" href="#" class="cta-btn">立即啟動我的被動收入</a>
@@ -185,7 +211,7 @@
 
         <div class="footer">
             讓生活開銷變收入 ‧ 簡單、自動化的圓夢系統<br>
-            <strong></strong>
+            <strong>回目錄大廳請輸入 M</strong>
         </div>
     </div>
 
