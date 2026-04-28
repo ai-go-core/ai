@@ -3,134 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>財務自由倍增計畫 - AI生活小秘書</title>
+    <title>財務自由：倍增計畫 - 旗艦版</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-            background-color: #000;
-            color: #fff;
-            line-height: 1.8;
-        }
-        .wrapper {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
-        }
-        .header {
-            text-align: center;
-            padding: 40px 0;
-            border-bottom: 2px solid #d4af37;
-        }
-        .gold-title {
-            color: #d4af37;
-            font-size: 28px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .section {
-            padding: 30px 0;
-            text-align: center;
-        }
-        .image-box {
-            width: 100%;
-            border: 1px solid #333;
-            margin: 20px 0;
-            background: #111;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        .image-box img {
-            max-width: 100%;
-            height: auto;
-        }
-        .core-promise {
-            background: rgba(212, 171, 55, 0.1);
-            border-left: 5px solid #d4af37;
-            padding: 25px;
-            margin: 30px 0;
-            font-size: 20px;
-            font-weight: bold;
-            color: #f1c40f;
-        }
-        .feature-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .feature-card {
-            width: 48%;
-            background: #222;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            box-sizing: border-box;
-            border-bottom: 3px solid #d4af37;
-        }
-        .cta-button {
-            display: block;
-            background: linear-gradient(90deg, #d4af37, #f1c40f);
-            color: #000;
-            text-align: center;
-            padding: 18px;
-            font-size: 22px;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 50px;
-            margin: 40px 0;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-        }
-        .footer {
-            text-align: center;
-            font-size: 14px;
-            color: #888;
-            padding-bottom: 40px;
-        }
+        body { margin: 0; padding: 0; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: #000; color: #fff; line-height: 1.8; }
+        .wrapper { max-width: 600px; margin: 0 auto; background-color: #0a0a0a; border-left: 1px solid #222; border-right: 1px solid #222; box-shadow: 0 0 50px rgba(0,0,0,1); }
+        .hero { background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); padding: 60px 20px; text-align: center; border-bottom: 2px solid #d4af37; }
+        .gold { color: #d4af37; }
+        .content-box { padding: 0 25px 40px 25px; }
+
+        /* 圖片 01_7.jpg 文字轉化區 */
+        .formula-box { background: #111; border: 1px solid #d4af37; padding: 30px 10px; margin: 30px 0; border-radius: 10px; text-align: center; position: relative; overflow: hidden; }
+        .formula-box::before { content: "CORE LOGIC"; position: absolute; top: 5px; left: 10px; font-size: 10px; color: #444; letter-spacing: 2px; }
+        .formula-text { font-size: 24px; font-weight: bold; color: #f39c12; letter-spacing: 1px; }
+
+        .core-promise { background: linear-gradient(90deg, #d4af37, #f1c40f); color: #000; padding: 30px; border-radius: 5px; font-size: 22px; font-weight: 900; text-align: center; margin: 40px 0; line-height: 1.4; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
+
+        /* 圖片 03_11.jpg 文字轉化區 */
+        .multiplication-box { background: #1a1a1a; border-left: 4px solid #d4af37; padding: 25px; margin: 40px 0; border-radius: 0 10px 10px 0; }
+        .multi-header { font-size: 20px; font-weight: bold; color: #f1c40f; margin-bottom: 15px; display: flex; align-items: center; }
+        .multi-header::before { content: "📈"; margin-right: 10px; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .stat-item { background: #000; padding: 15px; border-radius: 5px; border: 1px solid #333; }
+        .stat-value { display: block; font-size: 20px; font-weight: bold; color: #d4af37; }
+        .stat-label { font-size: 13px; color: #888; }
+
+        .feature-item { background: #151515; padding: 20px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #222; transition: 0.3s; }
+        .feature-item:hover { border-color: #d4af37; }
+        .feature-item strong { color: #d4af37; font-size: 18px; display: block; margin-bottom: 5px; }
+
+        .cta-area { text-align: center; padding: 60px 20px; background: radial-gradient(circle, #222 0%, #000 100%); }
+        .cta-button { display: inline-block; background: linear-gradient(to bottom, #d4af37, #b8860b); color: #000; padding: 20px 60px; font-size: 22px; font-weight: bold; text-decoration: none; border-radius: 50px; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4); }
+        .footer { padding: 40px 20px; text-align: center; color: #555; font-size: 13px; border-top: 1px solid #222; }
     </style>
 </head>
 <body>
     <div class="wrapper">
-        <div class="header">
-            <div style="font-size: 16px; letter-spacing: 3px;">AI 生活小秘書 · 全方位數位輔助</div>
-            <div class="gold-title">財務自由：倍增計畫</div>
+        <div class="hero">
+            <p style="letter-spacing: 4px; color: #888; font-size: 14px;">AI 生活小秘書 · 全方位數位輔助</p>
+            <h1 class="gold">啟動您的數位資產計畫</h1>
         </div>
 
-        <div class="section">
-            <div class="image-box">
-                <!-- 預留給 01_7.jpg -->
-                <p style="color:#d4af37">【 財務自由定義圖示區 】</p>
-                <p>財務自由 = 被動式收入 > 生活支出</p>
+        <div class="content-box">
+            <div class="formula-box">
+                <div class="formula-text">財務自由 = 被動式收入 > 生活支出</div>
+                <p style="font-size: 14px; color: #888; margin-top: 10px;">這不是一個夢想，而是一個可以被計算的公式。</p>
             </div>
-            <p>打破「勞動換錢」的惡性循環，<br>建構一套即便在睡覺時也能獲利的系統。</p>
-        </div>
 
-        <div class="core-promise">
-            我們免費提供機會、方法與工具
-        </div>
+            <p>
+                您是否計算過，若現在停止工作，您的收入能維持多久？<br>
+                我們協助您打破勞動換錢的枷鎖，將時間投入在「能產生持續收益」的系統中。
+            </p>
 
-        <div class="section">
-            <div class="image-box">
-                <!-- 預留給 03_11.jpg -->
-                <p style="color:#d4af37">【 倍增邏輯展示區 】</p>
-                <p>1人開分店，發展出500家分店的巨大力量</p>
+            <div class="core-promise">
+                我們免費提供機會、方法與工具
             </div>
-            <div class="feature-grid">
-                <div class="feature-card">免費 AI 數位分身</div>
-                <div class="feature-card">專屬推薦獎金 99 元</div>
-                <div class="feature-card">50 元註冊購物金</div>
-                <div class="feature-card">2027 韓國免費遊</div>
+
+            <div class="multiplication-box">
+                <div class="multi-header">倍增的力量：從 1 到 500 家分店</div>
+                <p>直銷與連鎖的核心價值在於「倍增」。透過 AI 工具，您可以輕鬆複製成功模型：</p>
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <span class="stat-value">500 家</span>
+                        <span class="stat-label">數位分店規模</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">50,000 位</span>
+                        <span class="stat-label">系統自動導流客群</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">1 億台幣</span>
+                        <span class="stat-label">年度營業目標規模</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">24 小時</span>
+                        <span class="stat-label">AI 數位分身運作</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title" style="color:#d4af37; font-size: 20px; font-weight: bold; margin-bottom: 15px;">為什麼選擇我們？</div>
+            
+            <div class="feature-item">
+                <strong>系統化複製 (方法)</strong>
+                <p>遵循 7 代 4% 的利潤共享原則，讓每一份消費都轉化為您的被動收益。</p>
+            </div>
+
+            <div class="feature-item">
+                <strong>數位化推廣 (工具)</strong>
+                <p>免除傳統推廣的尷尬，由 AI 進行精準過濾與引流，您的工作僅需簡單點擊。</p>
+            </div>
+
+            <div class="feature-item">
+                <strong>封測期福利</strong>
+                <p>註冊即贈 50 元購物金、角色彩蛋，推薦一人再領 99 元。滿 100 元即可提領。</p>
             </div>
         </div>
 
-        <a href="https://lerich.app/signup?ref={Income_Key}" class="cta-button">立即啟動倍增計畫</a>
+        <div class="cta-area">
+            <a href="https://lerich.app/signup?ref={Income_Key}" class="cta-button">領取金鑰 · 啟動自由</a>
+            <p style="margin-top: 25px; color: #d4af37; font-weight: bold;">推薦人代號：{Your_ID_Tracker}</p>
+        </div>
 
         <div class="footer">
-            推薦代碼：{Your_ID_Tracker}<br>
-            <br><br>
-            
+            2027 韓國免費雙人遊計畫執行中<br>
+         
         </div>
     </div>
 </body>
