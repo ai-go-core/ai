@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>科技與家庭的轉機 - 樂瑞生活事業</title>
+    <title>人人消費都有回饋金/月入30萬被動收入計畫執行中</title>
     <style>
         :root {
             --tech-green: #00ff41; 
@@ -87,7 +87,7 @@
 <body>
     <div class="wrapper">
         <div class="header">
-            <p style="letter-spacing: 4px; color: #008f11; font-size: 13px;">AI 數位小秘書協助您實現月入30萬被動收入</p>
+            <p style="letter-spacing: 4px; color: #008f11; font-size: 13px;">AI 數位小秘書協助您建立被動收入</p>
             <h1 class="neon-text" style="font-size: 28px;">同樣是退休，您的選擇是？</h1>
         </div>
 
@@ -123,7 +123,7 @@
             <h3>轉機：家庭消費即現金回饋</h3>
             <p>
                 家家消費皆有回饋金。分享計畫即可建立被動收入的倍增威力：<br>
-                • <span class="highlight">起始點</span>：您就是現金回饋核心單元。<br>
+                • <span class="highlight">起始點</span>：您就是現金回饋核心。<br>
                 • <span class="highlight">初階目標</span>：分享 2 戶 X 7 層，每月支出轉為 <span class="highlight">0 元</span>。<br>
                 • <span class="highlight">中階目標</span>：分享 3 戶 X 7 層，月增 <span class="highlight">6 萬獎金</span>，改善生活。<br>
                 • <span class="highlight">長階目標</span>：分享 5 戶 X 7 層，創造 <span class="highlight">百萬級獎金</span>。<br><br>
@@ -143,14 +143,26 @@
 
         <div class="cta-box">
             <p style="margin-bottom: 20px; font-weight: bold; color: var(--tech-green);">啟動您的 3 年改變人生計畫</p>
-            <a href="https://ai-go-core.github.io/ai/free-signup.html?ref=line id" class="cta-btn">立即註冊</a>
-            <p style="margin-top: 25px; color: var(--border-color); font-size: 14px;"></p>
+            <!-- 自動帶入參數的按鈕 -->
+            <a id="cta-link" href="#" class="cta-btn">執行：立即註冊</a>
+            <p style="margin-top: 25px; color: var(--border-color); font-size: 14px;">推薦系統已就緒</p>
         </div>
 
         <div class="footer">
-             2027 韓國免費雙人遊活動進行中...<br>
-       
+            [狀態] 2027 韓國免費雙人遊活動進行中...<br>
+            [安全] 數據加密保護 · 永久鎖定 · 絕不跳線<br><br>
+            回目錄大廳請輸入 M
         </div>
     </div>
+
+    <script>
+        // 自動解析 URL 中的 ref 參數並帶入按鈕連結
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const ref = urlParams.get('ref') || 'default'; // 若無參數則預設為 default
+            const ctaLink = document.getElementById('cta-link');
+            ctaLink.href = "https://ai-go-core.github.io/ai/free-signup.html?ref=" + ref;
+        };
+    </script>
 </body>
 </html>
