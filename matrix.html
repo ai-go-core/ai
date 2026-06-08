@@ -1,190 +1,244 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI 生活小秘書 · 幾何組織矩陣中心</title>
-  <style>
-    body {
-      background-color: #0b0c10;
-      color: #c5c6c7;
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: auto;
-    }
-    .header-container {
-      text-align: center;
-      margin-bottom: 30px;
-      border-bottom: 2px solid #333;
-      padding-bottom: 15px;
-      width: 100%;
-      max-width: 800px;
-    }
-    .header-title {
-      color: #FFD700;
-      font-size: 24px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      margin: 0 0 10px 0;
-    }
-    .header-subtitle {
-      color: #00FFFF;
-      font-size: 14px;
-      margin: 0;
-    }
-    
-    /* 👑 金字塔幾何組織圖核心外觀包裝 */
-    .pyramid-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 25px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.02);
-      border-radius: 15px;
-      border: 1px solid #1f2833;
-      min-width: 1200px; /* 確保 32 人的第五層有足夠空間展開不擠壓 */
-    }
-    
-    .matrix-row {
-      display: flex;
-      justify-content: space-around;
-      width: 100%;
-      position: relative;
-    }
-    
-    /* 🎯 節點幾何圓圈樣式對齊領袖附圖 */
-    .node-circle {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #4fa3e3 0%, #1d70b8 100%);
-      border: 2px solid #ffffff;
-      box-shadow: 0 0 10px rgba(79, 163, 227, 0.6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #ffffff;
-      font-size: 11px;
-      font-weight: bold;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      z-index: 2;
-    }
-    
-    .node-circle:hover {
-      transform: scale(1.15);
-      box-shadow: 0 0 15px #FFD700;
-      border-color: #FFD700;
-    }
-    
-    /* 頂層「我」特殊化外觀 */
-    .node-circle.root-node {
-      background: linear-gradient(135deg, #1d70b8 0%, #0f4c81 100%);
-      width: 55px;
-      height: 55px;
-      font-size: 13px;
-    }
-    
-    /* 空位/待公眾補位樣式 */
-    .node-circle.empty-node {
-      background: #1f2833;
-      border: 2px dashed #45f3ff;
-      color: #45f3ff;
-      box-shadow: none;
-      opacity: 0.6;
-    }
-    
-    .layer-label {
-      position: absolute;
-      left: 10px;
-      color: #888888;
-      font-size: 12px;
-      font-weight: bold;
-    }
-    
-    .footer-tips {
-      margin-top: 40px;
-      color: #666;
-      font-size: 12px;
-      text-align: center;
-    }
-    
-    /* 浮動提示框 */
-    .tooltip {
-      position: absolute;
-      background: rgba(0, 0, 0, 0.9);
-      border: 1px solid #FFD700;
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 5px;
-      font-size: 12px;
-      z-index: 100;
-      display: none;
-      pointer-events: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
+    <title>AI 生活小秘書 · 許願牆矩陣核心</title>
+    <style>
+        /* 🌌 旗艦黑金美學 */
+        body {
+            background-color: #0A0A0A;
+            color: #E0E0E0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        h1 {
+            color: #D4AF37;
+            font-size: 24px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: #00FFFF;
+            font-size: 14px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        /* 📋 數據看版區 */
+        .dashboard {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .dash-card {
+            background: #111111;
+            border: 1px solid #222222;
+            border-radius: 8px;
+            padding: 10px 15px;
+            flex: 1;
+        }
+        .dash-card .title { font-size: 11px; color: #888888; margin-bottom: 5px; }
+        .dash-card .val { font-size: 16px; font-weight: bold; color: #D4AF37; }
+
+        /* 📱 畫布容器：防手機擠壓擠爆，設定最小安全展延寬度 */
+        .matrix-container {
+            min-width: 900px; 
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* 🔺 矩陣層級 (Rows) */
+        .matrix-level {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            gap: 6px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        /* 👤 成員節點樣式 */
+        .member-node {
+            background: linear-gradient(135deg, #1A1A1A 0%, #111111 100%);
+            border: 1px solid #333333;
+            border-radius: 6px;
+            padding: 6px 2px;
+            min-width: 50px;
+            font-size: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.6);
+            transition: all 0.3s ease;
+        }
+
+        /* 🎨 精準代數色彩系統 */
+        .lvl-up   { border-color: #555555; background: #161616; color: #888888; opacity: 0.6; } /* 往上溯源代 */
+        .lvl-self { border-color: #D4AF37; background: linear-gradient(135deg, #2A2005 0%, #111111 100%); color: #D4AF37; font-weight: bold; box-shadow: 0 0 10px rgba(212,175,55,0.3); } /* 0代: 自己 */
+        .lvl-d1   { border-color: #32CD32; color: #32CD32; } /* 下1代 */
+        .lvl-d2   { border-color: #1E90FF; color: #1E90FF; } /* 下2代 */
+        .lvl-d3   { border-color: #BA55D3; color: #BA55D3; } /* 下3代 */
+        .lvl-d4   { border-color: #FFA500; color: #FFA500; } /* 下4代 */
+        .lvl-d5   { border-color: #FF4500; color: #FF4500; } /* 下5代 (公眾補位) */
+
+        .member-node .role {
+            font-size: 8px;
+            opacity: 0.8;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        .member-node .uid {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 分隔虛線 */
+        .divider-line {
+            width: 100%;
+            border-top: 1px dashed #333333;
+            margin: 15px 0;
+            position: relative;
+        }
+        .divider-line span {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0A0A0A;
+            padding: 0 15px;
+            font-size: 11px;
+            color: #666666;
+        }
+
+        /* 📝 底部提示區 */
+        .footer-tips {
+            margin-top: 30px;
+            border-top: 1px solid #222222;
+            padding-top: 15px;
+            font-size: 13px;
+            color: #888888;
+            line-height: 1.8;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="header-container">
-    <div class="header-title">🚀 2×2×5 金字塔公眾補位幾何組織圖</div>
-    <div class="header-subtitle" id="user-summary">實時動態核算中...</div>
-  </div>
+    <h1>🚀 2×2×5 許願牆矩陣公眾補位地圖</h1>
+    <div class="subtitle" id="status-text">🪐 矩陣星際節點網絡載入中...</div>
 
-  <div class="pyramid-container" id="pyramid">
+    <div class="dashboard">
+        <div class="dash-card">
+            <div class="title">🔺 往上贊助溯源</div>
+            <div class="val">1 ~ 5 代完成</div>
+        </div>
+        <div class="dash-card">
+            <div class="title">🟢 往下接受贊助</div>
+            <div class="val">1 ~ 5 代開啟</div>
+        </div>
+        <div class="dash-card">
+            <div class="title">👥 矩陣滿載總體量</div>
+            <div class="val">63 人幾何圖</div>
+        </div>
     </div>
 
-  <div class="tooltip" id="tooltip"></div>
+    <div class="matrix-container">
+        
+        <div id="upstream-area" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+            </div>
 
-  <div class="footer-tips">
-    提示：手機查看可雙指縮放或左右滑動檢視 63 人完整公眾補位布局<br>
-    提示回目錄大廳請輸入 M
-  </div>
+        <div class="divider-line"><span>⚡ 核心起點 · 往下接受公眾補位 ⚡</span></div>
 
-  <script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const lineUserId = urlParams.get('uid') || '';
+        <div id="downstream-area" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+            </div>
 
-  // 📡 🎯 這裡請置換成您「重新發佈 GAS」後，所獲得的最新 Web App 網址（必須以 /exec 結尾）
-  const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzI40GU4iCGWnEXAcDvwJUDw4Tz3qYyPEmYzwqeNZwCcUPuuHEguIjvElrtExoVlQ0tdA/exec"; 
+    </div>
 
-  function loadMatrix() {
-    if(!lineUserId) {
-      document.getElementById('user-summary').innerText = "⚠️ 錯誤：未偵測到公民授權憑證";
-      return;
-    }
-    
-    document.getElementById('user-summary').innerText = "📡 星際網絡連線中，實時解算幾何數據...";
+    <div class="footer-tips">
+        💡 提示：手機查看可使用雙指縮放或左右滑動，檢視完整的 2×2×5 公眾補位金字塔布局。<br>
+        <span style="color: #666;">提示回目錄大廳請輸入 M</span>
+    </div>
 
-    // 🔒 鋼鐵跨域相容：建立全域 JSONP 回呼函數處理管道
-    window.handleMatrixResponse = function(result) {
-      if(result.status === "success") {
-        document.getElementById('user-summary').innerHTML = `尊貴的公民 <b>${result.rootName}</b>，您已成功透視 2×2×5 幾何補位組織（總人數：63人）`;
-        renderPyramid(result.treeData);
-      } else {
-        document.getElementById('user-summary').innerText = `⚠️ 審查通知：${result.message}`;
-        generateMockTree();
-      }
-    };
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. 抓取 LINE 傳遞進來的唯一 ref ID
+            const urlParams = new URLSearchParams(window.location.search);
+            let myLineId = urlParams.get('ref') || '領袖新星';
+            
+            document.getElementById("status-text").innerText = `當前定位節點：${myLineId}（第 0 代）`;
 
-    // 🚀 動態注入 Script 標籤，發動鋼鐵 JSONP 安全請求
-    const script = document.createElement('script');
-    script.src = `${GAS_API_URL}?action=getMatrixTree&uid=${lineUserId}&callback=handleMatrixResponse`;
-    script.onerror = function() {
-      document.getElementById('user-summary').innerHTML = `⚡ 實時同步完成 | 當前累計矩陣組織總人數：63人`;
-      generateMockTree();
-    };
-    document.body.appendChild(script);
-  }
+            const upstreamArea = document.getElementById("upstream-area");
+            const downstreamArea = document.getElementById("downstream-area");
 
-  // (下方原有的 renderPyramid、getLayerChineseName、showTooltip、generateMockTree 等網頁渲染與黑金視覺排版代碼維持不變...)
-</script>
+            // 2. 渲染：往上贊助 1-5 代（單線溯源鏈，彰顯互助精神）
+            for (let upLvl = 5; upLvl >= 1; upLvl--) {
+                const upRow = document.createElement("div");
+                upRow.className = "matrix-level";
+                
+                const node = document.createElement("div");
+                node.className = "member-node lvl-up";
+                node.innerHTML = `
+                    <span class="role">🔺 往上第 ${upLvl} 代</span>
+                    <div class="uid">領袖 P_${2000 + upLvl}</div>
+                `;
+                upRow.appendChild(node);
+                upstreamArea.appendChild(upRow);
+            }
+
+            // 3. 渲染：第 0 代自己 + 往下接受贊助 1-5 代金字塔（標準 2×2×5 幾何組織）
+            // 每一層數量：0代=1, 1代=2, 2代=4, 3代=8, 4代=16, 5代=32 (加總共 63 人完全體)
+            const downConfigs = [
+                { lvl: 0, count: 1, styleClass: 'lvl-self', label: '👑 0代 (您)' },
+                { lvl: 1, count: 2, styleClass: 'lvl-d1', label: '下 1 代' },
+                { lvl: 2, count: 4, styleClass: 'lvl-d2', label: '下 2 代' },
+                { lvl: 3, count: 8, styleClass: 'lvl-d3', label: '下 3 代' },
+                { lvl: 4, count: 16, styleClass: 'lvl-d4', label: '下 4 代' },
+                { lvl: 5, count: 32, styleClass: 'lvl-d5', label: '下 5 代' }
+            ];
+
+            let globalMemberId = 1001;
+
+            downConfigs.forEach(config => {
+                const downRow = document.createElement("div");
+                downRow.className = "matrix-level";
+                
+                for (let i = 0; i < config.count; i++) {
+                    const node = document.createElement("div");
+                    node.className = `member-node ${config.styleClass}`;
+                    
+                    let nodeName = "";
+                    if (config.lvl === 0) {
+                        nodeName = myLineId; // 核心第 0 代顯示自己
+                    } else if (config.lvl === 5) {
+                        nodeName = `公眾補位`; // 第 5 代顯示補位動態
+                    } else {
+                        nodeName = `ID:${globalMemberId}`;
+                        globalMemberId++;
+                    }
+
+                    node.innerHTML = `
+                        <span class="role">${config.label}</span>
+                        <div class="uid">${nodeName}</div>
+                    `;
+                    downRow.appendChild(node);
+                }
+                downstreamArea.appendChild(downRow);
+            });
+        });
+    </script>
+</body>
+</html>
