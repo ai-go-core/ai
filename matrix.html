@@ -31,7 +31,7 @@
             font-weight: 500;
         }
 
-        /* 📋 數據看版區 */
+        /* 📋 數據看板區 */
         .dashboard {
             display: flex;
             justify-content: center;
@@ -51,9 +51,9 @@
         .dash-card .title { font-size: 11px; color: #888888; margin-bottom: 5px; }
         .dash-card .val { font-size: 16px; font-weight: bold; color: #D4AF37; }
 
-        /* 📱 畫布容器：防手機擠壓擠爆，設定最小安全展延寬度 */
+        /* 📱 畫布容器：防手機擠壓擠爆 */
         .matrix-container {
-            min-width: 900px; 
+            min-width: 1024px; 
             margin: 0 auto;
             padding: 20px;
             display: flex;
@@ -68,31 +68,61 @@
             justify-content: center;
             width: 100%;
             gap: 6px;
-            margin-bottom: 20px;
+            margin-bottom: 5px; /* 縮小間距，讓鏈結線更緊密 */
             position: relative;
         }
 
-        /* 👤 成員節點樣式 */
+        /* 🔗 向上推舉鏈結線樣式 */
+        .link-line {
+            width: 2px;
+            height: 20px;
+            background-color: #333333; /* 預設未激活：暗灰色 */
+            margin: 0 auto;
+            transition: all 0.5s ease;
+        }
+        /* 💡 鏈結線激活：變為金黃色發光線條 */
+        .link-line.active {
+            background: linear-gradient(to bottom, #D4AF37, #AA7C11);
+            box-shadow: 0 0 8px rgba(212,175,55,0.8);
+        }
+
+        /* 👤 成員節點基本樣式 */
         .member-node {
             background: linear-gradient(135deg, #1A1A1A 0%, #111111 100%);
             border: 1px solid #333333;
             border-radius: 6px;
             padding: 6px 2px;
-            min-width: 50px;
+            min-width: 58px;
             font-size: 10px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0,0,0,0.6);
-            transition: all 0.3s ease;
+            transition: all 0.5s ease;
         }
 
-        /* 🎨 精準代數色彩系統 */
-        .lvl-up   { border-color: #555555; background: #161616; color: #888888; opacity: 0.6; } /* 往上溯源代 */
-        .lvl-self { border-color: #D4AF37; background: linear-gradient(135deg, #2A2005 0%, #111111 100%); color: #D4AF37; font-weight: bold; box-shadow: 0 0 10px rgba(212,175,55,0.3); } /* 0代: 自己 */
+        /* 🎨 向上溯源：預設未開通暗淡樣式（灰金/灰色） */
+        .lvl-up { 
+            border-color: #444444; 
+            background: #121212; 
+            color: #666666; 
+            opacity: 0.5; 
+        } 
+        /* 💡 向上溯源激活：開通後變為尊爵黑金高亮 */
+        .lvl-up.active {
+            border-color: #D4AF37;
+            background: linear-gradient(135deg, #3A2F0B 0%, #111111 100%);
+            color: #D4AF37;
+            font-weight: bold;
+            opacity: 1;
+            box-shadow: 0 0 12px rgba(212,175,55,0.5);
+        }
+
+        /* 👑 0代與下方節點樣式 */
+        .lvl-self { border-color: #D4AF37; background: linear-gradient(135deg, #2A2005 0%, #111111 100%); color: #D4AF37; font-weight: bold; box-shadow: 0 0 10px rgba(212,175,55,0.3); min-width: 80px; } /* 0代: 自己 */
         .lvl-d1   { border-color: #32CD32; color: #32CD32; } /* 下1代 */
         .lvl-d2   { border-color: #1E90FF; color: #1E90FF; } /* 下2代 */
         .lvl-d3   { border-color: #BA55D3; color: #BA55D3; } /* 下3代 */
         .lvl-d4   { border-color: #FFA500; color: #FFA500; } /* 下4代 */
-        .lvl-d5   { border-color: #FF4500; color: #FF4500; } /* 下5代 (公眾補位) */
+        .lvl-d5   { border-color: #FF4500; color: #FF4500; } /* 下5代 */
 
         .member-node .role {
             font-size: 8px;
@@ -111,7 +141,7 @@
         .divider-line {
             width: 100%;
             border-top: 1px dashed #333333;
-            margin: 15px 0;
+            margin: 20px 0;
             position: relative;
         }
         .divider-line span {
@@ -144,7 +174,7 @@
     <div class="dashboard">
         <div class="dash-card">
             <div class="title">🔺 往上贊助溯源</div>
-            <div class="val">1 ~ 5 代完成</div>
+            <div class="val" id="dash-up-status">1 ~ 5 代完成</div>
         </div>
         <div class="dash-card">
             <div class="title">🟢 往下接受贊助</div>
@@ -175,32 +205,49 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // 1. 抓取 LINE 傳遞進來的唯一 ref ID
+            // 1. 抓取 URL 參數 (?ref=line_id&pay=已贊助代數)
+            // 測試範例：?ref=jack197775&pay=3 代表已往上贊助到第 3 代，1~3代會變亮，4~5代保持暗色
             const urlParams = new URLSearchParams(window.location.search);
             let myLineId = urlParams.get('ref') || '領袖新星';
+            let payLevel = parseInt(urlParams.get('pay')) || 0; // 預設 0 代表皆未激活，可傳 1~5
             
             document.getElementById("status-text").innerText = `當前定位節點：${myLineId}（第 0 代）`;
+            document.getElementById("dash-up-status").innerText = `已成功開通 ${payLevel} 代`;
 
             const upstreamArea = document.getElementById("upstream-area");
             const downstreamArea = document.getElementById("downstream-area");
 
-            // 2. 渲染：往上贊助 1-5 代（單線溯源鏈，彰顯互助精神）
+            // 2. 動態生成：往上贊助 1-5 代與垂直推舉鏈結線
+            // 由 5 代依序向下畫到 1 代
             for (let upLvl = 5; upLvl >= 1; upLvl--) {
+                // 判斷該層是否已經被點亮 (若付費代數 >= 當前代數，則激活)
+                let isLevelActive = (payLevel >= upLvl);
+                let activeClass = isLevelActive ? "active" : "";
+
+                // 創建節點 Row
                 const upRow = document.createElement("div");
                 upRow.className = "matrix-level";
                 
                 const node = document.createElement("div");
-                node.className = "member-node lvl-up";
+                node.className = `member-node lvl-up ${activeClass}`;
                 node.innerHTML = `
                     <span class="role">🔺 往上第 ${upLvl} 代</span>
-                    <div class="uid">領袖 P_${2000 + upLvl}</div>
+                    <div class="uid">${isLevelActive ? '✨ 已開通管道' : '🔒 待開通節點'}</div>
                 `;
                 upRow.appendChild(node);
                 upstreamArea.appendChild(upRow);
+
+                // 在節點與節點之間，建立垂直推舉鏈結線（最後一個不要畫線，會直接連到分水嶺）
+                if (upLvl >= 1) {
+                    const line = document.createElement("div");
+                    // 下一層如果也是激活的，線條就變亮色
+                    let isLineActive = (payLevel >= upLvl);
+                    line.className = `link-line ${isLineActive ? 'active' : ''}`;
+                    upstreamArea.appendChild(line);
+                }
             }
 
-            // 3. 渲染：第 0 代自己 + 往下接受贊助 1-5 代金字塔（標準 2×2×5 幾何組織）
-            // 每一層數量：0代=1, 1代=2, 2代=4, 3代=8, 4代=16, 5代=32 (加總共 63 人完全體)
+            // 3. 渲染：第 0 代自己 + 往下接受贊助 1-5 代金字塔
             const downConfigs = [
                 { lvl: 0, count: 1, styleClass: 'lvl-self', label: '👑 0代 (您)' },
                 { lvl: 1, count: 2, styleClass: 'lvl-d1', label: '下 1 代' },
@@ -210,8 +257,6 @@
                 { lvl: 5, count: 32, styleClass: 'lvl-d5', label: '下 5 代' }
             ];
 
-            let globalMemberId = 1001;
-
             downConfigs.forEach(config => {
                 const downRow = document.createElement("div");
                 downRow.className = "matrix-level";
@@ -220,14 +265,9 @@
                     const node = document.createElement("div");
                     node.className = `member-node ${config.styleClass}`;
                     
-                    let nodeName = "";
+                    let nodeName = "公眾補位";
                     if (config.lvl === 0) {
-                        nodeName = myLineId; // 核心第 0 代顯示自己
-                    } else if (config.lvl === 5) {
-                        nodeName = `公眾補位`; // 第 5 代顯示補位動態
-                    } else {
-                        nodeName = `ID:${globalMemberId}`;
-                        globalMemberId++;
+                        nodeName = myLineId; 
                     }
 
                     node.innerHTML = `
