@@ -146,13 +146,12 @@
 </div>
 
 <script>
-    // 👑 經排查：此處統一使用大寫 API 變數，下方調用已同步修復
+    // 👑 核心網頁應用程式執行網址常數
     const API = "https://script.google.com/macros/s/AKfycbyZBh3TzIOpmP9qzZ8YZPeZbVbs2J_gVbjsWw0ZJzWlD9eB_LSJ7-wePJj8oYTyT9Do/exec"; 
 
     let currentLineUserId = "";
 
-    // --- 核心功能：計算收益 ---
-    // 💡 人數 × (人均 PV × 4% 分潤) = 您的數位資產收益
+    // --- 計算收益 ---
     function calcSimple() {
         const people = parseFloat(document.getElementById('totalPeople').value) || 0;
         const pv = parseFloat(document.getElementById('avgPv').value) || 0;
@@ -160,54 +159,59 @@
         document.getElementById('monthTotal').innerText = '$ ' + Math.floor(totalReward).toLocaleString();
     }
 
-    // --- 🛡️ 雲端身分真偽核查閘門連動 ---
+    // --- 🛡️ 雲端身分核查閘門 ---
     function verifyTeamIdentity(uid) {
         if (!uid || uid === "LINE ID" || uid === "") {
-            showGateError();
+            showGateError("網址參數中缺少身分識別金鑰 (ref)。");
             return;
         }
         
-        // ⚙️ 已修復：原 GAS_WEB_APP_URL 修正為對齊上方常數 API
-        const script = document.createElement('script');
-        script.src = `${API}?action=checkUser&uid=${encodeURIComponent(uid)}&callback=handleAuthGateResponse`;
-        document.body.appendChild(script);
-        document.body.removeChild(script);
+        try {
+            const script = document.createElement('script');
+            script.src = `${API}?action=checkUser&uid=${encodeURIComponent(uid)}&callback=handleAuthGateResponse`;
+            script.onerror = function() { showGateError("連線至雲端系統核心失敗，請確認網路狀態。"); };
+            document.body.appendChild(script);
+            document.body.removeChild(script);
+        } catch(e) {
+            showGateError("安全防禦機制本地攔截報錯: " + e.message);
+        }
         
-        // 超時安全攔截防護（防死結）
+        // 超時安全防死結
         setTimeout(() => {
             const gate = document.getElementById('authGate');
             if (gate && gate.style.display !== "none" && document.getElementById('gateTitle').innerText.includes("核驗中")) {
-                showGateError();
+                showGateError("核驗伺服器回應超時，請重新整理網頁。");
             }
-        }, 5000);
+        }, 8000);
     }
 
     // 🛡️ 身分核驗回傳接球器
     function handleAuthGateResponse(response) {
         if (response && response.status === "success") {
-            // 🟢 驗證通過：撤除遮罩防線，渲染內容
             document.getElementById('authGate').style.display = "none";
             document.getElementById('user_id').innerText = "數位代號：" + currentLineUserId;
             fetchProducts(); 
         } else {
-            // ❌ 查無此人：無限鎖死畫面並發出提示
-            showGateError();
+            showGateError(response ? response.msg : "此身分金鑰未獲得戰隊授權。");
         }
     }
 
-    function showGateError() {
+    function showGateError(customMsg) {
         document.getElementById('gateTitle').innerText = "⚠️ 偵測到非本團隊夥伴";
-        document.getElementById('gateMsg').innerText = "此頁面為「AI 生活小秘書」戰隊專屬圓夢資產環境修繕網頁。請先進入官方 LINE 機器人進行身分核驗與手機綁定，方可正常觀看與使用正確內容！";
+        document.getElementById('gateMsg').innerText = customMsg ? `【安全提示】：${customMsg}` : "此頁面為「AI 生活小秘書」戰隊專屬圓夢環境修繕網頁。請先進入官方 LINE 機器人進行身分核驗與手機綁定，方可正常觀看與使用正確內容！";
         document.getElementById('gateAction').style.display = "block";
     }
 
     // --- 核心功能：從 GAS 抓取資料 ---
     function fetchProducts() {
-        // ⚙️ 已修復：原 GAS_WEB_APP_URL 修正為對齊上方常數 API
-        const script = document.createElement('script');
-        script.src = `${API}?action=getToolContent&callback=handleProductsResponse`;
-        document.body.appendChild(script);
-        document.body.removeChild(script);
+        try {
+            const script = document.createElement('script');
+            script.src = `${API}?action=getToolContent&callback=handleProductsResponse`;
+            document.body.appendChild(script);
+            document.body.removeChild(script);
+        } catch(e) {
+            renderFallbackCategories();
+        }
     }
 
     function handleProductsResponse(data) {
@@ -280,12 +284,15 @@
         `;
         list.appendChild(div);
         
-        // ⚙️ 已修復：原 GAS_WEB_APP_URL 修正為對齊上方常數 API
-        const finalUrl = `${API}?action=submitDream&uid=${encodeURIComponent(currentLineUserId)}&dream=${encodeURIComponent(n)}&callback=handleDreamResponse`;
-        const script = document.createElement('script');
-        script.src = finalUrl;
-        document.body.appendChild(script);
-        document.body.removeChild(script);
+        try {
+            const finalUrl = `${API}?action=submitDream&uid=${encodeURIComponent(currentLineUserId)}&dream=${encodeURIComponent(n)}&callback=handleDreamResponse`;
+            const script = document.createElement('script');
+            script.src = finalUrl;
+            document.body.appendChild(script);
+            document.body.removeChild(script);
+        } catch(e) {
+            alert("提交失敗: " + e.message);
+        }
 
         document.getElementById('itemName').value = "";
         document.getElementById('itemCost').value = "";
@@ -294,12 +301,12 @@
 
     function handleDreamResponse(response) {
         const resultBox = document.getElementById('matchResultBox');
-        if (response.status === "success") {
+        if (response && response.status === "success") {
             resultBox.style.display = "block";
             resultBox.innerText = response.displayMessage;
             alert("🏰 環境修繕項目雲端登錄成功！互助轉流防線已自動啟動，請查看下方指定收款資訊。");
         } else {
-            alert("❌ 後台登錄失敗：" + response.msg);
+            alert("❌ 後台登錄失敗：" + (response ? response.msg : "未知錯誤"));
         }
     }
 
@@ -319,7 +326,7 @@
         const params = new URLSearchParams(window.location.search);
         currentLineUserId = params.get('ref') || params.get('uid') || "";
         
-        // 🚨 啟動戰隊身份高強度即時查核閘門
+        // 啟動身分即時核查閘門
         verifyTeamIdentity(currentLineUserId);
     };
 </script>
