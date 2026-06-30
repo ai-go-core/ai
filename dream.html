@@ -10,6 +10,14 @@
         body { background-color: var(--black); color: #ffffff; font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif; margin: 0; padding: 12px; line-height: 1.4; }
         .container { max-width: 600px; margin: 0 auto; }
         
+        /* 🛡️ 戰隊身份最高防護遮罩 */
+        #authGate { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .gate-box { text-align: center; max-width: 400px; background: #111; border: 1px solid var(--gold); padding: 30px 20px; border-radius: 16px; box-shadow: 0 0 30px rgba(212,175,55,0.2); }
+        .gate-title { color: var(--gold); font-size: 20px; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px; }
+        .gate-msg { color: #ccc; font-size: 14px; line-height: 1.6; margin-bottom: 25px; }
+        .gate-btn { display: inline-block; background: linear-gradient(135deg, var(--gold), #B38F24); color: #000; text-decoration: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 15px; box-shadow: 0 4px 15px rgba(212,175,55,0.3); transition: transform 0.2s; }
+        .gate-btn:active { transform: scale(0.95); }
+
         /* Header Style */
         .header { text-align: center; padding: 20px 0; border-bottom: 1px solid #333; margin-bottom: 20px; }
         .header h1 { color: var(--gold); margin: 0; font-size: 22px; letter-spacing: 2px; }
@@ -49,6 +57,9 @@
         .repair-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #1a1a1a; border-radius: 10px; margin-bottom: 10px; border-left: 3px solid var(--cyan); }
         .btn-del { color: var(--red); background: none; border: none; font-size: 20px; cursor: pointer; padding: 0 5px; }
 
+        /* 動態匯款結果回顯盒 */
+        .match-result-box { display: none; background: rgba(0, 255, 255, 0.05); border: 1px dashed var(--cyan); padding: 15px; border-radius: 12px; margin-top: 15px; white-space: pre-wrap; font-size: 14px; line-height: 1.6; color: #e0e0e0; }
+
         /* 實現夢想 (第3階段) */
         .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .dream-item { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; background-size: cover; background-position: center; display: flex; align-items: flex-end; border: 1px solid #333; }
@@ -60,13 +71,22 @@
 </head>
 <body>
 
+<div id="authGate">
+    <div class="gate-box">
+        <div class="gate-title" id="gateTitle">🔒 戰隊安全核驗中...</div>
+        <div class="gate-msg" id="gateMsg">正在安全核對您的數位身分金鑰，請稍候片刻。</div>
+        <div id="gateAction" style="display: none;">
+            <a href="https://line.me/R/ti/p/@您的LINE官方帳號ID" class="gate-btn">前往驗證身分</a>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="header">
         <h1>AI 生活小秘書</h1>
         <div id="user_id" class="user-tag">數位代號：同步中...</div>
     </div>
 
-    <!-- 消費回饋獎金試算 -->
     <div class="section-title">📊 家庭日用品消費 ✕ 小組總人數消費回饋獎金試算</div>
     <div class="box-card">
         <div class="input-row">
@@ -88,13 +108,11 @@
         </p>
     </div>
 
-    <!-- 第 1 階段 -->
     <div class="section-title"><span class="stage-tag">第 1 階段</span> 日用開支 ✕ 零成本</div>
     <div id="category_container">
         <div class="loading-text">正在同步雲端商品與 4% 回饋金...</div>
     </div>
 
-    <!-- 第 2 階段 -->
     <div class="section-title"><span class="stage-tag">第 2 階段</span> 環境修繕 ✕ 換全新</div>
     <div class="box-card">
         <div class="input-row">
@@ -107,9 +125,10 @@
             <span style="color:#888; font-size:14px;">夢想達成總需獎金：</span>
             <span style="color:var(--cyan); font-size:22px; font-weight:bold;" id="totalNeed">$ 0</span>
         </div>
+        
+        <div id="matchResultBox" class="match-result-box"></div>
     </div>
 
-    <!-- 第 3 階段 -->
     <div class="section-title"><span class="stage-tag">第 3 階段</span> 卓越人生 ✕ 夢想實現</div>
     <div class="box-card">
         <div class="dream-grid">
@@ -127,43 +146,91 @@
 </div>
 
 <script>
-    // 請將此處替換為您 GAS 部署後的 Web App 網址
-    const GAS_WEB_APP_URL = "您的_GAS_發佈網址"; 
+    // ⚠️ 請在此處替換為您 GAS 部署後的最新網頁應用程式執行網址 (管理部署中的網址)
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/XXXXX/exec"; 
+
+    let currentLineUserId = "";
 
     // --- 核心功能：計算收益 ---
     function calcSimple() {
         const people = parseFloat(document.getElementById('totalPeople').value) || 0;
         const pv = parseFloat(document.getElementById('avgPv').value) || 0;
-        
-        // 直覺邏輯：總人數 * (單人PV * 4%)
         const totalReward = people * (pv * 0.04);
-        
         document.getElementById('monthTotal').innerText = '$ ' + Math.floor(totalReward).toLocaleString();
     }
 
-    // --- 核心功能：從 GAS 抓取資料 ---
-    async function fetchProducts() {
-        try {
-            const response = await fetch(GAS_WEB_APP_URL);
-            const data = await response.json();
-            renderCategories(data);
-        } catch (e) {
-            // 預設示範資料 (若 API 尚未串接成功時顯示)
-            renderCategories([
-                {cat: "🧼 居家清潔", name: "樂瑞 3效洗衣精", pv: 150, url: "#", tag: "熱銷"},
-                {cat: "🧼 居家清潔", name: "濃縮洗碗精", pv: 80, url: "#", tag: "環保"},
-                {cat: "🛀 個人洗沐", name: "艾草沐浴露", pv: 120, url: "#", tag: "推薦"},
-                {cat: "🧻 生活百科", name: "樂瑞抽取衛生紙", pv: 45, url: "#", tag: "必備"}
-            ]);
+    // --- 🛡️ 雲端身分真偽核查閘門連動 ---
+    function verifyTeamIdentity(uid) {
+        if (!uid || uid === "LINE ID" || uid === "") {
+            showGateError();
+            return;
+        }
+        
+        const script = document.createElement('script');
+        script.src = `${GAS_WEB_APP_URL}?action=checkUser&uid=${encodeURIComponent(uid)}&callback=handleAuthGateResponse`;
+        document.body.appendChild(script);
+        document.body.removeChild(script);
+        
+        // 超時安全攔截防護（防死結）
+        setTimeout(() => {
+            const gate = document.getElementById('authGate');
+            if (gate && gate.style.display !== "none" && document.getElementById('gateTitle').innerText.includes("核驗中")) {
+                showGateError();
+            }
+        }, 5000);
+    }
+
+    // 🛡️ 身分核驗回傳接球器
+    function handleAuthGateResponse(response) {
+        if (response && response.status === "success") {
+            // 🟢 驗證通過：撤除遮罩防線，渲染內容
+            document.getElementById('authGate').style.display = "none";
+            document.getElementById('user_id').innerText = "數位代號：" + currentLineUserId;
+            fetchProducts(); 
+        } else {
+            // ❌ 查無此人：無限鎖死畫面並發出提示
+            showGateError();
         }
     }
 
-    // --- 核心功能：渲染商品分類 (自動讀取 A 欄分類) ---
+    function showGateError() {
+        document.getElementById('gateTitle').innerText = "⚠️ 偵測到非本團隊夥伴";
+        document.getElementById('gateMsg').innerText = "此頁面為「AI 生活小秘書」戰隊專屬圓夢資產環境修繕網頁。請先進入官方 LINE 機器人進行身分核驗與手機綁定，方可正常觀看與使用正確內容！";
+        document.getElementById('gateAction').style.display = "block";
+    }
+
+    // --- 核心功能：從 GAS 抓取資料 ---
+    function fetchProducts() {
+        const script = document.createElement('script');
+        script.src = `${GAS_WEB_APP_URL}?action=getToolContent&callback=handleProductsResponse`;
+        document.body.appendChild(script);
+        document.body.removeChild(script);
+    }
+
+    function handleProductsResponse(data) {
+        if (data && !data.error) {
+            const formattedProducts = Object.keys(data).map(key => {
+                return { cat: data[key].title || "🎁 雲端精選", name: key, pv: 1500, url: "https://ai-go-core.github.io/ai/free-signup.html?ref=" + currentLineUserId, tag: "4%分潤" };
+            });
+            renderCategories(formattedProducts);
+        } else {
+            renderFallbackCategories();
+        }
+    }
+
+    function renderFallbackCategories() {
+        renderCategories([
+            {cat: "🧼 居家清潔", name: "樂瑞 3效洗衣精", pv: 150, url: "#", tag: "熱銷"},
+            {cat: "🧼 居家清潔", name: "濃縮洗碗精", pv: 80, url: "#", tag: "環保"},
+            {cat: "🛀 個人洗沐", name: "艾草沐浴露", pv: 120, url: "#", tag: "推薦"},
+            {cat: "🧻 生活百科", name: "樂瑞抽取衛生紙", pv: 45, url: "#", tag: "必備"}
+        ]);
+    }
+
     function renderCategories(products) {
         const container = document.getElementById('category_container');
         container.innerHTML = ""; 
         
-        // 依照分類群組化
         const groups = products.reduce((acc, obj) => {
             acc[obj.cat] = acc[obj.cat] || [];
             acc[obj.cat].push(obj);
@@ -174,7 +241,6 @@
             const catDiv = document.createElement('div');
             catDiv.className = 'category-item';
             
-            // 顯示 4% 回饋金額邏輯
             let productHtml = groups[catName].map(p => `
                 <a href="${p.url}" target="_blank" class="product-link">
                     <span>${p.name} <small style="color:#777; margin-left:5px;">${p.tag}</small></span>
@@ -190,7 +256,6 @@
         });
     }
 
-    // 分類展開收合
     function toggleCat(btn) {
         btn.classList.toggle('active');
         const list = btn.nextElementSibling;
@@ -199,9 +264,10 @@
 
     // --- 第2階段：清單管理 ---
     function addItem() {
-        const n = document.getElementById('itemName').value;
-        const c = document.getElementById('itemCost').value;
+        const n = document.getElementById('itemName').value.trim();
+        const c = document.getElementById('itemCost').value.trim();
         if(!n || !c) return;
+
         const list = document.getElementById('repairList');
         const div = document.createElement('div');
         div.className = 'repair-item';
@@ -210,9 +276,27 @@
             <button class="btn-del" onclick="this.parentElement.remove(); updateTotal();">×</button>
         `;
         list.appendChild(div);
+        
+        const finalUrl = `${GAS_WEB_APP_URL}?action=submitDream&uid=${encodeURIComponent(currentLineUserId)}&dream=${encodeURIComponent(n)}&callback=handleDreamResponse`;
+        const script = document.createElement('script');
+        script.src = finalUrl;
+        document.body.appendChild(script);
+        document.body.removeChild(script);
+
         document.getElementById('itemName').value = "";
         document.getElementById('itemCost').value = "";
         updateTotal();
+    }
+
+    function handleDreamResponse(response) {
+        const resultBox = document.getElementById('matchResultBox');
+        if (response.status === "success") {
+            resultBox.style.display = "block";
+            resultBox.innerText = response.displayMessage;
+            alert("🏰 環境修繕項目雲端登錄成功！互助轉流防線已自動啟動，請查看下方指定收款資訊。");
+        } else {
+            alert("❌ 後台登錄失敗：" + response.msg);
+        }
     }
 
     function updateTotal() {
@@ -226,11 +310,13 @@
     // 初始化載入
     window.onload = () => {
         calcSimple(); 
-        fetchProducts(); 
+        
+        // 抓取網址列參數 ref 
         const params = new URLSearchParams(window.location.search);
-        // 若網址帶有 ?uid=XXXX 則顯示，否則顯示預設
-        const uid = params.get('uid') || "Jack-197775";
-        document.getElementById('user_id').innerText = "數位代號：" + uid;
+        currentLineUserId = params.get('ref') || params.get('uid') || "";
+        
+        // 🚨 啟動戰隊身份高強度即時查核閘門
+        verifyTeamIdentity(currentLineUserId);
     };
 </script>
 </body>
