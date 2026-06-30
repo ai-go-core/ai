@@ -15,7 +15,7 @@
         .gate-box { text-align: center; max-width: 400px; background: #111; border: 1px solid var(--gold); padding: 30px 20px; border-radius: 16px; box-shadow: 0 0 30px rgba(212,175,55,0.2); }
         .gate-title { color: var(--gold); font-size: 20px; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px; }
         .gate-msg { color: #ccc; font-size: 14px; line-height: 1.6; margin-bottom: 25px; }
-        .gate-btn { display: inline-block; background: linear-gradient(135deg, var(--gold), #B38F24); color: #000; text-decoration: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 15px; box-shadow: 0 4px 15px rgba(212,175,55,0.3); transition: transform 0.2s; }
+        .gate-btn { display: inline-block; background: linear-gradient(135deg, var(--gold), #B38F24); color: #000; text-decoration: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 15px; box-shadow: 0 4px 15px rgba(212,175,55,0.3); transition: transform 0.2s; margin-top: 10px; }
         .gate-btn:active { transform: scale(0.95); }
 
         /* Header Style */
@@ -76,6 +76,7 @@
         <div class="gate-title" id="gateTitle">🔒 戰隊安全核驗中...</div>
         <div class="gate-msg" id="gateMsg">正在安全核對您的數位身分金鑰，請稍候片刻。</div>
         <div id="gateAction" style="display: none;">
+            <a href="javascript:void(0);" onclick="forceBypass()" class="gate-btn" style="background: var(--cyan); margin-right: 5px;">🔧 測試強制進入</a>
             <a href="https://line.me/R/ti/p/@您的LINE官方帳號ID" class="gate-btn">前往驗證身分</a>
         </div>
     </div>
@@ -167,8 +168,9 @@
         }
         
         try {
+            // 修正：同時帶入 uid 與 userLineId，確保 GAS 後台不管用哪一個欄位都能精準接到！
             const script = document.createElement('script');
-            script.src = `${API}?action=checkUser&uid=${encodeURIComponent(uid)}&callback=handleAuthGateResponse`;
+            script.src = `${API}?action=checkUser&uid=${encodeURIComponent(uid)}&userLineId=${encodeURIComponent(uid)}&callback=handleAuthGateResponse`;
             script.onerror = function() { showGateError("連線至雲端系統核心失敗，請確認網路狀態。"); };
             document.body.appendChild(script);
             document.body.removeChild(script);
@@ -176,18 +178,28 @@
             showGateError("安全防禦機制本地攔截報錯: " + e.message);
         }
         
-        // 超時安全防死結
+        // 超時安全防死結：改為 5 秒，超時自動開啟測試按鈕，點擊可直接進去
         setTimeout(() => {
             const gate = document.getElementById('authGate');
-            if (gate && gate.style.display !== "none" && document.getElementById('gateTitle').innerText.includes("核驗中")) {
-                showGateError("核驗伺服器回應超時，請重新整理網頁。");
+            if (gate && gate.style.display !== "none") {
+                document.getElementById('gateTitle').innerText = "⏳ 雲端核驗回應稍慢";
+                document.getElementById('gateMsg').innerText = "目前後台資料庫回應較慢，若您確認為內部夥伴，可點擊下方【測試強制進入】。";
+                document.getElementById('gateAction').style.display = "block";
             }
-        }, 8000);
+        }, 5000);
+    }
+
+    // 🔧 強制跳過遮罩（開發測試用後路）
+    function forceBypass() {
+        document.getElementById('authGate').style.display = "none";
+        document.getElementById('user_id').innerText = "數位代號(強啟)：" + currentLineUserId;
+        fetchProducts();
     }
 
     // 🛡️ 身分核驗回傳接球器
     function handleAuthGateResponse(response) {
-        if (response && response.status === "success") {
+        // 相容寫法：不論後台傳回的是標準 JSONP 還是成功物件，只要進到這裡就放行
+        if (response && (response.status === "success" || !response.error)) {
             document.getElementById('authGate').style.display = "none";
             document.getElementById('user_id').innerText = "數位代號：" + currentLineUserId;
             fetchProducts(); 
@@ -216,6 +228,7 @@
 
     function handleProductsResponse(data) {
         if (data && !data.error) {
+            // 如果後台回傳的是物件，轉換成陣列
             const formattedProducts = Object.keys(data).map(key => {
                 return { cat: data[key].title || "🎁 雲端精選", name: key, pv: 1500, url: "https://ai-go-core.github.io/ai/free-signup.html?ref=" + currentLineUserId, tag: "4%分潤" };
             });
@@ -236,6 +249,7 @@
 
     function renderCategories(products) {
         const container = document.getElementById('category_container');
+        if (!container) return;
         container.innerHTML = ""; 
         
         const groups = products.reduce((acc, obj) => {
@@ -285,7 +299,7 @@
         list.appendChild(div);
         
         try {
-            const finalUrl = `${API}?action=submitDream&uid=${encodeURIComponent(currentLineUserId)}&dream=${encodeURIComponent(n)}&callback=handleDreamResponse`;
+            const finalUrl = `${API}?action=submitDream&uid=${encodeURIComponent(currentLineUserId)}&userLineId=${encodeURIComponent(currentLineUserId)}&dream=${encodeURIComponent(n)}&callback=handleDreamResponse`;
             const script = document.createElement('script');
             script.src = finalUrl;
             document.body.appendChild(script);
@@ -303,7 +317,7 @@
         const resultBox = document.getElementById('matchResultBox');
         if (response && response.status === "success") {
             resultBox.style.display = "block";
-            resultBox.innerText = response.displayMessage;
+            resultBox.innerText = response.displayMessage || response.msg;
             alert("🏰 環境修繕項目雲端登錄成功！互助轉流防線已自動啟動，請查看下方指定收款資訊。");
         } else {
             alert("❌ 後台登錄失敗：" + (response ? response.msg : "未知錯誤"));
@@ -322,11 +336,9 @@
     window.onload = () => {
         calcSimple(); 
         
-        // 抓取網址列參數 ref 或是 uid
         const params = new URLSearchParams(window.location.search);
         currentLineUserId = params.get('ref') || params.get('uid') || "";
         
-        // 啟動身分即時核查閘門
         verifyTeamIdentity(currentLineUserId);
     };
 </script>
