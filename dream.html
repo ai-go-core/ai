@@ -146,12 +146,13 @@
 </div>
 
 <script>
-    // ⚠️ 請在此處替換為您 GAS 部署後的最新網頁應用程式執行網址 (管理部署中的網址)
+    // 👑 經排查：此處統一使用大寫 API 變數，下方調用已同步修復
     const API = "https://script.google.com/macros/s/AKfycbyZBh3TzIOpmP9qzZ8YZPeZbVbs2J_gVbjsWw0ZJzWlD9eB_LSJ7-wePJj8oYTyT9Do/exec"; 
 
     let currentLineUserId = "";
 
     // --- 核心功能：計算收益 ---
+    // 💡 人數 × (人均 PV × 4% 分潤) = 您的數位資產收益
     function calcSimple() {
         const people = parseFloat(document.getElementById('totalPeople').value) || 0;
         const pv = parseFloat(document.getElementById('avgPv').value) || 0;
@@ -166,8 +167,9 @@
             return;
         }
         
+        // ⚙️ 已修復：原 GAS_WEB_APP_URL 修正為對齊上方常數 API
         const script = document.createElement('script');
-        script.src = `${GAS_WEB_APP_URL}?action=checkUser&uid=${encodeURIComponent(uid)}&callback=handleAuthGateResponse`;
+        script.src = `${API}?action=checkUser&uid=${encodeURIComponent(uid)}&callback=handleAuthGateResponse`;
         document.body.appendChild(script);
         document.body.removeChild(script);
         
@@ -201,8 +203,9 @@
 
     // --- 核心功能：從 GAS 抓取資料 ---
     function fetchProducts() {
+        // ⚙️ 已修復：原 GAS_WEB_APP_URL 修正為對齊上方常數 API
         const script = document.createElement('script');
-        script.src = `${GAS_WEB_APP_URL}?action=getToolContent&callback=handleProductsResponse`;
+        script.src = `${API}?action=getToolContent&callback=handleProductsResponse`;
         document.body.appendChild(script);
         document.body.removeChild(script);
     }
@@ -277,7 +280,8 @@
         `;
         list.appendChild(div);
         
-        const finalUrl = `${GAS_WEB_APP_URL}?action=submitDream&uid=${encodeURIComponent(currentLineUserId)}&dream=${encodeURIComponent(n)}&callback=handleDreamResponse`;
+        // ⚙️ 已修復：原 GAS_WEB_APP_URL 修正為對齊上方常數 API
+        const finalUrl = `${API}?action=submitDream&uid=${encodeURIComponent(currentLineUserId)}&dream=${encodeURIComponent(n)}&callback=handleDreamResponse`;
         const script = document.createElement('script');
         script.src = finalUrl;
         document.body.appendChild(script);
@@ -311,7 +315,7 @@
     window.onload = () => {
         calcSimple(); 
         
-        // 抓取網址列參數 ref 
+        // 抓取網址列參數 ref 或是 uid
         const params = new URLSearchParams(window.location.search);
         currentLineUserId = params.get('ref') || params.get('uid') || "";
         
