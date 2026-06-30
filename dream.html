@@ -163,58 +163,52 @@
     // --- 🛡️ 雲端身分核查閘門 ---
     function verifyTeamIdentity(uid) {
         if (!uid || uid === "LINE ID" || uid === "") {
-            showGateError("網址參數中缺少身分識別金鑰 (ref)。");
+            showGateError("網址參數中缺少身分識別金鑰 (ref)。請由 LINE 官方帳號點擊連結進入。");
             return;
         }
         
         try {
-            // 修正：同時帶入 uid 與 userLineId，確保 GAS 後台不管用哪一個欄位都能精準接到！
+            // 建立動態 Script 進行 JSONP 跨境請求
             const script = document.createElement('script');
-            script.src = `${API}?action=checkUser&uid=${encodeURIComponent(uid)}&userLineId=${encodeURIComponent(uid)}&callback=handleAuthGateResponse`;
+            script.src = `${API}?action=checkUser&uid=${encodeURIComponent(uid)}&callback=handleAuthGateResponse`;
             script.onerror = function() { showGateError("連線至雲端系統核心失敗，請確認網路狀態。"); };
             document.body.appendChild(script);
             document.body.removeChild(script);
         } catch(e) {
             showGateError("安全防禦機制本地攔截報錯: " + e.message);
         }
-        
-        // 超時安全防死結：改為 5 秒，超時自動開啟測試按鈕，點擊可直接進去
-        setTimeout(() => {
-            const gate = document.getElementById('authGate');
-            if (gate && gate.style.display !== "none") {
-                document.getElementById('gateTitle').innerText = "⏳ 雲端核驗回應稍慢";
-                document.getElementById('gateMsg').innerText = "目前後台資料庫回應較慢，若您確認為內部夥伴，可點擊下方【測試強制進入】。";
-                document.getElementById('gateAction').style.display = "block";
-            }
-        }, 5000);
     }
 
-    // 🔧 強制跳過遮罩（開發測試用後路）
-    function forceBypass() {
-        document.getElementById('authGate').style.display = "none";
-        document.getElementById('user_id').innerText = "數位代號(強啟)：" + currentLineUserId;
-        fetchProducts();
-    }
-
-    // 🛡️ 身分核驗回傳接球器
+    // 🛡️ 身分核驗回傳接球器（完全連動後端資料庫回傳結果）
     function handleAuthGateResponse(response) {
-        // 相容寫法：不論後台傳回的是標準 JSONP 還是成功物件，只要進到這裡就放行
-        if (response && (response.status === "success" || !response.error)) {
+        if (response && response.status === "success") {
+            // 真正從資料庫驗證成功後，綁定該會員的 LINE ID
+            currentLineUserId = response.userLineId;
             document.getElementById('authGate').style.display = "none";
             document.getElementById('user_id').innerText = "數位代號：" + currentLineUserId;
+            
+            // 成功解鎖後才開始抓取商品
             fetchProducts(); 
+        } else if (response && response.status === "redirect_bank") {
+            // 導向填寫銀行資訊
+            document.getElementById('gateTitle').innerText = "📋 需補全收款資訊";
+            document.getElementById('gateMsg').innerText = response.msg;
+            document.getElementById('gateAction').innerHTML = `<a href="${response.url}" class="gate-btn">前往填寫銀行帳戶</a>`;
+            document.getElementById('gateAction').style.display = "block";
         } else {
+            // 攔截原因：未滿 1500PV、查無綁定等
             showGateError(response ? response.msg : "此身分金鑰未獲得戰隊授權。");
         }
     }
 
     function showGateError(customMsg) {
-        document.getElementById('gateTitle').innerText = "⚠️ 偵測到非本團隊夥伴";
-        document.getElementById('gateMsg').innerText = customMsg ? `【安全提示】：${customMsg}` : "此頁面為「AI 生活小秘書」戰隊專屬圓夢環境修繕網頁。請先進入官方 LINE 機器人進行身分核驗與手機綁定，方可正常觀看與使用正確內容！";
+        document.getElementById('gateTitle').innerText = "⚠️ 身分核驗未通過";
+        document.getElementById('gateMsg').innerText = customMsg || "此頁面為「AI 生活小秘書」戰隊專屬圓夢環境修繕網頁。請先進入官方 LINE 機器人進行身分核驗與手機綁定，方可正常觀看與使用正確內容！";
+        document.getElementById('gateAction').innerHTML = `<a href="https://line.me/R/ti/p/@您的LINE官方帳號ID" class="gate-btn">前往驗證身分</a>`;
         document.getElementById('gateAction').style.display = "block";
     }
 
-    // --- 核心功能：從 GAS 抓取資料 ---
+    // --- 從 GAS 抓取資料 ---
     function fetchProducts() {
         try {
             const script = document.createElement('script');
@@ -228,7 +222,6 @@
 
     function handleProductsResponse(data) {
         if (data && !data.error) {
-            // 如果後台回傳的是物件，轉換成陣列
             const formattedProducts = Object.keys(data).map(key => {
                 return { cat: data[key].title || "🎁 雲端精選", name: key, pv: 1500, url: "https://ai-go-core.github.io/ai/free-signup.html?ref=" + currentLineUserId, tag: "4%分潤" };
             });
@@ -236,15 +229,6 @@
         } else {
             renderFallbackCategories();
         }
-    }
-
-    function renderFallbackCategories() {
-        renderCategories([
-            {cat: "🧼 居家清潔", name: "樂瑞 3效洗衣精", pv: 150, url: "#", tag: "熱銷"},
-            {cat: "🧼 居家清潔", name: "濃縮洗碗精", pv: 80, url: "#", tag: "環保"},
-            {cat: "🛀 個人洗沐", name: "艾草沐浴露", pv: 120, url: "#", tag: "推薦"},
-            {cat: "🧻 生活百科", name: "樂瑞抽取衛生紙", pv: 45, url: "#", tag: "必備"}
-        ]);
     }
 
     function renderCategories(products) {
@@ -299,7 +283,7 @@
         list.appendChild(div);
         
         try {
-            const finalUrl = `${API}?action=submitDream&uid=${encodeURIComponent(currentLineUserId)}&userLineId=${encodeURIComponent(currentLineUserId)}&dream=${encodeURIComponent(n)}&callback=handleDreamResponse`;
+            const finalUrl = `${API}?action=submitDream&uid=${encodeURIComponent(currentLineUserId)}&dream=${encodeURIComponent(n)}&callback=handleDreamResponse`;
             const script = document.createElement('script');
             script.src = finalUrl;
             document.body.appendChild(script);
@@ -318,7 +302,7 @@
         if (response && response.status === "success") {
             resultBox.style.display = "block";
             resultBox.innerText = response.displayMessage || response.msg;
-            alert("🏰 環境修繕項目雲端登錄成功！互助轉流防線已自動啟動，請查看下方指定收款資訊。");
+            alert("🏰 環境修繕項目雲端登錄成功！");
         } else {
             alert("❌ 後台登錄失敗：" + (response ? response.msg : "未知錯誤"));
         }
@@ -339,6 +323,7 @@
         const params = new URLSearchParams(window.location.search);
         currentLineUserId = params.get('ref') || params.get('uid') || "";
         
+        // 嚴格執行核驗機制
         verifyTeamIdentity(currentLineUserId);
     };
 </script>
